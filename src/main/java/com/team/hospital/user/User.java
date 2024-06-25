@@ -26,6 +26,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Sex sex;
 
@@ -41,6 +42,7 @@ public class User {
     @Column(nullable = false)
     private float BMI;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
 
@@ -63,11 +65,12 @@ public class User {
     private int totalHospitalizedDays;  // 총 재원일 수
 
     @Column(nullable = false)
-    private String opertationMethod;      // 수술 방법
+    private String operationMethod;      // 수술 방법
 
     @Column(nullable = false)
     private String operationApproach;   // 수술 approach
 
+    @Enumerated(EnumType.STRING)
     private StomaFormation stomaFormation;      // 장루 형성술
 
     private String AJCCStage;           // 암 진행도
