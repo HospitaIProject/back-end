@@ -1,4 +1,4 @@
-package com.team.hospital.user;
+package com.team.hospital.patient;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,12 +8,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class PatientService {
 
-    private final UserRepository userRepository;
+    private final PatientRepository patientRepository;
 
-    public User findUserById(Long userId){
-        Optional<User> user = userRepository.findById(userId);
+    public Patient findUserById(Long userId){
+        Optional<Patient> user = patientRepository.findById(userId);
         if (user.isEmpty())
             throw new IllegalArgumentException("회원 존재 x");
         return user.get();
@@ -21,10 +21,10 @@ public class UserService {
 
     @Transactional
     public void join(){
-        User user = User.builder()
+        Patient patient = Patient.builder()
                 .name("test")
                 .build();
 
-        userRepository.save(user);
+        patientRepository.save(patient);
     }
 }

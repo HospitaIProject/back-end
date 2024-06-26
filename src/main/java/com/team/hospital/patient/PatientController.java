@@ -1,4 +1,4 @@
-package com.team.hospital.user;
+package com.team.hospital.patient;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class PatientController {
 
-    private final UserService userService;
+    private final PatientService patientService;
 
     @PostMapping("/api")
     public String join(){
-        userService.join();
+        patientService.join();
         return "ok";
     }
 }
