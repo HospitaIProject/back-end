@@ -1,8 +1,8 @@
 package com.team.hospital.check;
 
 import com.team.hospital.check.dto.WriteCompliance;
-import com.team.hospital.user.User;
-import com.team.hospital.user.UserService;
+import com.team.hospital.patient.Patient;
+import com.team.hospital.patient.PatientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ComplianceService {
     private final ComplianceRepository complianceRepository;
-    private final UserService userService;
+    private final PatientService patientService;
 
     @Transactional
     public void save(WriteCompliance write, Long patientId){
-        User user = userService.findUserById(patientId);
-        Compliance compliance = Compliance.buildComplain(write, user);
+        Patient patient = patientService.findUserById(patientId);
+        Compliance compliance = Compliance.buildComplain(write, patient);
         complianceRepository.save(compliance);
     }
 }

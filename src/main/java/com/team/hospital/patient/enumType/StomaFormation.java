@@ -1,4 +1,4 @@
-package com.team.hospital.user.enumType;
+package com.team.hospital.patient.enumType;
 
 public enum StomaFormation {
     COLOSTOMY,      // 결장루 형성술

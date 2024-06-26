@@ -2,7 +2,7 @@ package com.team.hospital.check;
 
 import com.team.hospital.check.dto.WriteCompliance;
 import com.team.hospital.check.enumType.*;
-import com.team.hospital.user.User;
+import com.team.hospital.patient.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -271,9 +271,9 @@ public class Compliance {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Patient patient;
 
-    public static Compliance buildComplain(WriteCompliance write, User user){
+    public static Compliance buildComplain(WriteCompliance write, Patient patient){
         return Compliance.builder().explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
                 .takingAfterBowelPreparation(ComplianceDetail_1.buildComplianceDetail(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark()))
@@ -309,7 +309,7 @@ public class Compliance {
                 .operationTime(ComplianceDetail_4.buildComplianceDetail(write.getOperationTime(), write.getOperationTime_remark()))
                 .isPost_Nausea_Vomiting(ComplianceDetail_1.buildComplianceDetail(write.getIsPost_Nausea_Vomiting(), write.getIsPost_Nausea_Vomiting_remark()))
                 .locate(ComplianceDetail_5.buildComplianceDetail(write.getLocate(), write.getLocate_remark()))
-                .user(user)
+                .patient(patient)
                 .build();
     }
 
