@@ -22,55 +22,39 @@ public class Patient {
     @Column(name = "patient_id")
     private Long id;
 
-//    @Column(nullable = false)
-//    private Long patientNumber;
+    private Long patientNumber;
 
-    @Column(nullable = false)
     private String name;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Sex sex;
-//
-//    @Column(nullable = false)
-//    private int age;
-//
-//    @Column(nullable = false)
-//    private float height;
-//
-//    @Column(nullable = false)
-//    private float weight;
-//
-//    @Column(nullable = false)
-//    private float BMI;
-//
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
-//
-//    @Column(nullable = false)
-//    private String location;        // 위치
-//
-//    @Column(nullable = false)
-//    private String dignosis;        // 진단
-//
-//    @Column(nullable = false)
-//    private Date opertationDate;    // 수술일
-//
-//    @Column(nullable = false)
-//    private Date hospitalizedDate;  // 입원일
-//
-//    @Column(nullable = false)
-//    private Date dischargedDate;    // 퇴원일
-//
-//    @Column(nullable = false)
-//    private int totalHospitalizedDays;  // 총 재원일 수
-//
-//    @Column(nullable = false)
-//    private String operationMethod;      // 수술 방법
-//
-//    @Column(nullable = false)
-//    private String operationApproach;   // 수술 approach
+    @Enumerated(EnumType.STRING)
+    private Sex sex;
+
+    private int age;
+
+    private float height;
+
+    private float weight;
+
+    private float BMI;
+
+    @Enumerated(EnumType.STRING)
+    private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
+
+    private String location;        // 위치
+
+    private String dignosis;        // 진단
+
+    private Date opertationDate;    // 수술일
+
+    private Date hospitalizedDate;  // 입원일
+
+    private Date dischargedDate;    // 퇴원일
+
+    private int totalHospitalizedDays;  // 총 재원일 수
+
+    private String operationMethod;      // 수술 방법
+
+    private String operationApproach;   // 수술 approach
 
     @Enumerated(EnumType.STRING)
     private StomaFormation stomaFormation;      // 장루 형성술
