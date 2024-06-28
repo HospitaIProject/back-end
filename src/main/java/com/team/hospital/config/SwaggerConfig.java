@@ -18,8 +18,8 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("CodeArena Swagger")
-                .description("CodeArena 유저 및 인증 , ps, 알림에 관한 REST API")
+                .title("성모병원")
+                .description("성모 병원 환자 관리 어플리케이션")
                 .version("1.0.0");
     }
 }
