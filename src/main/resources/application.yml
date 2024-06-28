@@ -1,25 +1,11 @@
 spring:
-
-  # H2 Database 설정
   datasource:
-    driver-class-name: org.h2.Driver
-    url: 'jdbc:h2:file:./data/test'
-    password:
-
-  # H2 Console 설정
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-  # JPA 설정
+    url: jdbc:sqlite:hospital.db
+    driver-class-name: org.sqlite.JDBC
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
-#      ddl-auto: create
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
-        show_sql: true
+  sql:
+    init:
+      mode: always

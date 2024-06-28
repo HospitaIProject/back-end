@@ -24,10 +24,14 @@ repositories {
 }
 
 dependencies {
+	// sqlite
+	implementation 'org.xerial:sqlite-jdbc:3.34.0'
+	implementation 'org.hibernate.orm:hibernate-community-dialects'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'	//Swagger
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly("com.h2database:h2")
-	implementation("org.springframework.boot:spring-boot-devtools") // h2 console 을 보기 위해
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'

@@ -22,7 +22,7 @@ public class PatientService {
     @Transactional
     public void join(){
         Patient patient = Patient.builder()
-                .name("test")
+                .name("testtest")
                 .build();
 
         patientRepository.save(patient);
