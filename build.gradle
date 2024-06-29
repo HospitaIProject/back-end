@@ -47,3 +47,49 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// 수정된 부분
+task createStaticDir {
+	doLast {
+		def staticDir = file("${projectDir}/src/main/resources/static")
+		if (!staticDir.exists()) {
+			staticDir.mkdirs()
+		}
+	}
+}
+
+task buildReact(type: Exec) {
+	workingDir "${projectDir}/frontend"
+	commandLine 'npm', 'run', 'build'
+}
+
+task copyReactBuild(type: Copy) {
+	from "${projectDir}/frontend/dist"
+	into "${projectDir}/src/main/resources/static"
+}
+
+task cleanReactBuild(type: Delete) {
+	delete fileTree(dir: "${projectDir}/src/main/resources/static").matching {
+		include '**/*'
+	}
+}
+
+// 수정된 부분: 태스크 의존성 및 실행 순서 조정
+copyReactBuild.dependsOn buildReact, createStaticDir
+cleanReactBuild.mustRunAfter createStaticDir
+copyReactBuild.mustRunAfter cleanReactBuild
+
+bootJar {
+	dependsOn cleanReactBuild, copyReactBuild
+}
+
+// processResources 태스크가 copyReactBuild 이후에 실행되도록 설정
+processResources.dependsOn copyReactBuild
+
+bootJar {
+	enabled = true
+}
+
+jar {
+	enabled = false
+}

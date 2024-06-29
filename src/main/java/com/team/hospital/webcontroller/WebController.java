@@ -8,13 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class WebController {
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
     @GetMapping("/compliance")
     public String compliance() {
         return "compliance/writeCompliance";
     }
+
 }
