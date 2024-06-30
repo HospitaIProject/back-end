@@ -20,11 +20,7 @@ public class PatientService {
     }
 
     @Transactional
-    public void join(){
-        Patient patient = Patient.builder()
-                .name("testtest")
-                .build();
-
+    public void join(Patient patient){
         patientRepository.save(patient);
     }
 }
