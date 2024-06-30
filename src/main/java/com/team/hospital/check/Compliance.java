@@ -273,13 +273,13 @@ public class Compliance {
     @JoinColumn(name = "user_id")
     private Patient patient;
 
-    public static Compliance buildComplain(WriteCompliance write, Patient patient){
+    public static Compliance buildCompliance(WriteCompliance write, Patient patient) {
         return Compliance.builder().explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
                 .takingAfterBowelPreparation(ComplianceDetail_1.buildComplianceDetail(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark()))
                 .preventionDVT(ComplianceDetail_1.buildComplianceDetail(write.getPreventionDVT(), write.getPreventionDVT_remark()))
-                .takingLaxatives(ComplianceDetail_1.buildComplianceDetail(write.getTakingLaxatives(),write.getTakingLaxatives_remark()))
-                .chewingGum(ComplianceDetail_1.buildComplianceDetail(write.getChewingGum() ,write.getChewingGum_remark()))
+                .takingLaxatives(ComplianceDetail_1.buildComplianceDetail(write.getTakingLaxatives(), write.getTakingLaxatives_remark()))
+                .chewingGum(ComplianceDetail_1.buildComplianceDetail(write.getChewingGum(), write.getChewingGum_remark()))
                 .dayOfRemoveJP_Drain(ComplianceDetail_2.buildComplianceDetail(write.getDayOfRemoveJP_Drain(), write.getDayOfRemoveJP_Drain_remark()))
                 .reasonByRemoveJP_DrainDelay(ComplianceDetail_1.buildComplianceDetail(write.getReasonByRemoveJP_DrainDelay(), write.getReasonByRemoveJP_DrainDelay_remark()))
                 .dayOfRemoveUrinary_Catheter(ComplianceDetail_1.buildComplianceDetail(write.getDayOfRemoveUrinary_Catheter(), write.getDayOfRemoveUrinary_Catheter_remark()))
@@ -287,7 +287,7 @@ public class Compliance {
                 .afterOperationLimitIV_Fluid(ComplianceDetail_1.buildComplianceDetail(write.getAfterOperationLimitIV_Fluid(), write.getAfterOperationLimitIV_Fluid_remark()))
                 .dayOfRemoveIV_Fluid(ComplianceDetail_1.buildComplianceDetail(write.getDayOfRemoveIV_Fluid(), write.getDayOfRemoveIV_Fluid_remark()))
                 .reasonByRemoveIV_FluidDelay(ComplianceDetail_1.buildComplianceDetail(write.getReasonByRemoveIV_FluidDelay(), write.getReasonByRemoveIV_FluidDelay_remark()))
-                .post_Nausea_Vomiting(ComplianceDetail_1.buildComplianceDetail(write.getPost_Nausea_Vomiting(),write.getPost_Nausea_Vomiting_remark()))
+                .post_Nausea_Vomiting(ComplianceDetail_1.buildComplianceDetail(write.getPost_Nausea_Vomiting(), write.getPost_Nausea_Vomiting_remark()))
                 .postOpDayExercise(ComplianceDetail_1.buildComplianceDetail(write.getPostOpDayExercise(), write.getPostOpDayExercise_remark()))
                 .pod_1Exercise(ComplianceDetail_1.buildComplianceDetail(write.getPod_1Exercise(), write.getPod_1Exercise_remark()))
                 .pod_2Exercise(ComplianceDetail_1.buildComplianceDetail(write.getPod_2Exercise(), write.getPod_2Exercise_remark()))

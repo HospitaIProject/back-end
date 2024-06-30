@@ -1,5 +1,6 @@
 package com.team.hospital.patient;
 
+import com.team.hospital.patient.dto.RegisterPatient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,9 @@ public class PatientController {
     private final PatientService patientService;
 
     @PostMapping
-    public ResponseEntity<String> join(@RequestBody Patient patient) {
+    public ResponseEntity<String> join(@RequestBody RegisterPatient registerPatient) {
         try {
+            Patient patient = Patient.buildPatient(registerPatient);
             patientService.join(patient);
             return ResponseEntity.status(HttpStatus.CREATED).body("Patient successfully registered.");
         } catch (Exception e) {

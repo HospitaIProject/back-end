@@ -1,5 +1,7 @@
 package com.team.hospital.patient;
 
+import com.team.hospital.check.enumType.BooleanOption;
+import com.team.hospital.patient.dto.RegisterPatient;
 import com.team.hospital.patient.enumType.ASAScore;
 import com.team.hospital.patient.enumType.Sex;
 import com.team.hospital.patient.enumType.StomaFormation;
@@ -63,12 +65,40 @@ public class Patient {
 
     private int numberOfRetrievedLine;  // 제거된 림프절 개수
 
-    private boolean complicationOccurence;
+    private BooleanOption complicationOccurence;
 
     private String CDClassification;
 
-    private boolean reOperationWithIn30Days;
+    private BooleanOption reOperationWithIn30Days;
 
     private String reOperationCause;
+
+    public static Patient buildPatient(RegisterPatient registerPatient) {
+        return Patient.builder()
+                .patientNumber(registerPatient.getPatientNumber())
+                .name(registerPatient.getName())
+                .sex(registerPatient.getSex())
+                .age(registerPatient.getAge())
+                .height(registerPatient.getHeight())
+                .weight(registerPatient.getWeight())
+                .BMI(registerPatient.getBMI())
+                .asaScore(registerPatient.getAsaScore())
+                .location(registerPatient.getLocation())
+                .dignosis(registerPatient.getDignosis())
+                .opertationDate(registerPatient.getOpertationDate())
+                .hospitalizedDate(registerPatient.getHospitalizedDate())
+                .dischargedDate(registerPatient.getDischargedDate())
+                .totalHospitalizedDays(registerPatient.getTotalHospitalizedDays())
+                .operationMethod(registerPatient.getOperationMethod())
+                .operationApproach(registerPatient.getOperationApproach())
+                .stomaFormation(registerPatient.getStomaFormation())
+                .AJCCStage(registerPatient.getAJCCStage())
+                .numberOfRetrievedLine(registerPatient.getNumberOfRetrievedLine())
+                .complicationOccurence(registerPatient.getComplicationOccurence())
+                .CDClassification(registerPatient.getCDClassification())
+                .reOperationWithIn30Days(registerPatient.getReOperationWithIn30Days())
+                .reOperationCause(registerPatient.getReOperationCause())
+                .build();
+    }
 
 }

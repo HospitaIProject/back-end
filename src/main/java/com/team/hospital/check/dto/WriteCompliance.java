@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class WriteCompliance {
+
     private BooleanOption explainBeforeOperation;                 //ERAS 수술 전 설명
     private BooleanOption takingONSBeforeOperationTwo_Hours;      //수술 2시간 전 ONS 복용여뷰
     private BooleanOption takingAfterBowelPreparation;          //Bowel Preparation 후 경장영양액 복용여부
@@ -79,4 +80,5 @@ public class WriteCompliance {
     private String operationTime_remark;                                //Operation time (min)
     private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                                      //입원 병동
+
 }

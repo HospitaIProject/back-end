@@ -10,13 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ComplianceService {
+
     private final ComplianceRepository complianceRepository;
     private final PatientService patientService;
 
     @Transactional
     public void save(WriteCompliance write, Long patientId){
         Patient patient = patientService.findUserById(patientId);
-        Compliance compliance = Compliance.buildComplain(write, patient);
+        Compliance compliance = Compliance.buildCompliance(write, patient);
         complianceRepository.save(compliance);
     }
 }

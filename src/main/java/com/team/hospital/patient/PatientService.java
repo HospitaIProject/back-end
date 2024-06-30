@@ -12,15 +12,15 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
 
-    public Patient findUserById(Long userId){
-        Optional<Patient> user = patientRepository.findById(userId);
-        if (user.isEmpty())
-            throw new IllegalArgumentException("회원 존재 x");
-        return user.get();
-    }
-
     @Transactional
     public void join(Patient patient){
         patientRepository.save(patient);
     }
+
+    public Patient findUserById(Long userId){
+        Optional<Patient> user = patientRepository.findById(userId);
+        if (user.isEmpty()) throw new IllegalArgumentException("회원 존재 x");
+        return user.get();
+    }
+
 }
