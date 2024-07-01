@@ -7,6 +7,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ComplianceService {
@@ -14,7 +17,11 @@ public class ComplianceService {
     private final ComplianceRepository complianceRepository;
     private final PatientService patientService;
 
-
+    public List<ComplianceDTO> findAllByPatient(Long patientId){
+        Patient patient = patientService.findUserById(patientId);
+        List<Compliance> list = complianceRepository.findAllByPatient(patient);
+        return ComplianceDTO.toEntities(list);
+    }
 
     public Compliance findComplianceById(Long complianceId){
         Optional<Compliance> compliance = complianceRepository.findById(complianceId);
