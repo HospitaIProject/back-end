@@ -31,7 +31,7 @@ function MobilePagination() {
 
     return (
         <div className="flex flex-col w-full gap-5">
-            <div className="flex justify-between w-full">
+            <div className="flex items-center justify-between w-full">
                 <button
                     onClick={goToPreviousPage}
                     disabled={forcePage === 0}
@@ -39,6 +39,7 @@ function MobilePagination() {
                 >
                     <ArrowIcon className="w-8 h-8 transform rotate-180" />
                 </button>
+                <span className="text-sm font-semibold">{forcePage + 1} / 20</span>
                 <button
                     onClick={goToNextPage}
                     disabled={forcePage === 19}
