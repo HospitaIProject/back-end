@@ -2,8 +2,10 @@ import { Outlet } from 'react-router-dom';
 
 function Layout() {
     return (
-        <div className="overflow-y-auto h-dvh w-dvw">
-            <Outlet />
+        <div className="h-dvh w-dvw overflow-y-auto">
+            <div className="mx-auto w-full max-w-[1300px]">
+                <Outlet />
+            </div>
         </div>
     );
 }
