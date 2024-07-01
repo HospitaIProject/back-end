@@ -23,4 +23,9 @@ public class ComplianceDetail_1 {
     public static ComplianceDetail_1 buildComplianceDetail(BooleanOption option, String remarks){
         return ComplianceDetail_1.builder().option(option).remarks(remarks).build();
     }
+
+    public void update(BooleanOption option, String remarks){
+        this.option = option;
+        this.remarks = remarks;
+    }
 }

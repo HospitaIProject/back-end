@@ -1,24 +1,22 @@
 package com.team.hospital.patient;
 
+import com.team.hospital.base.BaseEntity;
 import com.team.hospital.check.enumType.BooleanOption;
 import com.team.hospital.patient.dto.RegisterPatient;
 import com.team.hospital.patient.enumType.ASAScore;
 import com.team.hospital.patient.enumType.Sex;
 import com.team.hospital.patient.enumType.StomaFormation;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Patient {
+public class Patient extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "patient_id")
@@ -100,5 +98,4 @@ public class Patient {
                 .reOperationCause(registerPatient.getReOperationCause())
                 .build();
     }
-
 }

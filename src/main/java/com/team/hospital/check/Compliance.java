@@ -1,20 +1,18 @@
 package com.team.hospital.check;
 
+import com.team.hospital.base.BaseEntity;
 import com.team.hospital.check.dto.WriteCompliance;
 import com.team.hospital.check.enumType.*;
 import com.team.hospital.patient.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Compliance {
+public class Compliance extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -273,8 +271,9 @@ public class Compliance {
     @JoinColumn(name = "user_id")
     private Patient patient;
 
-    public static Compliance buildCompliance(WriteCompliance write, Patient patient) {
-        return Compliance.builder().explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
+    public static Compliance toEntity(WriteCompliance write, Patient patient) {
+        return Compliance.builder()
+                .explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
                 .takingAfterBowelPreparation(ComplianceDetail_1.buildComplianceDetail(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark()))
                 .preventionDVT(ComplianceDetail_1.buildComplianceDetail(write.getPreventionDVT(), write.getPreventionDVT_remark()))
@@ -313,4 +312,41 @@ public class Compliance {
                 .build();
     }
 
+    public void updateCompliance(WriteCompliance write) {
+        explainBeforeOperation.update(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark());
+        takingONSBeforeOperationTwo_Hours.update(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark());
+        takingONSBeforeOperationTwo_Hours.update(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark());
+        preventionDVT.update(write.getPreventionDVT(), write.getPreventionDVT_remark());
+        takingLaxatives.update(write.getTakingLaxatives(), write.getTakingLaxatives_remark());
+        chewingGum.update(write.getChewingGum(), write.getChewingGum_remark());
+        dayOfRemoveJP_Drain.update(write.getDayOfRemoveJP_Drain(), write.getDayOfRemoveJP_Drain_remark());
+        reasonByRemoveJP_DrainDelay.update(write.getReasonByRemoveJP_DrainDelay(), write.getReasonByRemoveJP_DrainDelay_remark());
+        dayOfRemoveUrinary_Catheter.update(write.getDayOfRemoveUrinary_Catheter(), write.getDayOfRemoveUrinary_Catheter_remark());
+        reasonByRemoveUrinary_CatheterDelay.update(write.getReasonByRemoveUrinary_CatheterDelay(), write.getReasonByRemoveUrinary_CatheterDelay_remark());
+        afterOperationLimitIV_Fluid.update(write.getAfterOperationLimitIV_Fluid(), write.getAfterOperationLimitIV_Fluid_remark());
+        dayOfRemoveIV_Fluid.update(write.getDayOfRemoveIV_Fluid(), write.getDayOfRemoveIV_Fluid_remark());
+        reasonByRemoveIV_FluidDelay.update(write.getReasonByRemoveIV_FluidDelay(), write.getReasonByRemoveIV_FluidDelay_remark());
+        post_Nausea_Vomiting.update(write.getPost_Nausea_Vomiting(), write.getPost_Nausea_Vomiting_remark());
+        postOpDayExercise.update(write.getPostOpDayExercise(), write.getPostOpDayExercise_remark());
+        pod_1Exercise.update(write.getPod_1Exercise(), write.getPod_1Exercise_remark());
+        pod_2Exercise.update(write.getPod_2Exercise(), write.getPod_2Exercise_remark());
+        pod_3Exercise.update(write.getPod_3Exercise(), write.getPod_3Exercise_remark());
+        postOpDayMeal.update(write.getPostOpDayMeal(), write.getPostOpDayMeal_remark());
+        pod_1Meal.update(write.getPod_1Meal(), write.getPod_1Meal_remark());
+        pod_2Meal.update(write.getPod_2Meal(), write.getPod_2Meal_remark());
+        beforeOperationMedicine.update(write.getBeforeOperationMedicine(), write.getBeforeOperationMedicine_remark());
+        silt_Itm.update(write.getSilt_Itm(), write.getSilt_Itm_remark());
+        postOpEffectivePainControl.update(write.getPostOpEffectivePainControl(), write.getPostOpEffectivePainControl_remark());
+        pod_1PainScore.update(write.getPod_1PainScore(), write.getPod_1PainScore_remark());
+        pod_2PainScore.update(write.getPod_2PainScore(), write.getPod_2PainScore_remark());
+        pod_3PainScore.update(write.getPod_3PainScore(), write.getPod_3PainScore_remark());
+        beforeSixtyMinute.update(write.getBeforeSixtyMinute(), write.getBeforeSixtyMinute_remark());
+        maintainTemperature.update(write.getMaintainTemperature(), write.getMaintainTemperature_remark());
+        volumeOfIntraoperativeInfusion.update(write.getVolumeOfIntraoperativeInfusion(), write.getVolumeOfIntraoperativeInfusion_remark());
+        bloodLoss.update(write.getBloodLoss(), write.getBloodLoss_remark());
+        urineOutput.update(write.getUrineOutput(), write.getUrineOutput_remark());
+        operationTime.update(write.getOperationTime(), write.getOperationTime_remark());
+        isPost_Nausea_Vomiting.update(write.getIsPost_Nausea_Vomiting(), write.getIsPost_Nausea_Vomiting_remark());
+        locate.update(write.getLocate(), write.getLocate_remark());
+    }
 }

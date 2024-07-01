@@ -23,4 +23,9 @@ public class ComplianceDetail_3 {
     public static ComplianceDetail_3 buildComplianceDetail(PainScore option, String remarks){
         return ComplianceDetail_3.builder().option(option).remarks(remarks).build();
     }
+
+    public void update(PainScore option, String remarks){
+        this.option = option;
+        this.remarks = remarks;
+    }
 }
