@@ -27,5 +27,11 @@ public class ComplianceController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
+    @GetMapping("/api/{complianceId}")
+    public ResponseEntity<?> complianceInfo(@PathVariable Long complianceId){
+        Compliance compliance = complianceService.findComplianceById(complianceId);
+        return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.toEntity(compliance));
+    }
+
 
 }
