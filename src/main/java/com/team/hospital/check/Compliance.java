@@ -274,8 +274,9 @@ public class Compliance extends BaseEntity {
     @JoinColumn(name = "user_id")
     private Patient patient;
 
-    public static Compliance buildCompliance(WriteCompliance write, Patient patient) {
-        return Compliance.builder().explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
+    public static Compliance toEntity(WriteCompliance write, Patient patient) {
+        return Compliance.builder()
+                .explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
                 .takingAfterBowelPreparation(ComplianceDetail_1.buildComplianceDetail(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark()))
                 .preventionDVT(ComplianceDetail_1.buildComplianceDetail(write.getPreventionDVT(), write.getPreventionDVT_remark()))
