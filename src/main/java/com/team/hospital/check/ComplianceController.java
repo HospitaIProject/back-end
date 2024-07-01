@@ -13,7 +13,9 @@ public class ComplianceController {
     private final ComplianceService complianceService;
 
     @PostMapping("/api/compliance/{patientId}")
-    public void saveCompliance(@RequestBody WriteCompliance writeCompliance, @PathVariable Long patientId){
+    public ResponseEntity<?> complianceSave(@RequestBody WriteCompliance writeCompliance,
+                                            @PathVariable Long patientId){
         complianceService.save(writeCompliance, patientId);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 }
