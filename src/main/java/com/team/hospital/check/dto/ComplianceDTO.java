@@ -94,7 +94,7 @@ public class ComplianceDTO {
     private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
-    public static ComplianceDTO toEntity(Compliance compliance){
+    public static ComplianceDTO buildComplianceDTO(Compliance compliance){
         return ComplianceDTO.builder()
                 .patientId(compliance.getPatient().getId())
                 .patientName(compliance.getPatient().getName())
@@ -174,9 +174,9 @@ public class ComplianceDTO {
                 .build();
     }
 
-    public static List<ComplianceDTO> toEntities(List<Compliance> list){
+    public static List<ComplianceDTO> buildComplianceDTOs(List<Compliance> list){
         return list.stream()
-                .map(ComplianceDTO::toEntity)
+                .map(ComplianceDTO::buildComplianceDTO)
                 .collect(Collectors.toList());
     }
 }
