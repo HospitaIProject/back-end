@@ -5,15 +5,12 @@ import com.team.hospital.check.dto.WriteCompliance;
 import com.team.hospital.check.enumType.*;
 import com.team.hospital.patient.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Compliance extends BaseEntity {
 

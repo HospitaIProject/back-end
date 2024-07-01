@@ -7,17 +7,14 @@ import com.team.hospital.patient.enumType.ASAScore;
 import com.team.hospital.patient.enumType.Sex;
 import com.team.hospital.patient.enumType.StomaFormation;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Patient extends BaseEntity {
 
@@ -101,5 +98,4 @@ public class Patient extends BaseEntity {
                 .reOperationCause(registerPatient.getReOperationCause())
                 .build();
     }
-
 }
