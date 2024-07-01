@@ -1,5 +1,6 @@
 package com.team.hospital.check;
 
+import com.team.hospital.base.BaseEntity;
 import com.team.hospital.check.dto.WriteCompliance;
 import com.team.hospital.check.enumType.*;
 import com.team.hospital.patient.Patient;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Compliance {
+public class Compliance extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

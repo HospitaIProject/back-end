@@ -1,5 +1,6 @@
 package com.team.hospital.patient;
 
+import com.team.hospital.base.BaseEntity;
 import com.team.hospital.check.enumType.BooleanOption;
 import com.team.hospital.patient.dto.RegisterPatient;
 import com.team.hospital.patient.enumType.ASAScore;
@@ -18,7 +19,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient {
+public class Patient extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "patient_id")
