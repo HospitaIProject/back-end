@@ -35,4 +35,10 @@ public class ComplianceService {
         Compliance compliance = Compliance.toEntity(write, patient);
         complianceRepository.save(compliance);
     }
+
+    @Transactional
+    public void modify(WriteCompliance write, Long complianceId){
+        Compliance compliance = findComplianceById(complianceId);
+        compliance.updateCompliance(write);
+    }
 }
