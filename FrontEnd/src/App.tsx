@@ -3,20 +3,32 @@ import MainPage from './MainPage/MainPage';
 import LoginPage from './LoginPage/LoginPage';
 import Layout from './Layout/Layout';
 import HeaderLayout from './Layout/HeaderLayout';
+import RegisterPatientPage from './PatientPage/NewPatientPage/NewPatientPage';
+import ComplianceFormPage from './PatientPage/ComplianceFormPage/ComplianceFormPage';
+import RQProviders from './components/RQProvider';
 
 function App() {
     return (
         <Router>
             <Routes>
-                {/* 전체 레이아웃 */}
-                <Route element={<Layout />}>
-                    {/* 헤더 레이아웃 */}
-                    <Route element={<HeaderLayout />}>
-                        <Route path="/" element={<MainPage />} />
+                <Route element={<RQProviders />}>
+                    {/* 전체 레이아웃 */}
+
+                    <Route element={<Layout />}>
+                        {/* 헤더 레이아웃 */}
+                        <Route element={<HeaderLayout />}>
+                            {/* 메인 페이지 */}
+                            <Route path="/" element={<MainPage />} />
+                            {/* 뒤로가기 */}
+                            {/* 환자 등록 페이지 */}
+                            <Route path="/patient/new" element={<RegisterPatientPage />} />
+                            {/* compilance 체크리스트 페이지 */}
+                            <Route path="/patient/form/compilance/:id" element={<ComplianceFormPage />} />
+                        </Route>
+                        <Route path="/login" element={<LoginPage />} />
                     </Route>
-                    <Route path="/login" element={<LoginPage />} />
+                    {/* 추가 페이지 라우트 */}
                 </Route>
-                {/* 추가 페이지 라우트 */}
             </Routes>
         </Router>
     );
