@@ -33,5 +33,10 @@ public class ComplianceController {
         return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.toEntity(compliance));
     }
 
-
+    @PutMapping("/api/{complianceId}")
+    public ResponseEntity<?> complianceModify(@RequestBody WriteCompliance writeCompliance,
+                                              @PathVariable Long complianceId){
+        complianceService.modify(writeCompliance, complianceId);
+        return ResponseEntity.status(HttpStatus.OK).body("success");
+    }
 }
