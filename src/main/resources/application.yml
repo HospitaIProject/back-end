@@ -1,6 +1,7 @@
 spring:
   datasource:
-    url: jdbc:sqlite:hospital.db
+#    url: jdbc:sqlite:src/main/resources/db/hospital.db
+    url: jdbc:sqlite:./db/hospital.db
     driver-class-name: org.sqlite.JDBC
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect

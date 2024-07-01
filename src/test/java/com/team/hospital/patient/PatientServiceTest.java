@@ -11,10 +11,11 @@ class PatientServiceTest {
 
     @Test
     void findUserById() {
+        Patient patientById = patientService.findPatientById(1L);
+        System.out.println(patientById.getName());
     }
 
     @Test
     void join() {
-//        patientService.join();
     }
 }
