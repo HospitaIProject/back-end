@@ -23,4 +23,9 @@ public class ComplianceDetail_2 {
     public static ComplianceDetail_2 buildComplianceDetail(Pod option, String remarks){
         return ComplianceDetail_2.builder().option(option).remarks(remarks).build();
     }
+
+    public void update(Pod option, String remarks){
+        this.option = option;
+        this.remarks = remarks;
+    }
 }

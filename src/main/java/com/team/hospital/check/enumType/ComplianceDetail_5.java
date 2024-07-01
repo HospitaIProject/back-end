@@ -20,4 +20,9 @@ public class ComplianceDetail_5 {
     public static ComplianceDetail_5 buildComplianceDetail(String option, String remarks){
         return ComplianceDetail_5.builder().option(option).remarks(remarks).build();
     }
+
+    public void update(String option, String remarks){
+        this.option = option;
+        this.remarks = remarks;
+    }
 }

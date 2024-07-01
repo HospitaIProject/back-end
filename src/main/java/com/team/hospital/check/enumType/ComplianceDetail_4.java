@@ -22,4 +22,9 @@ public class ComplianceDetail_4 {
     public static ComplianceDetail_4 buildComplianceDetail(float option, String remarks){
         return ComplianceDetail_4.builder().option(option).remarks(remarks).build();
     }
+
+    public void update(float option, String remarks){
+        this.option = option;
+        this.remarks = remarks;
+    }
 }
