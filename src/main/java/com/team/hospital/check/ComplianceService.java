@@ -1,5 +1,6 @@
 package com.team.hospital.check;
 
+import com.team.hospital.check.dto.ComplianceDTO;
 import com.team.hospital.check.dto.WriteCompliance;
 import com.team.hospital.patient.Patient;
 import com.team.hospital.patient.PatientService;
