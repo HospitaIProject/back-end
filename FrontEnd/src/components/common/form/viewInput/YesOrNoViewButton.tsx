@@ -5,7 +5,7 @@ import InputViewContainer from './InputViewContainer';
 type Props = {
     label: string;
     value: 'YES' | 'NO' | '';
-    remark: string;
+    remark?: string;
 };
 
 function YesOrNoViewButton({ label, value, remark }: Props) {
