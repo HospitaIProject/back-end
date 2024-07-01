@@ -1,11 +1,13 @@
 package com.team.hospital.check;
 
+import com.team.hospital.check.dto.ComplianceDTO;
 import com.team.hospital.check.dto.WriteCompliance;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,4 +20,12 @@ public class ComplianceController {
         complianceService.save(writeCompliance, patientId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
+
+    @GetMapping("/api/compliance/{patientId}")
+    public ResponseEntity<?> complianceList(@PathVariable Long patientId){
+        List<ComplianceDTO> list = complianceService.findAllByPatient(patientId);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+
 }
