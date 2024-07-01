@@ -16,7 +16,7 @@ public class ComplianceService {
 
     @Transactional
     public void save(WriteCompliance write, Long patientId){
-        Patient patient = patientService.findUserById(patientId);
+        Patient patient = patientService.findPatientById(patientId);
         Compliance compliance = Compliance.buildCompliance(write, patient);
         complianceRepository.save(compliance);
     }

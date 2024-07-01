@@ -4,10 +4,9 @@ import com.team.hospital.patient.dto.RegisterPatient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -26,5 +25,15 @@ public class PatientController {
             // 에러 로그 출력 또는 다른 처리를 여기서 할 수 있습니다.
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register patient.");
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<Patient> findById(Long id) {
+         return ResponseEntity.ok(patientService.findPatientById(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Patient>> findPatients() {
+        return ResponseEntity.ok(patientService.findAll());
     }
 }
