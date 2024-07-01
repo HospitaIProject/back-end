@@ -30,7 +30,7 @@ public class ComplianceController {
     @GetMapping("/api/{complianceId}")
     public ResponseEntity<?> complianceInfo(@PathVariable Long complianceId){
         Compliance compliance = complianceService.findComplianceById(complianceId);
-        return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.toEntity(compliance));
+        return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.buildComplianceDTO(compliance));
     }
 
     @PutMapping("/api/{complianceId}")

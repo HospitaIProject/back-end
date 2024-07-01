@@ -21,7 +21,7 @@ public class ComplianceService {
     public List<ComplianceDTO> findAllByPatient(Long patientId){
         Patient patient = patientService.findUserById(patientId);
         List<Compliance> list = complianceRepository.findAllByPatient(patient);
-        return ComplianceDTO.toEntities(list);
+        return ComplianceDTO.buildComplianceDTOs(list);
     }
 
     public Compliance findComplianceById(Long complianceId){
