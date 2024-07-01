@@ -17,7 +17,7 @@ public class ComplianceService {
     @Transactional
     public void save(WriteCompliance write, Long patientId){
         Patient patient = patientService.findUserById(patientId);
-        Compliance compliance = Compliance.buildCompliance(write, patient);
+        Compliance compliance = Compliance.toEntity(write, patient);
         complianceRepository.save(compliance);
     }
 }
