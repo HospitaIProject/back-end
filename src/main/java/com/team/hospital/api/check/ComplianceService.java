@@ -19,7 +19,7 @@ public class ComplianceService {
     private final PatientService patientService;
 
     public List<ComplianceDTO> findAllByPatient(Long patientId){
-        Patient patient = patientService.findUserById(patientId);
+        Patient patient = patientService.findPatientById(patientId);
         List<Compliance> list = complianceRepository.findAllByPatient(patient);
         return ComplianceDTO.buildComplianceDTOs(list);
     }
@@ -32,7 +32,7 @@ public class ComplianceService {
 
     @Transactional
     public void save(WriteCompliance write, Long patientId){
-        Patient patient = patientService.findUserById(patientId);
+        Patient patient = patientService.findPatientById(patientId);
         Compliance compliance = Compliance.toEntity(write, patient);
         complianceRepository.save(compliance);
     }

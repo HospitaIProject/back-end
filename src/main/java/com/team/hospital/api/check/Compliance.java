@@ -3,7 +3,6 @@ package com.team.hospital.api.check;
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.check.dto.WriteCompliance;
 import com.team.hospital.api.check.enumType.*;
-import com.team.hospital.check.enumType.*;
 import com.team.hospital.api.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,10 +18,14 @@ public class PatientService {
         patientRepository.save(patient);
     }
 
-    public Patient findUserById(Long userId){
+    public Patient findPatientById(Long userId){
         Optional<Patient> user = patientRepository.findById(userId);
         if (user.isEmpty()) throw new IllegalArgumentException("회원 존재 x");
         return user.get();
+    }
+
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
     }
 
 }
