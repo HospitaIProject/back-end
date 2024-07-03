@@ -6,7 +6,7 @@ import com.team.hospital.api.check.enumType.Pod;
 import lombok.Getter;
 
 @Getter
-public class WriteCompliance {
+public class WriteCheckList {
 
     private BooleanOption explainBeforeOperation;                 //ERAS 수술 전 설명
     private BooleanOption takingONSBeforeOperationTwo_Hours;      //수술 2시간 전 ONS 복용여뷰

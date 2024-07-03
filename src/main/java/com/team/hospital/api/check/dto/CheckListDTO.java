@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Getter
-public class ComplianceDTO {
+public class CheckListDTO {
 
     private Long patientId;                                       //환자 ID
     private String patientName;                                   //환자 이름
@@ -97,8 +97,8 @@ public class ComplianceDTO {
     private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
-    public static ComplianceDTO buildComplianceDTO(CheckList checkList){
-        return ComplianceDTO.builder()
+    public static CheckListDTO buildComplianceDTO(CheckList checkList){
+        return CheckListDTO.builder()
                 .patientId(checkList.getPatient().getId())
                 .patientName(checkList.getPatient().getName())
                 .patientNumber(checkList.getPatient().getPatientNumber())
@@ -178,9 +178,9 @@ public class ComplianceDTO {
                 .build();
     }
 
-    public static List<ComplianceDTO> buildComplianceDTOs(List<CheckList> list){
+    public static List<CheckListDTO> buildComplianceDTOs(List<CheckList> list){
         return list.stream()
-                .map(ComplianceDTO::buildComplianceDTO)
+                .map(CheckListDTO::buildComplianceDTO)
                 .collect(Collectors.toList());
     }
 }

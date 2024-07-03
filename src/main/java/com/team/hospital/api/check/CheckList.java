@@ -1,9 +1,9 @@
 package com.team.hospital.api.check;
 
 import com.team.hospital.api.base.BaseEntity;
-import com.team.hospital.api.check.dto.WriteCompliance;
+import com.team.hospital.api.check.dto.WriteCheckList;
 import com.team.hospital.api.check.enumType.*;
-import com.team.hospital.api.patient.Patient;
+import com.team.hospital.api.treatment.Treatment;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +16,7 @@ public class CheckList extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "compliance_id")
+    @Column(name = "check_list_id")
     private Long id;
 
     @Embedded
@@ -267,11 +267,12 @@ public class CheckList extends BaseEntity {
     })
     private ComplianceDetail_5 locate;  // 입원 병동
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Patient patient;
 
-    public static CheckList toEntity(WriteCompliance write, Patient patient) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "treatment_id")
+    private Treatment treatment;
+
+    public static CheckList toEntity(WriteCheckList write, Treatment treatment) {
         return CheckList.builder()
                 .explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
@@ -308,11 +309,11 @@ public class CheckList extends BaseEntity {
                 .operationTime(ComplianceDetail_4.buildComplianceDetail(write.getOperationTime(), write.getOperationTime_remark()))
                 .isPost_Nausea_Vomiting(ComplianceDetail_1.buildComplianceDetail(write.getIsPost_Nausea_Vomiting(), write.getIsPost_Nausea_Vomiting_remark()))
                 .locate(ComplianceDetail_5.buildComplianceDetail(write.getLocate(), write.getLocate_remark()))
-                .patient(patient)
+                .treatment(treatment)
                 .build();
     }
 
-    public void updateCompliance(WriteCompliance write) {
+    public void updateCompliance(WriteCheckList write) {
         explainBeforeOperation.update(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark());
         takingONSBeforeOperationTwo_Hours.update(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark());
         takingONSBeforeOperationTwo_Hours.update(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark());

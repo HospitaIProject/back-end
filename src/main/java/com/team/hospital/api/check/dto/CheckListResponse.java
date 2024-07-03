@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ComplianceResponse {
-    private ComplianceDTO complianceDTO;
+public class CheckListResponse {
+    private CheckListDTO checkListDTO;
 }
