@@ -1,4 +1,4 @@
-package com.team.hospital.api.check.enumType;
+package com.team.hospital.api.checkList.enumType;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComplianceDetail_3 {
+public class CheckListDetail_2 {
 
     @Enumerated(EnumType.STRING)
-    private PainScore option;
+    private Pod option;
 
     private String remarks;  // 비고
 
-    public static ComplianceDetail_3 buildComplianceDetail(PainScore option, String remarks){
-        return ComplianceDetail_3.builder().option(option).remarks(remarks).build();
+    public static CheckListDetail_2 buildComplianceDetail(Pod option, String remarks){
+        return CheckListDetail_2.builder().option(option).remarks(remarks).build();
     }
 
-    public void update(PainScore option, String remarks){
+    public void update(Pod option, String remarks){
         this.option = option;
         this.remarks = remarks;
     }

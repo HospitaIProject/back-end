@@ -1,4 +1,4 @@
-package com.team.hospital.api.check.dto;
+package com.team.hospital.api.checkList.dto;
 
 import lombok.Builder;
 import lombok.Getter;

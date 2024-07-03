@@ -1,9 +1,9 @@
-package com.team.hospital.api.check.dto;
+package com.team.hospital.api.checkList.dto;
 
-import com.team.hospital.api.check.CheckList;
-import com.team.hospital.api.check.enumType.BooleanOption;
-import com.team.hospital.api.check.enumType.PainScore;
-import com.team.hospital.api.check.enumType.Pod;
+import com.team.hospital.api.checkList.CheckList;
+import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.checkList.enumType.PainScore;
+import com.team.hospital.api.checkList.enumType.Pod;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 @Getter
 public class CheckListDTO {
 
-    private Long patientId;                                       //환자 ID
-    private String patientName;                                   //환자 이름
+    private Long patientId;                                     //환자 ID
+    private String patientName;                                 //환자 이름
     private Long patientNumber;                                 //환자 번호
-    private Long complianceId;                                    //complianceId
+    private Long checkListId;                                   //checkListId
 
-    private LocalDateTime createAt;                               //생성 날짜
-    private LocalDateTime updatedAt;                              //수정 날짜
+    private LocalDateTime createAt;                             //생성 날짜
+    private LocalDateTime updatedAt;                            //수정 날짜
 
     private BooleanOption explainBeforeOperation;                 //ERAS 수술 전 설명
     private BooleanOption takingONSBeforeOperationTwo_Hours;      //수술 2시간 전 ONS 복용여뷰
@@ -99,10 +99,10 @@ public class CheckListDTO {
 
     public static CheckListDTO buildComplianceDTO(CheckList checkList){
         return CheckListDTO.builder()
-                .patientId(checkList.getPatient().getId())
-                .patientName(checkList.getPatient().getName())
-                .patientNumber(checkList.getPatient().getPatientNumber())
-                .complianceId(checkList.getId())
+                .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
+                .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
+                .patientNumber(checkList.getCheckListItem().getOperation().getPatient().getPatientNumber())
+                .checkListId(checkList.getId())
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt())
                 .explainBeforeOperation(checkList.getExplainBeforeOperation().getOption())
