@@ -22,8 +22,14 @@ public class ComplianceController {
     }
 
     @GetMapping("/api/compliance/{patientId}")
-    public ResponseEntity<?> complianceList(@PathVariable Long patientId){
+    public ResponseEntity<?> patientComplianceList(@PathVariable Long patientId){
         List<ComplianceDTO> list = complianceService.findAllByPatient(patientId);
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+
+    @GetMapping("/api/compliance")
+    public ResponseEntity<?> complianceList(){
+        List<ComplianceDTO> list = complianceService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
