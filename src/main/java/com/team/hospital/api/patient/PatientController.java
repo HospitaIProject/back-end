@@ -18,8 +18,7 @@ public class PatientController {
     @PostMapping
     public ResponseEntity<String> join(@RequestBody RegisterPatient registerPatient) {
         try {
-            Patient patient = Patient.buildPatient(registerPatient);
-            patientService.join(patient);
+            patientService.join(registerPatient);
             return ResponseEntity.status(HttpStatus.CREATED).body("Patient successfully registered.");
         } catch (Exception e) {
             // 에러 로그 출력 또는 다른 처리를 여기서 할 수 있습니다.
