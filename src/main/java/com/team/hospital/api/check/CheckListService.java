@@ -13,24 +13,24 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ComplianceService {
+public class CheckListService {
 
-    private final ComplianceRepository complianceRepository;
+    private final CheckListRepository checkListRepository;
     private final PatientService patientService;
 
     public List<ComplianceDTO> findAllByPatient(Long patientId){
         Patient patient = patientService.findPatientById(patientId);
-        List<Compliance> list = complianceRepository.findAllByPatient(patient);
+        List<CheckList> list = checkListRepository.findAllByPatient(patient);
         return ComplianceDTO.buildComplianceDTOs(list);
     }
 
     public List<ComplianceDTO> findAll(){
-        List<Compliance> list = complianceRepository.findAll();
+        List<CheckList> list = checkListRepository.findAll();
         return ComplianceDTO.buildComplianceDTOs(list);
     }
 
-    public Compliance findComplianceById(Long complianceId){
-        Optional<Compliance> compliance = complianceRepository.findById(complianceId);
+    public CheckList findComplianceById(Long complianceId){
+        Optional<CheckList> compliance = checkListRepository.findById(complianceId);
         if (compliance.isEmpty()) throw new IllegalArgumentException("Compliance x");
         return compliance.get();
     }
@@ -38,13 +38,13 @@ public class ComplianceService {
     @Transactional
     public void save(WriteCompliance write, Long patientId){
         Patient patient = patientService.findPatientById(patientId);
-        Compliance compliance = Compliance.toEntity(write, patient);
-        complianceRepository.save(compliance);
+        CheckList checkList = CheckList.toEntity(write, patient);
+        checkListRepository.save(checkList);
     }
 
     @Transactional
     public void modify(WriteCompliance write, Long complianceId){
-        Compliance compliance = findComplianceById(complianceId);
-        compliance.updateCompliance(write);
+        CheckList checkList = findComplianceById(complianceId);
+        checkList.updateCompliance(write);
     }
 }

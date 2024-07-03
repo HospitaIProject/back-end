@@ -447,7 +447,7 @@
         const patientId = 123; // Replace with actual patient ID
 
         // Send data to the server
-        fetch(`/api/compliance/${patientId}`, {
+        fetch(`/api/checkList/${patientId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -459,12 +459,12 @@
                     alert('Compliance data saved successfully!');
                     // Optionally clear the form or perform other actions
                 } else {
-                    alert('Failed to save compliance data.');
+                    alert('Failed to save checkList data.');
                 }
             })
             .catch(error => {
-                console.error('Error saving compliance data:', error);
-                alert('An error occurred while saving compliance data.');
+                console.error('Error saving checkList data:', error);
+                alert('An error occurred while saving checkList data.');
             });
     }
 </script>

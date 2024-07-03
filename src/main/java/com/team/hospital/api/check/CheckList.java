@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Compliance extends BaseEntity {
+public class CheckList extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -271,8 +271,8 @@ public class Compliance extends BaseEntity {
     @JoinColumn(name = "user_id")
     private Patient patient;
 
-    public static Compliance toEntity(WriteCompliance write, Patient patient) {
-        return Compliance.builder()
+    public static CheckList toEntity(WriteCompliance write, Patient patient) {
+        return CheckList.builder()
                 .explainBeforeOperation(ComplianceDetail_1.buildComplianceDetail(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark()))
                 .takingONSBeforeOperationTwo_Hours(ComplianceDetail_1.buildComplianceDetail(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark()))
                 .takingAfterBowelPreparation(ComplianceDetail_1.buildComplianceDetail(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark()))

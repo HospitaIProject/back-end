@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ComplianceRepository extends JpaRepository<Compliance, Long> {
+public interface CheckListRepository extends JpaRepository<CheckList, Long> {
 
-    List<Compliance> findAllByPatient(Patient patient);
+    List<CheckList> findAllByPatient(Patient patient);
 
 }

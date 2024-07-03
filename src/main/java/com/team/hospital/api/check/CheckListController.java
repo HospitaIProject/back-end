@@ -11,38 +11,38 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ComplianceController {
-    private final ComplianceService complianceService;
+public class CheckListController {
+    private final CheckListService checkListService;
 
     @PostMapping("/api/compliance/{patientId}")
     public ResponseEntity<?> complianceSave(@RequestBody WriteCompliance writeCompliance,
                                             @PathVariable Long patientId){
-        complianceService.save(writeCompliance, patientId);
+        checkListService.save(writeCompliance, patientId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
     @GetMapping("/api/compliance/{patientId}")
     public ResponseEntity<?> patientComplianceList(@PathVariable Long patientId){
-        List<ComplianceDTO> list = complianceService.findAllByPatient(patientId);
+        List<ComplianceDTO> list = checkListService.findAllByPatient(patientId);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping("/api/compliance")
     public ResponseEntity<?> complianceList(){
-        List<ComplianceDTO> list = complianceService.findAll();
+        List<ComplianceDTO> list = checkListService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping("/api/{complianceId}")
     public ResponseEntity<?> complianceInfo(@PathVariable Long complianceId){
-        Compliance compliance = complianceService.findComplianceById(complianceId);
-        return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.buildComplianceDTO(compliance));
+        CheckList checkList = checkListService.findComplianceById(complianceId);
+        return ResponseEntity.status(HttpStatus.OK).body(ComplianceDTO.buildComplianceDTO(checkList));
     }
 
     @PutMapping("/api/{complianceId}")
     public ResponseEntity<?> complianceModify(@RequestBody WriteCompliance writeCompliance,
                                               @PathVariable Long complianceId){
-        complianceService.modify(writeCompliance, complianceId);
+        checkListService.modify(writeCompliance, complianceId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 }
