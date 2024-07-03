@@ -1,4 +1,4 @@
-package com.team.hospital.api.patient.enumType;
+package com.team.hospital.api.operation.enumType;
 
 public enum ASAScore {
     ASA_I,
