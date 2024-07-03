@@ -1,4 +1,4 @@
-package com.team.hospital.api.check.enumType;
+package com.team.hospital.api.checkList.enumType;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComplianceDetail_4 {
+public class CheckListDetail_4 {
 
     private float option;
 
     private String remarks;  // 비고
 
-    public static ComplianceDetail_4 buildComplianceDetail(float option, String remarks){
-        return ComplianceDetail_4.builder().option(option).remarks(remarks).build();
+    public static CheckListDetail_4 buildComplianceDetail(float option, String remarks){
+        return CheckListDetail_4.builder().option(option).remarks(remarks).build();
     }
 
     public void update(float option, String remarks){

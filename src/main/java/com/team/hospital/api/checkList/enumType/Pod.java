@@ -1,4 +1,4 @@
-package com.team.hospital.api.check.enumType;
+package com.team.hospital.api.checkList.enumType;
 
 import lombok.Getter;
 

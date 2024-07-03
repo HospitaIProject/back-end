@@ -1,5 +1,6 @@
 package com.team.hospital.api.patient;
 
+import com.team.hospital.api.patient.dto.RegisterPatient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,10 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     @Transactional
-    public void join(Patient patient){
+    public void join(RegisterPatient registerPatient){
+        if(existsByPatientNumber(registerPatient.getPatientNumber()))
+            throw new IllegalArgumentException("이미 있는 회원");
+        Patient patient = Patient.buildPatient(registerPatient);
         patientRepository.save(patient);
     }
 
@@ -28,4 +32,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    boolean existsByPatientNumber(Long patientNumber){
+        return patientRepository.existsByPatientNumber(patientNumber);
+    }
 }
