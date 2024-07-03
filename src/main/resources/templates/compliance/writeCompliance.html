@@ -371,7 +371,7 @@
 <script>
     function saveCompliance() {
         // Retrieve values from the form
-        const writeCompliance = {
+        const writeCheckList = {
             explainBeforeOperation: document.getElementById('explainBeforeOperation').value,
             explainBeforeOperation_remark: document.getElementById('explainBeforeOperation_remark').value,
             takingONSBeforeOperationTwo_Hours: document.getElementById('takingONSBeforeOperationTwo_Hours').value,
@@ -452,7 +452,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(writeCompliance),
+            body: JSON.stringify(writeCheckList),
         })
             .then(response => {
                 if (response.ok) {
