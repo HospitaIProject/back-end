@@ -1,7 +1,7 @@
-package com.team.hospital.api.check;
+package com.team.hospital.api.checkList;
 
-import com.team.hospital.api.check.dto.CheckListDTO;
-import com.team.hospital.api.check.dto.WriteCheckList;
+import com.team.hospital.api.checkList.dto.CheckListDTO;
+import com.team.hospital.api.checkList.dto.WriteCheckList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,33 +14,33 @@ import java.util.List;
 public class CheckListController {
     private final CheckListService checkListService;
 
-    @PostMapping("/api/compliance/{patientId}")
+    @PostMapping("/api/checkList/{checkListItemId}")
     public ResponseEntity<?> complianceSave(@RequestBody WriteCheckList writeCheckList,
-                                            @PathVariable Long patientId){
-        checkListService.save(writeCheckList, patientId);
+                                            @PathVariable Long checkListItemId){
+        checkListService.save(writeCheckList, checkListItemId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
     }
 
-    @GetMapping("/api/compliance/{patientId}")
-    public ResponseEntity<?> patientComplianceList(@PathVariable Long patientId){
-        List<CheckListDTO> list = checkListService.findAllByPatient(patientId);
+    @GetMapping("/api/checkList/{operationId}")
+    public ResponseEntity<?> findCheckListByOperationId(@PathVariable Long operationId){
+        List<CheckListDTO> list = checkListService.findAllByOperation(operationId);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/api/compliance")
-    public ResponseEntity<?> complianceList(){
+    @GetMapping("/api/checkList")
+    public ResponseEntity<?> findAllCheckList(){
         List<CheckListDTO> list = checkListService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/api/{complianceId}")
-    public ResponseEntity<?> complianceInfo(@PathVariable Long complianceId){
-        CheckList checkList = checkListService.findComplianceById(complianceId);
+    @GetMapping("/api/{checkListId}")
+    public ResponseEntity<?> checkListInfo(@PathVariable Long checkListId){
+        CheckList checkList = checkListService.findCheckListById(checkListId);
         return ResponseEntity.status(HttpStatus.OK).body(CheckListDTO.buildComplianceDTO(checkList));
     }
 
     @PutMapping("/api/{complianceId}")
-    public ResponseEntity<?> complianceModify(@RequestBody WriteCheckList writeCheckList,
+    public ResponseEntity<?> checkListModify(@RequestBody WriteCheckList writeCheckList,
                                               @PathVariable Long complianceId){
         checkListService.modify(writeCheckList, complianceId);
         return ResponseEntity.status(HttpStatus.OK).body("success");
