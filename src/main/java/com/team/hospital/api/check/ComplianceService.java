@@ -24,6 +24,11 @@ public class ComplianceService {
         return ComplianceDTO.buildComplianceDTOs(list);
     }
 
+    public List<ComplianceDTO> findAll(){
+        List<Compliance> list = complianceRepository.findAll();
+        return ComplianceDTO.buildComplianceDTOs(list);
+    }
+
     public Compliance findComplianceById(Long complianceId){
         Optional<Compliance> compliance = complianceRepository.findById(complianceId);
         if (compliance.isEmpty()) throw new IllegalArgumentException("Compliance x");
