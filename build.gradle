@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
 	// spring security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// sqlite
 	implementation 'org.xerial:sqlite-jdbc:3.34.0'

@@ -5,16 +5,19 @@ import com.team.hospital.api.check.enumType.BooleanOption;
 import com.team.hospital.api.check.enumType.PainScore;
 import com.team.hospital.api.check.enumType.Pod;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
+@Getter
 public class ComplianceDTO {
 
     private Long patientId;                                       //환자 ID
     private String patientName;                                   //환자 이름
+    private Long patientNumber;                                 //환자 번호
     private Long complianceId;                                    //complianceId
 
     private LocalDateTime createAt;                               //생성 날짜
@@ -98,6 +101,7 @@ public class ComplianceDTO {
         return ComplianceDTO.builder()
                 .patientId(compliance.getPatient().getId())
                 .patientName(compliance.getPatient().getName())
+                .patientNumber(compliance.getPatient().getPatientNumber())
                 .complianceId(compliance.getId())
                 .createAt(compliance.getCreatedAt())
                 .updatedAt(compliance.getUpdatedAt())
