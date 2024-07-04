@@ -26,12 +26,6 @@ public class Patient extends BaseEntity {
 
     private int age;
 
-    private float height;
-
-    private float weight;
-
-    private float BMI;
-
     public static Patient buildPatient(RegisterPatient registerPatient) {
         return Patient.builder()
                 .patientNumber(registerPatient.getPatientNumber())

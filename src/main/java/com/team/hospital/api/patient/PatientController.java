@@ -1,5 +1,6 @@
 package com.team.hospital.api.patient;
 
+import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -27,12 +29,18 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<Patient> findById(Long id) {
-         return ResponseEntity.ok(patientService.findPatientById(id));
+    public ResponseEntity<PatientDTO> findById(Long id) {
+        PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(id));
+        return ResponseEntity.ok(patientDTO);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Patient>> findPatients() {
-        return ResponseEntity.ok(patientService.findAll());
+    public ResponseEntity<List<PatientDTO>> findPatients() {
+        List<Patient> all = patientService.findAll();
+
+        List<PatientDTO> patientDTOs = all.stream()
+                .map(PatientDTO::createPatientDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(patientDTOs);
     }
 }
