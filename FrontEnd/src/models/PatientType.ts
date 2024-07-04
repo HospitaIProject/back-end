@@ -1,0 +1,28 @@
+export type PatientType = {
+    createdAt: Date;
+    updatedAt: Date;
+    id: number;
+    patientNumber: number | '';
+    name: string | '';
+    sex: 'MALE' | 'FEMALE' | '';
+    age: number | '';
+    height: number | '';
+    weight: number | '';
+    bmi: number | '';
+    asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI' | '';
+    location: string | '';
+    dignosis: string | '';
+    opertationDate: Date | '';
+    hospitalizedDate: Date | '';
+    dischargedDate: Date | '';
+    totalHospitalizedDays: number | '';
+    operationMethod: string | '';
+    operationApproach: string | '';
+    stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY' | '';
+    ajccstage: string | '';
+    numberOfRetrievedLine: number | '';
+    complicationOccurence: 'YES' | 'NO' | '';
+    cdclassification: string | '';
+    reOperationWithIn30Days: 'YES' | 'NO' | '';
+    reOperationCause: string | '';
+};
