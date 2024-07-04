@@ -27,6 +27,8 @@ dependencies {
 	// spring security
 	//implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
 	// sqlite
 	implementation 'org.xerial:sqlite-jdbc:3.34.0'
 	implementation 'org.hibernate.orm:hibernate-community-dialects'
