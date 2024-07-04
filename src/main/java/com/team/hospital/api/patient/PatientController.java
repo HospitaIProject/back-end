@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/patient")
@@ -27,13 +28,19 @@ public class PatientController {
         }
     }
 
-    @GetMapping("{patientId}")
-    public ResponseEntity<PatientDTO> findById(@PathVariable Long patientId) {
-         return ResponseEntity.ok(PatientDTO.buildPatientDTO(patientService.findPatientById(patientId)));
+    @GetMapping
+    public ResponseEntity<PatientDTO> findById(Long id) {
+        PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(id));
+        return ResponseEntity.ok(patientDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<List<PatientDTO>> findAllPatients() {
-        return ResponseEntity.ok(PatientDTO.buildPatientDTOs(patientService.findAll()));
+    @GetMapping("/all")
+    public ResponseEntity<List<PatientDTO>> findPatients() {
+        List<Patient> all = patientService.findAll();
+
+        List<PatientDTO> patientDTOs = all.stream()
+                .map(PatientDTO::createPatientDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(patientDTOs);
     }
 }
