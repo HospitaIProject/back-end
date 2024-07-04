@@ -22,8 +22,8 @@ public class PatientService {
         patientRepository.save(patient);
     }
 
-    public Patient findPatientById(Long userId){
-        Optional<Patient> user = patientRepository.findById(userId);
+    public Patient findPatientById(Long patientId){
+        Optional<Patient> user = patientRepository.findById(patientId);
         if (user.isEmpty()) throw new IllegalArgumentException("회원 존재 x");
         return user.get();
     }
