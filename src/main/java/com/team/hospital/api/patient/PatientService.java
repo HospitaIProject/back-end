@@ -25,6 +25,7 @@ public class PatientService {
     public Patient findPatientById(Long patientId){
         Optional<Patient> user = patientRepository.findById(patientId);
         if (user.isEmpty()) throw new IllegalArgumentException("회원 존재 x");
+
         return user.get();
     }
 

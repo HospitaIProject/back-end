@@ -14,6 +14,6 @@ public class RegisterPatient {
 
     private Sex sex;
 
-    private int age;
+    private Date birthday;
 
 }
