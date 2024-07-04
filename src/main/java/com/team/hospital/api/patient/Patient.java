@@ -6,6 +6,8 @@ import com.team.hospital.api.patient.enumType.Sex;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Builder
 @Getter
@@ -24,14 +26,14 @@ public class Patient extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    private int age;
+    private Date birthday;
 
     public static Patient buildPatient(RegisterPatient registerPatient) {
         return Patient.builder()
                 .patientNumber(registerPatient.getPatientNumber())
                 .name(registerPatient.getName())
                 .sex(registerPatient.getSex())
-                .age(registerPatient.getAge())
+                .birthday(registerPatient.getBirthday())
                 .build();
     }
 }
