@@ -19,7 +19,7 @@ export default function Header() {
     const handleMenuToggle = () => {
         setToggleMenu(!toggleMenu);
     }; // 토글 메뉴를 열고 닫는 함수
-    if (pathname.startsWith('/patient/form/compilance')) {
+    if (pathname !== '/') {
         return (
             <header className="sticky top-0 min-w-full bg-white">
                 <nav className="flex items-center px-3 py-6">
