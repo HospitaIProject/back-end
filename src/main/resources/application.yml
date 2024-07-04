@@ -1,12 +1,30 @@
 spring:
+#  datasource:
+#    url: jdbc:sqlite:./db/hospital.db
+#    driver-class-name: org.sqlite.JDBC
+#    hikari:
+#      connection-timeout: 60000  # Increased timeout to 60 seconds
+#      idle-timeout: 600000
+#      max-lifetime: 1800000
+#      maximum-pool-size: 10  # Increased pool size to handle more concurrent connections
+#      minimum-idle: 1
+#      data-source-properties:
+#        cachePrepStmts: true
+#        prepStmtCacheSize: 250
+#        prepStmtCacheSqlLimit: 2048
+#        busy_timeout: 60000
+
   datasource:
-#    url: jdbc:sqlite:src/main/resources/db/hospital.db
-    url: jdbc:sqlite:./db/hospital.db
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:mysql://43.203.126.26:3306/hospital
+    username: hospital
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
-    database-platform: org.hibernate.community.dialect.SQLiteDialect
+#    database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
       ddl-auto: update
+
   sql:
     init:
       mode: always
