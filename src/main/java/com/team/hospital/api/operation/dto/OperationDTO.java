@@ -1,18 +1,27 @@
 package com.team.hospital.api.operation.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.enumType.ASAScore;
 import com.team.hospital.api.operation.enumType.StomaFormation;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
 public class OperationDTO {
 
-    private Long treatmentId;
+    private Long patientId;
+
+    private String patientName;
+
+    private Long patientNumber;
+
+    private Long operationId;
 
     private float height;
 
@@ -51,4 +60,38 @@ public class OperationDTO {
     private BooleanOption reOperationWithIn30Days;
 
     private String reOperationCause;
+
+    public static OperationDTO buildOperationDTO(Operation operation){
+        return OperationDTO.builder()
+                .patientId(operation.getPatient().getId())
+                .patientName(operation.getPatient().getName())
+                .patientNumber(operation.getPatient().getPatientNumber())
+                .operationId(operation.getId())
+                .height(operation.getHeight())
+                .weight(operation.getWeight())
+                .BMI(operation.getBMI())
+                .asaScore(operation.getAsaScore())
+                .location(operation.getLocation())
+                .dignosis(operation.getDignosis())
+                .opertationDate(operation.getOpertationDate())
+                .hospitalizedDate(operation.getHospitalizedDate())
+                .dischargedDate(operation.getDischargedDate())
+                .totalHospitalizedDays(operation.getTotalHospitalizedDays())
+                .operationMethod(operation.getOperationMethod())
+                .operationApproach(operation.getOperationApproach())
+                .stomaFormation(operation.getStomaFormation())
+                .AJCCStage(operation.getAJCCStage())
+                .numberOfRetrievedLine(operation.getNumberOfRetrievedLine())
+                .complicationOccurence(operation.getComplicationOccurence())
+                .CDClassification(operation.getCDClassification())
+                .reOperationWithIn30Days(operation.getReOperationWithIn30Days())
+                .reOperationCause(operation.getReOperationCause())
+                .build();
+    }
+
+    public static List<OperationDTO> buildOperationDTOs(List<Operation> operations){
+        return operations.stream()
+                .map(OperationDTO::buildOperationDTO)
+                .collect(Collectors.toList());
+    }
 }

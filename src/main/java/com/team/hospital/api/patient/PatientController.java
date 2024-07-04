@@ -1,5 +1,6 @@
 package com.team.hospital.api.patient;
 
+import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,13 +27,13 @@ public class PatientController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<Patient> findById(Long id) {
-         return ResponseEntity.ok(patientService.findPatientById(id));
+    @GetMapping("{patientId}")
+    public ResponseEntity<PatientDTO> findById(@PathVariable Long patientId) {
+         return ResponseEntity.ok(PatientDTO.buildPatientDTO(patientService.findPatientById(patientId)));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Patient>> findPatients() {
-        return ResponseEntity.ok(patientService.findAll());
+    @GetMapping
+    public ResponseEntity<List<PatientDTO>> findAllPatients() {
+        return ResponseEntity.ok(PatientDTO.buildPatientDTOs(patientService.findAll()));
     }
 }
