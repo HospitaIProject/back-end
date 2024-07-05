@@ -1,11 +1,13 @@
 package com.team.hospital.api.patient.dto;
 
 import com.team.hospital.api.patient.enumType.Sex;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
+@AllArgsConstructor
 public class RegisterPatient {
 
     private Long patientNumber;
@@ -14,6 +16,6 @@ public class RegisterPatient {
 
     private Sex sex;
 
-    private Date birthday;
+    private LocalDate birthday;
 
 }

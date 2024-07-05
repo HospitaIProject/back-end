@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Operation {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "operation_id")
     private Long id;
 

@@ -1,12 +1,17 @@
 package com.team.hospital.api.patient;
 
+import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.operation.dto.OperationDTO;
+import com.team.hospital.api.operation.dto.OperationDateDTO;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
+import com.team.hospital.api.patient.dto.PatientWithOperationDateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +21,7 @@ import java.util.stream.Collectors;
 public class PatientController {
 
     private final PatientService patientService;
+    private final OperationService operationService;
 
     @PostMapping
     public ResponseEntity<String> join(@RequestBody RegisterPatient registerPatient) {
@@ -35,12 +41,22 @@ public class PatientController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<PatientDTO>> findPatients() {
+    public ResponseEntity<List<PatientWithOperationDateDTO>> findPatients() {
         List<Patient> all = patientService.findAll();
 
-        List<PatientDTO> patientDTOs = all.stream()
-                .map(PatientDTO::createPatientDTO)
+        List<PatientWithOperationDateDTO> finalList = all.stream()
+                .map(patient -> {
+                    List<OperationDTO> allByPatient = operationService.findAllByPatient(patient.getId());
+
+                    List<OperationDateDTO> operationDateDTOList = allByPatient.stream()
+                            .map(OperationDateDTO::createOperationDateDTO)
+                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate))
+                            .collect(Collectors.toList());
+
+                    return PatientWithOperationDateDTO.toEntity(patient, operationDateDTOList);
+                })
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(patientDTOs);
+
+        return ResponseEntity.ok(finalList);
     }
 }

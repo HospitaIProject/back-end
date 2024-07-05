@@ -15,14 +15,6 @@ import java.util.stream.Collectors;
 @Builder
 public class OperationDTO {
 
-    private Long patientId;
-
-    private String patientName;
-
-    private Long patientNumber;
-
-    private Long operationId;
-
     private float height;
 
     private float weight;
@@ -63,10 +55,6 @@ public class OperationDTO {
 
     public static OperationDTO buildOperationDTO(Operation operation){
         return OperationDTO.builder()
-                .patientId(operation.getPatient().getId())
-                .patientName(operation.getPatient().getName())
-                .patientNumber(operation.getPatient().getPatientNumber())
-                .operationId(operation.getId())
                 .height(operation.getHeight())
                 .weight(operation.getWeight())
                 .BMI(operation.getBMI())

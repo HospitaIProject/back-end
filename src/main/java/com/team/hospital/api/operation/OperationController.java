@@ -26,7 +26,7 @@ public class OperationController {
     }
 
     @GetMapping("/api/operations/{patientId}")
-    public ResponseEntity<List<OperationDTO>> findOperations(@PathVariable Long patientId){
+    public ResponseEntity<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId);
         return ResponseEntity.status(HttpStatus.OK).body(operationDTOS);
     }

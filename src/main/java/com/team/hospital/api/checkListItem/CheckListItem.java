@@ -13,7 +13,7 @@ import lombok.*;
 public class CheckListItem {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "check_list_item")
     private Long id;
 

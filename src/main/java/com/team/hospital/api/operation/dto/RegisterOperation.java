@@ -3,11 +3,13 @@ package com.team.hospital.api.operation.dto;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.enumType.ASAScore;
 import com.team.hospital.api.operation.enumType.StomaFormation;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Date;
 
 @Getter
+@Builder
 public class RegisterOperation {
 
     private float height;

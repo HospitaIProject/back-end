@@ -15,9 +15,14 @@ spring:
 #        busy_timeout: 60000
 
   datasource:
-    url: jdbc:mysql://43.203.126.26:3306/hospital
+    url: jdbc:mysql://43.200.224.184:3306/hospital
     username: hospital
     password: 1234
+
+#    url: jdbc:mysql://localhost:3306/hospital
+#    username: root
+#    password: asd990810
+
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
