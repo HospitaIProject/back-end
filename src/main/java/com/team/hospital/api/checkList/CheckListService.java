@@ -44,8 +44,14 @@ public class CheckListService {
     }
 
     @Transactional
-    public void modify(WriteCheckList write, Long complianceId){
-        CheckList checkList = findCheckListById(complianceId);
-        checkList.updateCompliance(write);
+    public void modify(WriteCheckList write, Long checkListId){
+        CheckList checkList = findCheckListById(checkListId);
+        checkList.updateCheckList(write);
+    }
+
+    @Transactional
+    public void delete(Long operationId){
+        CheckList checkList = findCheckListById(operationId);
+        checkListRepository.delete(checkList);
     }
 }
