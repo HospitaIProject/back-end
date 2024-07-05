@@ -42,19 +42,14 @@ public class PatientController {
 
     @GetMapping("/all")
     public ResponseEntity<List<PatientWithOperationDateDTO>> findPatients() {
-        List<Patient> all = patientService.findAll();
-
-        List<PatientWithOperationDateDTO> finalList = all.stream()
-                .map(patient -> {
-                    List<OperationDTO> allByPatient = operationService.findAllByPatient(patient.getId());
-
-                    List<OperationDateDTO> operationDateDTOList = allByPatient.stream()
-                            .map(OperationDateDTO::createOperationDateDTO)
-                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate))
-                            .collect(Collectors.toList());
-
-                    return PatientWithOperationDateDTO.toEntity(patient, operationDateDTOList);
-                })
+        List<PatientWithOperationDateDTO> finalList = patientService.findAll().stream()
+                .map(patient -> PatientWithOperationDateDTO.toEntity(
+                        patient,
+                        operationService.findAllByPatient(patient.getId()).stream()
+                                .map(OperationDateDTO::createOperationDateDTO)
+                                .sorted(Comparator.comparing(OperationDateDTO::getOperationDate))
+                                .collect(Collectors.toList())
+                ))
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(finalList);
