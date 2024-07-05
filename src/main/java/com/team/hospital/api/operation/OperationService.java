@@ -21,8 +21,19 @@ public class OperationService {
     @Transactional
     public void save(RegisterOperation registerOperation, Long patientId){
         Patient patient = patientService.findPatientById(patientId);
-        Operation operation = Operation.toEntity(registerOperation, patient);
+        Operation operation = Operation.createOperation(registerOperation, patient);
         operationRepository.save(operation);
+    }
+    @Transactional
+    public void modify(RegisterOperation registerOperation, Long operationId){
+        Operation operation = findOperationById(operationId);
+        operation.updateOperation(registerOperation);
+    }
+
+    @Transactional
+    public void delete(Long operationId){
+        Operation operation = findOperationById(operationId);
+        operationRepository.delete(operation);
     }
 
     public Operation findOperationById(Long operationId){

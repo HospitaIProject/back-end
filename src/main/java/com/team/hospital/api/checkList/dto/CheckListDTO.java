@@ -97,7 +97,7 @@ public class CheckListDTO {
     private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
-    public static CheckListDTO buildComplianceDTO(CheckList checkList){
+    public static CheckListDTO toEntity(CheckList checkList){
         return CheckListDTO.builder()
                 .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
                 .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
@@ -180,7 +180,7 @@ public class CheckListDTO {
 
     public static List<CheckListDTO> buildComplianceDTOs(List<CheckList> list){
         return list.stream()
-                .map(CheckListDTO::buildComplianceDTO)
+                .map(CheckListDTO::toEntity)
                 .collect(Collectors.toList());
     }
 }

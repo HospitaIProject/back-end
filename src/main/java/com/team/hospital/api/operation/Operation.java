@@ -1,7 +1,7 @@
 package com.team.hospital.api.operation;
 
+import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.operation.dto.RegisterOperation;
 import com.team.hospital.api.operation.enumType.ASAScore;
@@ -16,7 +16,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Operation {
+public class Operation extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "operation_id")
@@ -66,7 +66,7 @@ public class Operation {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    public static Operation toEntity(RegisterOperation register, Patient patient){
+    public static Operation createOperation(RegisterOperation register, Patient patient){
         return Operation.builder()
                 .height(register.getHeight())
                 .weight(register.getWeight())
@@ -89,5 +89,27 @@ public class Operation {
                 .reOperationCause(register.getReOperationCause())
                 .patient(patient)
                 .build();
+    }
+
+    public void updateOperation(RegisterOperation registerOperation) {
+        height = registerOperation.getHeight();
+        weight = registerOperation.getWeight();
+        BMI = registerOperation.getBMI();
+        asaScore = registerOperation.getAsaScore();
+        location = registerOperation.getLocation();
+        dignosis = registerOperation.getDignosis();
+        opertationDate = registerOperation.getOpertationDate();
+        hospitalizedDate = registerOperation.getHospitalizedDate();
+        dischargedDate = registerOperation.getDischargedDate();
+        totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();
+        operationMethod = registerOperation.getOperationMethod();
+        operationApproach = registerOperation.getOperationApproach();;
+        stomaFormation = registerOperation.getStomaFormation();
+        AJCCStage = registerOperation.getAJCCStage();
+        numberOfRetrievedLine = registerOperation.getNumberOfRetrievedLine();
+        complicationOccurence = registerOperation.getComplicationOccurence();
+        CDClassification = registerOperation.getCDClassification();
+        reOperationWithIn30Days = registerOperation.getReOperationWithIn30Days();
+        reOperationCause = registerOperation.getReOperationCause();
     }
 }

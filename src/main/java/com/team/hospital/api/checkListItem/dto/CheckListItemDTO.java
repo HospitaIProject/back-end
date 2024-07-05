@@ -1,7 +1,6 @@
 package com.team.hospital.api.checkListItem.dto;
 
 import com.team.hospital.api.checkListItem.CheckListItem;
-import com.team.hospital.api.operation.Operation;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,7 +8,7 @@ import lombok.Getter;
 @Builder
 public class CheckListItemDTO {
 
-    private Long checkListId;
+    private Long checkListItemId;
 
     private boolean explainBeforeOperation;                       //EAS 수술전 설명
     private boolean takingONSBeforeOperationTwo_Hours;            //수술 2시간 전 ONS 복용여부
@@ -43,9 +42,9 @@ public class CheckListItemDTO {
     private boolean isPost_Nausea_Vomiting;
     private boolean locate;
 
-    public static CheckListItemDTO builderCheckListItemDTO(CheckListItem checkListItem) {
+    public static CheckListItemDTO toEntity(CheckListItem checkListItem) {
         return CheckListItemDTO.builder()
-                .checkListId(checkListItem.getId())
+                .checkListItemId(checkListItem.getId())
                 .explainBeforeOperation(checkListItem.isExplainBeforeOperation())
                 .takingONSBeforeOperationTwo_Hours(checkListItem.isTakingONSBeforeOperationTwo_Hours())
                 .takingAfterBowelPreparation(checkListItem.isTakingAfterBowelPreparation())

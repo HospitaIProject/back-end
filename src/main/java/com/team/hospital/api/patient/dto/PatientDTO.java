@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Builder
 public class PatientDTO {
 
+    private Long patientId;
+
     private Long patientNumber;
 
     private String name;
@@ -22,8 +24,9 @@ public class PatientDTO {
 
     private LocalDate birthday;    // 생년월일로 수정 예정
 
-    public static PatientDTO createPatientDTO(Patient patient) {
+    public static PatientDTO toEntity(Patient patient) {
         return PatientDTO.builder()
+                .patientId(patient.getId())
                 .patientNumber(patient.getPatientNumber())
                 .name(patient.getName())
                 .sex(patient.getSex())

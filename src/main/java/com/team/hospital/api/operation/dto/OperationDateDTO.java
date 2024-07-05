@@ -9,6 +9,8 @@ import java.util.Date;
 @Builder
 public class OperationDateDTO {
 
+    private Long operationId;
+
     private String operationMethod;      // 수술 방법
 
     private Date operationDate;    // 수술일
@@ -17,8 +19,9 @@ public class OperationDateDTO {
 
     private Date dischargedDate;    // 퇴원일
 
-    public static OperationDateDTO createOperationDateDTO(OperationDTO operationDTO) {
+    public static OperationDateDTO toEntity(OperationDTO operationDTO) {
         return OperationDateDTO.builder()
+                .operationId(operationDTO.getOperationId())
                 .operationMethod(operationDTO.getOperationMethod())
                 .operationDate(operationDTO.getOpertationDate())
                 .hospitalizedDate(operationDTO.getHospitalizedDate())

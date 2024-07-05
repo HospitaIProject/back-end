@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 @Builder
 public class OperationDTO {
 
+    private Long operationId;
+
     private float height;
 
     private float weight;
@@ -53,8 +55,9 @@ public class OperationDTO {
 
     private String reOperationCause;
 
-    public static OperationDTO buildOperationDTO(Operation operation){
+    public static OperationDTO toEntity(Operation operation){
         return OperationDTO.builder()
+                .operationId(operation.getId())
                 .height(operation.getHeight())
                 .weight(operation.getWeight())
                 .BMI(operation.getBMI())
@@ -79,7 +82,7 @@ public class OperationDTO {
 
     public static List<OperationDTO> buildOperationDTOs(List<Operation> operations){
         return operations.stream()
-                .map(OperationDTO::buildOperationDTO)
+                .map(OperationDTO::toEntity)
                 .collect(Collectors.toList());
     }
 }

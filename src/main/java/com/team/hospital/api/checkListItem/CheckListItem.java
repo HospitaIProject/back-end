@@ -1,5 +1,6 @@
 package com.team.hospital.api.checkListItem;
 
+import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;
 import com.team.hospital.api.operation.Operation;
 import jakarta.persistence.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class CheckListItem {
+public class CheckListItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,7 +54,7 @@ public class CheckListItem {
     @JoinColumn(name = "operation_id")
     private Operation operation;
 
-    public static CheckListItem toEntity(WriteCheckListItem write, Operation operation) {
+    public static CheckListItem createCheckListItem(WriteCheckListItem write, Operation operation) {
         return CheckListItem.builder()
                 .explainBeforeOperation(write.isExplainBeforeOperation())
                 .takingONSBeforeOperationTwo_Hours(write.isTakingONSBeforeOperationTwo_Hours())
@@ -87,5 +88,38 @@ public class CheckListItem {
                 .locate(write.isLocate())
                 .operation(operation)
                 .build();
+    }
+
+    public void updateCheckListItem(WriteCheckListItem write) {
+        explainBeforeOperation = write.isExplainBeforeOperation();
+        takingONSBeforeOperationTwo_Hours = write.isTakingONSBeforeOperationTwo_Hours();
+        takingAfterBowelPreparation = write.isTakingAfterBowelPreparation();
+        preventionDVT = write.isPreventionDVT();
+        takingLaxatives = write.isTakingLaxatives();
+        chewingGum = write.isChewingGum();
+        dayOfRemoveJP_Drain = write.isDayOfRemoveJP_Drain();
+        reasonByRemoveJP_DrainDelay = write.isReasonByRemoveJP_DrainDelay();
+        dayOfRemoveUrinary_Catheter = write.isDayOfRemoveUrinary_Catheter();
+        reasonByRemoveUrinary_CatheterDelay = write.isReasonByRemoveUrinary_CatheterDelay();
+        afterOperationLimitIV_Fluid = write.isAfterOperationLimitIV_Fluid();
+        dayOfRemoveIV_Fluid = write.isDayOfRemoveIV_Fluid();
+        reasonByRemoveIV_FluidDelay = write.isReasonByRemoveIV_FluidDelay();
+        post_Nausea_Vomiting = write.isPost_Nausea_Vomiting();
+        postOpDayExercise = write.isPostOpDayExercise();
+        pod_Exercise = write.isPod_Exercise();
+        postOpDayMeal = write.isPostOpDayMeal();
+        pod_Meal = write.isPod_Meal();
+        beforeOperationMedicine = write.isBeforeOperationMedicine();
+        silt_Itm = write.isSilt_Itm();
+        postOpEffectivePainControl = write.isPostOpEffectivePainControl();
+        pod_PainScore = write.isPod_PainScore();
+        beforeSixtyMinute = write.isBeforeSixtyMinute();
+        maintainTemperature = write.isMaintainTemperature();
+        volumeOfIntraoperativeInfusion = write.isVolumeOfIntraoperativeInfusion();
+        bloodLoss = write.isBloodLoss();
+        urineOutput = write.isUrineOutput();
+        operationTime = write.isOperationTime();
+        isPost_Nausea_Vomiting = write.isPost_Nausea_Vomiting();
+        locate = write.isLocate();
     }
 }
