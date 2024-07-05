@@ -30,7 +30,7 @@ public class CheckListItemController {
         return CommonApiResponse.createSuccess(CheckListItemResponse.toEntity(checkListItemDTO));
     }
 
-    @PutMapping("/api/{checkListItemId}")
+    @PutMapping("/api/checkListItem/{checkListItemId}")
     @Operation(summary = "세팅된 checkListItem 수정")
     public CommonApiResponse<?> modifyCheckListItem(@RequestBody WriteCheckListItem writeCheckListItem,
                                                  @PathVariable Long checkListItemId){
@@ -38,7 +38,7 @@ public class CheckListItemController {
         return CommonApiResponse.createSuccess();
     }
 
-    @DeleteMapping("/api/{checkListItemId}")
+    @DeleteMapping("/api/checkListItem/{checkListItemId}")
     @Operation(summary = "세팅된 checkListItem 세팅 삭제")
     public CommonApiResponse<?> deleteCheckListItem(@PathVariable Long checkListItemId){
         checkListItemService.delete(checkListItemId);
