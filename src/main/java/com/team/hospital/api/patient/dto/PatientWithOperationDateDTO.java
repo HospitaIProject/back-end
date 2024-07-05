@@ -16,7 +16,7 @@ public class PatientWithOperationDateDTO {
 
     public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDateDTO> operationDTOs) {
         return PatientWithOperationDateDTO.builder()
-                .patientDTO(PatientDTO.createPatientDTO(patient))
+                .patientDTO(PatientDTO.toEntity(patient))
                 .operationDTOs(operationDTOs).build();
     }
 

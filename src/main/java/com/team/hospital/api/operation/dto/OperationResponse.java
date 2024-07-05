@@ -9,7 +9,7 @@ public class OperationResponse {
 
     private OperationDTO operationDTO;
 
-    public static OperationResponse buildOperationResponse(OperationDTO operationDTO){
+    public static OperationResponse toEntity(OperationDTO operationDTO){
         return OperationResponse.builder()
                 .operationDTO(operationDTO)
                 .build();
