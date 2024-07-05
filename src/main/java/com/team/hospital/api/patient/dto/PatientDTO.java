@@ -7,9 +7,13 @@ import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 @Builder
 public class PatientDTO {
+
+    private Long patientId;
 
     private Long patientNumber;
 
@@ -18,14 +22,15 @@ public class PatientDTO {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    private int age;    // 생년월일로 수정 예정
+    private LocalDate birthday;    // 생년월일로 수정 예정
 
-    public static PatientDTO createPatientDTO(Patient patient) {
+    public static PatientDTO toEntity(Patient patient) {
         return PatientDTO.builder()
+                .patientId(patient.getId())
                 .patientNumber(patient.getPatientNumber())
                 .name(patient.getName())
                 .sex(patient.getSex())
-                .age(patient.getAge())
+                .birthday(patient.getBirthday())
                 .build();
     }
 }
