@@ -17,16 +17,28 @@ public class PatientService {
     @Transactional
     public void join(RegisterPatient registerPatient) {
         if (existsByPatientNumber(registerPatient.getPatientNumber()))
-            throw new IllegalArgumentException("이미 있는 회원");
-        Patient patient = Patient.buildPatient(registerPatient);
+            throw new IllegalArgumentException("이미 있는 환자");
+        Patient patient = Patient.createPatient(registerPatient);
         patientRepository.save(patient);
     }
 
-    public Patient findPatientById(Long patientId) {
-        Optional<Patient> user = patientRepository.findById(patientId);
-        if (user.isEmpty()) throw new IllegalArgumentException("회원 존재 x");
+    @Transactional
+    public void modify(RegisterPatient registerPatient, Long patientId){
+        Patient patient = findPatientById(patientId);
+        patient.updatePatient(registerPatient);
+    }
 
-        return user.get();
+    @Transactional
+    public void delete(Long patientId){
+        Patient patient = findPatientById(patientId);
+        patientRepository.delete(patient);
+    }
+
+    public Patient findPatientById(Long patientId) {
+        Optional<Patient> patient = patientRepository.findById(patientId);
+        if (patient.isEmpty())
+            throw new IllegalArgumentException("환자 존재 x");
+        return patient.get();
     }
 
     public List<Patient> findAll() {
