@@ -4,7 +4,6 @@ import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.enumType.*;
 import com.team.hospital.api.checkListItem.CheckListItem;
-import com.team.hospital.api.operation.Operation;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -314,7 +313,7 @@ public class CheckList extends BaseEntity {
                 .build();
     }
 
-    public void updateCompliance(WriteCheckList write) {
+    public void updateCheckList(WriteCheckList write) {
         explainBeforeOperation.update(write.getExplainBeforeOperation(), write.getExplainBeforeOperation_remark());
         takingONSBeforeOperationTwo_Hours.update(write.getTakingONSBeforeOperationTwo_Hours(), write.getTakingONSBeforeOperationTwo_Hours_remark());
         takingONSBeforeOperationTwo_Hours.update(write.getTakingAfterBowelPreparation(), write.getTakingAfterBowelPreparation_remark());
