@@ -1,11 +1,12 @@
 package com.team.hospital.api.patient;
 
 import com.team.hospital.api.operation.OperationService;
-import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.OperationDateDTO;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.dto.PatientWithOperationDateDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +19,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/patient")
 @RequiredArgsConstructor
+@Tag(name = "환자 관리", description = "환자 정보를 관리하는 API")
 public class PatientController {
 
     private final PatientService patientService;
     private final OperationService operationService;
 
     @PostMapping
+    @Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
     public ResponseEntity<String> join(@RequestBody RegisterPatient registerPatient) {
         try {
             patientService.join(registerPatient);
@@ -35,12 +38,14 @@ public class PatientController {
     }
 
     @GetMapping
+    @Operation(summary = "환자 조회", description = "ID로 환자를 조회합니다.")
     public ResponseEntity<PatientDTO> findById(Long id) {
         PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(id));
         return ResponseEntity.ok(patientDTO);
     }
 
     @GetMapping("/all")
+    @Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
     public ResponseEntity<List<PatientWithOperationDateDTO>> findPatients() {
         List<PatientWithOperationDateDTO> finalList = patientService.findAll().stream()
                 .map(patient -> PatientWithOperationDateDTO.toEntity(
