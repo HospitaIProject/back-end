@@ -4,6 +4,8 @@ import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.checkList.dto.CheckListDTO;
 import com.team.hospital.api.checkList.dto.CheckListResponse;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
+import com.team.hospital.api.checkListItem.CheckListItem;
+import com.team.hospital.api.checkListItem.CheckListItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,20 @@ import java.util.List;
 public class CheckListController {
 
     private final CheckListService checkListService;
+    private final CheckListItemService checkListItemService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
     @Operation(summary = "세팅한 체크리스트에 대하여 체크리스트 등록")
-    public SuccessResponse<?> save(@RequestBody WriteCheckList writeCheckList,
-                                   @PathVariable Long checkListItemId) {
+    public SuccessResponse<?> save(@RequestBody WriteCheckList writeCheckList, @PathVariable Long checkListItemId) {
         checkListService.save(writeCheckList, checkListItemId);
+        return SuccessResponse.createSuccess();
+    }
+
+    @PostMapping("/api/checkList/operation/{operationId}")
+    @Operation(summary = "operationId를 통해 세팅한 체크리스트에 대하여 체크리스트 등록")
+    public SuccessResponse<?> saveWithOperationId(@RequestBody WriteCheckList writeCheckList, @PathVariable Long operationId) {
+        CheckListItem checkListItem = checkListItemService.findCheckListItemByOperation(operationId);
+        checkListService.save(writeCheckList, checkListItem.getId());
         return SuccessResponse.createSuccess();
     }
 
