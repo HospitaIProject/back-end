@@ -30,25 +30,20 @@ export type ComplianceValuesType = {
     reasonByRemoveIV_FluidDelay: 'YES' | 'NO' | ''; //IV fluid 제거 지연 이유
     post_Nausea_Vomiting: 'YES' | 'NO' | ''; //Post OP Nausea & Vomiting prophylaxis
     postOpDayExercise: 'YES' | 'NO' | ''; //Post OP day 운동
-    pod_1Exercise: 'YES' | 'NO' | ''; //POD#1 운동
-    pod_2Exercise: 'YES' | 'NO' | ''; //POD#2 운동
-    pod_3Exercise: 'YES' | 'NO' | ''; //POD#3 운동
+    pod_Exercise: 'YES' | 'NO' | ''; //POD# 운동
     postOpDayMeal: 'YES' | 'NO' | ''; //Post OP day 식사
-    pod_1Meal: 'YES' | 'NO' | ''; //POD#1 식사
-    pod_2Meal: 'YES' | 'NO' | ''; //POD#2 식사
+    pod_Meal: 'YES' | 'NO' | ''; //POD# 식사
     beforeOperationMedicine: 'YES' | 'NO' | ''; //수술 전 통증 조절약
     silt_Itm: string | ''; //수술중 SILT or ITM
     postOpEffectivePainControl: 'YES' | 'NO' | ''; //Post op Effective pain control
-    pod_1PainScore: 'DAY' | 'EVENING' | 'NIGHT' | '';
-    pod_2PainScore: 'DAY' | 'EVENING' | 'NIGHT' | '';
-    pod_3PainScore: 'DAY' | 'EVENING' | 'NIGHT' | '';
+    pod_PainScore: 'DAY' | 'EVENING' | 'NIGHT' | '';
     beforeSixtyMinute: 'YES' | 'NO' | ''; //피부 절개 60분 전 예방적 항생제 투여
     maintainTemperature: 'YES' | 'NO' | ''; //수술 중 환자 체온 유지
     volumeOfIntraoperativeInfusion: 'YES' | 'NO' | ''; //Volume of intraoperative infusion (ml)
     bloodLoss: number | ''; //Blood loss (cc)
     urineOutput: number | ''; //Urine output (cc)
     operationTime: number | ''; //Operation time (min)
-    isPost_Nausea_Vomiting: 'YES' | 'NO' | ''; //Post OP Nausea & Vomiting prophylaxis 여부
+    hasPost_Nausea_Vomiting: 'YES' | 'NO' | ''; //Post OP Nausea & Vomiting prophylaxis 여부
     locate: string | ''; //입원병동
 
     //비고
@@ -67,32 +62,25 @@ export type ComplianceValuesType = {
     reasonByRemoveIV_FluidDelay_remark: string | '';
     post_Nausea_Vomiting_remark: string | '';
     postOpDayExercise_remark: string | '';
-    pod_1Exercise_remark: string | '';
-    pod_2Exercise_remark: string | '';
-    pod_3Exercise_remark: string | '';
+    pod_Exercise_remark: string | '';
     postOpDayMeal_remark: string | '';
-    pod_1Meal_remark: string | '';
-    pod_2Meal_remark: string | '';
+    pod_Meal_remark: string | '';
     beforeOperationMedicine_remark: string | '';
     silt_Itm_remark: string | '';
     postOpEffectivePainControl_remark: string | '';
-    pod_1PainScore_remark: string | '';
-    pod_2PainScore_remark: string | '';
-    pod_3PainScore_remark: string | '';
+    pod_PainScore_remark: string | '';
     beforeSixtyMinute_remark: string | '';
     maintainTemperature_remark: string | '';
     volumeOfIntraoperativeInfusion_remark: string | '';
     bloodLoss_remark: string | '';
     urineOutput_remark: string | '';
     operationTime_remark: string | '';
-    isPost_Nausea_Vomiting_remark: string | '';
+    hasPost_Nausea_Vomiting_remark: string | '';
     locate_remark: string | '';
 };
 
-export type NewPatientValuesType = {
+export type NewSurgeryInfoValuesType = {
     [key: string]:
-        | 'MALE'
-        | 'FEMALE'
         | 'ASA_I'
         | 'ASA_II'
         | 'ASA_III'
@@ -111,10 +99,6 @@ export type NewPatientValuesType = {
         | string
         | Date;
 
-    patientNumber: number | '';
-    name: string | '';
-    sex: 'MALE' | 'FEMALE' | '';
-    age: number | '';
     height: number | '';
     weight: number | '';
     bmi: number | '';
@@ -128,54 +112,25 @@ export type NewPatientValuesType = {
     operationMethod: string | '';
     operationApproach: string | '';
     stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY' | '';
-    ajccstage: string | '';
+    ajcCStage: string | '';
     numberOfRetrievedLine: number | '';
     complicationOccurence: 'YES' | 'NO' | '';
-    cdclassification: string | '';
+    cdClassification: string | '';
     reOperationWithIn30Days: 'YES' | 'NO' | '';
     reOperationCause: string | '';
-};
-export type CheckListSetupType = {
-    [key: string]: boolean;
+}; //환자 등록폼
 
-    explainBeforeOperation: boolean; //EAS 수술전 설명
-    takingONSBeforeOperationTwo_Hours: boolean; //수술 2시간 전 ONS 복용여부
-    takingAfterBowelPreparation: boolean; //Bowel preparation 후 ONS 경장영양액 복용여부
-    preventionDVT: boolean; //DVT 예방
-    takingLaxatives: boolean; //Laxatives 복용
-    chewingGum: boolean; //Chewing gum
-    dayOfRemoveJP_Drain: boolean; //JP Drain 제거일
-    reasonByRemoveJP_DrainDelay: boolean; //JP Drain 제거 지연 사유
-    dayOfRemoveUrinary_Catheter: boolean; //Urinary catheter 제거일
-    reasonByRemoveUrinary_CatheterDelay: boolean; //Urinary catheter 제거 지연 사유
-    afterOperationLimitIV_Fluid: boolean; //수술 후 IV fluid 제한
-    dayOfRemoveIV_Fluid: boolean; //IV fluid 제거일
-    reasonByRemoveIV_FluidDelay: boolean; //IV fluid 제거 지연 이유
-    post_Nausea_Vomiting: boolean; //Post OP Nausea & Vomiting prophylaxis
-    postOpDayExercise: boolean; //Post OP day 운동
-    pod_1Exercise: boolean; //POD#1 운동
-    pod_2Exercise: boolean; //POD#2 운동
-    pod_3Exercise: boolean; //POD#3 운동
-    postOpDayMeal: boolean; //Post OP day 식사
-    pod_1Meal: boolean; //POD#1 식사
-    pod_2Meal: boolean; //POD#2 식사
-    beforeOperationMedicine: boolean; //수술 전 통증 조절약
-    silt_Itm: boolean; //수술중 SILT or ITM
-    postOpEffectivePainControl: boolean; //Post op Effective pain control
-    pod_1PainScore: boolean; //POD#1 pain scroe
-    pod_2PainScore: boolean; //POD#2 pain scroe
-    pod_3PainScore: boolean; //POD#3 pain scroe
-    beforeSixtyMinute: boolean; //피부 절개 60분 전 예방적 항생제 투여
-    maintainTemperature: boolean; //수술 중 환자 체온 유지
-    volumeOfIntraoperativeInfusion: boolean; //Volume of intraoperative infusion (ml)
-    bloodLoss: boolean; //Blood loss (cc)
-    urineOutput: boolean; //Urine output (cc)
-    operationTime: boolean; //Operation time (min)
-    isPost_Nausea_Vomiting: boolean; //Post OP Nausea & Vomiting prophylaxis 여부
-    locate: boolean; //입원병동
+export type NewPatientValuesType = {
+    [key: string]: string | number | Date;
+    patientNumber: number | '';
+    name: string;
+    sex: 'MALE' | 'FEMALE' | '';
+    birthday: Date | '';
 };
 
-type CheckListSetupDaySectionType = {
+export type CheckListSetupDaySectionType = {
+    [key: string]: boolean | number | undefined;
+    checkListItemId?: number;
     explainBeforeOperation: boolean; // EAS 수술전 설명
     takingONSBeforeOperationTwo_Hours: boolean; // 수술 2시간 전 ONS 복용여부
     takingAfterBowelPreparation: boolean; // Bowel preparation 후 ONS 경장영양액 복용여부
@@ -203,17 +158,52 @@ type CheckListSetupDaySectionType = {
     reasonByRemoveIV_FluidDelay: boolean; // IV fluid 제거 지연 이유
     post_Nausea_Vomiting: boolean; // Post OP Nausea & Vomiting prophylaxis
     postOpDayExercise: boolean; // Post OP day 운동
-    pod_1Exercise: boolean; // POD#1 운동
-    pod_2Exercise: boolean; // POD#2 운동
-    pod_3Exercise: boolean; // POD#3 운동
+    pod_Exercise: boolean; // POD# 운동
     postOpDayMeal: boolean; // Post OP day 식사
-    pod_1Meal: boolean; // POD#1 식사
-    pod_2Meal: boolean; // POD#2 식사
+    pod_Meal: boolean; // POD# 식사
     postOpEffectivePainControl: boolean; // Post op Effective pain control
-    pod_1PainScore: boolean; // POD#1 pain score
-    pod_2PainScore: boolean; // POD#2 pain score
-    pod_3PainScore: boolean; // POD#3 pain score
-    isPost_Nausea_Vomiting: boolean; // Post OP Nausea & Vomiting prophylaxis 여부
+    pod_PainScore: boolean; // POD# pain score
+    hasPost_Nausea_Vomiting: boolean; // Post OP Nausea & Vomiting prophylaxis 여부
+
     locate: boolean; // 입원병동
     //수술후
+};
+export const CHECKLIST_SECTION_KEYS = {
+    PREV: [
+        'explainBeforeOperation',
+        'takingONSBeforeOperationTwo_Hours',
+        'takingAfterBowelPreparation',
+        'takingLaxatives',
+        'beforeOperationMedicine',
+        'beforeSixtyMinute',
+    ],
+    TODAY: [
+        'silt_Itm',
+        'maintainTemperature',
+        'volumeOfIntraoperativeInfusion',
+        'bloodLoss',
+        'urineOutput',
+        'operationTime',
+    ],
+
+    POST: [
+        'chewingGum',
+        'preventionDVT',
+        'dayOfRemoveJP_Drain',
+        'reasonByRemoveJP_DrainDelay',
+        'dayOfRemoveUrinary_Catheter',
+        'reasonByRemoveUrinary_CatheterDelay',
+        'afterOperationLimitIV_Fluid',
+        'dayOfRemoveIV_Fluid',
+        'reasonByRemoveIV_FluidDelay',
+        'post_Nausea_Vomiting',
+        'postOpDayExercise',
+        'pod_Exercise',
+        'postOpDayMeal',
+        'pod_Meal',
+        'postOpEffectivePainControl',
+        'pod_PainScore',
+        'hasPost_Nausea_Vomiting',
+        'locate',
+    ],
 };
