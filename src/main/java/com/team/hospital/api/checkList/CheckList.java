@@ -307,7 +307,7 @@ public class CheckList extends BaseEntity {
                 .bloodLoss(CheckListDetail_4.buildComplianceDetail(write.getBloodLoss(), write.getBloodLoss_remark()))
                 .urineOutput(CheckListDetail_4.buildComplianceDetail(write.getUrineOutput(), write.getUrineOutput_remark()))
                 .operationTime(CheckListDetail_4.buildComplianceDetail(write.getOperationTime(), write.getOperationTime_remark()))
-                .isPost_Nausea_Vomiting(CheckListDetail_1.buildComplianceDetail(write.getIsPost_Nausea_Vomiting_2(), write.getIsPost_Nausea_Vomiting_remark_2()))
+                .isPost_Nausea_Vomiting(CheckListDetail_1.buildComplianceDetail(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark()))
                 .locate(CheckListDetail_5.buildComplianceDetail(write.getLocate(), write.getLocate_remark()))
                 .checkListItem(checkListItem)
                 .build();
@@ -347,7 +347,7 @@ public class CheckList extends BaseEntity {
         bloodLoss.update(write.getBloodLoss(), write.getBloodLoss_remark());
         urineOutput.update(write.getUrineOutput(), write.getUrineOutput_remark());
         operationTime.update(write.getOperationTime(), write.getOperationTime_remark());
-        isPost_Nausea_Vomiting.update(write.getIsPost_Nausea_Vomiting_2(), write.getIsPost_Nausea_Vomiting_remark_2());
+        isPost_Nausea_Vomiting.update(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark());
         locate.update(write.getLocate(), write.getLocate_remark());
     }
 }
