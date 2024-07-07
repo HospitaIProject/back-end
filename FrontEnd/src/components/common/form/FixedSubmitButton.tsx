@@ -1,16 +1,17 @@
 type Props = {
-    onClick: () => void;
+    onClick?: () => void;
     label: string;
+    className?: string;
 };
 
-function FixedSubmitButton({ onClick, label }: Props) {
+function FixedSubmitButton({ onClick, label, className }: Props) {
     return (
-        <div className="sticky bottom-0 z-10 mt-6 flex w-full bg-white py-2 shadow shadow-transparent">
+        <div className={`${className} sticky bottom-0 z-10 mt-6 flex w-full bg-white py-2 shadow shadow-transparent`}>
             {/* 모바일에서 그림자가 sticky속성 사용시 그림자가 생기는 문제 해결 */}
 
             <button
                 type="button"
-                className="mx-auto w-full max-w-screen-mobile rounded-md bg-blue-500 px-8 py-3 text-white hover:bg-blue-600"
+                className="w-full px-8 py-3 mx-auto text-white bg-blue-500 rounded-md max-w-screen-mobile hover:bg-blue-600"
                 onClick={onClick}
             >
                 {label}
