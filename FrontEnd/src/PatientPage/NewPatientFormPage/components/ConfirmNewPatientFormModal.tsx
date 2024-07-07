@@ -1,5 +1,5 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import ConfirmNewPaitent from './ConfirmNewPaitent';
+import ConfirmNewPatientForm from './ConfirmNewPatientForm';
 
 type Props = {
     values: any;
@@ -7,12 +7,12 @@ type Props = {
     onClose: () => void;
 };
 
-function ConfirmNewPaitentModal({ values, onSubmit, onClose }: Props) {
+function ConfirmNewPatientFormModal({ values, onSubmit, onClose }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
-            <ConfirmNewPaitent values={values} onSubmit={onSubmit} />
+            <ConfirmNewPatientForm values={values} onSubmit={onSubmit} />
         </ModalFullScreenContainer>
     );
 }
 
-export default ConfirmNewPaitentModal;
+export default ConfirmNewPatientFormModal;
