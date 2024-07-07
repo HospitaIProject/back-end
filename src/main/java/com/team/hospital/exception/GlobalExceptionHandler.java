@@ -20,4 +20,16 @@ public class GlobalExceptionHandler {
         log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
         return ErrorResponse.createError(e.getErrorCode());
     }
+
+    @ExceptionHandler(BaseException.class)
+    protected ErrorResponse handleBaseException(BaseException e) {
+        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
+        return ErrorResponse.createError(e.getErrorCode());
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ErrorResponse handleException(Exception e) {
+        log.error("Exception Code: {}, Message: {}", ErrorCode.SERVER_ERROR, e.getMessage(), e);
+        return ErrorResponse.createError(ErrorCode.SERVER_ERROR);
+    }
 }

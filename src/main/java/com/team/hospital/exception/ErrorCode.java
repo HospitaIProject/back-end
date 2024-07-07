@@ -15,7 +15,10 @@ public enum ErrorCode {
     CHECK_LIST_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "E404004", "등록되지 않은 체크리스트 목록입니다."),
 
     // 409, Conflict
-    PATIENT_CONFLICT(HttpStatus.CONFLICT, "E409001", "이미 등록된 환자 번호입니다.");
+    PATIENT_CONFLICT(HttpStatus.CONFLICT, "E409001", "이미 등록된 환자 번호입니다."),
+
+    //500
+    SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E500001", "서버 에러가 발생했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
