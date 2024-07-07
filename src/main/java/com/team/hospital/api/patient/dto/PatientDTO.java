@@ -22,7 +22,7 @@ public class PatientDTO {
     @Enumerated(EnumType.STRING)
     private Sex sex;
 
-    private LocalDate birthday;    // 생년월일로 수정 예정
+    private LocalDate birthday;
 
     public static PatientDTO toEntity(Patient patient) {
         return PatientDTO.builder()
