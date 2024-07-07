@@ -38,7 +38,7 @@ public class CheckListItemDTO {
     private boolean bloodLoss;
     private boolean urineOutput;
     private boolean operationTime;
-    private boolean isPost_Nausea_Vomiting_2;
+    private boolean hasPost_Nausea_Vomiting;
     private boolean locate;
 
     public static CheckListItemDTO toEntity(CheckListItem checkListItem) {
@@ -72,7 +72,7 @@ public class CheckListItemDTO {
                 .bloodLoss(checkListItem.isBloodLoss())
                 .urineOutput(checkListItem.isUrineOutput())
                 .operationTime(checkListItem.isOperationTime())
-                .isPost_Nausea_Vomiting_2(checkListItem.isPost_Nausea_Vomiting_2())
+                .hasPost_Nausea_Vomiting(checkListItem.isHasPost_Nausea_Vomiting())
                 .locate(checkListItem.isLocate())
                 .build();
     }

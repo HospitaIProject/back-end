@@ -17,7 +17,7 @@ public class WriteCheckListItem {
     private boolean afterOperationLimitIV_Fluid;                  //수술 후 IV fluid 제한
     private boolean dayOfRemoveIV_Fluid;                          //IV fluid 제거일
     private boolean reasonByRemoveIV_FluidDelay;                  //IV fluid 제거 지연 이유
-    private boolean post_Nausea_Vomiting;                         //Post OP Nausea & Vomiting prophylaxis
+    private boolean hasPost_Nausea_Vomiting;                         //Post OP Nausea & Vomiting prophylaxis
     private boolean postOpDayExercise;                            //Post OP day 운동
     private boolean pod_Exercise;                                //POD#1 운동
     private boolean postOpDayMeal;                                //Post OP day 식사

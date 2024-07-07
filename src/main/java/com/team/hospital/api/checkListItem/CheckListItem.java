@@ -46,7 +46,7 @@ public class CheckListItem extends BaseEntity {
     private boolean bloodLoss;
     private boolean urineOutput;
     private boolean operationTime;
-    private boolean isPost_Nausea_Vomiting_2;
+    private boolean hasPost_Nausea_Vomiting;
     private boolean locate;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -68,7 +68,7 @@ public class CheckListItem extends BaseEntity {
                 .afterOperationLimitIV_Fluid(write.isAfterOperationLimitIV_Fluid())
                 .dayOfRemoveIV_Fluid(write.isDayOfRemoveIV_Fluid())
                 .reasonByRemoveIV_FluidDelay(write.isReasonByRemoveIV_FluidDelay())
-                .post_Nausea_Vomiting(write.isPost_Nausea_Vomiting())
+                .post_Nausea_Vomiting(write.isHasPost_Nausea_Vomiting())
                 .postOpDayExercise(write.isPostOpDayExercise())
                 .pod_Exercise(write.isPod_Exercise())
                 .postOpDayMeal(write.isPostOpDayMeal())
@@ -83,7 +83,7 @@ public class CheckListItem extends BaseEntity {
                 .bloodLoss(write.isBloodLoss())
                 .urineOutput(write.isUrineOutput())
                 .operationTime(write.isOperationTime())
-                .isPost_Nausea_Vomiting_2(write.isPost_Nausea_Vomiting())
+                .hasPost_Nausea_Vomiting(write.isHasPost_Nausea_Vomiting())
                 .locate(write.isLocate())
                 .operation(operation)
                 .build();
@@ -103,7 +103,7 @@ public class CheckListItem extends BaseEntity {
         afterOperationLimitIV_Fluid = write.isAfterOperationLimitIV_Fluid();
         dayOfRemoveIV_Fluid = write.isDayOfRemoveIV_Fluid();
         reasonByRemoveIV_FluidDelay = write.isReasonByRemoveIV_FluidDelay();
-        post_Nausea_Vomiting = write.isPost_Nausea_Vomiting();
+        post_Nausea_Vomiting = write.isHasPost_Nausea_Vomiting();
         postOpDayExercise = write.isPostOpDayExercise();
         pod_Exercise = write.isPod_Exercise();
         postOpDayMeal = write.isPostOpDayMeal();
@@ -118,7 +118,7 @@ public class CheckListItem extends BaseEntity {
         bloodLoss = write.isBloodLoss();
         urineOutput = write.isUrineOutput();
         operationTime = write.isOperationTime();
-        isPost_Nausea_Vomiting_2 = write.isPost_Nausea_Vomiting();
+        hasPost_Nausea_Vomiting = write.isHasPost_Nausea_Vomiting();
         locate = write.isLocate();
     }
 }
