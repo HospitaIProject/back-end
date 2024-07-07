@@ -5,7 +5,7 @@ export type PatientType = {
     patientNumber: number | '';
     name: string | '';
     sex: 'MALE' | 'FEMALE' | '';
-    age: number | '';
+    birthday: Date | '';
     height: number | '';
     weight: number | '';
     bmi: number | '';
@@ -19,10 +19,27 @@ export type PatientType = {
     operationMethod: string | '';
     operationApproach: string | '';
     stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY' | '';
-    ajccstage: string | '';
+    ajcCStage: string | '';
     numberOfRetrievedLine: number | '';
     complicationOccurence: 'YES' | 'NO' | '';
-    cdclassification: string | '';
+    cdClassification: string | '';
     reOperationWithIn30Days: 'YES' | 'NO' | '';
     reOperationCause: string | '';
+};
+
+export type PatientWithOperationDtoType = {
+    patientDTO: {
+        patientId: number; // 환자ID
+        patientNumber: number; // 환자번호
+        name: string; // 이름
+        sex: 'MALE' | 'FEMALE'; // 성별
+        birthday: string; // 생년월일
+    };
+    operationDateDTOs: {
+        operationId: number; // 수술ID
+        operationMethod: string; // 수술명
+        operationDate: string; // 수술일자
+        hospitalizedDate: string; // 입원일자
+        dischargedDate: string; // 퇴원일자
+    }[];
 };
