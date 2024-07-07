@@ -19,8 +19,7 @@ public class OperationController {
     @Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록")
     public SuccessResponse<?> save(@RequestBody RegisterOperation registerOperation,
                                    @PathVariable Long patientId){
-        operationService.save(registerOperation, patientId);
-        return SuccessResponse.createSuccess();
+        return SuccessResponse.createSuccess(operationService.save(registerOperation, patientId));
     }
 
     @GetMapping("/api/operations/{patientId}")

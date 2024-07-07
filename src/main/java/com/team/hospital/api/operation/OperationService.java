@@ -20,10 +20,11 @@ public class OperationService {
     private final PatientService patientService;
 
     @Transactional
-    public void save(RegisterOperation registerOperation, Long patientId) {
+    public Long save(RegisterOperation registerOperation, Long patientId) {
         Patient patient = patientService.findPatientById(patientId);
         Operation operation = Operation.createOperation(registerOperation, patient);
         operationRepository.save(operation);
+        return operation.getId();
     }
 
     @Transactional
