@@ -2,17 +2,13 @@ import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
 import CalendarIcon from '../../../../icons/CalendarIcon';
 import DatePickerModal from '../../datePicker/DatePickerModal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDateFormatted } from '../../../../Hooks/useDateFormatted';
 import CloseIcon from '../../../../icons/CloseIcon';
 
 function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: string; formik: FormikProps<T> }) {
     const [isOpenModal, setIsOpenModal] = useState(false);
-    const [selectedDate, setSelectedDate] = useState<string | ''>();
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        formik?.setFieldValue(htmlFor, e.target.value);
-        formik?.setFieldError(htmlFor, '');
-    };
+
     const handleOpenModal = () => {
         setIsOpenModal(true);
     };
@@ -43,11 +39,11 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
                             type="text"
                             value={onlyDate}
                             placeholder="날짜를 선택해주세요."
-                            className="w-full cursor-pointer outline-none"
+                            className="w-full outline-none cursor-pointer"
                             readOnly
                         />
 
-                        <CalendarIcon className="h-6 w-6 text-gray-400" />
+                        <CalendarIcon className="w-6 h-6 text-gray-400" />
                     </button>
                     <button
                         type="button"
@@ -55,7 +51,7 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
                         onClick={() => formik?.setFieldValue(htmlFor, '')}
                     >
                         <span className="text-sm text-red-400">삭제</span>
-                        <CloseIcon className="h-5 w-5 text-red-400" />
+                        <CloseIcon className="w-5 h-5 text-red-400" />
                     </button>
                 </div>
             </InputContainer>

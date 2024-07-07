@@ -9,7 +9,7 @@ type Props<T> = {
     placeholder?: string; // placeholder를 나타내는 새로운 prop
 };
 
-function BMIinput<T>({ label, htmlFor, formik, unit }: Props<T>) {
+function BMIinput<T>({ label, htmlFor, formik }: Props<T>) {
     // const selectedValue = formik?.getFieldProps(htmlFor).value as 'YES' | 'NO' | '';
     const isInput = formik?.getFieldProps(htmlFor).value;
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
