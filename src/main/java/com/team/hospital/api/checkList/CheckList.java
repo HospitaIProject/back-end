@@ -129,21 +129,7 @@ public class CheckList extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "pod_1_exercise")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_1_exercise_remarks"))
     })
-    private CheckListDetail_1 pod_1Exercise;  // POD#1 운동
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_2_exercise")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_2_exercise_remarks"))
-    })
-    private CheckListDetail_1 pod_2Exercise;  // POD#2 운동
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_3_exercise")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_3_exercise_remarks"))
-    })
-    private CheckListDetail_1 pod_3Exercise;  // POD#3 운동
+    private CheckListDetail_1 pod_Exercise;  // POD#1 운동
 
     @Embedded
     @AttributeOverrides({
@@ -157,14 +143,7 @@ public class CheckList extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "pod_1_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_1_meal_remarks"))
     })
-    private CheckListDetail_1 pod_1Meal;  // POD#1 식사
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_2_meal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_2_meal_remarks"))
-    })
-    private CheckListDetail_1 pod_2Meal;  // POD#2 식사
+    private CheckListDetail_1 pod_Meal;  // POD#1 식사
 
     @Embedded
     @AttributeOverrides({
@@ -192,21 +171,7 @@ public class CheckList extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "pod_1_pain_score")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_1_pain_score_remarks"))
     })
-    private CheckListDetail_3 pod_1PainScore;  // POD#1 pain score
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_2_pain_score")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_2_pain_score_remarks"))
-    })
-    private CheckListDetail_3 pod_2PainScore;  // POD#2 pain score
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_3_pain_score")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_3_pain_score_remarks"))
-    })
-    private CheckListDetail_3 pod_3PainScore;  // POD#3 pain score
+    private CheckListDetail_3 pod_PainScore;  // POD#1 pain score
 
     @Embedded
     @AttributeOverrides({
@@ -255,10 +220,10 @@ public class CheckList extends BaseEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "is_post_nausea_vomiting")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "is_post_nausea_vomiting_remarks"))
+            @AttributeOverride(name = "option", column = @Column(name = "has_post_nausea_vomiting")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "has_post_nausea_vomiting_remarks"))
     })
-    private CheckListDetail_1 isPost_Nausea_Vomiting;  // Pot OP Nausea & Vomiting prophylaxis 여부
+    private CheckListDetail_1 hasPost_Nausea_Vomiting;  // Pot OP Nausea & Vomiting prophylaxis 여부
 
     @Embedded
     @AttributeOverrides({
@@ -289,25 +254,20 @@ public class CheckList extends BaseEntity {
                 .reasonByRemoveIV_FluidDelay(CheckListDetail_1.buildComplianceDetail(write.getReasonByRemoveIV_FluidDelay(), write.getReasonByRemoveIV_FluidDelay_remark()))
                 .post_Nausea_Vomiting(CheckListDetail_1.buildComplianceDetail(write.getPost_Nausea_Vomiting(), write.getPost_Nausea_Vomiting_remark()))
                 .postOpDayExercise(CheckListDetail_1.buildComplianceDetail(write.getPostOpDayExercise(), write.getPostOpDayExercise_remark()))
-                .pod_1Exercise(CheckListDetail_1.buildComplianceDetail(write.getPod_1Exercise(), write.getPod_1Exercise_remark()))
-                .pod_2Exercise(CheckListDetail_1.buildComplianceDetail(write.getPod_2Exercise(), write.getPod_2Exercise_remark()))
-                .pod_3Exercise(CheckListDetail_1.buildComplianceDetail(write.getPod_3Exercise(), write.getPod_3Exercise_remark()))
+                .pod_Exercise(CheckListDetail_1.buildComplianceDetail(write.getPod_Exercise(), write.getPod_Exercise_remark()))
                 .postOpDayMeal(CheckListDetail_1.buildComplianceDetail(write.getPostOpDayMeal(), write.getPostOpDayMeal_remark()))
-                .pod_1Meal(CheckListDetail_1.buildComplianceDetail(write.getPod_1Meal(), write.getPod_1Meal_remark()))
-                .pod_2Meal(CheckListDetail_1.buildComplianceDetail(write.getPod_2Meal(), write.getPod_2Meal_remark()))
+                .pod_Meal(CheckListDetail_1.buildComplianceDetail(write.getPod_Meal(), write.getPod_Meal_remark()))
                 .beforeOperationMedicine(CheckListDetail_1.buildComplianceDetail(write.getBeforeOperationMedicine(), write.getBeforeOperationMedicine_remark()))
                 .silt_Itm(CheckListDetail_5.buildComplianceDetail(write.getSilt_Itm(), write.getSilt_Itm_remark()))
                 .postOpEffectivePainControl(CheckListDetail_1.buildComplianceDetail(write.getPostOpEffectivePainControl(), write.getPostOpEffectivePainControl_remark()))
-                .pod_1PainScore(CheckListDetail_3.buildComplianceDetail(write.getPod_1PainScore(), write.getPod_1PainScore_remark()))
-                .pod_2PainScore(CheckListDetail_3.buildComplianceDetail(write.getPod_2PainScore(), write.getPod_2PainScore_remark()))
-                .pod_3PainScore(CheckListDetail_3.buildComplianceDetail(write.getPod_3PainScore(), write.getPod_3PainScore_remark()))
+                .pod_PainScore(CheckListDetail_3.buildComplianceDetail(write.getPod_PainScore(), write.getPod_PainScore_remark()))
                 .beforeSixtyMinute(CheckListDetail_1.buildComplianceDetail(write.getBeforeSixtyMinute(), write.getBeforeSixtyMinute_remark()))
                 .maintainTemperature(CheckListDetail_1.buildComplianceDetail(write.getMaintainTemperature(), write.getMaintainTemperature_remark()))
                 .volumeOfIntraoperativeInfusion(CheckListDetail_1.buildComplianceDetail(write.getVolumeOfIntraoperativeInfusion(), write.getVolumeOfIntraoperativeInfusion_remark()))
                 .bloodLoss(CheckListDetail_4.buildComplianceDetail(write.getBloodLoss(), write.getBloodLoss_remark()))
                 .urineOutput(CheckListDetail_4.buildComplianceDetail(write.getUrineOutput(), write.getUrineOutput_remark()))
                 .operationTime(CheckListDetail_4.buildComplianceDetail(write.getOperationTime(), write.getOperationTime_remark()))
-                .isPost_Nausea_Vomiting(CheckListDetail_1.buildComplianceDetail(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark()))
+                .hasPost_Nausea_Vomiting(CheckListDetail_1.buildComplianceDetail(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark()))
                 .locate(CheckListDetail_5.buildComplianceDetail(write.getLocate(), write.getLocate_remark()))
                 .checkListItem(checkListItem)
                 .build();
@@ -329,25 +289,20 @@ public class CheckList extends BaseEntity {
         reasonByRemoveIV_FluidDelay.update(write.getReasonByRemoveIV_FluidDelay(), write.getReasonByRemoveIV_FluidDelay_remark());
         post_Nausea_Vomiting.update(write.getPost_Nausea_Vomiting(), write.getPost_Nausea_Vomiting_remark());
         postOpDayExercise.update(write.getPostOpDayExercise(), write.getPostOpDayExercise_remark());
-        pod_1Exercise.update(write.getPod_1Exercise(), write.getPod_1Exercise_remark());
-        pod_2Exercise.update(write.getPod_2Exercise(), write.getPod_2Exercise_remark());
-        pod_3Exercise.update(write.getPod_3Exercise(), write.getPod_3Exercise_remark());
+        pod_Exercise.update(write.getPod_Exercise(), write.getPod_Exercise_remark());
         postOpDayMeal.update(write.getPostOpDayMeal(), write.getPostOpDayMeal_remark());
-        pod_1Meal.update(write.getPod_1Meal(), write.getPod_1Meal_remark());
-        pod_2Meal.update(write.getPod_2Meal(), write.getPod_2Meal_remark());
+        pod_Meal.update(write.getPod_Meal(), write.getPod_Meal_remark());
         beforeOperationMedicine.update(write.getBeforeOperationMedicine(), write.getBeforeOperationMedicine_remark());
         silt_Itm.update(write.getSilt_Itm(), write.getSilt_Itm_remark());
         postOpEffectivePainControl.update(write.getPostOpEffectivePainControl(), write.getPostOpEffectivePainControl_remark());
-        pod_1PainScore.update(write.getPod_1PainScore(), write.getPod_1PainScore_remark());
-        pod_2PainScore.update(write.getPod_2PainScore(), write.getPod_2PainScore_remark());
-        pod_3PainScore.update(write.getPod_3PainScore(), write.getPod_3PainScore_remark());
+        pod_PainScore.update(write.getPod_PainScore(), write.getPod_PainScore_remark());
         beforeSixtyMinute.update(write.getBeforeSixtyMinute(), write.getBeforeSixtyMinute_remark());
         maintainTemperature.update(write.getMaintainTemperature(), write.getMaintainTemperature_remark());
         volumeOfIntraoperativeInfusion.update(write.getVolumeOfIntraoperativeInfusion(), write.getVolumeOfIntraoperativeInfusion_remark());
         bloodLoss.update(write.getBloodLoss(), write.getBloodLoss_remark());
         urineOutput.update(write.getUrineOutput(), write.getUrineOutput_remark());
         operationTime.update(write.getOperationTime(), write.getOperationTime_remark());
-        isPost_Nausea_Vomiting.update(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark());
+        hasPost_Nausea_Vomiting.update(write.getHasPost_Nausea_Vomiting(), write.getHasPost_Nausea_Vomiting_remark());
         locate.update(write.getLocate(), write.getLocate_remark());
     }
 }

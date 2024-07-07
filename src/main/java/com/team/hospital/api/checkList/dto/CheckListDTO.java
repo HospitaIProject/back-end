@@ -52,7 +52,7 @@ public class CheckListDTO {
     private float bloodLoss;                                    //Blood loss(cc)
     private float urineOutput;                                  //Urine output(cc)
     private float operationTime;                                //Operation time (min)
-    private BooleanOption isPost_Nausea_Vomiting;               //Pot OP Nausea & Vomiting prophylaxis 여부
+    private BooleanOption hasPost_Nausea_Vomiting;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate;                                      //입원 병동
 
     //비고 필드
@@ -84,7 +84,7 @@ public class CheckListDTO {
     private String bloodLoss_remark;                            //Blood loss(cc)
     private String urineOutput_remark;                          //Urine output(cc)
     private String operationTime_remark;                        //Operation time (min)
-    private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
+    private String hasPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
     public static CheckListDTO toEntity(CheckList checkList){
@@ -125,20 +125,20 @@ public class CheckListDTO {
                 .post_Nausea_Vomiting_remark(checkList.getPost_Nausea_Vomiting().getRemarks())
                 .postOpDayExercise(checkList.getPostOpDayExercise().getOption())
                 .postOpDayExercise_remark(checkList.getPostOpDayExercise().getRemarks())
-                .pod_Exercise(checkList.getPod_1Exercise().getOption())
-                .pod_Exercise_remark(checkList.getPod_1Exercise().getRemarks())
+                .pod_Exercise(checkList.getPod_Exercise().getOption())
+                .pod_Exercise_remark(checkList.getPod_Exercise().getRemarks())
                 .postOpDayMeal(checkList.getPostOpDayMeal().getOption())
                 .postOpDayMeal_remark(checkList.getPostOpDayMeal().getRemarks())
-                .pod_Meal(checkList.getPod_1Meal().getOption())
-                .pod_Meal_remark(checkList.getPod_1Meal().getRemarks())
+                .pod_Meal(checkList.getPod_Meal().getOption())
+                .pod_Meal_remark(checkList.getPod_Meal().getRemarks())
                 .beforeOperationMedicine(checkList.getBeforeOperationMedicine().getOption())
                 .beforeOperationMedicine_remark(checkList.getBeforeOperationMedicine().getRemarks())
                 .silt_Itm(checkList.getSilt_Itm().getOption())
                 .silt_Itm_remark(checkList.getSilt_Itm().getRemarks())
                 .postOpEffectivePainControl(checkList.getPostOpEffectivePainControl().getOption())
                 .postOpEffectivePainControl_remark(checkList.getPostOpEffectivePainControl().getRemarks())
-                .pod_PainScore(checkList.getPod_1PainScore().getOption())
-                .pod_PainScore_remark(checkList.getPod_1PainScore().getRemarks())
+                .pod_PainScore(checkList.getPod_PainScore().getOption())
+                .pod_PainScore_remark(checkList.getPod_PainScore().getRemarks())
                 .beforeSixtyMinute(checkList.getBeforeSixtyMinute().getOption())
                 .beforeSixtyMinute_remark(checkList.getBeforeSixtyMinute().getRemarks())
                 .maintainTemperature(checkList.getMaintainTemperature().getOption())
@@ -151,8 +151,8 @@ public class CheckListDTO {
                 .urineOutput_remark(checkList.getUrineOutput().getRemarks())
                 .operationTime(checkList.getOperationTime().getOption())
                 .operationTime_remark(checkList.getOperationTime().getRemarks())
-                .isPost_Nausea_Vomiting(checkList.getIsPost_Nausea_Vomiting().getOption())
-                .isPost_Nausea_Vomiting_remark(checkList.getIsPost_Nausea_Vomiting().getRemarks())
+                .hasPost_Nausea_Vomiting(checkList.getHasPost_Nausea_Vomiting().getOption())
+                .hasPost_Nausea_Vomiting_remark(checkList.getHasPost_Nausea_Vomiting().getRemarks())
                 .locate(checkList.getLocate().getOption())
                 .locate_remark(checkList.getLocate().getRemarks())
                 .build();
