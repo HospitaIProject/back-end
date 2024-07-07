@@ -1,6 +1,8 @@
 package com.team.hospital.api.patient;
 
 import com.team.hospital.api.patient.dto.RegisterPatient;
+import com.team.hospital.api.patient.exception.PatientAlreadyExistsException;
+import com.team.hospital.api.patient.exception.PatientNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +18,7 @@ public class PatientService {
 
     @Transactional
     public void join(RegisterPatient registerPatient) {
-        if (existsByPatientNumber(registerPatient.getPatientNumber()))
-            throw new IllegalArgumentException("이미 있는 환자");
+        if (existsByPatientNumber(registerPatient.getPatientNumber())) throw new PatientAlreadyExistsException();
         Patient patient = Patient.createPatient(registerPatient);
         patientRepository.save(patient);
     }
@@ -36,13 +37,17 @@ public class PatientService {
 
     public Patient findPatientById(Long patientId) {
         Optional<Patient> patient = patientRepository.findById(patientId);
-        if (patient.isEmpty())
-            throw new IllegalArgumentException("환자 존재 x");
+        if (patient.isEmpty()) throw new PatientNotFoundException();
         return patient.get();
     }
 
     public List<Patient> findAll() {
         return patientRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Patient> findPatientsByName(String name) {
+        return patientRepository.findByNameContaining(name);
     }
 
     boolean existsByPatientNumber(Long patientNumber) {
