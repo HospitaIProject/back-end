@@ -24,7 +24,7 @@ function SingleSelector<T>({
 
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
-            <div className="flex h-12 flex-grow overflow-hidden mobile:max-w-60">
+            <div className="flex flex-grow h-12 overflow-hidden mobile:max-w-60">
                 <select
                     onChange={handleChange}
                     defaultValue=""
