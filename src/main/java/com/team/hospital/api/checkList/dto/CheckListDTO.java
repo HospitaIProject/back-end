@@ -39,18 +39,13 @@ public class CheckListDTO {
     private BooleanOption reasonByRemoveIV_FluidDelay;          //IV fluid 제거 지연 이유
     private BooleanOption post_Nausea_Vomiting;                 //Post OP Nausea & Vomiting prophylaxis
     private BooleanOption postOpDayExercise;                    //Post OP day 운동
-    private BooleanOption pod_1Exercise;                        //POD#1 운동
-    private BooleanOption pod_2Exercise;                        //POD#2 운동
-    private BooleanOption pod_3Exercise;                        //POD#3 운동
+    private BooleanOption pod_Exercise;                        //POD#1 운동
     private BooleanOption postOpDayMeal;                        //Post OP day 식사
-    private BooleanOption pod_1Meal;                            //POD#1 식사
-    private BooleanOption pod_2Meal;                            //POD#2 식사
+    private BooleanOption pod_Meal;                            //POD#1 식사
     private BooleanOption beforeOperationMedicine;              //수술 전 통증 조절약
     private String silt_Itm;                                    //수술 중 SILT or ITM
     private BooleanOption postOpEffectivePainControl;           //Post op Effective Pain Control
-    private PainScore pod_1PainScore;                           //POD#1 pain score
-    private PainScore pod_2PainScore;                           //POD#2 pain score
-    private PainScore pod_3PainScore;                           //POD#3 pain score
+    private PainScore pod_PainScore;                           //POD#1 pain score
     private BooleanOption beforeSixtyMinute;                    //피부 절개 60분 전 예방적 항생제 투어
     private BooleanOption maintainTemperature;                  //수술 중 환자 체온 유지
     private BooleanOption volumeOfIntraoperativeInfusion;       //Volume of intraoperative infusion(ml)
@@ -76,18 +71,13 @@ public class CheckListDTO {
     private String reasonByRemoveIV_FluidDelay_remark;          //IV fluid 제거 지연 이유
     private String post_Nausea_Vomiting_remark;                 //Post OP Nausea & Vomiting prophylaxis
     private String postOpDayExercise_remark;                    //Post OP day 운동
-    private String pod_1Exercise_remark;                        //POD#1 운동
-    private String pod_2Exercise_remark;                        //POD#2 운동
-    private String pod_3Exercise_remark;                        //POD#3 운동
+    private String pod_Exercise_remark;                        //POD#1 운동
     private String postOpDayMeal_remark;                        //Post OP day 식사
-    private String pod_1Meal_remark;                            //POD#1 식사
-    private String pod_2Meal_remark;                            //POD#2 식사
+    private String pod_Meal_remark;                            //POD#1 식사
     private String beforeOperationMedicine_remark;              //수술 전 통증 조절약
     private String silt_Itm_remark;                             //수술 중 SILT or ITM
     private String postOpEffectivePainControl_remark;           //Post op Effective Pain Control
-    private String pod_1PainScore_remark;                       //POD#1 pain score
-    private String pod_2PainScore_remark;                       //POD#2 pain score
-    private String pod_3PainScore_remark;                       //POD#3 pain score
+    private String pod_PainScore_remark;                       //POD#1 pain score
     private String beforeSixtyMinute_remark;                    //피부 절개 60분 전 예방적 항생제 투어
     private String maintainTemperature_remark;                  //수술 중 환자 체온 유지
     private String volumeOfIntraoperativeInfusion_remark;       //Volume of intraoperative infusion(ml)
@@ -135,30 +125,20 @@ public class CheckListDTO {
                 .post_Nausea_Vomiting_remark(checkList.getPost_Nausea_Vomiting().getRemarks())
                 .postOpDayExercise(checkList.getPostOpDayExercise().getOption())
                 .postOpDayExercise_remark(checkList.getPostOpDayExercise().getRemarks())
-                .pod_1Exercise(checkList.getPod_1Exercise().getOption())
-                .pod_1Exercise_remark(checkList.getPod_1Exercise().getRemarks())
-                .pod_2Exercise(checkList.getPod_2Exercise().getOption())
-                .pod_2Exercise_remark(checkList.getPod_2Exercise().getRemarks())
-                .pod_3Exercise(checkList.getPod_3Exercise().getOption())
-                .pod_3Exercise_remark(checkList.getPod_3Exercise().getRemarks())
+                .pod_Exercise(checkList.getPod_1Exercise().getOption())
+                .pod_Exercise_remark(checkList.getPod_1Exercise().getRemarks())
                 .postOpDayMeal(checkList.getPostOpDayMeal().getOption())
                 .postOpDayMeal_remark(checkList.getPostOpDayMeal().getRemarks())
-                .pod_1Meal(checkList.getPod_1Meal().getOption())
-                .pod_1Meal_remark(checkList.getPod_1Meal().getRemarks())
-                .pod_2Meal(checkList.getPod_2Meal().getOption())
-                .pod_2Meal_remark(checkList.getPod_2Meal().getRemarks())
+                .pod_Meal(checkList.getPod_1Meal().getOption())
+                .pod_Meal_remark(checkList.getPod_1Meal().getRemarks())
                 .beforeOperationMedicine(checkList.getBeforeOperationMedicine().getOption())
                 .beforeOperationMedicine_remark(checkList.getBeforeOperationMedicine().getRemarks())
                 .silt_Itm(checkList.getSilt_Itm().getOption())
                 .silt_Itm_remark(checkList.getSilt_Itm().getRemarks())
                 .postOpEffectivePainControl(checkList.getPostOpEffectivePainControl().getOption())
                 .postOpEffectivePainControl_remark(checkList.getPostOpEffectivePainControl().getRemarks())
-                .pod_1PainScore(checkList.getPod_1PainScore().getOption())
-                .pod_1PainScore_remark(checkList.getPod_1PainScore().getRemarks())
-                .pod_2PainScore(checkList.getPod_2PainScore().getOption())
-                .pod_2PainScore_remark(checkList.getPod_2PainScore().getRemarks())
-                .pod_3PainScore(checkList.getPod_3PainScore().getOption())
-                .pod_3PainScore_remark(checkList.getPod_3PainScore().getRemarks())
+                .pod_PainScore(checkList.getPod_1PainScore().getOption())
+                .pod_PainScore_remark(checkList.getPod_1PainScore().getRemarks())
                 .beforeSixtyMinute(checkList.getBeforeSixtyMinute().getOption())
                 .beforeSixtyMinute_remark(checkList.getBeforeSixtyMinute().getRemarks())
                 .maintainTemperature(checkList.getMaintainTemperature().getOption())
