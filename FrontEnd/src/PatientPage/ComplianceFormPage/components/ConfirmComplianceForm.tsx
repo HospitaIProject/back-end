@@ -27,7 +27,7 @@ function getNameByValue(value: string) {
 
 function ConfirmComplianceForm({ values, onSubmit }: Props) {
     return (
-        <div className="flex w-full flex-col px-4 pt-4">
+        <div className="grid flex-col w-full grid-cols-1 gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
             <YesOrNoViewButton
                 value={values.explainBeforeOperation}
                 label="EAS 수술전 설명"
@@ -95,16 +95,15 @@ function ConfirmComplianceForm({ values, onSubmit }: Props) {
                 label="Post OP day 운동"
                 remark={values.postOpDayExercise_remark}
             />
-            <YesOrNoViewButton value={values.pod_1Exercise} label="POD#1 운동" remark={values.pod_1Exercise_remark} />
-            <YesOrNoViewButton value={values.pod_2Exercise} label="POD#2 운동" remark={values.pod_2Exercise_remark} />
-            <YesOrNoViewButton value={values.pod_3Exercise} label="POD#3 운동" remark={values.pod_3Exercise_remark} />
+            <YesOrNoViewButton value={values.pod_Exercise} label="POD#1 운동" remark={values.pod_Exercise_remark} />
+
             <YesOrNoViewButton
                 value={values.postOpDayMeal}
                 label="Post OP day 식사"
                 remark={values.postOpDayMeal_remark}
             />
-            <YesOrNoViewButton value={values.pod_1Meal} label="POD#1 식사" remark={values.pod_1Meal_remark} />
-            <YesOrNoViewButton value={values.pod_2Meal} label="POD#2 식사" remark={values.pod_2Meal_remark} />
+            <YesOrNoViewButton value={values.pod_Meal} label="POD#1 식사" remark={values.pod_Meal_remark} />
+
             <YesOrNoViewButton
                 value={values.beforeOperationMedicine}
                 label="수술 전 통증 조절약"
@@ -118,19 +117,10 @@ function ConfirmComplianceForm({ values, onSubmit }: Props) {
             />
             <ViewInput
                 label="POD#1 pain score"
-                value={getNameByValue(values.pod_1PainScore)}
-                remark={values.pod_1PainScore_remark}
+                value={getNameByValue(values.pod_PainScore)}
+                remark={values.pod_PainScore_remark}
             />
-            <ViewInput
-                label="POD#2 pain score"
-                value={getNameByValue(values.pod_2PainScore)}
-                remark={values.pod_2PainScore_remark}
-            />
-            <ViewInput
-                label="POD#3 pain score"
-                value={getNameByValue(values.pod_3PainScore)}
-                remark={values.pod_3PainScore_remark}
-            />
+
             <YesOrNoViewButton
                 value={values.beforeSixtyMinute}
                 label="피부 절개 60분 전 예방적 항생제 투여"
@@ -165,9 +155,9 @@ function ConfirmComplianceForm({ values, onSubmit }: Props) {
                 unit="min"
             />
             <YesOrNoViewButton
-                value={values.isPost_Nausea_Vomiting}
+                value={values.hasPost_Nausea_Vomiting}
                 label="Post OP Nausea & Vomiting prophylaxis 여부"
-                remark={values.isPost_Nausea_Vomiting_remark}
+                remark={values.hasPost_Nausea_Vomiting_remark}
             />
             <ViewInput label="입원병동" value={values.locate} remark={values.locate_remark} />
             <FixedSubmitButton onClick={onSubmit} label="제출하기" />
