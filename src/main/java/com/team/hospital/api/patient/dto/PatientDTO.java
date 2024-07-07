@@ -24,7 +24,7 @@ public class PatientDTO {
 
     private LocalDate birthday;
 
-    public static PatientDTO toEntity(Patient patient) {
+    public static PatientDTO createPatientDTO(Patient patient) {
         return PatientDTO.builder()
                 .patientId(patient.getId())
                 .patientNumber(patient.getPatientNumber())

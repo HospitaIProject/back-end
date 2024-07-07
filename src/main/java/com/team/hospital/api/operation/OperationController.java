@@ -16,7 +16,7 @@ public class OperationController {
     private final OperationService operationService;
 
     @PostMapping("/api/operation/{patientId}")
-    @Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록")
+    @Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록 후 Id 값 반환")
     public SuccessResponse<?> save(@RequestBody RegisterOperation registerOperation,
                                    @PathVariable Long patientId){
         return SuccessResponse.createSuccess(operationService.save(registerOperation, patientId));

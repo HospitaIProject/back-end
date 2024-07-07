@@ -2,6 +2,7 @@ package com.team.hospital.api.patient;
 
 import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.OperationDateDTO;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,14 +29,14 @@ public class PatientController {
     @PostMapping("/patient")
     @Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
     public SuccessResponse<?> join(@RequestBody RegisterPatient registerPatient) {
-            patientService.join(registerPatient);
-            return SuccessResponse.createSuccess();
+        patientService.join(registerPatient);
+        return SuccessResponse.createSuccess();
     }
 
     @GetMapping("/patient/{patientId}")
     @Operation(summary = "환자 조회", description = "ID로 환자를 조회합니다.")
     public SuccessResponse<PatientDTO> findPatientById(@PathVariable Long patientId) {
-        PatientDTO patientDTO = PatientDTO.toEntity(patientService.findPatientById(patientId));
+        PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(patientId));
         return SuccessResponse.createSuccess(patientDTO);
     }
 
@@ -43,13 +45,17 @@ public class PatientController {
     public SuccessResponse<List<PatientWithOperationDateDTO>> findPatients() {
         List<PatientWithOperationDateDTO> finalList = patientService.findAll().stream()
                 .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-                .map(patient -> PatientWithOperationDateDTO.toEntity(
-                        patient,
-                        operationService.findAllByPatient(patient.getId()).stream()
-                                .map(OperationDateDTO::toEntity)
-                                .sorted(Comparator.comparing(OperationDateDTO::getOperationDate))
-                                .collect(Collectors.toList())
-                ))
+                .map(patient -> {
+                    List<OperationDateDTO> operationDateDTOs = operationService.findAllByPatient(patient.getId()).stream()
+                            .map(OperationDateDTO::toEntity)
+                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate).reversed())
+                            .collect(Collectors.toList());
+
+                    return PatientWithOperationDateDTO.builder()
+                            .patientDTO(PatientDTO.createPatientDTO(patient))
+                            .operationDateDTOs(operationDateDTOs)
+                            .build();
+                })
                 .collect(Collectors.toList());
 
         return SuccessResponse.createSuccess(finalList);
@@ -69,4 +75,26 @@ public class PatientController {
         patientService.delete(patientId);
         return SuccessResponse.createSuccess();
     }
+
+    // 필터기능
+    @GetMapping("/patient/search/by-name")
+    public SuccessResponse<?> searchPatientByName(@RequestParam String name) {
+        List<PatientWithOperationDateDTO> finalList = patientService.findPatientsByName(name).stream()
+                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+                .map(patient -> {
+                    List<OperationDateDTO> operationDateDTOs = operationService.findAllByPatient(patient.getId()).stream()
+                            .map(OperationDateDTO::toEntity)
+                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate).reversed())
+                            .collect(Collectors.toList());
+
+                    return PatientWithOperationDateDTO.builder()
+                            .patientDTO(PatientDTO.createPatientDTO(patient))
+                            .operationDateDTOs(operationDateDTOs)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return SuccessResponse.createSuccess(finalList);
+    }
+
 }

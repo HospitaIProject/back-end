@@ -45,6 +45,11 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Patient> findPatientsByName(String name) {
+        return patientRepository.findByNameContaining(name);
+    }
+
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);
     }
