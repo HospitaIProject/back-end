@@ -13,7 +13,6 @@ public class CheckListItemDTO {
     private boolean explainBeforeOperation;                       //EAS 수술전 설명
     private boolean takingONSBeforeOperationTwo_Hours;            //수술 2시간 전 ONS 복용여부
     private boolean takingAfterBowelPreparation;                  //Bowel preparation 후 ONS 경장영양액 복용여부
-
     private boolean preventionDVT;                                //DVT 예방
     private boolean takingLaxatives;                              //Laxatives 복용
     private boolean chewingGum;                                   //Chewing gum
@@ -39,7 +38,7 @@ public class CheckListItemDTO {
     private boolean bloodLoss;
     private boolean urineOutput;
     private boolean operationTime;
-    private boolean isPost_Nausea_Vomiting;
+    private boolean isPost_Nausea_Vomiting_2;
     private boolean locate;
 
     public static CheckListItemDTO toEntity(CheckListItem checkListItem) {
@@ -73,7 +72,7 @@ public class CheckListItemDTO {
                 .bloodLoss(checkListItem.isBloodLoss())
                 .urineOutput(checkListItem.isUrineOutput())
                 .operationTime(checkListItem.isOperationTime())
-                .isPost_Nausea_Vomiting(checkListItem.isPost_Nausea_Vomiting())
+                .isPost_Nausea_Vomiting_2(checkListItem.isPost_Nausea_Vomiting_2())
                 .locate(checkListItem.isLocate())
                 .build();
     }

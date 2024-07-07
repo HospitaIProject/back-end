@@ -46,7 +46,7 @@ public class CheckListItem extends BaseEntity {
     private boolean bloodLoss;
     private boolean urineOutput;
     private boolean operationTime;
-    private boolean isPost_Nausea_Vomiting;
+    private boolean isPost_Nausea_Vomiting_2;
     private boolean locate;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -83,7 +83,7 @@ public class CheckListItem extends BaseEntity {
                 .bloodLoss(write.isBloodLoss())
                 .urineOutput(write.isUrineOutput())
                 .operationTime(write.isOperationTime())
-                .isPost_Nausea_Vomiting(write.isPost_Nausea_Vomiting())
+                .isPost_Nausea_Vomiting_2(write.isPost_Nausea_Vomiting())
                 .locate(write.isLocate())
                 .operation(operation)
                 .build();
@@ -118,7 +118,7 @@ public class CheckListItem extends BaseEntity {
         bloodLoss = write.isBloodLoss();
         urineOutput = write.isUrineOutput();
         operationTime = write.isOperationTime();
-        isPost_Nausea_Vomiting = write.isPost_Nausea_Vomiting();
+        isPost_Nausea_Vomiting_2 = write.isPost_Nausea_Vomiting();
         locate = write.isLocate();
     }
 }
