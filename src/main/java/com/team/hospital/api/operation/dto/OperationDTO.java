@@ -71,10 +71,10 @@ public class OperationDTO {
                 .operationMethod(operation.getOperationMethod())
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
-                .AJCCStage(operation.getAJCCStage())
+                .AJCCStage(operation.getAjcCStage())
                 .numberOfRetrievedLine(operation.getNumberOfRetrievedLine())
                 .complicationOccurence(operation.getComplicationOccurence())
-                .CDClassification(operation.getCDClassification())
+                .CDClassification(operation.getCdClassification())
                 .reOperationWithIn30Days(operation.getReOperationWithIn30Days())
                 .reOperationCause(operation.getReOperationCause())
                 .build();
