@@ -43,13 +43,13 @@ public class OperationDTO {
 
     private StomaFormation stomaFormation;      // 장루 형성술
 
-    private String AJCCStage;           // 암 진행도
+    private String ajcCStage;           // 암 진행도
 
     private int numberOfRetrievedLine;  // 제거된 림프절 개수
 
     private BooleanOption complicationOccurence;
 
-    private String CDClassification;
+    private String cdClassification;
 
     private BooleanOption reOperationWithIn30Days;
 
@@ -60,7 +60,7 @@ public class OperationDTO {
                 .operationId(operation.getId())
                 .height(operation.getHeight())
                 .weight(operation.getWeight())
-                .BMI(operation.getBMI())
+                .BMI(operation.getBmi())
                 .asaScore(operation.getAsaScore())
                 .location(operation.getLocation())
                 .dignosis(operation.getDignosis())
@@ -71,10 +71,10 @@ public class OperationDTO {
                 .operationMethod(operation.getOperationMethod())
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
-                .AJCCStage(operation.getAjcCStage())
+                .ajcCStage(operation.getAjcCStage())
                 .numberOfRetrievedLine(operation.getNumberOfRetrievedLine())
                 .complicationOccurence(operation.getComplicationOccurence())
-                .CDClassification(operation.getCdClassification())
+                .cdClassification(operation.getCdClassification())
                 .reOperationWithIn30Days(operation.getReOperationWithIn30Days())
                 .reOperationCause(operation.getReOperationCause())
                 .build();

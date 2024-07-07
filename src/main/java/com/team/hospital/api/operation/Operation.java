@@ -27,7 +27,7 @@ public class Operation extends BaseEntity {
 
     private float weight;
 
-    private float BMI;
+    private float bmi;
 
     @Enumerated(EnumType.STRING)
     private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
@@ -71,7 +71,7 @@ public class Operation extends BaseEntity {
         return Operation.builder()
                 .height(register.getHeight())
                 .weight(register.getWeight())
-                .BMI(register.getBMI())
+                .bmi(register.getBmi())
                 .asaScore(register.getAsaScore())
                 .location(register.getLocation())
                 .dignosis(register.getDignosis())
@@ -95,7 +95,7 @@ public class Operation extends BaseEntity {
     public void updateOperation(RegisterOperation registerOperation) {
         height = registerOperation.getHeight();
         weight = registerOperation.getWeight();
-        BMI = registerOperation.getBMI();
+        bmi = registerOperation.getBmi();
         asaScore = registerOperation.getAsaScore();
         location = registerOperation.getLocation();
         dignosis = registerOperation.getDignosis();
@@ -105,7 +105,6 @@ public class Operation extends BaseEntity {
         totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();
         operationMethod = registerOperation.getOperationMethod();
         operationApproach = registerOperation.getOperationApproach();
-        ;
         stomaFormation = registerOperation.getStomaFormation();
         ajcCStage = registerOperation.getAjcCStage();
         numberOfRetrievedLine = registerOperation.getNumberOfRetrievedLine();
