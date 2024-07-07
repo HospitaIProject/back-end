@@ -25,6 +25,7 @@ public class OperationDateDTO {
                 .operationMethod(operationDTO.getOperationMethod())
                 .operationDate(operationDTO.getOpertationDate())
                 .hospitalizedDate(operationDTO.getHospitalizedDate())
-                .dischargedDate(operationDTO.getDischargedDate()).build();
+                .dischargedDate(operationDTO.getDischargedDate())
+                .build();
     }
 }
