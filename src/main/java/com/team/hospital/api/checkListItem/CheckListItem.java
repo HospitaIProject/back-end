@@ -21,7 +21,6 @@ public class CheckListItem extends BaseEntity {
     private boolean explainBeforeOperation;                       //EAS 수술전 설명
     private boolean takingONSBeforeOperationTwo_Hours;            //수술 2시간 전 ONS 복용여부
     private boolean takingAfterBowelPreparation;                  //Bowel preparation 후 ONS 경장영양액 복용여부
-
     private boolean preventionDVT;                                //DVT 예방
     private boolean takingLaxatives;                              //Laxatives 복용
     private boolean chewingGum;                                   //Chewing gum
