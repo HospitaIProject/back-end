@@ -16,7 +16,7 @@ public class RegisterOperation {
 
     private float weight;
 
-    private float BMI;
+    private float bmi;
 
     private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
 
