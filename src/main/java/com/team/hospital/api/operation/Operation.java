@@ -18,7 +18,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class Operation extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "operation_id")
     private Long id;
 
@@ -50,13 +51,13 @@ public class Operation extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private StomaFormation stomaFormation;      // 장루 형성술
 
-    private String AJCCStage;           // 암 진행도
+    private String ajcCStage;           // 암 진행도
 
     private int numberOfRetrievedLine;  // 제거된 림프절 개수
 
     private BooleanOption complicationOccurence;
 
-    private String CDClassification;
+    private String cdClassification;
 
     private BooleanOption reOperationWithIn30Days;
 
@@ -66,7 +67,7 @@ public class Operation extends BaseEntity {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    public static Operation createOperation(RegisterOperation register, Patient patient){
+    public static Operation createOperation(RegisterOperation register, Patient patient) {
         return Operation.builder()
                 .height(register.getHeight())
                 .weight(register.getWeight())
@@ -81,10 +82,10 @@ public class Operation extends BaseEntity {
                 .operationMethod(register.getOperationMethod())
                 .operationApproach(register.getOperationApproach())
                 .stomaFormation(register.getStomaFormation())
-                .AJCCStage(register.getAJCCStage())
+                .ajcCStage(register.getAjcCStage())
                 .numberOfRetrievedLine(register.getNumberOfRetrievedLine())
                 .complicationOccurence(register.getComplicationOccurence())
-                .CDClassification(register.getCDClassification())
+                .cdClassification(register.getCdClassification())
                 .reOperationWithIn30Days(register.getReOperationWithIn30Days())
                 .reOperationCause(register.getReOperationCause())
                 .patient(patient)
@@ -103,12 +104,13 @@ public class Operation extends BaseEntity {
         dischargedDate = registerOperation.getDischargedDate();
         totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();
         operationMethod = registerOperation.getOperationMethod();
-        operationApproach = registerOperation.getOperationApproach();;
+        operationApproach = registerOperation.getOperationApproach();
+        ;
         stomaFormation = registerOperation.getStomaFormation();
-        AJCCStage = registerOperation.getAJCCStage();
+        ajcCStage = registerOperation.getAjcCStage();
         numberOfRetrievedLine = registerOperation.getNumberOfRetrievedLine();
         complicationOccurence = registerOperation.getComplicationOccurence();
-        CDClassification = registerOperation.getCDClassification();
+        cdClassification = registerOperation.getCdClassification();
         reOperationWithIn30Days = registerOperation.getReOperationWithIn30Days();
         reOperationCause = registerOperation.getReOperationCause();
     }
