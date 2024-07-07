@@ -41,7 +41,7 @@ public class WriteCheckList {
     private float bloodLoss;                                    //Blood loss(cc)
     private float urineOutput;                                  //Urine output(cc)
     private float operationTime;                                //Operation time (min)
-    private BooleanOption isPost_Nausea_Vomiting;               //Pot OP Nausea & Vomiting prophylaxis 여부
+    private BooleanOption isPost_Nausea_Vomiting_2;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate;                                      //입원 병동
 
     //비고 필드
@@ -78,7 +78,7 @@ public class WriteCheckList {
     private String bloodLoss_remark;                            //Blood loss(cc)
     private String urineOutput_remark;                          //Urine output(cc)
     private String operationTime_remark;                        //Operation time (min)
-    private String isPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
+    private String isPost_Nausea_Vomiting_remark_2;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
 }

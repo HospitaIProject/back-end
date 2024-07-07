@@ -16,7 +16,7 @@ public class RegisterOperation {
 
     private float weight;
 
-    private float BMI;
+    private float bmi;
 
     private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
 
@@ -38,13 +38,13 @@ public class RegisterOperation {
 
     private StomaFormation stomaFormation;      // 장루 형성술
 
-    private String AJCCStage;           // 암 진행도
+    private String ajcCStage;           // 암 진행도
 
     private int numberOfRetrievedLine;  // 제거된 림프절 개수
 
     private BooleanOption complicationOccurence;
 
-    private String CDClassification;
+    private String cdClassification;
 
     private BooleanOption reOperationWithIn30Days;
 
