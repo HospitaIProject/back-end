@@ -48,4 +48,4 @@ export const useCheckListSetupQuery = ({ surgeryId }: { surgeryId: number }) => 
         queryFn: () => getCheckListSetup({ surgeryId }),
     });
     return query;
-}; //체크리스트 세팅 가져오기
+}; //체크리스트 세팅 가져오기 커스텀 훅

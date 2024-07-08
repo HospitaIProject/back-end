@@ -21,7 +21,7 @@ export const useSurgeryListQuery = ({ patientId }: { patientId: number }) => {
     });
 
     return query;
-}; //수술 리스트 가져오기(내부에 수술상세도 포함되어 있음)
+}; //수술 리스트 가져오기 커스텀훅(내부에 수술상세도 포함되어 있음)
 
 export const useCheckListsSetupQeury = ({ surgeryId }: { surgeryId: number }) => {
     const query = useQuery<CheckListSetupDaySectionType>({
@@ -29,4 +29,4 @@ export const useCheckListsSetupQeury = ({ surgeryId }: { surgeryId: number }) =>
         queryFn: () => getCheckListsSetup({ surgeryId }),
     });
     return query;
-}; //체크리스트 세팅 내역 가져오기
+}; //체크리스트 세팅 내역 가져오기 커스텀훅
