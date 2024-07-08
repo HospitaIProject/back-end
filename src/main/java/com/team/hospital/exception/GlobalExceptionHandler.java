@@ -12,13 +12,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     protected ErrorResponse handleNotFoundException(NotFoundException e) {
         log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
-        return ErrorResponse.createError(e.getErrorCode());
+        return ErrorResponse.createError(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(ConflictException.class)
     protected ErrorResponse handleConflictException(ConflictException e) {
         log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
-        return ErrorResponse.createError(e.getErrorCode());
+        return ErrorResponse.createError(e.getErrorCode(), e.getMessage());
     }
 
     @ExceptionHandler(BaseException.class)
