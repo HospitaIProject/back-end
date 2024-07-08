@@ -1,6 +1,5 @@
 package com.team.hospital.api.checkList;
 
-import com.team.hospital.api.checkList.dto.CheckListDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
