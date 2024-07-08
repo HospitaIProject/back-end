@@ -11,11 +11,12 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 public class CheckListItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "check_list_item")
+    @Column(name = "check_list_item_id")
     private Long id;
 
     private boolean explainBeforeOperation;                       //EAS 수술전 설명
@@ -49,7 +50,7 @@ public class CheckListItem extends BaseEntity {
     private boolean hasPost_Nausea_Vomiting;
     private boolean locate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "operation_id")
     private Operation operation;
 
