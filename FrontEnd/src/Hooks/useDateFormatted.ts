@@ -11,7 +11,7 @@ enum DateComparison {
     After = 'POST',
 }
 
-export const useDateFormatted = (date: Date | string | '') => {
+export const useDateFormatted = (date: Date | string | '', FormatType?: 'SIMPLE' | 'DETAIL') => {
     if (typeof date === 'string' && date.includes('T')) {
         date = new Date(date);
     }
@@ -24,12 +24,21 @@ export const useDateFormatted = (date: Date | string | '') => {
             onlyTime: '',
             dateComparison: '', // 기본값 설정
         };
-    const allDate = dayjs(date).format('YYYY년 MM월 DD일 HH시 mm분'); // 날짜와 시간을 표시합니다.
+    let allDate; // 날짜와 시간을 표시합니다.
+    let onlyDate; // 날짜만 표시합니다.
+    let onlyTime; // 시간만 표시합니다.
     const relativeDate = dayjs(date).fromNow(); // 상대적인 시간을 표시합니다.
-    const onlyDate = dayjs(date).format('YYYY년 MM월 DD일'); // 날짜만 표시합니다.
-    const onlyTime = dayjs(date).format('HH시 mm분'); // 시간만 표시합니다.
-    // 오늘 날짜와 비교
+    if (FormatType === 'DETAIL') {
+        allDate = dayjs(date).format('YYYY년 MM월 DD일 HH시 mm분'); // 날짜와 시간을 표시합니다.
+        onlyDate = dayjs(date).format('YYYY년 MM월 DD일'); // 날짜만 표시합니다.
+        onlyTime = dayjs(date).format('HH시 mm분'); // 시간만 표시합니다.
+    } else {
+        allDate = dayjs(date).format('YYYY-MM-DD  HH:mm');
+        onlyDate = dayjs(date).format('YYYY-MM-DD');
+        onlyTime = dayjs(date).format('HH:mm');
+    }
 
+    // 오늘 날짜와 비교
     const today = dayjs();
     const comparisonDate = dayjs(date);
     let dateComparison;
