@@ -36,11 +36,11 @@ export const useNewSurgeryInfoFormMutation = () => {
         },
         onSuccess: () => {
             alert('등록되었습니다.');
-            navigate('/');
+            navigate(-1);
         },
     });
     return mutation;
-}; //환자 정보 등록 폼 서비스
+}; //환자 수술 정보 등록 폼 서비스
 
 export const useNewPatientFormMutation = () => {
     const navigate = useNavigate();
