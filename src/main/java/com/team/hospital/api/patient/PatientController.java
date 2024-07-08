@@ -3,7 +3,6 @@ package com.team.hospital.api.patient;
 import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.CheckListService;
-import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.OperationDateDTO;
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,9 +55,9 @@ public class PatientController {
                     List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
                             .map(OperationDateDTO::toEntity)
                             .sorted(Comparator.comparing(OperationDateDTO::getOperationDate).reversed())
-                            .collect(Collectors.toList());
+//                            .collect(Collectors.toList());
+                            .toList();
 
-                    // 최근 수술 정보 조회
                     com.team.hospital.api.operation.Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
                     boolean checkListCreatedToday = false;
 
@@ -69,7 +67,6 @@ public class PatientController {
                             checkListCreatedToday = true;
                         }
                     }
-
                     return PatientWithOperationDateDTO.builder()
                             .patientDTO(PatientDTO.createPatientDTO(patient))
                             .operationDateDTOs(operationDateDTOs)
