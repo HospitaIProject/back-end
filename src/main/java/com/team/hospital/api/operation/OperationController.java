@@ -4,13 +4,16 @@ import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.RegisterOperation;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "수술 관리", description = "수술 관리 API")
 public class OperationController {
 
     private final OperationService operationService;
@@ -26,6 +29,9 @@ public class OperationController {
     @Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId);
+
+        // operationDate를 기준으로 내림차순 정렬
+        operationDTOS.sort(Comparator.comparing(OperationDTO::getOpertationDate).reversed());
         return SuccessResponse.createSuccess(operationDTOS);
     }
 
