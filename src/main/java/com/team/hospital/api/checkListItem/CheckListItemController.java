@@ -5,17 +5,19 @@ import com.team.hospital.api.checkListItem.dto.CheckListItemDTO;
 import com.team.hospital.api.checkListItem.dto.CheckListItemResponse;
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "체크리스트 목록 관리", description = "체크리스트 목록 관리 API")
 public class CheckListItemController {
 
     private final CheckListItemService checkListItemService;
 
     @PostMapping("/api/checkListItem/{operationId}")
-    @Operation(summary = "operation에 대한 checkList 세팅", description = "입력한 operation의 ID값에 해당한 operation의 checkListItem 등록")
+    @Operation(summary = "operation에 대한 checkListItem 세팅", description = "입력한 operation의 ID값에 해당한 operation의 checkListItem 등록")
     public SuccessResponse<?> save(@RequestBody WriteCheckListItem writeCheckListItem,
                                    @PathVariable Long operationId){
         checkListItemService.save(writeCheckListItem, operationId);
@@ -23,7 +25,7 @@ public class CheckListItemController {
     }
 
     @GetMapping("/api/checkListItem/{operationId}")
-    @Operation(summary = "operation에 대한 checkList 세팅 조회")
+    @Operation(summary = "operation에 대한 checkListItem 세팅 조회")
     public SuccessResponse<CheckListItemResponse> findByOperation(@PathVariable Long operationId){
         CheckListItemDTO checkListItemDTO = CheckListItemDTO.toEntity(checkListItemService.findCheckListItemByOperation(operationId));
         return SuccessResponse.createSuccess(CheckListItemResponse.toEntity(checkListItemDTO));
