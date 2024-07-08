@@ -7,6 +7,7 @@ import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "체크리스트 관리", description = "체크리스트 관리 API")
 public class CheckListController {
 
     private final CheckListService checkListService;
@@ -37,7 +39,7 @@ public class CheckListController {
     @GetMapping("/api/checkLists/{operationId}")
     @Operation(summary = "operation에 해당하는 체크리스트 목록")
     public SuccessResponse<List<CheckListDTO>> findCheckListByOperationId(@PathVariable Long operationId) {
-        List<CheckListDTO> list = checkListService.findAllByOperation(operationId);
+        List<CheckListDTO> list = checkListService.findAllByOperationId(operationId);
         return SuccessResponse.createSuccess(list);
     }
 
