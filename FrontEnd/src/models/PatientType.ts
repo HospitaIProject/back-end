@@ -28,6 +28,7 @@ export type PatientType = {
 };
 
 export type PatientWithOperationDtoType = {
+    checkListCreatedToday: boolean;
     patientDTO: {
         patientId: number; // 환자ID
         patientNumber: number; // 환자번호
