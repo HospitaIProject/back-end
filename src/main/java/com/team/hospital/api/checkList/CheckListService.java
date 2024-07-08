@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,16 @@ public class CheckListService {
         checkLists.sort(Comparator.comparing(CheckList::getUpdatedAt).reversed());
         if (!checkLists.isEmpty()) return checkLists.get(0);
         return null;
+    }
+
+    public boolean checkIfCheckListCreatedToday(Long operationId) {
+        boolean checkListCreatedToday = false;
+
+        CheckList recentCheckList = findRecentCheckListByOperationId(operationId);
+        if (recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now())) {
+            checkListCreatedToday = true;
+        }
+        return checkListCreatedToday;
     }
 
 }

@@ -46,13 +46,7 @@ public class CheckListController {
     public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
         List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
-
-        boolean checkListCreatedToday = false;
-
-        CheckList recentCheckList = checkListService.findRecentCheckListByOperationId(operation.getId());
-        if (recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now())) {
-            checkListCreatedToday = true;
-        }
+        boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(operationId);
 
         return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListCreatedToday));
     }
