@@ -21,7 +21,7 @@ function PatientChecklistSetupModal({ values, handleChange, onClose, title }: Pr
             <div className="flex flex-col w-full px-6 mx-auto max">
                 <div className="flex justify-center w-full py-2 text-gray-700 bg-gray-100 rounded-md">-수술전-</div>
 
-                <div className="grid w-full grid-cols-1 gap-1 py-6 mobile:grid-cols-2">
+                <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
                     {Object.keys(values)
                         .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
                         .map((patientKey) => (
@@ -36,7 +36,7 @@ function PatientChecklistSetupModal({ values, handleChange, onClose, title }: Pr
                         ))}
                 </div>
                 <div className="flex justify-center w-full py-2 text-gray-700 bg-gray-100 rounded-md">-수술당일-</div>
-                <div className="grid w-full grid-cols-1 gap-1 py-6 mx-auto mobile:grid-cols-2">
+                <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
                     {Object.keys(values)
                         .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
                         .map((patientKey) => (
@@ -51,7 +51,7 @@ function PatientChecklistSetupModal({ values, handleChange, onClose, title }: Pr
                         ))}
                 </div>
                 <div className="flex justify-center w-full py-2 text-gray-700 bg-gray-100 rounded-md">-수술후-</div>
-                <div className="grid w-full grid-cols-1 gap-1 py-6 mx-auto mobile:grid-cols-2">
+                <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
                     {Object.keys(values)
                         .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
                         .map((patientKey) => (

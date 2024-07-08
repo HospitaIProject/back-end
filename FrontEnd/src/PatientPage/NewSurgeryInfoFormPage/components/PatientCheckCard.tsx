@@ -10,15 +10,16 @@ type Props = {
 };
 
 function PatientCheckCard({ values, patientKey, handleChange }: Props) {
+    const isReadOnly = !Boolean(handleChange); // handleChange가 없으면 readonly로 처리
     return (
         <label
-            className={`${Boolean(values[patientKey]) ? 'text-gray-700' : 'text-gray-300'} flex ${handleChange ? 'cursor-pointer' : ''} flex-row justify-between gap-2 rounded-md p-3 transition-all hover:bg-green-50 mobile:max-w-screen-mobile mobile:justify-center mobile:gap-4`}
+            className={`${Boolean(values[patientKey]) ? 'text-gray-700' : 'text-gray-300'} flex ${isReadOnly ? 'cursor-pointer p-2 text-sm mobile:text-base' : 'p-3'} flex-row justify-between gap-2 rounded-md transition-all hover:bg-green-50 mobile:max-w-screen-mobile mobile:justify-center mobile:gap-4`}
         >
             <span className="flex items-center w-full max-w-64">{`${ITEMS_NAME_MAP[patientKey]}`}</span>
 
             <CheckBoxIcon
-                uncheckedClassName="w-8 h-8 shrink-0 text-gray-300"
-                checkedClassName="w-8 h-8 shrink-0 text-green-500"
+                uncheckedClassName={`${isReadOnly ? 'w-6 h-6' : 'w-8 h-8'}  shrink-0 text-gray-300`}
+                checkedClassName={`shrink-0 text-green-500 ${isReadOnly ? 'w-6 h-6' : 'w-8 h-8'}`}
                 isChecked={Boolean(values[patientKey])}
             />
             {Boolean(handleChange) && (
