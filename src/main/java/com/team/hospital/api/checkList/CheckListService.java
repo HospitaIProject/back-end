@@ -5,7 +5,6 @@ import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
-import com.team.hospital.api.operation.OperationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,8 +38,8 @@ public class CheckListService {
         checkListRepository.delete(checkList);
     }
 
-    public List<CheckListDTO> findAllByOperation(Long operationId){
-        List<CheckList> list = checkListRepository.findAllByOperation(operationId);
+    public List<CheckListDTO> findAllByOperationId(Long operationId){
+        List<CheckList> list = checkListRepository.findAllByOperationId(operationId);
         return CheckListDTO.buildComplianceDTOs(list);
     }
 
