@@ -3,14 +3,18 @@ package com.team.hospital.api.checkList;
 import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.checkList.dto.CheckListDTO;
 import com.team.hospital.api.checkList.dto.CheckListResponse;
+import com.team.hospital.api.checkList.dto.CheckListWithOperationDateDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
+import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.operation.dto.OperationDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,6 +24,7 @@ public class CheckListController {
 
     private final CheckListService checkListService;
     private final CheckListItemService checkListItemService;
+    private final OperationService operationService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
     @Operation(summary = "세팅한 체크리스트에 대하여 체크리스트 등록")
@@ -38,15 +43,24 @@ public class CheckListController {
 
     @GetMapping("/api/checkLists/{operationId}")
     @Operation(summary = "operation에 해당하는 체크리스트 목록")
-    public SuccessResponse<List<CheckListDTO>> findCheckListByOperationId(@PathVariable Long operationId) {
-        List<CheckListDTO> list = checkListService.findAllByOperationId(operationId);
-        return SuccessResponse.createSuccess(list);
+    public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
+        List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
+        com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
+
+        boolean checkListCreatedToday = false;
+
+        CheckList recentCheckList = checkListService.findRecentCheckListByOperationId(operation.getId());
+        if (recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now())) {
+            checkListCreatedToday = true;
+        }
+
+        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListCreatedToday));
     }
 
     @GetMapping("/api/checkList")
     @Operation(summary = "전체 체크리스트 조회")
     public SuccessResponse<List<CheckListDTO>> findAllCheckList() {
-        List<CheckListDTO> list = checkListService.findAll();
+        List<CheckListDTO> list = checkListService.findAll().stream().map(CheckListDTO::toEntity).toList();
         return SuccessResponse.createSuccess(list);
     }
 

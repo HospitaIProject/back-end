@@ -1,7 +1,6 @@
 package com.team.hospital.api.checkListItem;
 
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;
-import com.team.hospital.api.checkListItem.exception.CheckListItemAlreadyExistsException;
 import com.team.hospital.api.checkListItem.exception.CheckListItemNotFoundException;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
@@ -42,16 +41,17 @@ public class CheckListItemService {
         checkListItemRepository.delete(checkListItem);
     }
 
-    public CheckListItem findCheckListItemById(Long checkListItemId) {
-        Optional<CheckListItem> checkListItem = checkListItemRepository.findById(checkListItemId);
-        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
-        return checkListItem.get();
-    }
-
     @Transactional
     public CheckListItem findCheckListItemByOperation(Long operationId) {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperationId(operationId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException("해당 수술에 체크리스트 목록이 등록되지 않았습니다.");
         return checkListItem.get();
     }
+
+    public CheckListItem findCheckListItemById(Long checkListItemId) {
+        Optional<CheckListItem> checkListItem = checkListItemRepository.findById(checkListItemId);
+        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
+        return checkListItem.get();
+    }
+
 }
