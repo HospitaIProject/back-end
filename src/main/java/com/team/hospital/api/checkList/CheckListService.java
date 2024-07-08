@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +39,12 @@ public class CheckListService {
         checkListRepository.delete(checkList);
     }
 
-    public List<CheckListDTO> findAllByOperationId(Long operationId) {
-        List<CheckList> list = checkListRepository.findAllByOperationId(operationId);
-        return CheckListDTO.buildComplianceDTOs(list);
+    public List<CheckList> findAllByOperationId(Long operationId) {
+        return checkListRepository.findAllByOperationId(operationId);
     }
 
-    public List<CheckListDTO> findAll() {
-        List<CheckList> list = checkListRepository.findAll();
-        return CheckListDTO.buildComplianceDTOs(list);
+    public List<CheckList> findAll() {
+        return checkListRepository.findAll();
     }
 
     public CheckList findCheckListById(Long checkListId) {
@@ -56,6 +55,7 @@ public class CheckListService {
 
     public CheckList findRecentCheckListByOperationId(Long operationId) {
         List<CheckList> checkLists = checkListRepository.findAllByOperationId(operationId);
+        checkLists.sort(Comparator.comparing(CheckList::getUpdatedAt).reversed());
         if (!checkLists.isEmpty()) return checkLists.get(0);
         return null;
     }
