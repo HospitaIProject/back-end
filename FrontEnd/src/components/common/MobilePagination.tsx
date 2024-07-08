@@ -7,6 +7,8 @@ function MobilePagination() {
     const { pathname } = useLocation();
     const [searchParams] = useSearchParams();
 
+    const pageSize = 1;
+
     const handleRouter = ({ selected }: { selected: number }) => {
         const page = selected + 1;
         const params = new URLSearchParams(searchParams.toString());
@@ -25,47 +27,49 @@ function MobilePagination() {
         handleRouter({ selected: forcePage - 1 });
     };
     const goToNextPage = () => {
-        if (forcePage === 19) return;
+        if (forcePage === pageSize) return;
         handleRouter({ selected: forcePage + 1 });
     };
 
     return (
-        <div className="flex flex-col w-full gap-5">
-            <div className="flex justify-between w-full">
-                <button
-                    onClick={goToPreviousPage}
-                    disabled={forcePage === 0}
-                    className={`mr-2 flex h-8 w-14 items-center justify-center p-1 ${forcePage === 0 ? 'cursor-not-allowed opacity-40' : ''}`}
-                >
-                    <ArrowIcon className="w-8 h-8 transform rotate-180" />
-                </button>
-                <button
-                    onClick={goToNextPage}
-                    disabled={forcePage === 19}
-                    className={`ml-2 flex h-8 w-14 items-center justify-center p-1 ${forcePage === 19 ? 'cursor-not-allowed opacity-40' : ''}`}
-                >
-                    <ArrowIcon className="w-8 h-8" />
-                </button>
-            </div>
+        <div className="flex items-center justify-between w-full py-2 bg-white border-y">
+            {/* <span className="text-sm font-semibold">
+                    <span className="text-blue-600">{forcePage + 1} /</span> {pageSize}
+                </span> */}
+            <button
+                onClick={goToPreviousPage}
+                disabled={forcePage === 0}
+                className={`mr-1 flex h-8 items-center justify-center px-2 py-1 text-gray-700 ${forcePage === 0 ? 'cursor-not-allowed opacity-40' : ''}`}
+            >
+                <ArrowIcon className="w-8 h-auto transform rotate-180" />
+            </button>
+
             <ReactPaginate
                 previousLabel={null}
                 nextLabel={null}
                 breakLabel={
-                    <div className="flex items-center justify-center border h-9 w-9">
-                        <span>..</span>
+                    <div className="flex items-center justify-center rounded-lg h-9 w-9">
+                        <span>...</span>
                     </div>
                 }
-                pageCount={20}
+                pageCount={pageSize}
                 onPageChange={handleRouter}
-                containerClassName={'flex flex-row gap-1 mx-auto items-center '}
+                containerClassName={'flex flex-row   text-lg mx-auto    items-center '}
                 pageLinkClassName={
-                    'flex items-center justify-center w-9 h-9 text-sm border  border-neutral-300 hover:border-neutral-500'
+                    'flex items-center justify-center w-9 h-9 text-sm b rounded-lg hover:border-blue-500'
                 }
-                activeLinkClassName="bg-gray-500 text-white"
+                activeLinkClassName="bg-blue-400  text-white border-none"
                 pageRangeDisplayed={2} //선택된 페이지 주변에 보여질 페이지 수
                 marginPagesDisplayed={1} //첫 페이지와 마지막 페이지 주변에 보여질 페이지 수
                 forcePage={forcePage} //선택된 페이지
             />
+            <button
+                onClick={goToNextPage}
+                disabled={forcePage === pageSize - 1}
+                className={`ml-1 flex h-8 items-center justify-center rounded-md px-2 py-1 text-gray-700 ${forcePage === pageSize - 1 ? 'cursor-not-allowed opacity-40' : ''}`}
+            >
+                <ArrowIcon className="w-8 h-auto text-inherit" />
+            </button>
         </div>
     );
 }

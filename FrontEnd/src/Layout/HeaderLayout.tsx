@@ -5,7 +5,7 @@ function HeaderLayout() {
     return (
         <div className="flex flex-col w-full">
             <Header />
-            <main>
+            <main className="flex-1">
                 <Outlet />
             </main>
         </div>

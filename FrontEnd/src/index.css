@@ -2,9 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+}
+
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    
+    font-family: system-ui, Inter, Avenir, Helvetica, Arial, sans-serif;
+
     /* line-height: 1.5;
     font-weight: 400;
 
@@ -71,3 +74,66 @@ button:focus-visible {
         background-color: #f9f9f9;
     }
 } */
+
+/* 달력 스타일 */
+.react-datepicker__month-container {
+    @apply w-full;
+}
+.react-days-container {
+    @apply w-fit;
+}
+.react-datepicker__current-month {
+    @apply text-lg font-semibold text-primary !important;
+}
+
+.react-datepicker__header {
+    @apply border-b-gray-300 bg-white px-3 !important;
+}
+.react-datepicker__navigation--next {
+    @apply right-8 top-2 !important;
+}
+.react-datepicker__navigation--previous {
+    @apply left-8 top-2 !important;
+}
+/* 달력 스타일 */
+.react-datepicker {
+    @apply border-none !important;
+}
+.react-datepicker__day-names {
+    @apply flex justify-between gap-1 text-base font-medium !important;
+}
+.react-datepicker__day-name {
+    @apply flex flex-1 items-center justify-center !important;
+}
+
+/* 가로 줄 */
+.react-datepicker__week {
+    @apply flex h-10 justify-between gap-1 px-4 !important;
+}
+/* 가로줄 */
+.react-datepicker__month {
+    @apply mx-0 my-3 flex flex-col gap-1 !important;
+}
+
+/* 날짜 유닛 */
+.react-datepicker__day {
+    @apply m-0 flex w-full flex-row items-center justify-center rounded-lg border border-white text-base text-gray-600 hover:border-primary hover:bg-white !important;
+}
+.react-datepicker__day--today {
+    @apply border-b border-blue-200 text-blue-500 !important;
+}
+
+.react-datepicker__day--weekend {
+    @apply text-red-500 !important;
+}
+.react-datepicker__day--selected {
+    @apply border border-primary bg-primary text-white hover:bg-primary !important;
+}
+
+.react-datepicker__day-name .react-datepicker__day--disabled {
+    @apply text-[#ccc] line-through !important;
+}
+
+.react-datepicker__day--outside-month {
+    @apply pointer-events-none text-white !important;
+}

@@ -6,6 +6,7 @@ function DesktopPagination() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const [searchParams] = useSearchParams();
+    const pageSize = 1;
 
     const handleRouter = ({ selected }: { selected: number }) => {
         const page = selected + 1;
@@ -29,7 +30,7 @@ function DesktopPagination() {
             }
             nextLabel={
                 <ArrowIcon
-                    className={`flex h-10 w-14 items-center justify-center rounded-md border p-1 ${forcePage === 19 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`flex h-10 w-14 items-center justify-center rounded-md border p-1 ${forcePage === pageSize - 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                 />
             }
             breakLabel={
@@ -37,7 +38,7 @@ function DesktopPagination() {
                     <span>..</span>
                 </div>
             }
-            pageCount={20}
+            pageCount={pageSize}
             onPageChange={handleRouter}
             containerClassName={'flex flex-row   gap-2 mx-auto mt-4 items-center '}
             pageLinkClassName={

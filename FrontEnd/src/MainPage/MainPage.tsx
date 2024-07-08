@@ -1,54 +1,43 @@
-import ArrowIcon from '../icons/ArrowIcon';
 // import { useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import Loading from '../components/common/Loading';
 import ResponsivePagination from '../components/common/ResponsivePagination';
-
-const FAKE_USER_DATA = [
-    {
-        id: 1,
-        name: 'First name',
-        description: 'First Description',
-    },
-    {
-        id: 2,
-        name: 'Second name',
-        description: 'Second Description',
-    },
-    {
-        id: 3,
-        name: 'Third name',
-        description: 'Third Description',
-    },
-    {
-        id: 4,
-        name: 'Fourth name',
-        description: 'Fourth Description',
-    },
-    {
-        id: 5,
-        name: 'Fifth Title',
-        description: 'Fifth Description',
-    },
-];
+import { usePatientListQuery } from './_lib/patientService';
+import PatientSummaryCard from './components/PatientSummaryCard';
+import DisplayEmptyData from '../components/common/DisplayEmptyData';
 
 function MainPage() {
     // const [searchParams] = useSearchParams();
     // const page = Number(searchParams.get('page')) || 1;
+    const patientListQuery = usePatientListQuery();
+    const { data: patientListData, isPending, isSuccess } = patientListQuery;
+
+    useEffect(() => {
+        console.log(patientListData);
+    }, [isSuccess]);
+    const isNoneData = isSuccess && patientListData.length === 0; // data가 없을때
+
+    if (isPending) return <Loading />;
+    if (!patientListData) {
+        return <div className="flex w-vw h-hw"></div>;
+    }
+    if (isPending) {
+        return <div className="absolute top-0 left-0 w-vw h-hw bg-slate-100">d</div>;
+    }
 
     return (
-        <div className="flex flex-col justify-center w-full gap-6 p-7">
-            <div className="grid grid-cols-1 gap-4 mt-4">
-                {FAKE_USER_DATA.map((data) => (
-                    <div className="flex flex-row items-center justify-between w-full p-4 bg-white shadow-md cursor-pointer hover:bg-gray-50">
-                        <div key={data.id}>
-                            <h2 className="text-xl font-semibold">{data.name}</h2>
-                            <p className="mt-2">{data.description}</p>
-                        </div>
-                        <ArrowIcon className="w-5 h-5" />
-                    </div>
-                ))}
+        <>
+            <div className="flex flex-col justify-center w-full">
+                <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
+                <ul className="grid grid-cols-1 gap-2 py-2 mobile:grid-cols-2 mobile:px-2">
+                    {patientListQuery.data.map((data) => (
+                        <PatientSummaryCard userData={data} />
+                    ))}
+                </ul>
+                <ResponsivePagination />
             </div>
-            <ResponsivePagination />
-        </div>
+            {/* <RouteModal onClose={() => {}} patientId={1} /> */}
+        </>
     );
 }
 
