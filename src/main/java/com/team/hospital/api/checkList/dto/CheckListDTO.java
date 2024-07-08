@@ -87,78 +87,139 @@ public class CheckListDTO {
     private String hasPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
     private String locate_remark;                               //입원 병동
 
-    public static CheckListDTO toEntity(CheckList checkList){
-        return CheckListDTO.builder()
-                .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
+    public static CheckListDTO toEntity(CheckList checkList) {
+        CheckListDTOBuilder checkListDTO = CheckListDTO.builder().patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
                 .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
                 .patientNumber(checkList.getCheckListItem().getOperation().getPatient().getPatientNumber())
                 .checkListId(checkList.getId())
                 .createAt(checkList.getCreatedAt())
-                .updatedAt(checkList.getUpdatedAt())
-                .explainBeforeOperation(checkList.getExplainBeforeOperation().getOption())
-                .explainBeforeOperation_remark(checkList.getExplainBeforeOperation().getRemarks())
-                .takingONSBeforeOperationTwo_Hours(checkList.getTakingONSBeforeOperationTwo_Hours().getOption())
-                .takingONSBeforeOperationTwo_Hours_remark(checkList.getTakingONSBeforeOperationTwo_Hours().getRemarks())
-                .takingAfterBowelPreparation(checkList.getTakingAfterBowelPreparation().getOption())
-                .takingAfterBowelPreparation_remark(checkList.getTakingAfterBowelPreparation().getRemarks())
-                .preventionDVT(checkList.getPreventionDVT().getOption())
-                .preventionDVT_remark(checkList.getPreventionDVT().getRemarks())
-                .takingLaxatives(checkList.getTakingLaxatives().getOption())
-                .takingLaxatives_remark(checkList.getTakingLaxatives().getRemarks())
-                .chewingGum(checkList.getChewingGum().getOption())
-                .chewingGum_remark(checkList.getChewingGum().getRemarks())
-                .dayOfRemoveJP_Drain(checkList.getDayOfRemoveJP_Drain().getOption())
-                .dayOfRemoveJP_Drain_remark(checkList.getDayOfRemoveJP_Drain().getRemarks())
-                .reasonByRemoveJP_DrainDelay(checkList.getReasonByRemoveJP_DrainDelay().getOption())
-                .reasonByRemoveJP_DrainDelay_remark(checkList.getReasonByRemoveJP_DrainDelay().getRemarks())
-                .dayOfRemoveUrinary_Catheter(checkList.getDayOfRemoveUrinary_Catheter().getOption())
-                .dayOfRemoveUrinary_Catheter_remark(checkList.getDayOfRemoveUrinary_Catheter().getRemarks())
-                .reasonByRemoveUrinary_CatheterDelay(checkList.getReasonByRemoveUrinary_CatheterDelay().getOption())
-                .reasonByRemoveUrinary_CatheterDelay_remark(checkList.getReasonByRemoveUrinary_CatheterDelay().getRemarks())
-                .afterOperationLimitIV_Fluid(checkList.getAfterOperationLimitIV_Fluid().getOption())
-                .afterOperationLimitIV_Fluid_remark(checkList.getAfterOperationLimitIV_Fluid().getRemarks())
-                .dayOfRemoveIV_Fluid(checkList.getDayOfRemoveIV_Fluid().getOption())
-                .dayOfRemoveIV_Fluid_remark(checkList.getDayOfRemoveIV_Fluid().getRemarks())
-                .reasonByRemoveIV_FluidDelay(checkList.getReasonByRemoveIV_FluidDelay().getOption())
-                .reasonByRemoveIV_FluidDelay_remark(checkList.getReasonByRemoveIV_FluidDelay().getRemarks())
-                .post_Nausea_Vomiting(checkList.getPost_Nausea_Vomiting().getOption())
-                .post_Nausea_Vomiting_remark(checkList.getPost_Nausea_Vomiting().getRemarks())
-                .postOpDayExercise(checkList.getPostOpDayExercise().getOption())
-                .postOpDayExercise_remark(checkList.getPostOpDayExercise().getRemarks())
-                .pod_Exercise(checkList.getPod_Exercise().getOption())
-                .pod_Exercise_remark(checkList.getPod_Exercise().getRemarks())
-                .postOpDayMeal(checkList.getPostOpDayMeal().getOption())
-                .postOpDayMeal_remark(checkList.getPostOpDayMeal().getRemarks())
-                .pod_Meal(checkList.getPod_Meal().getOption())
-                .pod_Meal_remark(checkList.getPod_Meal().getRemarks())
-                .beforeOperationMedicine(checkList.getBeforeOperationMedicine().getOption())
-                .beforeOperationMedicine_remark(checkList.getBeforeOperationMedicine().getRemarks())
-                .silt_Itm(checkList.getSilt_Itm().getOption())
-                .silt_Itm_remark(checkList.getSilt_Itm().getRemarks())
-                .postOpEffectivePainControl(checkList.getPostOpEffectivePainControl().getOption())
-                .postOpEffectivePainControl_remark(checkList.getPostOpEffectivePainControl().getRemarks())
-                .pod_PainScore(checkList.getPod_PainScore().getOption())
-                .pod_PainScore_remark(checkList.getPod_PainScore().getRemarks())
-                .beforeSixtyMinute(checkList.getBeforeSixtyMinute().getOption())
-                .beforeSixtyMinute_remark(checkList.getBeforeSixtyMinute().getRemarks())
-                .maintainTemperature(checkList.getMaintainTemperature().getOption())
-                .maintainTemperature_remark(checkList.getMaintainTemperature().getRemarks())
-                .volumeOfIntraoperativeInfusion(checkList.getVolumeOfIntraoperativeInfusion().getOption())
-                .volumeOfIntraoperativeInfusion_remark(checkList.getVolumeOfIntraoperativeInfusion().getRemarks())
-                .bloodLoss(checkList.getBloodLoss().getOption())
-                .bloodLoss_remark(checkList.getBloodLoss().getRemarks())
-                .urineOutput(checkList.getUrineOutput().getOption())
-                .urineOutput_remark(checkList.getUrineOutput().getRemarks())
-                .operationTime(checkList.getOperationTime().getOption())
-                .operationTime_remark(checkList.getOperationTime().getRemarks())
-                .hasPost_Nausea_Vomiting(checkList.getHasPost_Nausea_Vomiting().getOption())
-                .hasPost_Nausea_Vomiting_remark(checkList.getHasPost_Nausea_Vomiting().getRemarks())
-                .locate(checkList.getLocate().getOption())
-                .locate_remark(checkList.getLocate().getRemarks())
-                .build();
+                .updatedAt(checkList.getUpdatedAt());
+
+        if (checkList.getExplainBeforeOperation() != null) {
+            checkListDTO.explainBeforeOperation(checkList.getExplainBeforeOperation().getOption());
+            checkListDTO.explainBeforeOperation_remark(checkList.getExplainBeforeOperation().getRemarks());
+        }
+        if (checkList.getTakingONSBeforeOperationTwo_Hours() != null) {
+            checkListDTO.takingONSBeforeOperationTwo_Hours(checkList.getTakingONSBeforeOperationTwo_Hours().getOption());
+            checkListDTO.takingONSBeforeOperationTwo_Hours_remark(checkList.getTakingONSBeforeOperationTwo_Hours().getRemarks());
+        }
+        if (checkList.getTakingAfterBowelPreparation() != null) {
+            checkListDTO.takingAfterBowelPreparation(checkList.getTakingAfterBowelPreparation().getOption());
+            checkListDTO.takingAfterBowelPreparation_remark(checkList.getTakingAfterBowelPreparation().getRemarks());
+        }
+        if (checkList.getPreventionDVT() != null) {
+            checkListDTO.preventionDVT(checkList.getPreventionDVT().getOption());
+            checkListDTO.preventionDVT_remark(checkList.getPreventionDVT().getRemarks());
+        }
+        if (checkList.getTakingLaxatives() != null) {
+            checkListDTO.takingLaxatives(checkList.getTakingLaxatives().getOption());
+            checkListDTO.takingLaxatives_remark(checkList.getTakingLaxatives().getRemarks());
+        }
+        if (checkList.getChewingGum() != null) {
+            checkListDTO.chewingGum(checkList.getChewingGum().getOption());
+            checkListDTO.chewingGum_remark(checkList.getChewingGum().getRemarks());
+        }
+        if (checkList.getDayOfRemoveJP_Drain() != null) {
+            checkListDTO.dayOfRemoveJP_Drain(checkList.getDayOfRemoveJP_Drain().getOption());
+            checkListDTO.dayOfRemoveJP_Drain_remark(checkList.getDayOfRemoveJP_Drain().getRemarks());
+        }
+        if (checkList.getReasonByRemoveJP_DrainDelay() != null) {
+            checkListDTO.reasonByRemoveJP_DrainDelay(checkList.getReasonByRemoveJP_DrainDelay().getOption());
+            checkListDTO.reasonByRemoveJP_DrainDelay_remark(checkList.getReasonByRemoveJP_DrainDelay().getRemarks());
+        }
+        if (checkList.getDayOfRemoveUrinary_Catheter() != null) {
+            checkListDTO.dayOfRemoveUrinary_Catheter(checkList.getDayOfRemoveUrinary_Catheter().getOption());
+            checkListDTO.dayOfRemoveUrinary_Catheter_remark(checkList.getDayOfRemoveUrinary_Catheter().getRemarks());
+        }
+        if (checkList.getReasonByRemoveUrinary_CatheterDelay() != null) {
+            checkListDTO.reasonByRemoveUrinary_CatheterDelay(checkList.getReasonByRemoveUrinary_CatheterDelay().getOption());
+            checkListDTO.reasonByRemoveUrinary_CatheterDelay_remark(checkList.getReasonByRemoveUrinary_CatheterDelay().getRemarks());
+        }
+        if (checkList.getAfterOperationLimitIV_Fluid() != null) {
+            checkListDTO.afterOperationLimitIV_Fluid(checkList.getAfterOperationLimitIV_Fluid().getOption());
+            checkListDTO.afterOperationLimitIV_Fluid_remark(checkList.getAfterOperationLimitIV_Fluid().getRemarks());
+        }
+        if (checkList.getDayOfRemoveIV_Fluid() != null) {
+            checkListDTO.dayOfRemoveIV_Fluid(checkList.getDayOfRemoveIV_Fluid().getOption());
+            checkListDTO.dayOfRemoveIV_Fluid_remark(checkList.getDayOfRemoveIV_Fluid().getRemarks());
+        }
+        if (checkList.getReasonByRemoveIV_FluidDelay() != null) {
+            checkListDTO.reasonByRemoveIV_FluidDelay(checkList.getReasonByRemoveIV_FluidDelay().getOption());
+            checkListDTO.reasonByRemoveIV_FluidDelay_remark(checkList.getReasonByRemoveIV_FluidDelay().getRemarks());
+        }
+        if (checkList.getPost_Nausea_Vomiting() != null) {
+            checkListDTO.post_Nausea_Vomiting(checkList.getPost_Nausea_Vomiting().getOption());
+            checkListDTO.post_Nausea_Vomiting_remark(checkList.getPost_Nausea_Vomiting().getRemarks());
+        }
+        if (checkList.getPostOpDayExercise() != null) {
+            checkListDTO.postOpDayExercise(checkList.getPostOpDayExercise().getOption());
+            checkListDTO.postOpDayExercise_remark(checkList.getPostOpDayExercise().getRemarks());
+        }
+        if (checkList.getPod_Exercise() != null) {
+            checkListDTO.pod_Exercise(checkList.getPod_Exercise().getOption());
+            checkListDTO.pod_Exercise_remark(checkList.getPod_Exercise().getRemarks());
+        }
+        if (checkList.getPostOpDayMeal() != null) {
+            checkListDTO.postOpDayMeal(checkList.getPostOpDayMeal().getOption());
+            checkListDTO.postOpDayMeal_remark(checkList.getPostOpDayMeal().getRemarks());
+        }
+        if (checkList.getPod_Meal() != null) {
+            checkListDTO.pod_Meal(checkList.getPod_Meal().getOption());
+            checkListDTO.pod_Meal_remark(checkList.getPod_Meal().getRemarks());
+        }
+        if (checkList.getBeforeOperationMedicine() != null) {
+            checkListDTO.beforeOperationMedicine(checkList.getBeforeOperationMedicine().getOption());
+            checkListDTO.beforeOperationMedicine_remark(checkList.getBeforeOperationMedicine().getRemarks());
+        }
+        if (checkList.getSilt_Itm() != null) {
+            checkListDTO.silt_Itm(checkList.getSilt_Itm().getOption());
+            checkListDTO.silt_Itm_remark(checkList.getSilt_Itm().getRemarks());
+        }
+        if (checkList.getPostOpEffectivePainControl() != null) {
+            checkListDTO.postOpEffectivePainControl(checkList.getPostOpEffectivePainControl().getOption());
+            checkListDTO.postOpEffectivePainControl_remark(checkList.getPostOpEffectivePainControl().getRemarks());
+        }
+        if (checkList.getPod_PainScore() != null) {
+            checkListDTO.pod_PainScore(checkList.getPod_PainScore().getOption());
+            checkListDTO.pod_PainScore_remark(checkList.getPod_PainScore().getRemarks());
+        }
+        if (checkList.getBeforeSixtyMinute() != null) {
+            checkListDTO.beforeSixtyMinute(checkList.getBeforeSixtyMinute().getOption());
+            checkListDTO.beforeSixtyMinute_remark(checkList.getBeforeSixtyMinute().getRemarks());
+        }
+        if (checkList.getMaintainTemperature() != null) {
+            checkListDTO.maintainTemperature(checkList.getMaintainTemperature().getOption());
+            checkListDTO.maintainTemperature_remark(checkList.getMaintainTemperature().getRemarks());
+        }
+        if (checkList.getVolumeOfIntraoperativeInfusion() != null) {
+            checkListDTO.volumeOfIntraoperativeInfusion(checkList.getVolumeOfIntraoperativeInfusion().getOption());
+            checkListDTO.volumeOfIntraoperativeInfusion_remark(checkList.getVolumeOfIntraoperativeInfusion().getRemarks());
+        }
+        if (checkList.getBloodLoss() != null) {
+            checkListDTO.bloodLoss(checkList.getBloodLoss().getOption());
+            checkListDTO.bloodLoss_remark(checkList.getBloodLoss().getRemarks());
+        }
+        if (checkList.getUrineOutput() != null) {
+            checkListDTO.urineOutput(checkList.getUrineOutput().getOption());
+            checkListDTO.urineOutput_remark(checkList.getUrineOutput().getRemarks());
+        }
+        if (checkList.getOperationTime() != null) {
+            checkListDTO.operationTime(checkList.getOperationTime().getOption());
+            checkListDTO.operationTime_remark(checkList.getOperationTime().getRemarks());
+        }
+        if (checkList.getHasPost_Nausea_Vomiting() != null) {
+            checkListDTO.hasPost_Nausea_Vomiting(checkList.getHasPost_Nausea_Vomiting().getOption());
+            checkListDTO.hasPost_Nausea_Vomiting_remark(checkList.getHasPost_Nausea_Vomiting().getRemarks());
+        }
+        if (checkList.getLocate() != null) {
+            checkListDTO.locate(checkList.getLocate().getOption());
+            checkListDTO.locate_remark(checkList.getLocate().getRemarks());
+        }
+
+        return checkListDTO.build();
     }
 
-    public static List<CheckListDTO> buildComplianceDTOs(List<CheckList> list){
+    public static List<CheckListDTO> buildComplianceDTOs(List<CheckList> list) {
         return list.stream()
                 .map(CheckListDTO::toEntity)
                 .collect(Collectors.toList());

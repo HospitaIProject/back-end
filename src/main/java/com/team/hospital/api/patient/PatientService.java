@@ -24,13 +24,13 @@ public class PatientService {
     }
 
     @Transactional
-    public void modify(RegisterPatient registerPatient, Long patientId){
+    public void modify(RegisterPatient registerPatient, Long patientId) {
         Patient patient = findPatientById(patientId);
         patient.updatePatient(registerPatient);
     }
 
     @Transactional
-    public void delete(Long patientId){
+    public void delete(Long patientId) {
         Patient patient = findPatientById(patientId);
         patientRepository.delete(patient);
     }

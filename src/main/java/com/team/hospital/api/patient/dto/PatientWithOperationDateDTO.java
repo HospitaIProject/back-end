@@ -15,8 +15,9 @@ public class PatientWithOperationDateDTO {
 
     private PatientDTO patientDTO;
     private List<OperationDateDTO> operationDateDTOs;
+    private boolean checkListCreatedToday;
 
-    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDTO> operationDTOs) {
+    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDTO> operationDTOs, boolean checkListCreatedToday) {
         PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
         List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
                 .map(OperationDateDTO::toEntity)
@@ -25,6 +26,7 @@ public class PatientWithOperationDateDTO {
         return PatientWithOperationDateDTO.builder()
                 .patientDTO(patientDTO)
                 .operationDateDTOs(operationDateDTOs)
+                .checkListCreatedToday(checkListCreatedToday)
                 .build();
     }
 

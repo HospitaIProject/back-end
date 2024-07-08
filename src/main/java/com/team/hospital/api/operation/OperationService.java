@@ -50,4 +50,15 @@ public class OperationService {
         List<Operation> operations = operationRepository.findAllByPatient(patient);
         return OperationDTO.buildOperationDTOs(operations);
     }
+
+    public List<Operation> findAllByPatientV2(Long patientId) {
+        Patient patient = patientService.findPatientById(patientId);
+        return operationRepository.findAllByPatient(patient);
+    }
+
+    public Operation findRecentOperationByPatientId(Long patientId) {
+        List<Operation> operations = findAllByPatientV2(patientId);
+        if (!operations.isEmpty()) return operations.get(0);
+        return null;
+    }
 }
