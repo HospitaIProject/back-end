@@ -4,13 +4,14 @@ import InputViewContainer from './InputViewContainer';
 
 type Props = {
     label: string;
-    value: 'YES' | 'NO' | '';
+    value: 'YES' | 'NO' | '' | undefined;
     remark?: string;
+    isRender?: boolean;
 };
 
-function YesOrNoViewButton({ label, value, remark }: Props) {
+function YesOrNoViewButton({ label, value, remark, isRender }: Props) {
     return (
-        <InputViewContainer label={label} remark={remark}>
+        <InputViewContainer label={label} remark={remark} isRender={isRender}>
             {/* <div className={`ml-2 flex flex-grow justify-end gap-1 rounded-lg`}>
                 <span className={`text-md h-7 ${value === 'YES' ? 'font-semibold text-blue-500' : 'text-gray-400'}`}>
                     Yes
@@ -23,7 +24,7 @@ function YesOrNoViewButton({ label, value, remark }: Props) {
                 </span>
             </div> */}
             <div className={`flex flex-grow justify-end`}>
-                <div className="flex w-20 flex-row">
+                <div className="flex flex-row w-20">
                     <button
                         type="button"
                         className={`h-6 flex-1 rounded-l-md border-r border-gray-300 text-sm ${value === 'YES' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'}`}
