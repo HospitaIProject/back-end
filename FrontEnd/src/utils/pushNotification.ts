@@ -20,8 +20,9 @@ export const pushNotification = ({ msg, type, theme }: ToastProps) => {
             maxWidth: '500px',
             background: `${theme === 'dark' ? '#333' : '#fff'}`,
             color: `${theme === 'dark' ? '#fff' : '#333'}`,
+            borderRadius: '0px',
         },
-        className: 'w-full border text-md text-sm  ',
+        className: 'w-full rounded-none border text-md text-sm  ',
 
         // Custom Icon
 
