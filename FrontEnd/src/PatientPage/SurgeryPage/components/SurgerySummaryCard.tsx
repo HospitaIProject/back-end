@@ -11,7 +11,7 @@ type Props = {
 function SurgerySummaryCard({ surgeryData }: Props) {
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name');
-    const { onlyDate: formattedOperationDate } = useDateFormatted(surgeryData.opertationDate); //수술일
+    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(surgeryData.opertationDate); //수술일
     const { onlyDate: formattedHospitalizedDate } = useDateFormatted(surgeryData.hospitalizedDate); //입원일
     const { onlyDate: formattedDischargedDate } = useDateFormatted(surgeryData.dischargedDate); //퇴원일
     const { operationId, operationMethod } = surgeryData; //수술명
@@ -58,7 +58,7 @@ function SurgerySummaryCard({ surgeryData }: Props) {
 
                 <div className="flex flex-row justify-end w-full gap-2 text-gray-600">
                     <Link
-                        to={`/patient/checkLists?id=${operationId}&name=${patientName}`}
+                        to={`/patient/checkLists?id=${operationId}&name=${patientName}&dateStatus=${dateComparison}`}
                         className="p-2 text-sm font-medium border rounded-md hover:bg-blue-50"
                     >
                         체크리스트

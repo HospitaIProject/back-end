@@ -58,14 +58,14 @@ function SurgeryDetail({ surgeryData }: Props) {
                     onClick={() => setIsModalOpen(true)}
                     className="w-full px-8 py-3 text-gray-600 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-300 mobile:max-w-screen-mobile"
                 >
-                    체크리스트 확인
+                    설정된 체크리스트
                 </button>
             </div>
             {isModalOpen && (
                 <PatientChecklistSetupModal
                     onClose={() => setIsModalOpen(false)}
                     values={checkListSetupData}
-                    title="체크리스트 확인"
+                    title="설정된 체크리스트"
                 />
             )}
         </>

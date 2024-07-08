@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { SurgeryType } from '../../models/SurgeryType';
 import { CheckListSetupDaySectionType } from '../../models/FormType';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from 'react-router-dom';
 
 const getSurgeryList = async ({ patientId }: { patientId: number }): Promise<SurgeryType[]> => {
     const response = await Axios.get(`/api/operations/${patientId}`);
@@ -13,10 +15,11 @@ const getCheckListsSetup = async ({ surgeryId }: { surgeryId: number }): Promise
 };
 
 export const useSurgeryListQuery = ({ patientId }: { patientId: number }) => {
-    const query = useQuery<SurgeryType[]>({
+    const query = useQuery<SurgeryType[], AxiosError<ErrorResponse>>({
         queryKey: ['surgery', 'list', patientId],
         queryFn: () => getSurgeryList({ patientId }),
     });
+
     return query;
 }; //수술 리스트 가져오기(내부에 수술상세도 포함되어 있음)
 
