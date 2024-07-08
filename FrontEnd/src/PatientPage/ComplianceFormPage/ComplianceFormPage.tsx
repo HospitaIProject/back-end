@@ -12,6 +12,7 @@ import { ITEMS_NAME_MAP } from '../../utils/mappingNames';
 import TextInput from '../../components/common/form/input/TextInput';
 import DropContainer from './components/DropContainer';
 import { useSearchParams } from 'react-router-dom';
+import { useDateFormatted } from '../../Hooks/useDateFormatted';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST' | 'ALL';
@@ -29,76 +30,77 @@ function ComplianceFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [relativeDay, setRelativeDay] = useState<Array<'PREV' | 'TODAY' | 'POST' | 'ALL'>>(['PREV']);
     const [searchParams] = useSearchParams();
-    const patientName = searchParams.get('name');
-    const surgeryId = searchParams.get('id');
-    const dateStatus = searchParams.get('dateStatus');
+    const patientName = searchParams.get('name'); //환자명
+    const surgeryId = searchParams.get('id'); //수술ID
+    const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
+    const diffDay = searchParams.get('diffDay'); //몇일차인지
+    const { allDate: formattedNowDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
-    const { data: existFields } = checkListSetupQuery;
+    const { data: existFields } = checkListSetupQuery; //체크리스트 세팅 정보
 
     const initialValues: ComplianceValuesType = {
-        explainBeforeOperation: '', //EAS 수술전 설명
-        takingONSBeforeOperationTwo_Hours: '', //수술 2시간 전 ONS 복용여부
-        takingAfterBowelPreparation: '', //Bowel preparation 후 ONS 경장영양액 복용여부
-        preventionDVT: '', //DVT 예방
-        takingLaxatives: '', //Laxatives 복용
-        chewingGum: '', //Chewing gum
-        dayOfRemoveJP_Drain: '', //JP Drain 제거일
-        reasonByRemoveJP_DrainDelay: '', //JP Drain 제거 지연 사유
-        dayOfRemoveUrinary_Catheter: '', //Urinary catheter 제거일
-        reasonByRemoveUrinary_CatheterDelay: '', //Urinary catheter 제거 지연 사유
-        afterOperationLimitIV_Fluid: '', //수술 후 IV fluid 제한
-        dayOfRemoveIV_Fluid: '', //IV fluid 제거일
-        reasonByRemoveIV_FluidDelay: '', //IV fluid 제거 지연 이유
-        post_Nausea_Vomiting: '', //Post OP Nausea & Vomiting prophylaxis
-        postOpDayExercise: '', //Post OP day 운동
-        pod_Exercise: '', //POD# 운동
-        postOpDayMeal: '', //Post OP day 식사
-        pod_Meal: '', //POD# 식사
-        beforeOperationMedicine: '', //수술 전 통증 조절약
-        silt_Itm: '', //수술중 SILT or ITM
-        postOpEffectivePainControl: '', //Post op Effective pain control
-        pod_PainScore: '', ////POD#1 pain score
-        beforeSixtyMinute: '', //피부 절개 60분 전 예방적 항생제 투여
-        maintainTemperature: '', //수술 중 환자 체온 유지
-        volumeOfIntraoperativeInfusion: '', //Volume of intraoperative infusion (ml)
-        bloodLoss: '', //Blood loss (cc)
-        urineOutput: '', //Urine output (cc)
-        operationTime: '', //Operation time (min)
-        hasPost_Nausea_Vomiting: '', //Post OP Nausea & Vomiting prophylaxis 여부
-        locate: '', //입원병동
-
-        //비고
-        explainBeforeOperation_remark: '',
-        takingONSBeforeOperationTwo_Hours_remark: '',
-        takingAfterBowelPreparation_remark: '',
-        preventionDVT_remark: '',
-        takingLaxatives_remark: '',
-        chewingGum_remark: '',
-        dayOfRemoveJP_Drain_remark: '',
-        reasonByRemoveJP_DrainDelay_remark: '',
-        dayOfRemoveUrinary_Catheter_remark: '',
-        reasonByRemoveUrinary_CatheterDelay_remark: '',
-        afterOperationLimitIV_Fluid_remark: '',
-        dayOfRemoveIV_Fluid_remark: '',
-        reasonByRemoveIV_FluidDelay_remark: '',
-        post_Nausea_Vomiting_remark: '',
-        postOpDayExercise_remark: '',
-        pod_Exercise_remark: '',
-        postOpDayMeal_remark: '',
-        pod_Meal_remark: '',
-        beforeOperationMedicine_remark: '',
-        silt_Itm_remark: '',
-        postOpEffectivePainControl_remark: '',
-        pod_PainScore_remark: '',
-        beforeSixtyMinute_remark: '',
-        maintainTemperature_remark: '',
-        volumeOfIntraoperativeInfusion_remark: '',
-        bloodLoss_remark: '',
-        urineOutput_remark: '',
-        operationTime_remark: '',
-        hasPost_Nausea_Vomiting_remark: '',
-        locate_remark: '',
+        explainBeforeOperation: existFields?.explainBeforeOperation ? '' : undefined, // EAS 수술전 설명
+        takingONSBeforeOperationTwo_Hours: existFields?.takingONSBeforeOperationTwo_Hours ? '' : undefined, // 수술 2시간 전 ONS 복용여부
+        takingAfterBowelPreparation: existFields?.takingAfterBowelPreparation ? '' : undefined, // Bowel preparation 후 ONS 경장영양액 복용여부
+        preventionDVT: existFields?.preventionDVT ? '' : undefined, // DVT 예방
+        takingLaxatives: existFields?.takingLaxatives ? '' : undefined, // Laxatives 복용
+        chewingGum: existFields?.chewingGum ? '' : undefined, // Chewing gum
+        dayOfRemoveJP_Drain: existFields?.dayOfRemoveJP_Drain ? '' : undefined, // JP Drain 제거일
+        reasonByRemoveJP_DrainDelay: existFields?.reasonByRemoveJP_DrainDelay ? '' : undefined, // JP Drain 제거 지연 사유
+        dayOfRemoveUrinary_Catheter: existFields?.dayOfRemoveUrinary_Catheter ? '' : undefined, // Urinary catheter 제거일
+        reasonByRemoveUrinary_CatheterDelay: existFields?.reasonByRemoveUrinary_CatheterDelay ? '' : undefined, // Urinary catheter 제거 지연 사유
+        afterOperationLimitIV_Fluid: existFields?.afterOperationLimitIV_Fluid ? '' : undefined, // 수술 후 IV fluid 제한
+        dayOfRemoveIV_Fluid: existFields?.dayOfRemoveIV_Fluid ? '' : undefined, // IV fluid 제거일
+        reasonByRemoveIV_FluidDelay: existFields?.reasonByRemoveIV_FluidDelay ? '' : undefined, // IV fluid 제거 지연 이유
+        post_Nausea_Vomiting: existFields?.post_Nausea_Vomiting ? '' : undefined, // Post OP Nausea & Vomiting prophylaxis
+        postOpDayExercise: existFields?.postOpDayExercise ? '' : undefined, // Post OP day 운동
+        pod_Exercise: existFields?.pod_Exercise ? '' : undefined, // POD# 운동
+        postOpDayMeal: existFields?.postOpDayMeal ? '' : undefined, // Post OP day 식사
+        pod_Meal: existFields?.pod_Meal ? '' : undefined, // POD# 식사
+        beforeOperationMedicine: existFields?.beforeOperationMedicine ? '' : undefined, // 수술 전 통증 조절약
+        silt_Itm: existFields?.silt_Itm ? '' : undefined, // 수술중 SILT or ITM
+        postOpEffectivePainControl: existFields?.postOpEffectivePainControl ? '' : undefined, // Post op Effective pain control
+        pod_PainScore: existFields?.pod_PainScore ? '' : undefined, // POD#1 pain score
+        beforeSixtyMinute: existFields?.beforeSixtyMinute ? '' : undefined, // 피부 절개 60분 전 예방적 항생제 투여
+        maintainTemperature: existFields?.maintainTemperature ? '' : undefined, // 수술 중 환자 체온 유지
+        volumeOfIntraoperativeInfusion: existFields?.volumeOfIntraoperativeInfusion ? '' : undefined, // Volume of intraoperative infusion (ml)
+        bloodLoss: existFields?.bloodLoss ? '' : undefined, // Blood loss (cc)
+        urineOutput: existFields?.urineOutput ? '' : undefined, // Urine output (cc)
+        operationTime: existFields?.operationTime ? '' : undefined, // Operation time (min)
+        hasPost_Nausea_Vomiting: existFields?.hasPost_Nausea_Vomiting ? '' : undefined, // Post OP Nausea & Vomiting prophylaxis 여부
+        locate: existFields?.locate ? '' : undefined, // 입원병동
+        // 비고
+        explainBeforeOperation_remark: existFields?.explainBeforeOperation ? '' : undefined,
+        takingONSBeforeOperationTwo_Hours_remark: existFields?.takingONSBeforeOperationTwo_Hours ? '' : undefined,
+        takingAfterBowelPreparation_remark: existFields?.takingAfterBowelPreparation ? '' : undefined,
+        preventionDVT_remark: existFields?.preventionDVT ? '' : undefined,
+        takingLaxatives_remark: existFields?.takingLaxatives ? '' : undefined,
+        chewingGum_remark: existFields?.chewingGum ? '' : undefined,
+        dayOfRemoveJP_Drain_remark: existFields?.dayOfRemoveJP_Drain ? '' : undefined,
+        reasonByRemoveJP_DrainDelay_remark: existFields?.reasonByRemoveJP_DrainDelay ? '' : undefined,
+        dayOfRemoveUrinary_Catheter_remark: existFields?.dayOfRemoveUrinary_Catheter ? '' : undefined,
+        reasonByRemoveUrinary_CatheterDelay_remark: existFields?.reasonByRemoveUrinary_CatheterDelay ? '' : undefined,
+        afterOperationLimitIV_Fluid_remark: existFields?.afterOperationLimitIV_Fluid ? '' : undefined,
+        dayOfRemoveIV_Fluid_remark: existFields?.dayOfRemoveIV_Fluid ? '' : undefined,
+        reasonByRemoveIV_FluidDelay_remark: existFields?.reasonByRemoveIV_FluidDelay ? '' : undefined,
+        post_Nausea_Vomiting_remark: existFields?.post_Nausea_Vomiting ? '' : undefined,
+        postOpDayExercise_remark: existFields?.postOpDayExercise ? '' : undefined,
+        pod_Exercise_remark: existFields?.pod_Exercise ? '' : undefined,
+        postOpDayMeal_remark: existFields?.postOpDayMeal ? '' : undefined,
+        pod_Meal_remark: existFields?.pod_Meal ? '' : undefined,
+        beforeOperationMedicine_remark: existFields?.beforeOperationMedicine ? '' : undefined,
+        silt_Itm_remark: existFields?.silt_Itm ? '' : undefined,
+        postOpEffectivePainControl_remark: existFields?.postOpEffectivePainControl ? '' : undefined,
+        pod_PainScore_remark: existFields?.pod_PainScore ? '' : undefined,
+        beforeSixtyMinute_remark: existFields?.beforeSixtyMinute ? '' : undefined,
+        maintainTemperature_remark: existFields?.maintainTemperature ? '' : undefined,
+        volumeOfIntraoperativeInfusion_remark: existFields?.volumeOfIntraoperativeInfusion ? '' : undefined,
+        bloodLoss_remark: existFields?.bloodLoss ? '' : undefined,
+        urineOutput_remark: existFields?.urineOutput ? '' : undefined,
+        operationTime_remark: existFields?.operationTime ? '' : undefined,
+        hasPost_Nausea_Vomiting_remark: existFields?.hasPost_Nausea_Vomiting ? '' : undefined,
+        locate_remark: existFields?.locate ? '' : undefined,
     };
     const formik = useFormik({
         initialValues, // 초기값
@@ -113,24 +115,25 @@ function ComplianceFormPage() {
         },
     });
 
-    const handleOpenConfirm = () => {
-        // console.log('확인하기', values);
-        // let isError = false;
-        // for (const key in values) {
-        //     if (!key.endsWith('_remark') && values[key] === '') {
-        //         formik.setFieldError(key, '필수 입력 항목입니다.');
-        //         isError = true;
-        //     } //비어있는 필드 유효성 검사(Remark 제외)
-        // }
-        // if (isError) {
-        //     console.log('에러발생');
-        //     return;
-        // } else {
-        //     setIsConfirmPage(true);
-        //     isError = false;
-        // }
+    const handleOpenConfirm = (values: ComplianceValuesType) => {
+        console.log('확인하기', values);
+        let isError = false;
+        for (const key in values) {
+            if (!key.endsWith('_remark') && values[key] === '') {
+                formik.setFieldError(key, '필수 입력 항목입니다.');
+                isError = true;
+            } //비어있는 필드 유효성 검사(Remark 제외)
+        }
+        if (isError) {
+            console.log('에러발생');
+            return;
+        } else {
+            setIsConfirmPage(true);
+            isError = false;
+        }
         setIsConfirmPage(true);
     };
+
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     };
@@ -138,9 +141,6 @@ function ComplianceFormPage() {
         setRelativeDay([day]);
     };
 
-    useEffect(() => {
-        console.log('form 에러객체', formik.errors);
-    }, [formik.errors]);
     useEffect(() => {
         setRelativeDay([dateStatus as 'PREV' | 'TODAY' | 'POST']);
     }, []);
@@ -163,9 +163,14 @@ function ComplianceFormPage() {
                     ))}
                 </div>
 
-                <div className="flex flex-col gap-2 py-3 mb-4 text-center bg-gray-100 border-b rounded-md text-neutral-700">
-                    <span className="text-xl font-bold text-center text-blue-500">{patientName}</span>
-                    <span>Daily CheckList</span>
+                <div className="flex flex-col items-end gap-1 px-4 py-3 mb-4 border-b rounded-md bg-gray-50 text-neutral-700">
+                    <span className="font-medium text-gray-700">{formattedNowDate}</span>
+
+                    <span className="px-2 font-medium text-gray-700 bg-yellow-200">
+                        {dateStatus === 'TODAY' ? 'D-Day' : dateStatus === 'PREV' ? `D-${diffDay}` : `D+${diffDay}`}
+                    </span>
+
+                    <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
                 </div>
 
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
@@ -377,7 +382,7 @@ function ComplianceFormPage() {
                         />
                     </DropContainer>
 
-                    <SubmitButton onClick={() => handleOpenConfirm()} label="확인하기" />
+                    <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="확인하기" />
                 </form>
             </div>
 
@@ -387,6 +392,7 @@ function ComplianceFormPage() {
                     values={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
+                    existFields={existFields}
                 />
             )}
         </>

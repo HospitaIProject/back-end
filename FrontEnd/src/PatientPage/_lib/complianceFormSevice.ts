@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
 
 const postComplianceForm = async ({ surgeryId, data }: { surgeryId: number; data: ComplianceValuesType }) => {
-    const response = await Axios.post(`api/compliance/${surgeryId}`, data);
+    const response = await Axios.post(`api/checkList/operation/${surgeryId}`, data);
     return response;
 }; //Compliance Form 서비스(체크리스트 제출)
 
@@ -26,8 +26,12 @@ export const useComplianceFormMutation = () => {
             });
         },
         onSuccess: () => {
-            alert('제출되었습니다.');
-            navigate('/');
+            pushNotification({
+                msg: '제출되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
+            navigate(-1);
         },
     });
     return mutation;
