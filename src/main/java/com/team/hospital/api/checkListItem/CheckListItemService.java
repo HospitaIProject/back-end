@@ -1,6 +1,7 @@
 package com.team.hospital.api.checkListItem;
 
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;
+import com.team.hospital.api.checkListItem.exception.CheckListItemAlreadyExistsException;
 import com.team.hospital.api.checkListItem.exception.CheckListItemNotFoundException;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CheckListItemService {
 
     private final CheckListItemRepository checkListItemRepository;
@@ -21,6 +22,10 @@ public class CheckListItemService {
     @Transactional
     public void save(WriteCheckListItem writeCheckListItem, Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
+
+        // 해당 오퍼레이션에 이미 checkListItem이 등록되어있는지 확인 필요.
+//        if (findCheckListItemByOperation(operationId) != null) throw new CheckListItemAlreadyExistsException("이미 해당 수술에 체크리스트 목록이 등록되어있습니다.");
+
         CheckListItem checkListItem = CheckListItem.createCheckListItem(writeCheckListItem, operation);
         checkListItemRepository.save(checkListItem);
     }
@@ -43,10 +48,10 @@ public class CheckListItemService {
         return checkListItem.get();
     }
 
+    @Transactional
     public CheckListItem findCheckListItemByOperation(Long operationId) {
-        Operation operation = operationService.findOperationById(operationId);
-        Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperation(operation);
-        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
+        Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperationId(operationId);
+        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException("해당 수술에 체크리스트 목록이 등록되지 않았습니다.");
         return checkListItem.get();
     }
 }
