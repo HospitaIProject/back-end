@@ -4,20 +4,35 @@ import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../../mod
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
+import useSurgeryDayFormat from '../../../Hooks/useSergeryDateFormatted';
 // import { Link } from 'react-router-dom';
 
 type Props = {
-    surgeryData: ComplianceValuesType;
+    complianceData: ComplianceValuesType;
     setupData: CheckListSetupDaySectionType;
+    operationDateDTO: {
+        operationId: number;
+        operationMethod: string;
+        operationDate: string;
+        hospitalizedDate: string;
+        dischargedDate: string;
+    };
 };
 
-function CheckListsSummaryCard({ surgeryData, setupData }: Props) {
-    const { checkListId, createAt, updatedAt } = surgeryData;
+function CheckListsSummaryCard({ complianceData, setupData, operationDateDTO }: Props) {
+    const { checkListId, createAt, updatedAt } = complianceData;
 
     const { allDate: formattedCreateAt } = useDateFormatted(createAt || ''); //작성일
     const { allDate: formattedUpdatedAte } = useDateFormatted(updatedAt || ''); //수정일
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const { writeDiffDay } = useSurgeryDayFormat(operationDateDTO.operationDate, complianceData.createAt);
+    let dateComparison = '';
+    if (typeof writeDiffDay === 'number') {
+        dateComparison =
+            writeDiffDay < 0 ? `D-${Math.abs(writeDiffDay)}` : writeDiffDay === 0 ? 'D-Day' : `D+${writeDiffDay}`;
+    }
 
     return (
         <>
@@ -27,7 +42,7 @@ function CheckListsSummaryCard({ surgeryData, setupData }: Props) {
                 onClick={() => setIsModalOpen(true)}
             >
                 <div className="flex flex-row items-center w-full gap-4">
-                    <span className="text-lg font-semibold text-sky-800">{surgeryData.checkListId}</span>
+                    <span className="text-lg font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             작성일:&nbsp;
@@ -48,7 +63,7 @@ function CheckListsSummaryCard({ surgeryData, setupData }: Props) {
             {isModalOpen && (
                 <CheckListsDetailModal
                     setupData={setupData}
-                    values={surgeryData}
+                    values={complianceData}
                     onClose={() => setIsModalOpen(false)}
                 />
             )}

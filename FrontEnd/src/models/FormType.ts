@@ -85,6 +85,17 @@ export type ComplianceValuesType = {
     hasPost_Nausea_Vomiting_remark?: string | '';
     locate_remark?: string | '';
 };
+export type ResponseComplianceType = {
+    checkListDTOs: ComplianceValuesType[];
+    operationDateDTO: {
+        operationId: number;
+        operationMethod: string;
+        operationDate: string;
+        hospitalizedDate: string;
+        dischargedDate: string;
+    };
+    checkListCreatedToday: boolean;
+};
 
 export type NewSurgeryInfoValuesType = {
     [key: string]:
