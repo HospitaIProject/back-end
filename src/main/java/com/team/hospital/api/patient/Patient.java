@@ -39,9 +39,9 @@ public class Patient extends BaseEntity {
     }
 
     public void updatePatient(RegisterPatient registerPatient) {
-        patientNumber = registerPatient.getPatientNumber();
-        name = registerPatient.getName();
-        sex = registerPatient.getSex();
-        birthday = registerPatient.getBirthday();
+        this.patientNumber = registerPatient.getPatientNumber();
+        this.name = registerPatient.getName();
+        this.sex = registerPatient.getSex();
+        this.birthday = registerPatient.getBirthday();
     }
 }

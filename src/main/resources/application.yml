@@ -15,13 +15,6 @@ spring:
 #        busy_timeout: 60000
 
   datasource:
-#    url: jdbc:mysql://43.200.224.184:3306/hospital
-#    username: hospital
-#    password: 1234
-
-#    url: jdbc:mysql://13.124.175.219:3306/hospital
-#    username: root
-#    password: asd990810
 
     url: jdbc:mysql://3.34.15.114:3306/hospital
     username: root
