@@ -91,7 +91,7 @@ tasks.named('test') {
 //
 //// processResources 태스크가 copyReactBuild 이후에 실행되도록 설정
 //processResources.dependsOn copyReactBuild
-
+//
 //bootJar {
 //	enabled = true
 //}
