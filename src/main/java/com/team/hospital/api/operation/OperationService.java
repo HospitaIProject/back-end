@@ -62,5 +62,9 @@ public class OperationService {
         return null;
     }
 
+    public List<Operation> findOperationsByOperationMethod(String operationMethod) {
+        return operationRepository.findOperationsByOperationMethod(operationMethod);
+    }
+
 
 }

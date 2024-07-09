@@ -8,6 +8,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByNameContaining(String name);
 
-    boolean existsByPatientNumber(Long patientNumber);
+    List<Patient> findByPatientNumber(Long patientNumber);
 
+    boolean existsByPatientNumber(Long patientNumber);
 }

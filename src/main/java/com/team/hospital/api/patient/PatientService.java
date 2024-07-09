@@ -35,6 +35,15 @@ public class PatientService {
         patientRepository.delete(patient);
     }
 
+    @Transactional(readOnly = true)
+    public List<Patient> findPatientsByName(String query) {
+        return patientRepository.findByNameContaining(query);
+    }
+
+    public List<Patient> findPatientsByPatientNumber(Long patientNumber) {
+        return patientRepository.findByPatientNumber(patientNumber);
+    }
+
     public Patient findPatientById(Long patientId) {
         Optional<Patient> patient = patientRepository.findById(patientId);
         if (patient.isEmpty()) throw new PatientNotFoundException();
@@ -45,10 +54,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
-    public List<Patient> findPatientsByName(String name) {
-        return patientRepository.findByNameContaining(name);
-    }
+
 
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);

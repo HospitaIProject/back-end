@@ -8,4 +8,6 @@ import java.util.List;
 public interface OperationRepository extends JpaRepository<Operation, Long>  {
 
     List<Operation> findAllByPatient(Patient patient);
+
+    List<Operation> findOperationsByOperationMethod(String operationMethod);
 }
