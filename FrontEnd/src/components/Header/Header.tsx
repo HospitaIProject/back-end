@@ -1,24 +1,24 @@
-import { useState } from 'react';
-import Navbar from './Navbar';
-import MenuIcon from '../../icons/MenuIcon';
+// import { useState } from 'react';
+// import Navbar from './Navbar';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../icons/ArrowIcon';
 import PlusIcon from '../../icons/PlusIcon';
+import SearchListIcon from '../../icons/SearchListIcon';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const [toggleMenu, setToggleMenu] = useState<boolean>(false); // 토글 메뉴 상태
+    // const [toggleMenu, setToggleMenu] = useState<boolean>(false); // 토글 메뉴 상태
 
     const handleBack = () => {
         navigate(-1);
     }; // 뒤로가기 함수
 
-    const handleMenuToggle = () => {
-        setToggleMenu(!toggleMenu);
-    }; // 토글 메뉴를 열고 닫는 함수
+    // const handleMenuToggle = () => {
+    //     setToggleMenu(!toggleMenu);
+    // }; // 토글 메뉴를 열고 닫는 함수
     let label;
     if (pathname.startsWith('/patient/form/compliance')) {
         label = 'Rectal ERAS compliance checklist';
@@ -51,8 +51,8 @@ export default function Header() {
     return (
         <header className="sticky top-0 z-10 min-w-full bg-white">
             <nav className="flex h-[70px] items-center justify-between border-b px-4">
-                <button onClick={handleMenuToggle}>
-                    <MenuIcon className="text-gray-700 h-7 w-7" />
+                <button>
+                    <SearchListIcon className="text-gray-700 h-7 w-7" />
                 </button>
                 <a href="/" className="logo">
                     {/* <img src="/logo.png" alt="Logo" /> */}
@@ -66,7 +66,7 @@ export default function Header() {
                     <PlusIcon className="w-5 h-5 text-gray-600" />
                 </Link>
             </nav>
-            <Navbar isOpen={toggleMenu} />
+            {/* <Navbar isOpen={toggleMenu} /> */}
         </header>
     );
 }

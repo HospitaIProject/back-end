@@ -5,6 +5,7 @@ import ResponsivePagination from '../components/common/ResponsivePagination';
 import { usePatientListQuery } from './_lib/patientService';
 import PatientSummaryCard from './components/PatientSummaryCard';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
+import RefreshIcon from '../icons/RefreshIcon';
 
 function MainPage() {
     // const [searchParams] = useSearchParams();
@@ -18,11 +19,23 @@ function MainPage() {
     const isNoneData = isSuccess && patientListData.length === 0; // data가 없을때
 
     if (isPending) return <Loading />;
-    if (!patientListData) {
-        return <div className="flex w-vw h-hw"></div>;
-    }
-    if (isPending) {
-        return <div className="absolute top-0 left-0 w-vw h-hw bg-slate-100">d</div>;
+    if (!isSuccess) {
+        return (
+            <div className="fixed top-0 left-0 z-40 flex items-center justify-center w-screen h-screen bg-black bg-opacity-40">
+                <div className="flex flex-col items-center justify-center w-full h-full gap-2 font-semibold text-red-600 rounded-lg max-h-24 max-w-44">
+                    <span>서버 오류가 발생했습니다.</span>
+                    <button
+                        onClick={() => {
+                            window.location.reload();
+                        }}
+                        className="flex flex-row items-center justify-center w-full gap-2 py-2 mx-5 text-base font-normal text-gray-600 bg-gray-200 border border-gray-500 rounded-lg"
+                    >
+                        새로고침
+                        <RefreshIcon className="w-4 h-4" />
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (

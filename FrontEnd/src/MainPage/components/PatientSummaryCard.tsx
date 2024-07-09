@@ -80,7 +80,7 @@ function PatientSummaryCard({ userData }: Props) {
                 </div>
                 <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex flex-col gap-1">
-                        <span className="inline-block text-sm text-gray-700 break-words">
+                        <span className="flex flex-wrap text-sm text-gray-700 break-words">
                             <span className="shrink-0">등록번호:&nbsp;</span>
                             <span className="font-medium text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
