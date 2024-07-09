@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 // import Navbar from './Navbar';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../icons/ArrowIcon';
@@ -10,7 +10,7 @@ export type ItemName = 'patient' | 'services' | 'contact';
 export default function Header() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const [toggleMenu, setToggleMenu] = useState<boolean>(false); // 토글 메뉴 상태
+    // const [toggleMenu, setToggleMenu] = useState<boolean>(false); // 토글 메뉴 상태
 
     const handleBack = () => {
         navigate(-1);
