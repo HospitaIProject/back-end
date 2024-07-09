@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import PropTypes from 'prop-types';
-import { ErrorResponseType } from '../../models/AxiosResponseType';
 import RefreshIcon from '../../icons/RefreshIcon';
 
 type Props = {
@@ -47,7 +46,7 @@ const FallbackUI = ({ error, resetErrorBoundary }: Props) => {
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen bg-white">
             <div className="flex flex-col items-center justify-center flex-grow gap-2 rounded-lg">
-                <img src="/public/image/fixImage.png" alt="error" className="w-20 h-20" />
+                <img src="/fixImage.png" alt="error" className="w-20 h-20" />
                 <span className="my-3 text-xl font-semibold text-gray-500">일시적인 오류 입니다</span>
                 <span className="text-sm text-gray-500">새로 고침을 눌러 페이지를 다시 불러올 수 있습니다.</span>
                 <span className="text-sm text-gray-500">문제가 지속되면 개발자에게 문의부탁드립니다.</span>

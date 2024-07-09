@@ -2,6 +2,7 @@ import React from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet } from 'react-router-dom';
+import.meta.env;
 
 function RQProviders() {
     const [client] = React.useState(
@@ -13,7 +14,7 @@ function RQProviders() {
                     retryOnMount: true, //컴포넌트가 마운트될 때마다 쿼리를 다시 시도함
                     refetchOnReconnect: false, //오프라인에서 다시 온라인으로 전환될 때마다 쿼리를 다시 가져오지 않도록 설정
                     retry: false, //쿼리 실패시 재시도를 하지 않도록 설정
-                    throwOnError: true,
+                    throwOnError: import.meta.env.PROD ? true : false, //쿼리 실패시 에러를 던지지 않도록 설정
                 },
             },
         }),
