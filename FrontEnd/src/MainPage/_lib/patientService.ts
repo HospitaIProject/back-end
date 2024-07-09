@@ -11,6 +11,5 @@ export const usePatientListQuery = () => {
         queryKey: ['patient', 'list'],
         queryFn: getPatientList,
     });
-    if (query.error) console.log(query.error);
     return query;
 };

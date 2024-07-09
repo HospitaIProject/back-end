@@ -1,5 +1,6 @@
 export type ErrorResponseType = {
-    data: [];
-    message: string;
-    success: boolean;
+    LocalDateTime: string;
+    status: number;
+    ErrorCode: string;
+    ErrorMessage: string;
 };

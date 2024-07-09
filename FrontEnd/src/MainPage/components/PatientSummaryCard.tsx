@@ -7,6 +7,7 @@ import ConfirmNewPatientFormModal from './PatientDetailModal';
 import { useState } from 'react';
 import { pushNotification } from '../../utils/pushNotification';
 import useSurgeryDayFormat from '../../Hooks/useSergeryDateFormatted';
+import CheckBoxIcon from '../../icons/CheckBoxIcon';
 
 type Props = {
     userData: PatientWithOperationDtoType;
@@ -107,18 +108,26 @@ function PatientSummaryCard({ userData }: Props) {
                                         userData.checkListCreatedToday ? '' : ''
                                     } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-100 p-2 text-blue-700 shadow-sm disabled:cursor-not-allowed disabled:opacity-50`}
                                 >
-                                    <CheckListIcon className="w-5 h-5 text-inherit" />
-                                    <span className="text-sm font-semibold">작성</span>
-                                    <ArrowIcon className="w-4 h-4 text-inherit" />
+                                    <CheckListIcon className={`h-5 w-5 text-inherit`} />
+                                    <span className="text-sm font-semibold">
+                                        {userData.checkListCreatedToday ? '작성완료' : '작성'}
+                                    </span>
+                                    <ArrowIcon
+                                        className={`h-4 w-4 text-inherit ${userData.checkListCreatedToday ? 'hidden' : ''}`}
+                                    />
                                 </button>
                                 <span
-                                    className={`absolute -top-2 right-0 inline-block rounded-md px-1 text-sm ${
+                                    className={`absolute -top-2 inline-block rounded-md px-1 text-sm ${
                                         userData.checkListCreatedToday
-                                            ? 'font-medium text-red-300'
-                                            : 'h-5 w-5 bg-yellow-200 text-center text-red-500'
+                                            ? '-right-2 font-medium text-green-500'
+                                            : '-right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-yellow-200 text-center text-red-500'
                                     }`}
                                 >
-                                    {userData.checkListCreatedToday ? '작성완료 ✔' : '!'}
+                                    {userData.checkListCreatedToday ? (
+                                        <CheckBoxIcon isChecked={true} checkedClassName="w-5 h-5" />
+                                    ) : (
+                                        <span className="">!</span>
+                                    )}
                                 </span>
                             </div>
                         )}
