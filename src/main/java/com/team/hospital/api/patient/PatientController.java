@@ -1,20 +1,18 @@
 package com.team.hospital.api.patient;
 
 import com.team.hospital.api.SuccessResponse;
-import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
-import com.team.hospital.api.operation.dto.OperationDateDTO;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.dto.PatientWithOperationDateDTO;
+import com.team.hospital.api.patient.enumType.FilterType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,37 +41,25 @@ public class PatientController {
         return SuccessResponse.createSuccess(patientDTO);
     }
 
+    @GetMapping("/patients/filter")
+    @Operation(summary = "필터 환자 조회", description = "필터를 이용해 환자를 조회합니다.")
+    public SuccessResponse<?> filter(@RequestParam(required = false) FilterType filterType,
+                                     @RequestParam(required = false) String query) {
+        List<Patient> filteredPatients = getFilteredPatients(filterType, query);
+        List<PatientWithOperationDateDTO> patientDTOs = filteredPatients.stream()
+                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+                .map(this::convertToPatientWithOperationDateDTO)
+                .collect(Collectors.toList());
+        return SuccessResponse.createSuccess(patientDTOs);
+    }
+
     @GetMapping("/patients")
     @Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
     public SuccessResponse<List<PatientWithOperationDateDTO>> findPatients() {
-        List<Patient> allPatients = patientService.findAll();
-
-        List<PatientWithOperationDateDTO> patientDTOs = allPatients.stream()
+        List<PatientWithOperationDateDTO> patientDTOs = patientService.findAll().stream()
                 .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-                .map(patient -> {
-                    List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId());
-                    List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
-                            .map(OperationDateDTO::toEntity)
-                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate).reversed())
-//                            .collect(Collectors.toList());
-                            .toList();
-
-                    com.team.hospital.api.operation.Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
-
-                    boolean checkListCreatedToday = false;
-
-                    if (recentOperation != null) {
-                        checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
-                    }
-
-                    return PatientWithOperationDateDTO.builder()
-                            .patientDTO(PatientDTO.createPatientDTO(patient))
-                            .operationDateDTOs(operationDateDTOs)
-                            .checkListCreatedToday(checkListCreatedToday)
-                            .build();
-                })
+                .map(this::convertToPatientWithOperationDateDTO)
                 .collect(Collectors.toList());
-
         return SuccessResponse.createSuccess(patientDTOs);
     }
 
@@ -92,25 +78,27 @@ public class PatientController {
         return SuccessResponse.createSuccess();
     }
 
-    // 필터기능
-    @GetMapping("/patient/search/by-name")
-    public SuccessResponse<?> searchPatientByName(@RequestParam String name) {
-        List<PatientWithOperationDateDTO> finalList = patientService.findPatientsByName(name).stream()
-                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-                .map(patient -> {
-                    List<OperationDateDTO> operationDateDTOs = operationService.findAllByPatient(patient.getId()).stream()
-                            .map(OperationDateDTO::toEntity)
-                            .sorted(Comparator.comparing(OperationDateDTO::getOperationDate).reversed())
-                            .collect(Collectors.toList());
+    private PatientWithOperationDateDTO convertToPatientWithOperationDateDTO(Patient patient) {
+        List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream().sorted(Comparator.comparing(OperationDTO::getOpertationDate).reversed()).toList();
+        com.team.hospital.api.operation.Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
 
-                    return PatientWithOperationDateDTO.builder()
-                            .patientDTO(PatientDTO.createPatientDTO(patient))
-                            .operationDateDTOs(operationDateDTOs)
-                            .build();
-                })
-                .collect(Collectors.toList());
+        boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
 
-        return SuccessResponse.createSuccess(finalList);
+        return PatientWithOperationDateDTO.toEntity(patient, operationDTOs, checkListCreatedToday);
+    }
+
+    private List<Patient> getFilteredPatients(FilterType filterType, String query) {
+        if (filterType == null || query == null || query.isEmpty()) {
+            return patientService.findAll();
+        }
+
+        return switch (filterType) {
+            case PATIENT_NAME -> patientService.findPatientsByName(query);
+            case PATIENT_NUMBER -> patientService.findPatientsByPatientNumber(Long.parseLong(query));
+            case OPERATION_METHOD -> operationService.findOperationsByOperationMethod(query).stream()
+                    .map(com.team.hospital.api.operation.Operation::getPatient)
+                    .collect(Collectors.toList());
+        };
     }
 
 }
