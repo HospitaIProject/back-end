@@ -47,7 +47,6 @@ public class CheckListController {
         List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(operationId);
-
         return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListCreatedToday));
     }
 

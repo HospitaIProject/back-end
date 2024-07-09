@@ -61,13 +61,8 @@ public class CheckListService {
     }
 
     public boolean checkIfCheckListCreatedToday(Long operationId) {
-        boolean checkListCreatedToday = false;
-
         CheckList recentCheckList = findRecentCheckListByOperationId(operationId);
-        if (recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now())) {
-            checkListCreatedToday = true;
-        }
-        return checkListCreatedToday;
+        return recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now());
     }
 
 }

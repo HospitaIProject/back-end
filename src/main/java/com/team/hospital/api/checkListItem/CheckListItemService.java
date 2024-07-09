@@ -6,6 +6,7 @@ import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,12 +22,14 @@ public class CheckListItemService {
     @Transactional
     public void save(WriteCheckListItem writeCheckListItem, Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
-
-        // 해당 오퍼레이션에 이미 checkListItem이 등록되어있는지 확인 필요.
-//        if (findCheckListItemByOperation(operationId) != null) throw new CheckListItemAlreadyExistsException("이미 해당 수술에 체크리스트 목록이 등록되어있습니다.");
-
         CheckListItem checkListItem = CheckListItem.createCheckListItem(writeCheckListItem, operation);
-        checkListItemRepository.save(checkListItem);
+
+        try {
+            checkListItemRepository.save(checkListItem);
+        } catch (DataIntegrityViolationException e) {
+            // 중복된 항목이 있을 경우 예외 처리
+            throw new CheckListItemNotFoundException("해당 수술에 등록된 체크리스트 목록이 존재합니다. 존재하는 체크리스트 목록을 수정하십시오.");
+        }
     }
 
     @Transactional
