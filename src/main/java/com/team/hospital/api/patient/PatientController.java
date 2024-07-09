@@ -59,7 +59,12 @@ public class PatientController {
                             .toList();
 
                     com.team.hospital.api.operation.Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
-                    boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
+
+                    boolean checkListCreatedToday = false;
+
+                    if (recentOperation != null) {
+                        checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
+                    }
 
                     return PatientWithOperationDateDTO.builder()
                             .patientDTO(PatientDTO.createPatientDTO(patient))
