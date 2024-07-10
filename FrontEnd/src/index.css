@@ -137,3 +137,27 @@ button:focus-visible {
 .react-datepicker__day--outside-month {
     @apply pointer-events-none text-white !important;
 }
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+@keyframes slide-down {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+.animate-slide-up {
+    animation: slide-up 0.2s ease-in-out;
+}
