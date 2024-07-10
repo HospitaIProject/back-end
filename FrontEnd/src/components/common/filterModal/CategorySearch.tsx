@@ -4,6 +4,7 @@ import SearchIcon from '../../../icons/SearchIcon';
 import { debounce } from 'lodash';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import DotLoadingIcon from '../../../icons/DotLoadingIcon';
+import CloseIcon from '../../../icons/CloseIcon';
 function CategorySearch() {
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
@@ -33,6 +34,12 @@ function CategorySearch() {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoading(true); // 입력이 시작될 때 로딩 상태를 true로 설정
         debouncedHandleSubmit(e.target.value);
+    };
+    const handleReset = () => {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('q');
+        params.delete('page');
+        navigate(pathname + '?' + params.toString(), { replace: true });
     };
     useEffect(() => {
         if (inputRef.current === null) return;
@@ -69,6 +76,9 @@ function CategorySearch() {
                 onChange={(e) => handleInputChange(e)}
                 defaultValue={searchParams.get('q') || ''}
             />
+            <button onClick={handleReset} className={` ${searchParams.get('q') ? 'block' : 'hidden'} `}>
+                <CloseIcon className="w-6 h-6 text-gray-400" />
+            </button>
         </div>
     );
 }

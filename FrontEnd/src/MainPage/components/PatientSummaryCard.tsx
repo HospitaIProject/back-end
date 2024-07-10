@@ -65,7 +65,7 @@ function PatientSummaryCard({ userData }: Props) {
         <>
             <li
                 key={userData.patientDTO.patientNumber}
-                className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y hover:bg-blue-50"
+                className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
                 <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
@@ -117,10 +117,10 @@ function PatientSummaryCard({ userData }: Props) {
                                     />
                                 </button>
                                 <span
-                                    className={`absolute -top-2 inline-block rounded-md px-1 text-sm ${
+                                    className={`absolute -top-2 rounded-full px-1 text-sm ${
                                         userData.checkListCreatedToday
                                             ? '-right-2 font-medium text-green-500'
-                                            : '-right-1 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-yellow-200 text-center text-red-500'
+                                            : '-right-1 flex h-[18px] w-[18px] items-center justify-center bg-yellow-200 text-center text-red-500'
                                     }`}
                                 >
                                     {userData.checkListCreatedToday ? (

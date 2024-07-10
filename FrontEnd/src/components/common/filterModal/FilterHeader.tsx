@@ -5,16 +5,16 @@ import FilterModal from './FilterModal';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const FILTER_ITEMS = [
+    // {
+    //     value: 'all',
+    //     title: '전체',
+    // },
     {
-        value: 'all',
-        title: '전체',
-    },
-    {
-        value: 'paitentName',
+        value: 'patientName',
         title: '환자이름',
     },
     {
-        value: 'paitentNumber',
+        value: 'patientNumber',
         title: '환자번호',
     },
     {
@@ -28,7 +28,7 @@ function FilterHeader() {
     const [searchParams] = useSearchParams();
     const { pathname } = useLocation();
     const navigate = useNavigate();
-    const sc = searchParams.get('sc') || 'all'; // 검색 카테고리설정
+    const sc = searchParams.get('sc') || 'patientName'; // 검색 카테고리설정
     let fiterCount = 0; //sort,checklist, ,q,sc
     if (searchParams.has('sort')) {
         fiterCount += 1;
