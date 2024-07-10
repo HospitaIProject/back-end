@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { PatientWithOperationDtoType } from '../../models/PatientType';
+import { ErrorResponseType } from '../../models/AxiosResponseType';
+import { AxiosError } from 'axios';
 
 const SC_MATCH_ITEMS: { [key: string]: string | undefined } = {
     // patientName: 'PATIENT_NAME',
@@ -28,7 +30,7 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
 
     // const sort = searchParams.get('sort') || '';
 
-    const query = useQuery<PatientWithOperationDtoType[]>({
+    const query = useQuery<PatientWithOperationDtoType[], AxiosError<ErrorResponseType>>({
         queryKey: ['patient', 'list', q, sc],
         queryFn: () =>
             getPatientList({
@@ -36,5 +38,6 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
                 sc,
             }),
     });
+
     return query;
 };

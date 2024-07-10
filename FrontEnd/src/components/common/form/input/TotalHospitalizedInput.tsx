@@ -13,6 +13,7 @@ function TotalHospitalizedInput<T>({ label, htmlFor, formik }: Props<T>) {
     // const selectedValue = formik?.getFieldProps(htmlFor).value as 'YES' | 'NO' | '';
     const isInput = formik?.getFieldProps(htmlFor).value;
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
+    const totalHospitalizedDays = formik?.getFieldProps('totalHospitalizedDays').value;
 
     useEffect(() => {
         if (formik?.getFieldProps('hospitalizedDate').value && formik?.getFieldProps('dischargedDate').value) {
@@ -32,12 +33,7 @@ function TotalHospitalizedInput<T>({ label, htmlFor, formik }: Props<T>) {
             <div
                 className={`bg-blue-50 ${isValid ? 'border-2 border-red-400' : ''} flex h-12 flex-grow flex-row items-center gap-2 overflow-hidden rounded-lg border border-gray-300 px-3`}
             >
-                <input
-                    type="text"
-                    disabled
-                    value={formik?.getFieldProps('totalHospitalized').value || ''}
-                    className="w-full outline-none"
-                />
+                <input type="text" disabled value={totalHospitalizedDays || ''} className="w-full outline-none" />
                 <span className="mr-2">일</span>
             </div>
         </InputContainer>

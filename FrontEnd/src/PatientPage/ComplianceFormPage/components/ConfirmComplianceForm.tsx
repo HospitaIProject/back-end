@@ -209,7 +209,12 @@ function ConfirmComplianceForm({ values, onSubmit, existFields }: Props) {
                 remark={values.hasPost_Nausea_Vomiting_remark}
                 isRender={existFields.hasPost_Nausea_Vomiting}
             />
-            <ViewInput label="입원병동" value={values.locate} remark={values.locate_remark} />
+            <ViewInput
+                label="입원병동"
+                value={values.locate}
+                remark={values.locate_remark}
+                isRender={existFields.locate}
+            />
             {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="제출하기" />}
         </div>
     );
