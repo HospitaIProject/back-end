@@ -18,7 +18,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -68,15 +70,33 @@ public class PatientController {
         return SuccessResponse.createSuccess(patientDTOs);
     }
 
-//    @GetMapping("/patients")
-//    @io.swagger.v3.oas.annotations.Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
-//    public SuccessResponse<List<PatientWithOperationDateDTO>> findPatients() {
-//        List<PatientWithOperationDateDTO> patientDTOs = patientService.findAll().stream()
-//                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-//                .map(this::convertToPatientWithOperationDateDTO)
-//                .toList();
-//        return SuccessResponse.createSuccess(patientDTOs);
-//    }
+    @GetMapping("/patients/v2")
+    @io.swagger.v3.oas.annotations.Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
+    public SuccessResponse<List<PatientWithOperationDateDTO>> findPatientsV2(@RequestParam(required = false) String query,
+                                                                             @RequestParam(required = false) Integer page,
+                                                                             @RequestParam(required = false) Integer size) {
+        Pageable pageable = PageRequest.of(page != null ? page - 1 : 0, size != null ? size : 10);
+        Set<Patient> patientsSet = new HashSet<>();
+
+        if (query != null && !query.isEmpty()) {
+            try {
+                Long patientNumber = Long.parseLong(query);
+                patientsSet.addAll(patientService.findPatientsByPatientNumber(patientNumber, pageable).getContent());
+            } catch (NumberFormatException e) {
+                // query가 숫자가 아닐 경우 이름과 수술 방법으로 검색을 계속 진행합니다.
+                patientsSet.addAll(patientService.findPatientsByName(query, pageable).getContent());
+                patientsSet.addAll(operationService.findPatientsByOperationMethod(query, pageable).getContent());
+            }
+        }
+
+        // 모든 환자를 조회한 후 중복 제거 및 정렬
+        List<PatientWithOperationDateDTO> patientDTOs = patientsSet.stream()
+                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+                .map(this::convertToPatientWithOperationDateDTO)
+                .toList();
+
+        return SuccessResponse.createSuccess(patientDTOs);
+    }
 
     @PutMapping("/patient/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 수정")
@@ -94,7 +114,7 @@ public class PatientController {
     }
 
     private PatientWithOperationDateDTO convertToPatientWithOperationDateDTO(Patient patient) {
-        List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream().sorted(Comparator.comparing(OperationDTO::getOpertationDate).reversed()).toList();
+        List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream().sorted(Comparator.comparing(OperationDTO::getOperationDate).reversed()).toList();
         Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
 

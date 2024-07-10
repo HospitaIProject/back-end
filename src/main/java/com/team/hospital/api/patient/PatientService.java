@@ -37,6 +37,10 @@ public class PatientService {
         patientRepository.delete(patient);
     }
 
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
+    }
+
     @Transactional(readOnly = true)
     public Slice<Patient> findPatientsByName(String query, Pageable pageable) {
         return patientRepository.findByNameContaining(query, pageable);
