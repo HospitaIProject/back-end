@@ -75,7 +75,7 @@ public class Operation extends BaseEntity {
                 .asaScore(register.getAsaScore())
                 .location(register.getLocation())
                 .dignosis(register.getDignosis())
-                .opertationDate(register.getOpertationDate())
+                .opertationDate(register.getOperationDate())
                 .hospitalizedDate(register.getHospitalizedDate())
                 .dischargedDate(register.getDischargedDate())
                 .totalHospitalizedDays(register.getTotalHospitalizedDays())
@@ -99,7 +99,7 @@ public class Operation extends BaseEntity {
         asaScore = registerOperation.getAsaScore();
         location = registerOperation.getLocation();
         dignosis = registerOperation.getDignosis();
-        opertationDate = registerOperation.getOpertationDate();
+        opertationDate = registerOperation.getOperationDate();
         hospitalizedDate = registerOperation.getHospitalizedDate();
         dischargedDate = registerOperation.getDischargedDate();
         totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();

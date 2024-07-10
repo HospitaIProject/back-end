@@ -24,7 +24,7 @@ public class RegisterOperation {
 
     private String dignosis;        // 진단
 
-    private Date opertationDate;    // 수술일
+    private Date operationDate;    // 수술일
 
     private Date hospitalizedDate;  // 입원일
 
