@@ -3,9 +3,9 @@ import Header from '../components/Header/Header';
 
 function HeaderLayout() {
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full min-h-dvh">
             <Header />
-            <main className="flex-1">
+            <main className="flex flex-1">
                 <Outlet />
             </main>
         </div>

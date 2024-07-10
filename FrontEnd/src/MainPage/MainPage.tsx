@@ -5,16 +5,19 @@ import ResponsivePagination from '../components/common/ResponsivePagination';
 import { usePatientListQuery } from './_lib/patientService';
 import PatientSummaryCard from './components/PatientSummaryCard';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
+import { useSearchParams } from 'react-router-dom';
 
 function MainPage() {
-    // const [searchParams] = useSearchParams();
-    // const page = Number(searchParams.get('page')) || 1;
-    const patientListQuery = usePatientListQuery();
+    const [searchParams] = useSearchParams();
+    const patientListQuery = usePatientListQuery(searchParams);
     const { data: patientListData, isPending, isSuccess } = patientListQuery;
 
     useEffect(() => {
         console.log(patientListData);
     }, [isSuccess]);
+    useEffect(() => {
+        console.log(searchParams);
+    }, [searchParams]);
     const isNoneData = isSuccess && patientListData.length === 0; // data가 없을때
 
     if (isPending) return <Loading />;
@@ -23,9 +26,11 @@ function MainPage() {
         <>
             <div className="flex flex-col justify-center w-full">
                 <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
+
                 <ul className="grid grid-cols-1 gap-2 py-2 mobile:grid-cols-2 mobile:px-2">
                     {isSuccess && patientListQuery.data.map((data) => <PatientSummaryCard userData={data} />)}
                 </ul>
+
                 <ResponsivePagination />
             </div>
         </>

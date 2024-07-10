@@ -40,11 +40,11 @@ function DesktopPagination() {
             }
             pageCount={pageSize}
             onPageChange={handleRouter}
-            containerClassName={'flex flex-row   gap-2 mx-auto mt-4 items-center '}
+            containerClassName={'flex flex-row p-4   gap-2 mx-auto mt-4 items-center '}
             pageLinkClassName={
                 'flex items-center justify-center w-10 h-10 text-sm border rounded-md border-neutral-300 hover:border-neutral-500'
             }
-            activeLinkClassName="bg-gray-500 text-white"
+            activeLinkClassName="bg-blue-500 text-white"
             pageRangeDisplayed={4} //선택된 페이지 주변에 보여질 페이지 수
             marginPagesDisplayed={1} //첫 페이지와 마지막 페이지 주변에 보여질 페이지 수
             forcePage={forcePage} //선택된 페이지

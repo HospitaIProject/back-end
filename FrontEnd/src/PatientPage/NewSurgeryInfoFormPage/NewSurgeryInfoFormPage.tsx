@@ -134,7 +134,7 @@ function NewSurgeryInfoFormPage() {
 
     return (
         <>
-            <div className={`w-full ${isConfirmPage ? 'hidden' : ''}`}>
+            <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
                 <form className="flex flex-col w-full gap-4 p-4 mx-auto bg-white" onSubmit={formik.handleSubmit}>
                     <h1 className="w-full px-2 py-3 mx-auto mb-4 text-gray-600 border-b max-w-screen-mobile text-start">
                         <span>환자명:&nbsp;{patientName}</span>
@@ -195,8 +195,8 @@ function NewSurgeryInfoFormPage() {
                         </button>
                         <span className="mt-2 text-sm text-green-600">*CheckList의 기본값은 True입니다.</span>
                     </div>
-                    <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
                 </form>
+                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
             </div>
             {isConfirmPage && (
                 <ConfirmNewSurgeryInfoModal

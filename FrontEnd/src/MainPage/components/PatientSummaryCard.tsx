@@ -65,15 +65,15 @@ function PatientSummaryCard({ userData }: Props) {
         <>
             <li
                 key={userData.patientDTO.patientNumber}
-                className="flex flex-col w-full gap-3 p-4 bg-white border-y"
-                // onClick={handleOpenModal}
+                className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y hover:bg-blue-50"
+                onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
                 <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
                     <div className="flex flex-row items-center gap-1">
                         <span className="text-lg font-semibold text-sky-800">{userData.patientDTO.name} </span>
                     </div>
                     <button
-                        onClick={() => setIsModalOpen(true)}
+                        // onClick={() => setIsModalOpen(true)} 임시수정 테스트
                         className="text-sm font-semibold text-blue-600 underline underline-offset-4"
                     >
                         상세정보

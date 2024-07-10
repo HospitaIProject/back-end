@@ -64,8 +64,7 @@ function NewPatientFormPage() {
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <h1 className="py-3 mx-4 mb-4 text-2xl font-semibold text-center border-b">환자 정보 등록</h1>
-                <form className="flex flex-col w-full gap-4 p-4 mx-auto bg-white" onSubmit={formik.handleSubmit}>
+                <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-5 bg-white" onSubmit={formik.handleSubmit}>
                     <NumberInput label="등록번호" htmlFor="patientNumber" formik={formik} />
                     <TextInput label="환자이름" htmlFor="name" formik={formik} />
                     <SingleSelector
@@ -78,8 +77,8 @@ function NewPatientFormPage() {
                         ]}
                     />
                     <BirthDayInput label="생년월일" htmlFor="birthday" formik={formik} />
-                    <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
                 </form>
+                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
             </div>
             {isConfirmPage && (
                 <ConfirmNewPatientFormModal
