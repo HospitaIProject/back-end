@@ -40,7 +40,7 @@ function PatientSummaryCard({ userData }: Props) {
     if (typeof diffDay === 'number') {
         SUGERY_STATUS['PREV'] = <span className="">{`D-${diffDay}`}</span>;
         SUGERY_STATUS['TODAY'] = <span className="">{'D-Day'}</span>;
-        SUGERY_STATUS['POST'] = <span className="">{`D+${diffDay}`}</span>;
+        SUGERY_STATUS['POST'] = <span className="">{`D+${Math.abs(diffDay)}`}</span>;
     } else {
         SUGERY_STATUS['PREV'] = '';
         SUGERY_STATUS['TODAY'] = '';
@@ -70,7 +70,7 @@ function PatientSummaryCard({ userData }: Props) {
             >
                 <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
                     <div className="flex flex-row items-center gap-1">
-                        <span className="text-lg font-semibold text-sky-800">{userData.patientDTO.name} </span>
+                        <span className="text-lg font-semibold text-blue-900">{userData.patientDTO.name} </span>
                     </div>
                     <button
                         // onClick={() => setIsModalOpen(true)} 임시수정 테스트
@@ -137,7 +137,6 @@ function PatientSummaryCard({ userData }: Props) {
                                 className={`mx-1 flex flex-row items-center gap-2 rounded-lg border bg-gray-50 p-2 text-gray-400 shadow-sm`}
                             >
                                 <span className="text-sm">수술정보 등록이 필요합니다.</span>
-                                <ArrowIcon className="w-4 h-4 text-inherit" />
                             </Link>
                         )}
 
@@ -145,15 +144,19 @@ function PatientSummaryCard({ userData }: Props) {
                     </div>
                 </div>
 
-                <div className="w-full my-1 border-t" />
+                <div className="w-full border-t" />
 
                 <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
                     {/* <button className="px-2 text-sm font-medium border rounded-md hover:bg-blue-50">체크리스트</button> */}
-                    <span>{SUGERY_STATUS[dateComparison]}</span>
+                    <span
+                        className={`${dateComparison ? '' : 'border-none'} rounded-md border px-2 py-1 text-sm text-gray-400`}
+                    >
+                        {SUGERY_STATUS[dateComparison]}
+                    </span>
 
                     <Link
                         to={`/patient/surgery/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
-                        className="p-2 px-2 text-sm font-medium border rounded-md hover:bg-blue-50"
+                        className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
                     >
                         수술정보관리
                     </Link>
