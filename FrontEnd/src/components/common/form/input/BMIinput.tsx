@@ -29,7 +29,7 @@ function BMIinput<T>({ label, htmlFor, formik }: Props<T>) {
     return (
         <InputContainer<T> label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div
-                className={`bg-red-50 ${isValid ? 'border-2 border-red-400' : ''} flex h-12 flex-grow flex-row items-center gap-2 overflow-hidden rounded-lg border border-gray-300 px-3`}
+                className={`bg-blue-50 ${isValid ? 'border-2 border-red-400' : ''} flex h-12 flex-grow flex-row items-center gap-2 overflow-hidden rounded-lg border border-gray-300 px-3`}
             >
                 <input
                     type="number"
