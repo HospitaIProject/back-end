@@ -137,6 +137,9 @@ button:focus-visible {
 .react-datepicker__day--outside-month {
     @apply pointer-events-none text-white !important;
 }
+.react-datepicker__day--disabled {
+    @apply text-[#ccc] line-through !important;
+}
 
 @keyframes slide-up {
     0% {

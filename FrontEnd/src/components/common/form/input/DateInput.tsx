@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
 import CalendarIcon from '../../../../icons/CalendarIcon';
 import DatePickerModal from '../../datePicker/DatePickerModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDateFormatted } from '../../../../Hooks/useDateFormatted';
 import CloseIcon from '../../../../icons/CloseIcon';
 
@@ -26,6 +26,29 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
     const isInput = formik?.getFieldProps(htmlFor).value; // formik의 값이 있는지 여부 및 값
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
 
+    let isDisabled = false;
+    let minDate;
+    if (htmlFor === 'operationDate') {
+        isDisabled = formik.getFieldProps('hospitalizedDate').value === '';
+        if (formik.getFieldProps('hospitalizedDate').value) {
+            minDate = formik.getFieldProps('hospitalizedDate').value;
+        }
+    } else if (htmlFor === 'dischargedDate') {
+        isDisabled = !formik.getFieldProps('hospitalizedDate').value || !formik.getFieldProps('operationDate').value;
+        if (formik.getFieldProps('operationDate').value) {
+            minDate = formik.getFieldProps('operationDate').value;
+        }
+    }
+
+    useEffect(() => {
+        if (!formik.getFieldProps('operationDate').value) {
+            formik.setFieldValue('dischargedDate', '');
+        } else if (!formik.getFieldProps('hospitalizedDate').value) {
+            formik.setFieldValue('operationDate', '');
+            formik.setFieldValue('dischargedDate', '');
+        }
+    }, [formik.getFieldProps('hospitalizedDate').value, formik.getFieldProps('operationDate').value]);
+
     return (
         <>
             <InputContainer<T> label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
@@ -33,13 +56,14 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
                     <button
                         type="button"
                         onClick={handleOpenModal}
-                        className={` ${isValid ? 'border-2 border-red-400' : ''} flex h-12 w-full max-w-60 flex-grow flex-row items-center justify-between gap-2 overflow-hidden rounded-lg border border-gray-300 px-3`}
+                        disabled={isDisabled}
+                        className={` ${isValid ? 'border-2 border-red-400' : ''} flex h-12 w-full max-w-60 flex-grow flex-row items-center justify-between gap-2 overflow-hidden rounded-lg border border-gray-300 px-3 ${isDisabled ? 'bg-gray-100' : 'bg-white'}`}
                     >
                         <input
                             type="text"
                             value={onlyDate}
                             placeholder="날짜를 선택해주세요."
-                            className="w-full outline-none cursor-pointer"
+                            className={`${isDisabled ? 'bg-gray-100' : 'bg-white'} w-full cursor-pointer outline-none`}
                             readOnly
                         />
 
@@ -56,7 +80,12 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
                 </div>
             </InputContainer>
             {isOpenModal && (
-                <DatePickerModal initialDate={isInput} onClose={handleCloseModal} onSelectDate={onSelectedDate} />
+                <DatePickerModal
+                    minDate={minDate}
+                    initialDate={isInput}
+                    onClose={handleCloseModal}
+                    onSelectDate={onSelectedDate}
+                />
             )}
         </>
     );
