@@ -30,7 +30,7 @@ function SurgeryListPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
+            <div className="flex flex-col w-full">
                 <div className="flex flex-row items-center justify-between w-full gap-3 px-4 py-3 mobile:col-span-2">
                     <span className="text-gray-600">
                         환자명:&nbsp;<span className="">{patientName}</span>
@@ -49,6 +49,7 @@ function SurgeryListPage() {
                         <SurgerySummaryCard surgeryData={data} />
                     ))}
                 </ul>
+
                 <ResponsivePagination />
             </div>
         </>

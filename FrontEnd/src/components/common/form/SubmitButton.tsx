@@ -5,11 +5,11 @@ type Props = {
 
 function SubmitButton({ onClick, label }: Props) {
     return (
-        <div className="mt-4 flex w-full">
+        <div className="flex w-full p-3 mt-auto">
             <button
                 type="button"
                 onClick={onClick}
-                className="mx-auto w-full max-w-screen-mobile rounded-md bg-blue-500 px-8 py-3 text-white hover:bg-blue-600"
+                className="w-full px-8 py-3 mx-auto text-white bg-blue-500 rounded-md max-w-screen-mobile hover:bg-blue-600"
             >
                 {label}
             </button>
