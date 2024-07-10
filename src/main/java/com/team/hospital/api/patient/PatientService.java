@@ -56,10 +56,6 @@ public class PatientService {
         return patient.get();
     }
 
-    public List<Patient> findAll() {
-        return patientRepository.findAll();
-    }
-
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);
     }
