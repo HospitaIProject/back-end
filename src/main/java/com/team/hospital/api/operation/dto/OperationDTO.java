@@ -29,7 +29,7 @@ public class OperationDTO {
 
     private String dignosis;        // 진단
 
-    private Date opertationDate;    // 수술일
+    private Date operationDate;    // 수술일
 
     private Date hospitalizedDate;  // 입원일
 
@@ -64,7 +64,7 @@ public class OperationDTO {
                 .asaScore(operation.getAsaScore())
                 .location(operation.getLocation())
                 .dignosis(operation.getDignosis())
-                .opertationDate(operation.getOpertationDate())
+                .operationDate(operation.getOperationDate())
                 .hospitalizedDate(operation.getHospitalizedDate())
                 .dischargedDate(operation.getDischargedDate())
                 .totalHospitalizedDays(operation.getTotalHospitalizedDays())

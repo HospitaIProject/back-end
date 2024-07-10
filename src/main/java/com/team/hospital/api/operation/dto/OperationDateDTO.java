@@ -23,7 +23,7 @@ public class OperationDateDTO {
         return OperationDateDTO.builder()
                 .operationId(operationDTO.getOperationId())
                 .operationMethod(operationDTO.getOperationMethod())
-                .operationDate(operationDTO.getOpertationDate())
+                .operationDate(operationDTO.getOperationDate())
                 .hospitalizedDate(operationDTO.getHospitalizedDate())
                 .dischargedDate(operationDTO.getDischargedDate())
                 .build();
