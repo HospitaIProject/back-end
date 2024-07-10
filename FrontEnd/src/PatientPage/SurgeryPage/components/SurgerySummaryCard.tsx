@@ -11,7 +11,7 @@ type Props = {
 function SurgerySummaryCard({ surgeryData }: Props) {
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name');
-    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(surgeryData.opertationDate); //수술일
+    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(surgeryData.operationDate); //수술일
     const { onlyDate: formattedHospitalizedDate } = useDateFormatted(surgeryData.hospitalizedDate); //입원일
     const { onlyDate: formattedDischargedDate } = useDateFormatted(surgeryData.dischargedDate); //퇴원일
     const { operationId, operationMethod } = surgeryData; //수술명

@@ -13,6 +13,7 @@ import PatientChecklistSetupModal from './components/PatientChecklistSetupModal'
 import SubmitButton from '../../components/common/form/SubmitButton';
 import { useSearchParams } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
+import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
 function NewSurgeryInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewSurgeryInfoFormMutation();
@@ -67,7 +68,7 @@ function NewSurgeryInfoFormPage() {
         asaScore: '', //ASA score
         location: '', //위치
         dignosis: '', //진단
-        opertationDate: '', //수술일
+        operationDate: '', //수술일
         hospitalizedDate: '', //입원일
         dischargedDate: '', //퇴원일
         totalHospitalizedDays: '', //총 재원일수
@@ -157,10 +158,10 @@ function NewSurgeryInfoFormPage() {
                     />
                     <TextInput label="위치" htmlFor="location" formik={formik} />
                     <TextInput label="진단" htmlFor="dignosis" formik={formik} />
-                    <DateInput label="수술일" htmlFor="opertationDate" formik={formik} />
                     <DateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
+                    <DateInput label="수술일" htmlFor="operationDate" formik={formik} />
                     <DateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
-                    <NumberInput label="총 재원일수" htmlFor="totalHospitalizedDays" formik={formik} />
+                    <TotalHospitalizedInput label="총 재원일수" htmlFor="totalHospitalizedDays" formik={formik} />
                     <TextInput label="수술방법" htmlFor="operationMethod" formik={formik} />
                     <TextInput label="수술 approach" htmlFor="operationApproach" formik={formik} />
                     <SingleSelector

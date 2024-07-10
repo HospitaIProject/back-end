@@ -10,7 +10,7 @@ function CategoryItemContainer({ children, onClick, isActive }: Props) {
     return (
         <button
             onClick={onClick}
-            className={`rounded-full px-4 py-3 text-sm font-medium ${isActive ? 'border border-pink-500 text-pink-500' : 'bg-gray-100 text-gray-700'}`}
+            className={`rounded-full px-3 py-2 text-sm font-medium transition-colors duration-300 ease-in-out ${isActive ? 'border border-blue-500 text-blue-500' : 'border border-transparent bg-gray-100 text-gray-700'}`}
         >
             {children}
         </button>

@@ -61,7 +61,7 @@ function FilterHeader() {
                     {FILTER_ITEMS.map((item) => (
                         <button
                             key={item.value}
-                            className={`${sc === item.value ? 'border border-blue-500 text-blue-500' : 'bg-gray-100 text-gray-700'} rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ease-in-out`}
+                            className={`${sc === item.value ? 'border border-blue-500 text-blue-500' : 'border border-transparent bg-gray-100 text-gray-700'} rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300 ease-in-out`}
                             onClick={() => handleFilter(item.value)}
                         >
                             {item.title}

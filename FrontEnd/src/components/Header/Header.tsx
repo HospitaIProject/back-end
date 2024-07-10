@@ -37,7 +37,7 @@ export default function Header() {
     if (pathname !== '/') {
         return (
             <header className="sticky top-0 z-10 min-w-full bg-white">
-                <nav className="flex h-[70px] items-center border-b border-blue-200 px-4">
+                <nav className="flex h-[70px] items-center border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
@@ -53,7 +53,7 @@ export default function Header() {
     return (
         <>
             <header className="sticky top-0 z-10 min-w-full bg-white">
-                <nav className="flex h-[70px] items-center justify-between border-b border-blue-200 px-4">
+                <nav className="flex h-[70px] items-center justify-between border-b px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-700 h-7 w-7" />
                     </button>

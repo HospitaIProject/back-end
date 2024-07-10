@@ -9,13 +9,14 @@ import DatePickerHeader from './DatePickerHeader';
 import MyContainer from './DatePickerContainer';
 
 type Props = {
+    minDate?: Date;
     initialDate?: Date;
     onClose: () => void;
     onSelectDate: (date: Date) => void;
 };
 
-function DatePickerModal({ initialDate, onClose, onSelectDate }: Props) {
-    const [selectDate, setSelectDate] = useState<Date | null>(new Date()); //선택된 날짜
+function DatePickerModal({ initialDate, onClose, onSelectDate, minDate }: Props) {
+    const [selectDate, setSelectDate] = useState<Date | null>(minDate ? minDate : new Date()); //선택된 날짜
 
     const handleChangeDate = () => {
         if (selectDate === null) return;
@@ -39,6 +40,7 @@ function DatePickerModal({ initialDate, onClose, onSelectDate }: Props) {
                     scrollableYearDropdown
                     showYearDropdown
                     yearDropdownItemNumber={15} // 현재 년도를 중심으로 앞뒤로 15년을 표시
+                    minDate={minDate}
                     renderCustomHeader={({
                         date,
                         changeYear,

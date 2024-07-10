@@ -25,7 +25,7 @@ type Props = {
     checkListSetup: CheckListSetupDaySectionType;
 };
 function ConfirmNewSurgeryInfo({ values, onSubmit, checkListSetup }: Props) {
-    const { onlyDate: opertationDate } = useDateFormatted(values.opertationDate);
+    const { onlyDate: operationDate } = useDateFormatted(values.operationDate);
     const { onlyDate: hospitalizedDate } = useDateFormatted(values.hospitalizedDate);
     const { onlyDate: dischargedDate } = useDateFormatted(values.dischargedDate);
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);
@@ -45,7 +45,7 @@ function ConfirmNewSurgeryInfo({ values, onSubmit, checkListSetup }: Props) {
                 <ViewInput label="ASA score" value={values.asaScore} />
                 <ViewInput label="위치" value={values.location} />
                 <ViewInput label="진단" value={values.dignosis} />
-                <ViewInput label="수술일" value={opertationDate} />
+                <ViewInput label="수술일" value={operationDate} />
                 <ViewInput label="입원일" value={hospitalizedDate} />
                 <ViewInput label="퇴원일" value={dischargedDate} />
                 <NumberViewInput label="총 재원일수" value={values.totalHospitalizedDays} />

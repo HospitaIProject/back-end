@@ -16,6 +16,15 @@ function FilterModalContainer({ children, onClose, handleReset }: ModalWrapperPr
     useEffect(() => {
         setIsBrowser(true);
     }, []);
+    useEffect(() => {
+        setIsBrowser(true);
+        // 모달이 열릴 때 body의 overflow를 hidden으로 설정
+        document.body.style.overflow = 'hidden';
+        return () => {
+            // 컴포넌트가 언마운트될 때 원래대로 되돌림
+            document.body.style.overflow = '';
+        };
+    }, []);
 
     if (!open || !isBrowser) return null;
 

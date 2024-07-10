@@ -39,8 +39,8 @@ export const useDateFormatted = (date: Date | string | '', FormatType?: 'SIMPLE'
     }
 
     // 오늘 날짜와 비교
-    const today = dayjs();
-    const comparisonDate = dayjs(date);
+    const today = dayjs().startOf('day');
+    const comparisonDate = dayjs(date).startOf('day');
     let dateComparison;
     if (today.isBefore(comparisonDate, 'day')) {
         dateComparison = DateComparison.Before; //오늘보다 받은 날짜가 이전이면 PREV

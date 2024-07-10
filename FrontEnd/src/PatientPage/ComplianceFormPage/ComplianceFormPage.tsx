@@ -21,9 +21,9 @@ type Button = {
 };
 
 const buttons: Button[] = [
-    { day: 'PREV', label: '수술전' },
-    { day: 'TODAY', label: '수술당일' },
-    { day: 'POST', label: '수술후' },
+    { day: 'PREV', label: '수술 전' },
+    { day: 'TODAY', label: '수술 당일' },
+    { day: 'POST', label: '수술 후' },
     { day: 'ALL', label: '전체' },
 ];
 
@@ -35,7 +35,7 @@ function ComplianceFormPage() {
     const surgeryId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
-    const { allDate: formattedNowDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
+    const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
     const { data: existFields, isPending } = checkListSetupQuery; //체크리스트 세팅 정보
@@ -167,14 +167,19 @@ function ComplianceFormPage() {
                     ))}
                 </div>
 
-                <div className="flex flex-col items-end gap-1 px-4 py-3 mb-4 border-b rounded-md bg-gray-50 text-neutral-700">
-                    <span className="font-medium text-gray-700">{formattedNowDate}</span>
-
-                    <span className="px-2 font-medium text-gray-700 bg-yellow-200">
-                        {dateStatus === 'TODAY' ? 'D-Day' : dateStatus === 'PREV' ? `D-${diffDay}` : `D+${diffDay}`}
-                    </span>
-
+                <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
                     <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
+                    <div className="flex flex-col items-end w-24 gap-1">
+                        <span className="text-sm font-medium text-gray-700">{formattedOnlyDate}</span>
+
+                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200">
+                            {dateStatus === 'TODAY'
+                                ? 'D-Day'
+                                : dateStatus === 'PREV'
+                                  ? `D-${diffDay}`
+                                  : `D+${Math.abs(Number(diffDay))}`}
+                        </span>
+                    </div>
                 </div>
 
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">

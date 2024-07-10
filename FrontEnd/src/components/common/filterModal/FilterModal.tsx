@@ -55,6 +55,22 @@ function FilterModal({ onClose }: Props) {
         <FilterModalContainer onClose={onClose} handleReset={handelReset}>
             <div className="flex flex-col w-full gap-6 p-4">
                 <div className="flex flex-col gap-2">
+                    <span className="font-semibold text-gray-700 text">기간 조회</span>
+                    <div className="flex flex-row gap-4 px-3 py-2 overflow-hidden border-2 rounded-full w-fit">
+                        <input
+                            type="date"
+                            defaultValue={currentDate}
+                            className="max-w-[120px] flex-1 rounded-md text-sm text-gray-600 outline-none"
+                        />
+                        <span className="flex items-center justify-center text-gray-400">~</span>
+                        <input
+                            type="date"
+                            defaultValue={currentDate}
+                            className="max-w-[120px] flex-1 rounded-md text-sm text-gray-600 outline-none"
+                        />
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2">
                     <span className="text-base font-semibold text-gray-700">정렬</span>
                     <div className="flex flex-row flex-wrap gap-2">
                         {CATEGORY_ITEMS_SORT.map((item) => (
@@ -80,22 +96,6 @@ function FilterModal({ onClose }: Props) {
                                 {item.title}
                             </CategoryItemContainer>
                         ))}
-                    </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                    <span className="font-semibold text-gray-700 text">기간 조회</span>
-                    <div className="flex flex-row gap-4 p-1 overflow-hidden border-2 rounded-full">
-                        <input
-                            type="date"
-                            defaultValue={currentDate}
-                            className="flex-1 p-2 text-gray-600 rounded-md outline-none"
-                        />
-                        <span className="flex items-center justify-center text-gray-400">~</span>
-                        <input
-                            type="date"
-                            defaultValue={currentDate}
-                            className="flex-1 p-2 text-gray-600 rounded-md outline-none"
-                        />
                     </div>
                 </div>
             </div>
