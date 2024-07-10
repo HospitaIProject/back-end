@@ -13,6 +13,7 @@ import TextInput from '../../components/common/form/input/TextInput';
 import DropContainer from './components/DropContainer';
 import { useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
+import Loading from '../../components/common/Loading';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST' | 'ALL';
@@ -37,7 +38,7 @@ function ComplianceFormPage() {
     const { allDate: formattedNowDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
-    const { data: existFields } = checkListSetupQuery; //체크리스트 세팅 정보
+    const { data: existFields, isPending } = checkListSetupQuery; //체크리스트 세팅 정보
 
     const initialValues: ComplianceValuesType = {
         explainBeforeOperation: existFields?.explainBeforeOperation ? '' : undefined, // EAS 수술전 설명
@@ -145,11 +146,14 @@ function ComplianceFormPage() {
         setRelativeDay([dateStatus as 'PREV' | 'TODAY' | 'POST']);
     }, []);
 
-    if (!existFields) return <div>데이터가 없습니다.</div>;
+    if (isPending) {
+        return <Loading />;
+    }
+    if (!existFields) return;
 
     return (
         <>
-            <div className={`w-full ${isConfirmPage ? 'hidden' : ''}`}>
+            <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
                 <div className="sticky top-[64px] z-10 flex flex-row border-b shadow-sm">
                     {buttons.map(({ day, label }) => (
                         <button
@@ -381,9 +385,8 @@ function ComplianceFormPage() {
                             isRender={existFields.locate}
                         />
                     </DropContainer>
-
-                    <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="확인하기" />
                 </form>
+                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="확인하기" />
             </div>
 
             {/* 작성한 폼을 한번 더확인 */}
