@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 function MainPage() {
     const [searchParams] = useSearchParams();
     const patientListQuery = usePatientListQuery(searchParams);
-    const { data: patientListData, isPending, isSuccess } = patientListQuery;
+    const { data: patientListData, isPending, isSuccess, error } = patientListQuery;
 
     useEffect(() => {
         console.log(patientListData);
@@ -19,6 +19,10 @@ function MainPage() {
         console.log(searchParams);
     }, [searchParams]);
     const isNoneData = isSuccess && patientListData.length === 0; // data가 없을때
+
+    useEffect(() => {
+        console.log(error?.message);
+    }, [error]);
 
     if (isPending) return <Loading />;
 
