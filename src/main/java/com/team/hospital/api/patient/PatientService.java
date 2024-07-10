@@ -4,6 +4,8 @@ import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.exception.PatientAlreadyExistsException;
 import com.team.hospital.api.patient.exception.PatientNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,12 +38,16 @@ public class PatientService {
     }
 
     @Transactional(readOnly = true)
-    public List<Patient> findPatientsByName(String query) {
-        return patientRepository.findByNameContaining(query);
+    public Slice<Patient> findPatientsByName(String query, Pageable pageable) {
+        return patientRepository.findByNameContaining(query, pageable);
     }
 
-    public List<Patient> findPatientsByPatientNumber(Long patientNumber) {
-        return patientRepository.findByPatientNumber(patientNumber);
+    public Slice<Patient> findPatientsByPatientNumber(Long patientNumber, Pageable pageable) {
+        return patientRepository.findByPatientNumber(patientNumber, pageable);
+    }
+
+    public Slice<Patient> findAll(Pageable pageable) {
+        return patientRepository.findAll(pageable);
     }
 
     public Patient findPatientById(Long patientId) {
@@ -49,12 +55,6 @@ public class PatientService {
         if (patient.isEmpty()) throw new PatientNotFoundException();
         return patient.get();
     }
-
-    public List<Patient> findAll() {
-        return patientRepository.findAll();
-    }
-
-
 
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);

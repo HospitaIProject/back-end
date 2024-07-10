@@ -2,20 +2,23 @@ package com.team.hospital.api.patient;
 
 import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.checkList.CheckListService;
+import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.dto.PatientWithOperationDateDTO;
 import com.team.hospital.api.patient.enumType.FilterType;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -28,43 +31,55 @@ public class PatientController {
     private final CheckListService checkListService;
 
     @PostMapping("/patient")
-    @Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
+    @io.swagger.v3.oas.annotations.Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
     public SuccessResponse<?> join(@RequestBody RegisterPatient registerPatient) {
         patientService.join(registerPatient);
         return SuccessResponse.createSuccess();
     }
 
     @GetMapping("/patient/{patientId}")
-    @Operation(summary = "환자 조회", description = "ID로 환자를 조회합니다.")
+    @io.swagger.v3.oas.annotations.Operation(summary = "환자 조회", description = "ID로 환자를 조회합니다.")
     public SuccessResponse<PatientDTO> findPatientById(@PathVariable Long patientId) {
         PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(patientId));
         return SuccessResponse.createSuccess(patientDTO);
     }
 
-    @GetMapping("/patients/filter")
-    @Operation(summary = "필터 환자 조회", description = "필터를 이용해 환자를 조회합니다.")
-    public SuccessResponse<?> filter(@RequestParam(required = false) FilterType filterType,
-                                     @RequestParam(required = false) String query) {
-        List<Patient> filteredPatients = getFilteredPatients(filterType, query);
-        List<PatientWithOperationDateDTO> patientDTOs = filteredPatients.stream()
-                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-                .map(this::convertToPatientWithOperationDateDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/patients")
+    @io.swagger.v3.oas.annotations.Operation(summary = "필터 환자 조회", description = "필터를 이용해 환자를 조회합니다.")
+    public SuccessResponse<?> findPatients(@RequestParam(required = false) FilterType filterType,
+                                           @RequestParam(required = false) String query,
+                                           @RequestParam(required = false) Integer page,
+                                           @RequestParam(required = false) Integer size) {
+        List<PatientWithOperationDateDTO> patientDTOs;
+        Pageable pageable = PageRequest.of(page != null ? page - 1 : 0, size != null ? size : 10);
+
+        if (!StringUtils.hasText(query) || filterType == null) {
+            patientDTOs = patientService.findAll(pageable).stream()
+                    .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+                    .map(this::convertToPatientWithOperationDateDTO)
+                    .toList();
+        } else {
+            Slice<Patient> filteredPatients = getFilteredPatients(filterType, query, pageable);
+            patientDTOs = filteredPatients.getContent().stream()
+                    .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+                    .map(this::convertToPatientWithOperationDateDTO)
+                    .toList();
+        }
         return SuccessResponse.createSuccess(patientDTOs);
     }
 
-    @GetMapping("/patients")
-    @Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
-    public SuccessResponse<List<PatientWithOperationDateDTO>> findPatients() {
-        List<PatientWithOperationDateDTO> patientDTOs = patientService.findAll().stream()
-                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
-                .map(this::convertToPatientWithOperationDateDTO)
-                .collect(Collectors.toList());
-        return SuccessResponse.createSuccess(patientDTOs);
-    }
+//    @GetMapping("/patients")
+//    @io.swagger.v3.oas.annotations.Operation(summary = "전체 환자 조회", description = "전체 환자 목록을 조회하고 각 환자의 수술 정보를 포함합니다.")
+//    public SuccessResponse<List<PatientWithOperationDateDTO>> findPatients() {
+//        List<PatientWithOperationDateDTO> patientDTOs = patientService.findAll().stream()
+//                .sorted(Comparator.comparing(Patient::getUpdatedAt).reversed())
+//                .map(this::convertToPatientWithOperationDateDTO)
+//                .toList();
+//        return SuccessResponse.createSuccess(patientDTOs);
+//    }
 
     @PutMapping("/patient/{patientId}")
-    @Operation(summary = "환자 수정")
+    @io.swagger.v3.oas.annotations.Operation(summary = "환자 수정")
     public SuccessResponse<?> modifyPatientById(@RequestBody RegisterPatient registerPatient,
                                                 @PathVariable Long patientId) {
         patientService.modify(registerPatient, patientId);
@@ -72,7 +87,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/patient/{patientId}")
-    @Operation(summary = "환자 삭제")
+    @io.swagger.v3.oas.annotations.Operation(summary = "환자 삭제")
     public SuccessResponse<?> deletePatientById(@PathVariable Long patientId) {
         patientService.delete(patientId);
         return SuccessResponse.createSuccess();
@@ -80,24 +95,17 @@ public class PatientController {
 
     private PatientWithOperationDateDTO convertToPatientWithOperationDateDTO(Patient patient) {
         List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream().sorted(Comparator.comparing(OperationDTO::getOpertationDate).reversed()).toList();
-        com.team.hospital.api.operation.Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
-
+        Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
 
         return PatientWithOperationDateDTO.toEntity(patient, operationDTOs, checkListCreatedToday);
     }
 
-    private List<Patient> getFilteredPatients(FilterType filterType, String query) {
-        if (filterType == null || query == null || query.isEmpty()) {
-            return patientService.findAll();
-        }
-
+    private Slice<Patient> getFilteredPatients(FilterType filterType, String query, Pageable pageable) {
         return switch (filterType) {
-            case PATIENT_NAME -> patientService.findPatientsByName(query);
-            case PATIENT_NUMBER -> patientService.findPatientsByPatientNumber(Long.parseLong(query));
-            case OPERATION_METHOD -> operationService.findOperationsByOperationMethod(query).stream()
-                    .map(com.team.hospital.api.operation.Operation::getPatient)
-                    .collect(Collectors.toList());
+            case PATIENT_NAME -> patientService.findPatientsByName(query, pageable);
+            case PATIENT_NUMBER -> patientService.findPatientsByPatientNumber(Long.parseLong(query), pageable);
+            case OPERATION_METHOD -> operationService.findPatientsByOperationMethod(query, pageable);
         };
     }
 

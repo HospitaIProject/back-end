@@ -6,6 +6,8 @@ import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
 import com.team.hospital.api.operation.dto.RegisterOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,9 +64,8 @@ public class OperationService {
         return null;
     }
 
-    public List<Operation> findOperationsByOperationMethod(String operationMethod) {
-        return operationRepository.findOperationsByOperationMethod(operationMethod);
+    public Slice<Patient> findPatientsByOperationMethod(String operationMethod, Pageable pageable) {
+        return operationRepository.findOperationsByOperationMethod(operationMethod, pageable).map(Operation::getPatient);
     }
-
 
 }
