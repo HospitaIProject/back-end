@@ -1,5 +1,9 @@
 spring:
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
 
     url: jdbc:mysql://3.34.15.114:3306/hospital

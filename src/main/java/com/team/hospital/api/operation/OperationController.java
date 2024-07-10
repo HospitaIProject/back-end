@@ -31,7 +31,7 @@ public class OperationController {
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId);
 
         // operationDate를 기준으로 내림차순 정렬
-        operationDTOS.sort(Comparator.comparing(OperationDTO::getOpertationDate).reversed());
+        operationDTOS.sort(Comparator.comparing(OperationDTO::getOperationDate).reversed());
         return SuccessResponse.createSuccess(operationDTOS);
     }
 

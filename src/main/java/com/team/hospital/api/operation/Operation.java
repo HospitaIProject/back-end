@@ -36,7 +36,7 @@ public class Operation extends BaseEntity {
 
     private String dignosis;        // 진단
 
-    private Date opertationDate;    // 수술일
+    private Date operationDate;    // 수술일
 
     private Date hospitalizedDate;  // 입원일
 
@@ -75,7 +75,7 @@ public class Operation extends BaseEntity {
                 .asaScore(register.getAsaScore())
                 .location(register.getLocation())
                 .dignosis(register.getDignosis())
-                .opertationDate(register.getOperationDate())
+                .operationDate(register.getOperationDate())
                 .hospitalizedDate(register.getHospitalizedDate())
                 .dischargedDate(register.getDischargedDate())
                 .totalHospitalizedDays(register.getTotalHospitalizedDays())
@@ -99,7 +99,7 @@ public class Operation extends BaseEntity {
         asaScore = registerOperation.getAsaScore();
         location = registerOperation.getLocation();
         dignosis = registerOperation.getDignosis();
-        opertationDate = registerOperation.getOperationDate();
+        operationDate = registerOperation.getOperationDate();
         hospitalizedDate = registerOperation.getHospitalizedDate();
         dischargedDate = registerOperation.getDischargedDate();
         totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();
