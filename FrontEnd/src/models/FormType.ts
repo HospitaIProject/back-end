@@ -123,7 +123,7 @@ export type NewSurgeryInfoValuesType = {
     asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI' | '';
     location: string | '';
     dignosis: string | '';
-    opertationDate: Date | '';
+    operationDate: Date | '';
     hospitalizedDate: Date | '';
     dischargedDate: Date | '';
     totalHospitalizedDays: number | '';

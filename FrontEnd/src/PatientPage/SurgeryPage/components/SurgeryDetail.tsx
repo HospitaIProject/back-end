@@ -19,7 +19,7 @@ function SurgeryDetail({ surgeryData }: Props) {
     const checkListsSetupQuery = useCheckListsSetupQeury({ surgeryId: surgeryData.operationId });
     const { data: checkListSetupData, isPending } = checkListsSetupQuery;
 
-    const { onlyDate: opertationDate } = useDateFormatted(surgeryData.opertationDate);
+    const { onlyDate: operationDate } = useDateFormatted(surgeryData.operationDate);
     const { onlyDate: hospitalizedDate } = useDateFormatted(surgeryData.hospitalizedDate);
     const { onlyDate: dischargedDate } = useDateFormatted(surgeryData.dischargedDate);
 
@@ -38,7 +38,7 @@ function SurgeryDetail({ surgeryData }: Props) {
             <ViewInput label="ASA score" value={surgeryData.asaScore} />
             <ViewInput label="위치" value={surgeryData.location} />
             <ViewInput label="진단" value={surgeryData.dignosis} />
-            <ViewInput label="수술일" value={opertationDate} />
+            <ViewInput label="수술일" value={operationDate} />
             <ViewInput label="입원일" value={hospitalizedDate} />
             <ViewInput label="퇴원일" value={dischargedDate} />
             <NumberViewInput label="총 재원일수" value={surgeryData.totalHospitalizedDays} />
