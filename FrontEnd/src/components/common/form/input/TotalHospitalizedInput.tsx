@@ -20,10 +20,10 @@ function TotalHospitalizedInput<T>({ label, htmlFor, formik }: Props<T>) {
             const dischargedDate = formik?.getFieldProps('dischargedDate').value;
             const diff = dischargedDate.getTime() - hospitalizedDate.getTime();
 
-            formik?.setFieldValue('totalHospitalized', Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1);
-            formik?.setFieldError('totalHospitalized', '');
+            formik?.setFieldValue('totalHospitalizedDays', Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1);
+            formik?.setFieldError('totalHospitalizedDays', '');
         } else {
-            formik?.setFieldValue('totalHospitalized', '');
+            formik?.setFieldValue('totalHospitalizedDays', '');
         }
     }, [formik?.getFieldProps('hospitalizedDate').value, formik?.getFieldProps('dischargedDate').value]);
 
