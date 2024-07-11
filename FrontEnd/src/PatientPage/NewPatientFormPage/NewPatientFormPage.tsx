@@ -1,5 +1,4 @@
 import { useFormik } from 'formik';
-import BirthDayInput from '../../components/common/form/input/BirthDayInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 import TextInput from '../../components/common/form/input/TextInput';

@@ -1,32 +1,3 @@
-export type PatientType = {
-    createdAt: Date;
-    updatedAt: Date;
-    id: number;
-    patientNumber: number | '';
-    name: string | '';
-    sex: 'MALE' | 'FEMALE' | '';
-    birthday: Date | '';
-    height: number | '';
-    weight: number | '';
-    bmi: number | '';
-    asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI' | '';
-    location: string | '';
-    dignosis: string | '';
-    operationDate: Date | '';
-    hospitalizedDate: Date | '';
-    dischargedDate: Date | '';
-    totalHospitalizedDays: number | '';
-    operationMethod: string | '';
-    operationApproach: string | '';
-    stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY' | '';
-    ajcCStage: string | '';
-    numberOfRetrievedLine: number | '';
-    complicationOccurence: 'YES' | 'NO' | '';
-    cdClassification: string | '';
-    reOperationWithIn30Days: 'YES' | 'NO' | '';
-    reOperationCause: string | '';
-};
-
 //--------------------------------------------
 
 type AsaScoreType = 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI' | '';
