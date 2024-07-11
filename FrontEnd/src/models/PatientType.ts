@@ -54,7 +54,7 @@ export type PatientWithOperationDtoType = {
 };
 
 //--------------------------------------------
-type TestPatientFormType = {
+export type TestPatientFormType = {
     [key: string]: string | number | Date;
     patientNumber: number | ''; //등록번호
     name: 'MALE' | 'FEMALE'; //환자이름

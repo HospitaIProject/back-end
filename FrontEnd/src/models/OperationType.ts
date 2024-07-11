@@ -1,3 +1,26 @@
+export type OperationType = {
+    operationId: number;
+    height: number;
+    weight: number;
+    bmi: number;
+    asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI';
+    location: string;
+    dignosis: string;
+    operationDate: Date;
+    hospitalizedDate: Date;
+    dischargedDate: Date;
+    totalHospitalizedDays: number;
+    operationMethod: string;
+    operationApproach: string;
+    stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY';
+    ajcCStage: string;
+    numberOfRetrievedLine: number;
+    complicationOccurence: 'YES' | 'NO';
+    cdClassification: string;
+    reOperationWithIn30Days: 'YES' | 'NO';
+    reOperationCause: string;
+};
+
 export type OperationInfoFormType = {
     [key: string]:
         | 'ASA_I'
@@ -38,29 +61,6 @@ export type OperationInfoFormType = {
     reOperationWithIn30Days: 'YES' | 'NO' | '';
     reOperationCause: string | '';
 }; //환자 수술정보 등록폼
-
-export type OperationItemType = {
-    operationId: number;
-    height: number;
-    weight: number;
-    bmi: number;
-    asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI';
-    location: string;
-    dignosis: string;
-    operationDate: Date;
-    hospitalizedDate: Date;
-    dischargedDate: Date;
-    totalHospitalizedDays: number;
-    operationMethod: string;
-    operationApproach: string;
-    stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY';
-    ajcCStage: string;
-    numberOfRetrievedLine: number;
-    complicationOccurence: 'YES' | 'NO';
-    cdClassification: string;
-    reOperationWithIn30Days: 'YES' | 'NO';
-    reOperationCause: string;
-};
 export type OperationComplianceType = {
     patientId: number;
     patientName: string;

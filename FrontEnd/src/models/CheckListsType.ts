@@ -261,7 +261,7 @@ export const CHECKLIST_SECTION_KEYS = {
 };
 
 //--------------------------------------------
-type TestCheckListSetupType = {
+export type TestCheckListSetupType = {
     explainBeforeOperation: boolean; // EAS 수술전 설명
     takingONSBeforeOperationTwo_Hours: boolean; // 수술 2시간 전 ONS 복용여부
     takingAfterBowelPreparation: boolean; // Bowel preparation 후 ONS 경장영양액 복용여부
