@@ -1,12 +1,12 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
 import DetailViewContainer from '../../../components/common/detail/DetailViewContainer';
-import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
+import { CheckListSetupType, checkListFormType } from '../../../models/FormType';
 import ConfirmComplianceForm from '../../ComplianceFormPage/components/ConfirmComplianceForm';
 type Props = {
     values: checkListFormType;
     onSubmit?: () => void;
     onClose: () => void;
-    setupData: CheckListSetupDaySectionType;
+    setupData: CheckListSetupType;
 };
 
 function CheckListsDetailModal({ values, onSubmit, onClose, setupData }: Props) {

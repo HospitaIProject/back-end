@@ -1,9 +1,9 @@
 import { ITEMS_NAME_MAP } from '../../../utils/mappingNames';
 import CheckBoxIcon from '../../../icons/CheckBoxIcon';
-import { CheckListSetupDaySectionType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/FormType';
 
 type Props = {
-    values: CheckListSetupDaySectionType;
+    values: CheckListSetupType;
     patientKey: string;
     handleChange?: (checkItem: string, e: React.ChangeEvent<HTMLInputElement>) => void;
     readonly?: boolean;

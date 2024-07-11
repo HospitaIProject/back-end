@@ -1,9 +1,9 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CHECKLIST_SECTION_KEYS, CheckListSetupDaySectionType } from '../../../models/FormType';
+import { CHECKLIST_SECTION_KEYS, CheckListSetupType } from '../../../models/FormType';
 import PatientCheckCard from './PatientCheckCard';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 type Props = {
-    values: CheckListSetupDaySectionType;
+    values: CheckListSetupType;
     handleChange?: (checkItem: string, e: React.ChangeEvent<HTMLInputElement>) => void;
     onClose: () => void;
     title?: string;

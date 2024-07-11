@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { CheckListSetupDaySectionType, OperationInfoFormType } from '../../models/FormType';
+import { CheckListSetupType, OperationInfoFormType } from '../../models/FormType';
 import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
@@ -21,7 +21,7 @@ function NewOperationInfoFormPage() {
     const patientName = searchParams.get('name');
     const patientId = searchParams.get('id');
 
-    const [checkListSetup, setCheckListSetup] = useState<CheckListSetupDaySectionType>({
+    const [checkListSetup, setCheckListSetup] = useState<CheckListSetupType>({
         explainBeforeOperation: true, // EAS 수술전 설명
         takingONSBeforeOperationTwo_Hours: true, // 수술 2시간 전 ONS 복용여부
         takingAfterBowelPreparation: true, // Bowel preparation 후 ONS 경장영양액 복용여부

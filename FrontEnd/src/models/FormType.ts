@@ -145,7 +145,7 @@ export type OperationInfoFormType = {
     reOperationCause: string | '';
 }; //환자 수술정보 등록폼
 
-export type CheckListSetupDaySectionType = {
+export type CheckListSetupType = {
     [key: string]: boolean | number | undefined;
     checkListItemId?: number;
     explainBeforeOperation: boolean; // EAS 수술전 설명

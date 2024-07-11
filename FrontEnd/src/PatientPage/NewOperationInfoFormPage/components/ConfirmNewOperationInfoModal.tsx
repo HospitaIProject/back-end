@@ -1,12 +1,12 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CheckListSetupDaySectionType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/FormType';
 import ConfirmNewOperationInfo from './ConfirmNewOperationInfo';
 
 type Props = {
     values: any;
     onSubmit: () => void;
     onClose: () => void;
-    checkListSetup: CheckListSetupDaySectionType;
+    checkListSetup: CheckListSetupType;
 };
 
 function ConfirmNewOperationInfoModal({ values, onSubmit, onClose, checkListSetup }: Props) {

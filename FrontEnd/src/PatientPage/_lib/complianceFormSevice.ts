@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CheckListSetupDaySectionType, checkListFormType } from '../../models/FormType';
+import { CheckListSetupType, checkListFormType } from '../../models/FormType';
 import Axios from '../../utils/axiosInstance';
 // import { AxiosError } from 'axios';
 // import { ErrorResponse } from 'react-router-dom';
@@ -37,13 +37,13 @@ export const useComplianceFormMutation = () => {
     return mutation;
 }; //Compliance Form 서비스
 
-const getCheckListSetup = async ({ operationId }: { operationId: number }): Promise<CheckListSetupDaySectionType> => {
+const getCheckListSetup = async ({ operationId }: { operationId: number }): Promise<CheckListSetupType> => {
     const response = await Axios.get(`/api/checkListItem/${operationId}`);
     return response.data.data.checkListItemDTO;
 }; //체크리스트 세팅 가져오기
 
 export const useCheckListSetupQuery = ({ operationId }: { operationId: number }) => {
-    const query = useQuery<CheckListSetupDaySectionType>({
+    const query = useQuery<CheckListSetupType>({
         queryKey: ['checklist', 'setup', operationId],
         queryFn: () => getCheckListSetup({ operationId }),
     });

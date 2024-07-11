@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // import { useDateFormatted } from '../../../Hooks/useDateFormatted';
-import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
+import { CheckListSetupType, checkListFormType } from '../../../models/FormType';
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
@@ -9,7 +9,7 @@ import useOperationDayFormat from '../../../Hooks/useOperationDateFormatted';
 
 type Props = {
     complianceData: checkListFormType;
-    setupData: CheckListSetupDaySectionType;
+    setupData: CheckListSetupType;
     operationDateDTO: {
         operationId: number;
         operationMethod: string;

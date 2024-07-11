@@ -1,11 +1,11 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
+import { CheckListSetupType, checkListFormType } from '../../../models/FormType';
 import ConfirmComplianceForm from './ConfirmComplianceForm';
 type Props = {
     values: checkListFormType;
     onSubmit: () => void;
     onClose: () => void;
-    existFields: CheckListSetupDaySectionType;
+    existFields: CheckListSetupType;
 };
 
 function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields }: Props) {
