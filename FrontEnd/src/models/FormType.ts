@@ -85,7 +85,7 @@ export type checkListFormType = {
     hasPost_Nausea_Vomiting_remark?: string | '';
     locate_remark?: string | '';
 }; // 체크리스트 폼
-export type ResponseComplianceType = {
+export type ResponseCheckListType = {
     checkListDTOs: checkListFormType[];
     operationDateDTO: {
         operationId: number;
