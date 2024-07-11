@@ -3,7 +3,7 @@ import BirthDayInput from '../../components/common/form/input/BirthDayInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 import TextInput from '../../components/common/form/input/TextInput';
-import { NewPatientValuesType } from '../../models/FormType';
+import { PatientFormType } from '../../models/FormType';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal';
@@ -14,7 +14,7 @@ function NewPatientFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewPatientFormMutation();
 
-    const initialValues: NewPatientValuesType = {
+    const initialValues: PatientFormType = {
         patientNumber: '',
         name: '',
         sex: '',
@@ -33,7 +33,7 @@ function NewPatientFormPage() {
             console.log('제출', values);
         },
     });
-    const handleOpenConfirm = (values: NewPatientValuesType) => {
+    const handleOpenConfirm = (values: PatientFormType) => {
         let isError = false;
         for (const key in values) {
             if (values[key] === '') {

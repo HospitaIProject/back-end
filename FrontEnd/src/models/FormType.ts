@@ -96,7 +96,7 @@ export type ResponseCheckListType = {
     };
     checkListCreatedToday: boolean;
 }; // 체크리스트 응답
-export type NewPatientValuesType = {
+export type PatientFormType = {
     [key: string]: string | number | Date;
     patientNumber: number | '';
     name: string;
@@ -104,7 +104,7 @@ export type NewPatientValuesType = {
     birthday: Date | '';
 }; //환자 정보 등록폼
 
-export type NewOperationInfoValuesType = {
+export type OperationInfoFormType = {
     [key: string]:
         | 'ASA_I'
         | 'ASA_II'

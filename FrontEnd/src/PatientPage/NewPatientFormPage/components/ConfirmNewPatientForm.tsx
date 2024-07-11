@@ -2,10 +2,10 @@ import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';
-import { NewPatientValuesType } from '../../../models/FormType';
+import { PatientFormType } from '../../../models/FormType';
 
 type Props = {
-    values: NewPatientValuesType;
+    values: PatientFormType;
     onSubmit?: () => void;
 };
 

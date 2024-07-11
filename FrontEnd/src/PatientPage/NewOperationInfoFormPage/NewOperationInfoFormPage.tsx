@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { CheckListSetupDaySectionType, NewOperationInfoValuesType } from '../../models/FormType';
+import { CheckListSetupDaySectionType, OperationInfoFormType } from '../../models/FormType';
 import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
@@ -61,7 +61,7 @@ function NewOperationInfoFormPage() {
     });
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);
 
-    const initialValues: NewOperationInfoValuesType = {
+    const initialValues: OperationInfoFormType = {
         height: '', //키(cm)
         weight: '', //몸무게(kg)
         bmi: '', //BMI
@@ -101,7 +101,7 @@ function NewOperationInfoFormPage() {
     const onChangeCheckListSetup = (checkItem: string, event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckListSetup({ ...checkListSetup, [checkItem]: event.target.checked });
     };
-    const handleOpenConfirm = (values: NewOperationInfoValuesType) => {
+    const handleOpenConfirm = (values: OperationInfoFormType) => {
         let isError = false;
         for (const key in values) {
             if (values[key] === '') {

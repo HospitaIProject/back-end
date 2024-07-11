@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { CheckListSetupDaySectionType, NewPatientValuesType, NewOperationInfoValuesType } from '../../models/FormType';
+import { CheckListSetupDaySectionType, PatientFormType, OperationInfoFormType } from '../../models/FormType';
 
-const postPatientNewForm = async ({ data }: { data: NewPatientValuesType }) => {
+const postPatientNewForm = async ({ data }: { data: PatientFormType }) => {
     const response = await Axios.post(`api/patient`, data);
     return response;
 }; //환자 정보 등록 폼 서비스
@@ -13,7 +13,7 @@ const postOperationInfoNewForm = async ({
     operationData,
     patientId,
 }: {
-    operationData: NewOperationInfoValuesType;
+    operationData: OperationInfoFormType;
     setupData: CheckListSetupDaySectionType;
     patientId: number;
 }) => {
