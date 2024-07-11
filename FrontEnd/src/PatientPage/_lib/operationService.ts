@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { OperationType } from '../../models/OperationType';
-import { CheckListSetupType } from '../../models/FormType';
+import { CheckListSetupType } from '../../models/CheckListsType';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from 'react-router-dom';
 

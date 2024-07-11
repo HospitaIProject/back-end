@@ -1,5 +1,5 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CheckListSetupType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/CheckListsType';
 import ConfirmNewOperationInfo from './ConfirmNewOperationInfo';
 
 type Props = {

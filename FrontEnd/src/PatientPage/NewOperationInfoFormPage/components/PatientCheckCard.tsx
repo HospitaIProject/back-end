@@ -1,6 +1,6 @@
 import { ITEMS_NAME_MAP } from '../../../utils/mappingNames';
 import CheckBoxIcon from '../../../icons/CheckBoxIcon';
-import { CheckListSetupType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/CheckListsType';
 
 type Props = {
     values: CheckListSetupType;

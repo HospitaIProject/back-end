@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { CheckListSetupType, OperationInfoFormType } from '../../models/FormType';
+import { OperationInfoFormType } from '../../models/FormType';
+import { CheckListSetupType } from '../../models/CheckListsType';
 import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';

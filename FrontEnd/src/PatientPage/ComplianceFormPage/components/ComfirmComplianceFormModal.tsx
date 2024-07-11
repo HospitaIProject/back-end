@@ -1,5 +1,6 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CheckListSetupType, checkListFormType } from '../../../models/FormType';
+import { checkListFormType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/CheckListsType';
 import ConfirmComplianceForm from './ConfirmComplianceForm';
 type Props = {
     values: checkListFormType;

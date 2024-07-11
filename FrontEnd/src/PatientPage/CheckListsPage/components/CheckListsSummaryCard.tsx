@@ -1,6 +1,7 @@
 import { useState } from 'react';
 // import { useDateFormatted } from '../../../Hooks/useDateFormatted';
-import { CheckListSetupType, checkListFormType } from '../../../models/FormType';
+import { checkListFormType } from '../../../models/FormType';
+import { CheckListSetupType } from '../../../models/CheckListsType';
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
