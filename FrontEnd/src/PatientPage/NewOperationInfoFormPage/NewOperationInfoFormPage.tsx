@@ -6,15 +6,12 @@ import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
-import BMIinput from '../../components/common/form/input/BMIinput';
-import DateInput from '../../components/common/form/input/DateInput';
 import ConfirmNewOperationInfoModal from './components/ConfirmNewOperationInfoModal';
 import { useNewOperationInfoFormMutation } from '../_lib/patientNewFormService';
 import PatientChecklistSetupModal from './components/PatientChecklistSetupModal';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import { useSearchParams } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
-import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewOperationInfoFormMutation();
@@ -141,28 +138,7 @@ function NewOperationInfoFormPage() {
                     <h1 className="w-full px-2 py-3 mx-auto mb-4 text-gray-600 border-b max-w-screen-mobile text-start">
                         <span>환자명:&nbsp;{patientName}</span>
                     </h1>
-                    <NumberInput unit="cm" label="키(cm)" htmlFor="height" formik={formik} />
-                    <NumberInput unit="kg" label="몸무게(kg)" htmlFor="weight" formik={formik} />
-                    <BMIinput label="BMI" htmlFor="bmi" formik={formik} />
-                    <SingleSelector
-                        label="ASA score"
-                        htmlFor="asaScore"
-                        formik={formik}
-                        values={[
-                            { value: 'ASA_I', name: 'ASA_I' },
-                            { value: 'ASA_II', name: 'ASA_II' },
-                            { value: 'ASA_III', name: 'ASA_III' },
-                            { value: 'ASA_IV', name: 'ASA_IV' },
-                            { value: 'ASA_V', name: 'ASA_V' },
-                            { value: 'ASA_VI', name: 'ASA_VI' },
-                        ]}
-                    />
-                    <TextInput label="위치" htmlFor="location" formik={formik} />
-                    <TextInput label="진단" htmlFor="dignosis" formik={formik} />
-                    <DateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
-                    <DateInput label="수술일" htmlFor="operationDate" formik={formik} />
-                    <DateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
-                    <TotalHospitalizedInput label="총 재원일수" htmlFor="totalHospitalizedDays" formik={formik} />
+
                     <TextInput label="수술방법" htmlFor="operationMethod" formik={formik} />
                     <TextInput label="수술 approach" htmlFor="operationApproach" formik={formik} />
                     <SingleSelector

@@ -78,7 +78,7 @@ function FilterHeader() {
                     </button>
                 </div>
             </div>
-            {isFilterModalOpen && <FilterModal onClose={closeFilterModal} />}
+            {isFilterModalOpen && <FilterModal isOpen={isFilterModalOpen} onClose={closeFilterModal} />}
         </>
     );
 }

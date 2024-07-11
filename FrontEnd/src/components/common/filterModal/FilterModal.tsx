@@ -33,9 +33,10 @@ const CATEGORY_ITEMS_CHECKLIST = [
 
 type Props = {
     onClose: () => void;
+    isOpen: boolean;
 };
 
-function FilterModal({ onClose }: Props) {
+function FilterModal({ onClose, isOpen }: Props) {
     const [searchParams] = useSearchParams();
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -52,7 +53,7 @@ function FilterModal({ onClose }: Props) {
     const handelReset = () => {};
 
     return (
-        <FilterModalContainer onClose={onClose} handleReset={handelReset}>
+        <FilterModalContainer isOpen={isOpen} onClose={onClose} handleReset={handelReset}>
             <div className="flex flex-col w-full gap-6 p-4">
                 <div className="flex flex-col gap-2">
                     <span className="font-semibold text-gray-700 text">기간 조회</span>

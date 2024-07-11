@@ -9,16 +9,29 @@ import SubmitButton from '../../components/common/form/SubmitButton';
 import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal';
 import { useNewPatientFormMutation } from '../_lib/patientNewFormService';
 import { pushNotification } from '../../utils/pushNotification';
+import BMIinput from '../../components/common/form/input/BMIinput';
+import DateInput from '../../components/common/form/input/DateInput';
+import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
 
 function NewPatientFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewPatientFormMutation();
 
     const initialValues: PatientFormType = {
-        patientNumber: '',
-        name: '',
-        sex: '',
-        birthday: '',
+        patientNumber: '', //등록번호
+        name: '', //환자이름
+        sex: '', //성별
+        age: '', //나이
+        height: '', //키(cm)
+        weight: '', //몸무게(kg)
+        bmi: '', //BMI(kg/cm^2)
+        asaScore: '', //ASA score
+        location: '', //위치            //enum
+        dignosis: '', //진단명          //enum
+        operationDate: '', //수술일
+        hospitalizedDate: '', //입원일
+        dischargedDate: '', //퇴원일
+        totalHospitalizedDays: '', //총 재원 일수(일)
     };
     const formik = useFormik({
         initialValues, // 초기값
@@ -76,7 +89,56 @@ function NewPatientFormPage() {
                             { value: 'FEMALE', name: 'FEMALE' },
                         ]}
                     />
-                    <BirthDayInput label="생년월일" htmlFor="birthday" formik={formik} />
+                    <NumberInput label="나이" htmlFor="age" formik={formik} />
+                    <NumberInput unit="cm" label="키(cm)" htmlFor="height" formik={formik} />
+                    <NumberInput unit="kg" label="몸무게(kg)" htmlFor="weight" formik={formik} />
+                    <BMIinput label="BMI" htmlFor="bmi" formik={formik} />
+                    <SingleSelector
+                        label="ASA score"
+                        htmlFor="asaScore"
+                        formik={formik}
+                        values={[
+                            { value: 'ASA_I', name: 'ASA_I' },
+                            { value: 'ASA_II', name: 'ASA_II' },
+                            { value: 'ASA_III', name: 'ASA_III' },
+                            { value: 'ASA_IV', name: 'ASA_IV' },
+                            { value: 'ASA_V', name: 'ASA_V' },
+                            { value: 'ASA_VI', name: 'ASA_VI' },
+                        ]}
+                    />
+                    <SingleSelector
+                        label="위치"
+                        htmlFor="location"
+                        formik={formik}
+                        values={[
+                            { value: 'RT_SIDED_COLON', name: 'Rt. sided colon' },
+                            { value: 'LT_SIDED_COLON', name: 'Lt. sided colon' },
+                            { value: 'RECTUM', name: 'Rectum' },
+                            { value: 'MULTIPLE', name: 'Multiple' },
+                        ]}
+                    />
+                    <TextInput
+                        label="진단명"
+                        htmlFor="dignosis"
+                        formik={formik}
+                        // values={[
+                        //     { value: 'ASCENDING_COLON', name: 'Ascending colon' },
+                        //     { value: 'HF_COLON', name: 'HF colon' },
+                        //     { value: 'T_COLON', name: 'T colon' },
+                        //     { value: 'SF_COLON', name: 'SF colon' },
+                        //     { value: 'DS_COLON', name: 'DS colon' },
+                        //     { value: 'SIGMOID_COLON', name: 'Sigmoid colon' },
+                        //     { value: 'RS_COLON', name: 'RS colon' },
+                        //     { value: 'RECTUM', name: 'Rectum' },
+                        //     { value: 'CECUM', name: 'Cecum' },
+                        //     { value: 'APPENDICEAL', name: 'Appendiceal' },
+                        //     { value: 'ANUS', name: 'Anus' },
+                        // ]}
+                    />
+                    <DateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
+                    <DateInput label="수술일" htmlFor="operationDate" formik={formik} />
+                    <DateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
+                    <TotalHospitalizedInput label="총 재원 일수" htmlFor="totalHospitalizedDays" formik={formik} />
                 </form>
                 <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
             </div>
