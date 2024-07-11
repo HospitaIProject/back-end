@@ -3,11 +3,11 @@ import MainPage from './MainPage/MainPage';
 import LoginPage from './LoginPage/LoginPage';
 import Layout from './Layout/Layout';
 import HeaderLayout from './Layout/HeaderLayout';
-import NewSurgeryInfoFormPage from './PatientPage/NewSurgeryInfoFormPage/NewSurgeryInfoFormPage';
+import NewOperationInfoFormPage from './PatientPage/NewOperationInfoFormPage/NewOperationInfoFormPage';
 import ComplianceFormPage from './PatientPage/ComplianceFormPage/ComplianceFormPage';
 import RQProviders from './components/RQProvider';
 import NewPatientFormPage from './PatientPage/NewPatientFormPage/NewPatientFormPage';
-import SurgeryListPage from './PatientPage/SurgeryPage/SurgeryListPage';
+import OperationListPage from './PatientPage/OperationPage/OperationListPage';
 import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
 
 function App() {
@@ -23,14 +23,14 @@ function App() {
                             <Route path="/" element={<MainPage />} />
                             {/* 뒤로가기 */}
                             {/* 수술정보 리스트 페이지 */}
-                            <Route path="/patient/surgery/list" element={<SurgeryListPage />} />
+                            <Route path="/patient/operation/list" element={<OperationListPage />} />
 
                             <Route path="/patient/checkLists" element={<CheckListsPage />} />
 
                             {/* 환자 정보 등록 페이지 */}
                             <Route path="/patient/new/info" element={<NewPatientFormPage />} />
                             {/* 환자 수술정보 등록 페이지 */}
-                            <Route path="/patient/new/surgery" element={<NewSurgeryInfoFormPage />} />
+                            <Route path="/patient/new/operation" element={<NewOperationInfoFormPage />} />
                             {/* compilance 체크리스트 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
                         </Route>

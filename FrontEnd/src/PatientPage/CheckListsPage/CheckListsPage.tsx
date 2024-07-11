@@ -7,7 +7,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import PlusIcon from '../../icons/PlusIcon';
 import { useCheckListSetupQuery } from '../_lib/complianceFormSevice';
-import useSurgeryDayFormat from '../../Hooks/useSergeryDateFormatted';
+import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import { pushNotification } from '../../utils/pushNotification';
 
 function CheckListsPage() {
@@ -15,15 +15,15 @@ function CheckListsPage() {
     // const page = Number(searchParams.get('page')) || 1;
     const [searchParams] = useSearchParams();
     const navigation = useNavigate();
-    const surgeryId = searchParams.get('id');
+    const operationId = searchParams.get('id');
     const patientName = searchParams.get('name');
     const dateComparison = searchParams.get('dateStatus');
-    const patientListQuery = useCheckListsQuery({ surgeryId: Number(surgeryId) });
-    const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) });
+    const patientListQuery = useCheckListsQuery({ operationId: Number(operationId) });
+    const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) });
 
     const { data: patientListData, isPending } = patientListQuery;
     const { data: setupData } = checkListSetupQuery; //checkListDTOs, operationDateDTO
-    const { diffDay } = useSurgeryDayFormat(patientListData?.operationDateDTO.operationDate || '');
+    const { diffDay } = useOperationDayFormat(patientListData?.operationDateDTO.operationDate || '');
 
     useEffect(() => {
         console.log(patientListData);
@@ -42,7 +42,7 @@ function CheckListsPage() {
             return;
         }
         navigation(
-            `/patient/form/compliance?id=${surgeryId}&name=${patientName}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
+            `/patient/form/compliance?id=${operationId}&name=${patientName}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
         );
     };
     if (isPending) return <Loading />;
@@ -53,18 +53,18 @@ function CheckListsPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-row items-center justify-between w-full gap-3 px-4 py-3 mobile:col-span-2">
+            <div className="flex w-full flex-col justify-center">
+                <div className="flex w-full flex-row items-center justify-between gap-3 px-4 py-3 mobile:col-span-2">
                     <span className="text-gray-600">
                         환자명:&nbsp;<span className="">{patientName}</span>
                     </span>
                     <div className="relative">
                         <button
                             onClick={handleRouteCheckListForm}
-                            className="flex flex-row items-center gap-2 p-2 border rounded-md shadow-sm bg-gray-50"
+                            className="flex flex-row items-center gap-2 rounded-md border bg-gray-50 p-2 shadow-sm"
                         >
                             <span className="text-sm font-semibold text-gray-600">체크리스트</span>
-                            <PlusIcon className="w-5 h-5 text-gray-600" />
+                            <PlusIcon className="h-5 w-5 text-gray-600" />
                         </button>
                         {/* <span
                             className={`absolute -top-2 right-0 inline-block rounded-md px-1 text-sm ${

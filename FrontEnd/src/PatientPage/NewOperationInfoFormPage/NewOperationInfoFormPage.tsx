@@ -1,22 +1,22 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { CheckListSetupDaySectionType, NewSurgeryInfoValuesType } from '../../models/FormType';
+import { CheckListSetupDaySectionType, NewOperationInfoValuesType } from '../../models/FormType';
 import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
 import BMIinput from '../../components/common/form/input/BMIinput';
 import DateInput from '../../components/common/form/input/DateInput';
-import ConfirmNewSurgeryInfoModal from './components/ConfirmNewSurgeryInfoModal';
-import { useNewSurgeryInfoFormMutation } from '../_lib/patientNewFormService';
+import ConfirmNewOperationInfoModal from './components/ConfirmNewOperationInfoModal';
+import { useNewOperationInfoFormMutation } from '../_lib/patientNewFormService';
 import PatientChecklistSetupModal from './components/PatientChecklistSetupModal';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import { useSearchParams } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
 import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
-function NewSurgeryInfoFormPage() {
+function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
-    const patientNewFormMutation = useNewSurgeryInfoFormMutation();
+    const patientNewFormMutation = useNewOperationInfoFormMutation();
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name');
     const patientId = searchParams.get('id');
@@ -61,7 +61,7 @@ function NewSurgeryInfoFormPage() {
     });
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);
 
-    const initialValues: NewSurgeryInfoValuesType = {
+    const initialValues: NewOperationInfoValuesType = {
         height: '', //키(cm)
         weight: '', //몸무게(kg)
         bmi: '', //BMI
@@ -89,7 +89,7 @@ function NewSurgeryInfoFormPage() {
             console.log('제출', values);
             if (confirm('제출하시겠습니까?')) {
                 patientNewFormMutation.mutate({
-                    surgeryData: values, // 환자수술 정보
+                    operationData: values, // 환자수술 정보
                     setupData: checkListSetup, //해당 수술의 체크리스트 설정
                     patientId: Number(patientId),
                 });
@@ -101,7 +101,7 @@ function NewSurgeryInfoFormPage() {
     const onChangeCheckListSetup = (checkItem: string, event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckListSetup({ ...checkListSetup, [checkItem]: event.target.checked });
     };
-    const handleOpenConfirm = (values: NewSurgeryInfoValuesType) => {
+    const handleOpenConfirm = (values: NewOperationInfoValuesType) => {
         let isError = false;
         for (const key in values) {
             if (values[key] === '') {
@@ -200,7 +200,7 @@ function NewSurgeryInfoFormPage() {
                 <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
             </div>
             {isConfirmPage && (
-                <ConfirmNewSurgeryInfoModal
+                <ConfirmNewOperationInfoModal
                     values={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
@@ -218,4 +218,4 @@ function NewSurgeryInfoFormPage() {
     );
 }
 
-export default NewSurgeryInfoFormPage;
+export default NewOperationInfoFormPage;

@@ -7,8 +7,8 @@ import Axios from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
 
-const postComplianceForm = async ({ surgeryId, data }: { surgeryId: number; data: checkListFormType }) => {
-    const response = await Axios.post(`api/checkList/operation/${surgeryId}`, data);
+const postComplianceForm = async ({ operationId, data }: { operationId: number; data: checkListFormType }) => {
+    const response = await Axios.post(`api/checkList/operation/${operationId}`, data);
     return response;
 }; //Compliance Form 서비스(체크리스트 제출)
 
@@ -37,15 +37,15 @@ export const useComplianceFormMutation = () => {
     return mutation;
 }; //Compliance Form 서비스
 
-const getCheckListSetup = async ({ surgeryId }: { surgeryId: number }): Promise<CheckListSetupDaySectionType> => {
-    const response = await Axios.get(`/api/checkListItem/${surgeryId}`);
+const getCheckListSetup = async ({ operationId }: { operationId: number }): Promise<CheckListSetupDaySectionType> => {
+    const response = await Axios.get(`/api/checkListItem/${operationId}`);
     return response.data.data.checkListItemDTO;
 }; //체크리스트 세팅 가져오기
 
-export const useCheckListSetupQuery = ({ surgeryId }: { surgeryId: number }) => {
+export const useCheckListSetupQuery = ({ operationId }: { operationId: number }) => {
     const query = useQuery<CheckListSetupDaySectionType>({
-        queryKey: ['checklist', 'setup', surgeryId],
-        queryFn: () => getCheckListSetup({ surgeryId }),
+        queryKey: ['checklist', 'setup', operationId],
+        queryFn: () => getCheckListSetup({ operationId }),
     });
     return query;
 }; //체크리스트 세팅 가져오기 커스텀 훅

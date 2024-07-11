@@ -32,12 +32,12 @@ function ComplianceFormPage() {
     const [relativeDay, setRelativeDay] = useState<Array<'PREV' | 'TODAY' | 'POST' | 'ALL'>>(['PREV']);
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name'); //환자명
-    const surgeryId = searchParams.get('id'); //수술ID
+    const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
-    const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
+    const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
     const { data: existFields, isPending } = checkListSetupQuery; //체크리스트 세팅 정보
 
     const initialValues: checkListFormType = {
@@ -109,7 +109,7 @@ function ComplianceFormPage() {
         onSubmit: (values) => {
             console.log('제출', values);
             if (confirm('제출하시겠습니까?')) {
-                complianceFormMutation.mutate({ surgeryId: Number(surgeryId), data: values });
+                complianceFormMutation.mutate({ operationId: Number(operationId), data: values });
             } else {
                 return;
             }

@@ -1,21 +1,21 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
 import DetailViewContainer from '../../../components/common/detail/DetailViewContainer';
-import { SurgeryType } from '../../../models/SurgeryType';
-import SurgeryDetail from './SurgeryDetail';
+import { OperationType } from '../../../models/OperationType';
+import OperationDetail from './OperationDetail';
 
 type Props = {
-    values: SurgeryType;
+    values: OperationType;
     onClose: () => void;
 };
 
-function SurgeryDetailModal({ values, onClose }: Props) {
+function OperationDetailModal({ values, onClose }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
             <DetailViewContainer>
-                <SurgeryDetail surgeryData={values} />
+                <OperationDetail operationData={values} />
             </DetailViewContainer>
         </ModalFullScreenContainer>
     );
 }
 
-export default SurgeryDetailModal;
+export default OperationDetailModal;

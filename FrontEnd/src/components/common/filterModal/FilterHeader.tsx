@@ -18,7 +18,7 @@ const FILTER_ITEMS = [
         title: '환자번호',
     },
     {
-        value: 'surgeryMethod',
+        value: 'operationMethod',
         title: '수술명',
     },
 ];

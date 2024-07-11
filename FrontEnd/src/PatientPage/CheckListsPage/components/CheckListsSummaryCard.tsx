@@ -4,7 +4,7 @@ import { CheckListSetupDaySectionType, checkListFormType } from '../../../models
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
-import useSurgeryDayFormat from '../../../Hooks/useSergeryDateFormatted';
+import useOperationDayFormat from '../../../Hooks/useOperationDateFormatted';
 // import { Link } from 'react-router-dom';
 
 type Props = {
@@ -27,7 +27,7 @@ function CheckListsSummaryCard({ complianceData, setupData, operationDateDTO }: 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { writeDiffDay } = useSurgeryDayFormat(operationDateDTO.operationDate, complianceData.createAt);
+    const { writeDiffDay } = useOperationDayFormat(operationDateDTO.operationDate, complianceData.createAt);
     let dateComparison = '';
     if (typeof writeDiffDay === 'number') {
         dateComparison =

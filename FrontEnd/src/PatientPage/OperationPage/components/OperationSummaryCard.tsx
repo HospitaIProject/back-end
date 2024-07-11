@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
-import { SurgeryType } from '../../../models/SurgeryType';
-import SurgeryDetailModal from './SurgeryDetailModal';
+import { OperationType } from '../../../models/OperationType';
+import OperationDetailModal from './OperationDetailModal';
 import { Link, useSearchParams } from 'react-router-dom';
 
 type Props = {
-    surgeryData: SurgeryType;
+    operationData: OperationType;
 };
 
-function SurgerySummaryCard({ surgeryData }: Props) {
+function OperationSummaryCard({ operationData }: Props) {
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name');
-    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(surgeryData.operationDate); //수술일
-    const { onlyDate: formattedHospitalizedDate } = useDateFormatted(surgeryData.hospitalizedDate); //입원일
-    const { onlyDate: formattedDischargedDate } = useDateFormatted(surgeryData.dischargedDate); //퇴원일
-    const { operationId, operationMethod } = surgeryData; //수술명
+    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(operationData.operationDate); //수술일
+    const { onlyDate: formattedHospitalizedDate } = useDateFormatted(operationData.hospitalizedDate); //입원일
+    const { onlyDate: formattedDischargedDate } = useDateFormatted(operationData.dischargedDate); //퇴원일
+    const { operationId, operationMethod } = operationData; //수술명
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -65,9 +65,9 @@ function SurgerySummaryCard({ surgeryData }: Props) {
                     </Link>
                 </div>
             </li>
-            {isModalOpen && <SurgeryDetailModal values={surgeryData} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <OperationDetailModal values={operationData} onClose={() => setIsModalOpen(false)} />}
         </>
     );
 }
 
-export default SurgerySummaryCard;
+export default OperationSummaryCard;

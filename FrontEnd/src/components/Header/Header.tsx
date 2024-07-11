@@ -26,9 +26,9 @@ export default function Header() {
         label = 'Rectal ERAS compliance checklist';
     } else if (pathname.startsWith('/patient/new/info')) {
         label = '환자 정보등록';
-    } else if (pathname.startsWith('/patient/surgery/list')) {
+    } else if (pathname.startsWith('/patient/operation/list')) {
         label = '환자 수술이력';
-    } else if (pathname.startsWith('/patient/new/surgery')) {
+    } else if (pathname.startsWith('/patient/new/operation')) {
         label = '환자 수술정보등록';
     } else if (pathname.startsWith('/patient/checkLists')) {
         label = '체크리스트 목록';

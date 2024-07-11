@@ -84,7 +84,7 @@ export type checkListFormType = {
     operationTime_remark?: string | '';
     hasPost_Nausea_Vomiting_remark?: string | '';
     locate_remark?: string | '';
-}; // 체크리스트
+}; // 체크리스트 폼
 export type ResponseComplianceType = {
     checkListDTOs: checkListFormType[];
     operationDateDTO: {
@@ -95,7 +95,7 @@ export type ResponseComplianceType = {
         dischargedDate: string;
     };
     checkListCreatedToday: boolean;
-};
+}; // 체크리스트 응답
 export type NewPatientValuesType = {
     [key: string]: string | number | Date;
     patientNumber: number | '';
@@ -104,7 +104,7 @@ export type NewPatientValuesType = {
     birthday: Date | '';
 }; //환자 정보 등록폼
 
-export type NewSurgeryInfoValuesType = {
+export type NewOperationInfoValuesType = {
     [key: string]:
         | 'ASA_I'
         | 'ASA_II'

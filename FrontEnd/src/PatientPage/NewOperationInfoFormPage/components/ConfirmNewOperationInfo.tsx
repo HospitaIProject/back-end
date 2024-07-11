@@ -4,7 +4,7 @@ import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';
 import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNoViewButton';
-import { CheckListSetupDaySectionType, NewSurgeryInfoValuesType } from '../../../models/FormType';
+import { CheckListSetupDaySectionType, NewOperationInfoValuesType } from '../../../models/FormType';
 import PatientChecklistSetupModal from './PatientChecklistSetupModal';
 
 const MATCH_ITEMS = {
@@ -20,11 +20,11 @@ function getNameByValue(value: string) {
 }
 
 type Props = {
-    values: NewSurgeryInfoValuesType;
+    values: NewOperationInfoValuesType;
     onSubmit: () => void;
     checkListSetup: CheckListSetupDaySectionType;
 };
-function ConfirmNewSurgeryInfo({ values, onSubmit, checkListSetup }: Props) {
+function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
     const { onlyDate: operationDate } = useDateFormatted(values.operationDate);
     const { onlyDate: hospitalizedDate } = useDateFormatted(values.hospitalizedDate);
     const { onlyDate: dischargedDate } = useDateFormatted(values.dischargedDate);
@@ -81,4 +81,4 @@ function ConfirmNewSurgeryInfo({ values, onSubmit, checkListSetup }: Props) {
     );
 }
 
-export default ConfirmNewSurgeryInfo;
+export default ConfirmNewOperationInfo;

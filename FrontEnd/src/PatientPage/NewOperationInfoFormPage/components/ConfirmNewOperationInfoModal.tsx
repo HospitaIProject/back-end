@@ -1,6 +1,6 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
 import { CheckListSetupDaySectionType } from '../../../models/FormType';
-import ConfirmNewSurgeryInfo from './ConfirmNewSurgeryInfo';
+import ConfirmNewOperationInfo from './ConfirmNewOperationInfo';
 
 type Props = {
     values: any;
@@ -9,12 +9,12 @@ type Props = {
     checkListSetup: CheckListSetupDaySectionType;
 };
 
-function ConfirmNewSurgeryInfoModal({ values, onSubmit, onClose, checkListSetup }: Props) {
+function ConfirmNewOperationInfoModal({ values, onSubmit, onClose, checkListSetup }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose} maxWidthClassName="max-w-screen-tablet">
-            <ConfirmNewSurgeryInfo values={values} onSubmit={onSubmit} checkListSetup={checkListSetup} />
+            <ConfirmNewOperationInfo values={values} onSubmit={onSubmit} checkListSetup={checkListSetup} />
         </ModalFullScreenContainer>
     );
 }
 
-export default ConfirmNewSurgeryInfoModal;
+export default ConfirmNewOperationInfoModal;

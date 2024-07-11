@@ -1,4 +1,4 @@
-export type SurgeryType = {
+export type OperationType = {
     operationId: number;
     height: number;
     weight: number;
@@ -20,7 +20,7 @@ export type SurgeryType = {
     reOperationWithIn30Days: 'YES' | 'NO';
     reOperationCause: string;
 };
-export type SurgeryComplianceType = {
+export type OperationComplianceType = {
     patientId: number;
     patientName: string;
     patientNumber: number;

@@ -9,7 +9,7 @@ const SC_MATCH_ITEMS: { [key: string]: string | undefined } = {
     '': 'PATIENT_NAME',
 
     patientNumber: 'PATIENT_NUMBER',
-    surgeryMethod: 'OPERATION_METHOD',
+    operationMethod: 'OPERATION_METHOD',
     // '': undefined,
 };
 
