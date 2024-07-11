@@ -2,7 +2,7 @@ import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';
-import { PatientFormType } from '../../../models/FormType';
+import { PatientFormType } from '../../../models/PatientType';
 
 type Props = {
     values: PatientFormType;

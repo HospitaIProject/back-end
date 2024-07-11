@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
-import { ResponseCheckListType } from '../../models/FormType';
+import { ResponseCheckListType } from '../../models/CheckListsType';
 
 const getCheckLists = async (operationId: number): Promise<ResponseCheckListType> => {
     const response = await Axios.get(`api/checkLists/${operationId}`);

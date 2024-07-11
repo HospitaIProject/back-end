@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CheckListSetupType, checkListFormType } from '../../models/FormType';
+import { checkListFormType } from '../../models/CheckListsType';
+import { CheckListSetupType } from '../../models/CheckListsType';
 import Axios from '../../utils/axiosInstance';
 // import { AxiosError } from 'axios';
 // import { ErrorResponse } from 'react-router-dom';

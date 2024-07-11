@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
-import { checkListFormType } from '../../models/FormType';
+import { checkListFormType } from '../../models/CheckListsType';
 import { useEffect, useState } from 'react';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 // import TextInput from '../../components/common/form/input/TextInput';

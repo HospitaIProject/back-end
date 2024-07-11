@@ -1,5 +1,5 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CHECKLIST_SECTION_KEYS } from '../../../models/FormType';
+import { CHECKLIST_SECTION_KEYS } from '../../../models/CheckListsType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
 import PatientCheckCard from './PatientCheckCard';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';

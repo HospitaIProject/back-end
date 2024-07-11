@@ -1,5 +1,3 @@
-// import { checkListFormType } from '../../../../models/FormType';
-
 import InputViewContainer from './InputViewContainer';
 
 type Props = {

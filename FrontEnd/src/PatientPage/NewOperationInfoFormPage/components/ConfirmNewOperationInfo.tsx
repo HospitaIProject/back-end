@@ -4,7 +4,7 @@ import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';
 import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNoViewButton';
-import { OperationInfoFormType } from '../../../models/FormType';
+import { OperationInfoFormType } from '../../../models/OperationType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
 import PatientChecklistSetupModal from './PatientChecklistSetupModal';
 

@@ -1,7 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { PatientFormType, OperationInfoFormType } from '../../models/FormType';
+import { OperationInfoFormType } from '../../models/OperationType';
+import { PatientFormType } from '../../models/PatientType';
 import { CheckListSetupType } from '../../models/CheckListsType';
 
 const postPatientNewForm = async ({ data }: { data: PatientFormType }) => {

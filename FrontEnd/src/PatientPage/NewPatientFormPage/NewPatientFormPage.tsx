@@ -3,7 +3,7 @@ import BirthDayInput from '../../components/common/form/input/BirthDayInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 import TextInput from '../../components/common/form/input/TextInput';
-import { PatientFormType } from '../../models/FormType';
+import { PatientFormType } from '../../models/PatientType';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal';

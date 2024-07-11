@@ -1,4 +1,4 @@
-import { checkListFormType } from '../../../models/FormType';
+import { checkListFormType } from '../../../models/CheckListsType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';

@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { useState } from 'react';
-import { OperationInfoFormType } from '../../models/FormType';
+import { OperationInfoFormType } from '../../models/OperationType';
 import { CheckListSetupType } from '../../models/CheckListsType';
 import TextInput from '../../components/common/form/input/TextInput';
 import NumberInput from '../../components/common/form/input/NumberInput';
