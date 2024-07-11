@@ -1,9 +1,9 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
 import DetailViewContainer from '../../../components/common/detail/DetailViewContainer';
-import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../../models/FormType';
+import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
 import ConfirmComplianceForm from '../../ComplianceFormPage/components/ConfirmComplianceForm';
 type Props = {
-    values: ComplianceValuesType;
+    values: checkListFormType;
     onSubmit?: () => void;
     onClose: () => void;
     setupData: CheckListSetupDaySectionType;

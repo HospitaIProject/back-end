@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // import { useDateFormatted } from '../../../Hooks/useDateFormatted';
-import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../../models/FormType';
+import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
@@ -8,7 +8,7 @@ import useSurgeryDayFormat from '../../../Hooks/useSergeryDateFormatted';
 // import { Link } from 'react-router-dom';
 
 type Props = {
-    complianceData: ComplianceValuesType;
+    complianceData: checkListFormType;
     setupData: CheckListSetupDaySectionType;
     operationDateDTO: {
         operationId: number;

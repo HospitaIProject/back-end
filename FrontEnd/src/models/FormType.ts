@@ -1,4 +1,4 @@
-export type ComplianceValuesType = {
+export type checkListFormType = {
     [key: string]:
         | 'YES'
         | 'NO'
@@ -84,9 +84,9 @@ export type ComplianceValuesType = {
     operationTime_remark?: string | '';
     hasPost_Nausea_Vomiting_remark?: string | '';
     locate_remark?: string | '';
-};
+}; // 체크리스트
 export type ResponseComplianceType = {
-    checkListDTOs: ComplianceValuesType[];
+    checkListDTOs: checkListFormType[];
     operationDateDTO: {
         operationId: number;
         operationMethod: string;
@@ -96,6 +96,13 @@ export type ResponseComplianceType = {
     };
     checkListCreatedToday: boolean;
 };
+export type NewPatientValuesType = {
+    [key: string]: string | number | Date;
+    patientNumber: number | '';
+    name: string;
+    sex: 'MALE' | 'FEMALE' | '';
+    birthday: Date | '';
+}; //환자 정보 등록폼
 
 export type NewSurgeryInfoValuesType = {
     [key: string]:
@@ -136,15 +143,7 @@ export type NewSurgeryInfoValuesType = {
     cdClassification: string | '';
     reOperationWithIn30Days: 'YES' | 'NO' | '';
     reOperationCause: string | '';
-}; //환자 등록폼
-
-export type NewPatientValuesType = {
-    [key: string]: string | number | Date;
-    patientNumber: number | '';
-    name: string;
-    sex: 'MALE' | 'FEMALE' | '';
-    birthday: Date | '';
-};
+}; //환자 수술정보 등록폼
 
 export type CheckListSetupDaySectionType = {
     [key: string]: boolean | number | undefined;

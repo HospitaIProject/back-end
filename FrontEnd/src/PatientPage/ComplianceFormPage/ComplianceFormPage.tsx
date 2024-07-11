@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
-import { ComplianceValuesType } from '../../models/FormType';
+import { checkListFormType } from '../../models/FormType';
 import { useEffect, useState } from 'react';
 import SingleSelector from '../../components/common/form/input/SingleSelector';
 // import TextInput from '../../components/common/form/input/TextInput';
@@ -40,7 +40,7 @@ function ComplianceFormPage() {
     const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
     const { data: existFields, isPending } = checkListSetupQuery; //체크리스트 세팅 정보
 
-    const initialValues: ComplianceValuesType = {
+    const initialValues: checkListFormType = {
         explainBeforeOperation: existFields?.explainBeforeOperation ? '' : undefined, // EAS 수술전 설명
         takingONSBeforeOperationTwo_Hours: existFields?.takingONSBeforeOperationTwo_Hours ? '' : undefined, // 수술 2시간 전 ONS 복용여부
         takingAfterBowelPreparation: existFields?.takingAfterBowelPreparation ? '' : undefined, // Bowel preparation 후 ONS 경장영양액 복용여부
@@ -116,7 +116,7 @@ function ComplianceFormPage() {
         },
     });
 
-    const handleOpenConfirm = (values: ComplianceValuesType) => {
+    const handleOpenConfirm = (values: checkListFormType) => {
         console.log('확인하기', values);
         let isError = false;
         for (const key in values) {
@@ -185,37 +185,37 @@ function ComplianceFormPage() {
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="explainBeforeOperation"
                             label={ITEMS_NAME_MAP.explainBeforeOperation}
                             formik={formik}
                             isRender={existFields.explainBeforeOperation}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="takingONSBeforeOperationTwo_Hours"
                             label={ITEMS_NAME_MAP.takingONSBeforeOperationTwo_Hours}
                             formik={formik}
                             isRender={existFields.takingONSBeforeOperationTwo_Hours}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="takingAfterBowelPreparation"
                             label={ITEMS_NAME_MAP.takingAfterBowelPreparation}
                             formik={formik}
                             isRender={existFields.takingAfterBowelPreparation}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="takingLaxatives"
                             label={ITEMS_NAME_MAP.takingLaxatives}
                             formik={formik}
                             isRender={existFields.takingLaxatives}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="beforeOperationMedicine"
                             label={ITEMS_NAME_MAP.beforeOperationMedicine}
                             formik={formik}
                             isRender={existFields.beforeOperationMedicine}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="beforeSixtyMinute"
                             label={ITEMS_NAME_MAP.beforeSixtyMinute}
                             formik={formik}
@@ -225,19 +225,19 @@ function ComplianceFormPage() {
 
                     {/* 수술당일 */}
                     <DropContainer isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}>
-                        <TextInput<ComplianceValuesType>
+                        <TextInput<checkListFormType>
                             htmlFor="silt_Itm"
                             label={ITEMS_NAME_MAP.silt_Itm}
                             formik={formik}
                             isRender={existFields.silt_Itm}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="maintainTemperature"
                             label={ITEMS_NAME_MAP.maintainTemperature}
                             formik={formik}
                             isRender={existFields.maintainTemperature}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             label={ITEMS_NAME_MAP.volumeOfIntraoperativeInfusion}
                             htmlFor="volumeOfIntraoperativeInfusion"
                             formik={formik}
@@ -265,20 +265,20 @@ function ComplianceFormPage() {
 
                     {/* 수술후 */}
                     <DropContainer isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}>
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="preventionDVT"
                             label={ITEMS_NAME_MAP.preventionDVT}
                             formik={formik}
                             isRender={existFields.preventionDVT}
                         />
 
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="chewingGum"
                             label={ITEMS_NAME_MAP.chewingGum}
                             formik={formik}
                             isRender={existFields.chewingGum}
                         />
-                        <SingleSelector<ComplianceValuesType>
+                        <SingleSelector<checkListFormType>
                             htmlFor="dayOfRemoveJP_Drain"
                             label={ITEMS_NAME_MAP.dayOfRemoveJP_Drain}
                             formik={formik}
@@ -291,81 +291,81 @@ function ComplianceFormPage() {
                             ]}
                             isRender={existFields.dayOfRemoveJP_Drain}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="reasonByRemoveJP_DrainDelay"
                             label={ITEMS_NAME_MAP.reasonByRemoveJP_DrainDelay}
                             formik={formik}
                             isRender={existFields.reasonByRemoveJP_DrainDelay}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="dayOfRemoveUrinary_Catheter"
                             label={ITEMS_NAME_MAP.dayOfRemoveUrinary_Catheter}
                             formik={formik}
                             isRender={existFields.dayOfRemoveUrinary_Catheter}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="reasonByRemoveUrinary_CatheterDelay"
                             label={ITEMS_NAME_MAP.reasonByRemoveUrinary_CatheterDelay}
                             formik={formik}
                             isRender={existFields.reasonByRemoveUrinary_CatheterDelay}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="afterOperationLimitIV_Fluid"
                             label={ITEMS_NAME_MAP.afterOperationLimitIV_Fluid}
                             formik={formik}
                             isRender={existFields.afterOperationLimitIV_Fluid}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="dayOfRemoveIV_Fluid"
                             label={ITEMS_NAME_MAP.dayOfRemoveIV_Fluid}
                             formik={formik}
                             isRender={existFields.dayOfRemoveIV_Fluid}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="reasonByRemoveIV_FluidDelay"
                             label={ITEMS_NAME_MAP.reasonByRemoveIV_FluidDelay}
                             formik={formik}
                             isRender={existFields.reasonByRemoveIV_FluidDelay}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="post_Nausea_Vomiting"
                             label={ITEMS_NAME_MAP.post_Nausea_Vomiting}
                             formik={formik}
                             isRender={existFields.post_Nausea_Vomiting}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="postOpDayExercise"
                             label={ITEMS_NAME_MAP.postOpDayExercise}
                             formik={formik}
                             isRender={existFields.postOpDayExercise}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="pod_Exercise"
                             label={ITEMS_NAME_MAP.pod_Exercise}
                             formik={formik}
                             isRender={existFields.pod_Exercise}
                         />
 
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="postOpDayMeal"
                             label={ITEMS_NAME_MAP.postOpDayMeal}
                             formik={formik}
                             isRender={existFields.postOpDayMeal}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="pod_Meal"
                             label={ITEMS_NAME_MAP.pod_Meal}
                             formik={formik}
                             isRender={existFields.pod_Meal}
                         />
 
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="postOpEffectivePainControl"
                             label={ITEMS_NAME_MAP.postOpEffectivePainControl}
                             formik={formik}
                             isRender={existFields.postOpEffectivePainControl}
                         />
-                        <SingleSelector<ComplianceValuesType>
+                        <SingleSelector<checkListFormType>
                             htmlFor="pod_PainScore"
                             label={ITEMS_NAME_MAP.pod_PainScore}
                             formik={formik}
@@ -377,13 +377,13 @@ function ComplianceFormPage() {
                             ]}
                         />
 
-                        <YesOrNoButton<ComplianceValuesType>
+                        <YesOrNoButton<checkListFormType>
                             htmlFor="hasPost_Nausea_Vomiting"
                             label={ITEMS_NAME_MAP.hasPost_Nausea_Vomiting}
                             formik={formik}
                             isRender={existFields.hasPost_Nausea_Vomiting}
                         />
-                        <TextInput<ComplianceValuesType>
+                        <TextInput<checkListFormType>
                             label="입원병동"
                             htmlFor="locate"
                             formik={formik}

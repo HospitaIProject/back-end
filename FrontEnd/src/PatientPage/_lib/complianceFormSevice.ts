@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../models/FormType';
+import { CheckListSetupDaySectionType, checkListFormType } from '../../models/FormType';
 import Axios from '../../utils/axiosInstance';
 // import { AxiosError } from 'axios';
 // import { ErrorResponse } from 'react-router-dom';
@@ -7,7 +7,7 @@ import Axios from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
 
-const postComplianceForm = async ({ surgeryId, data }: { surgeryId: number; data: ComplianceValuesType }) => {
+const postComplianceForm = async ({ surgeryId, data }: { surgeryId: number; data: checkListFormType }) => {
     const response = await Axios.post(`api/checkList/operation/${surgeryId}`, data);
     return response;
 }; //Compliance Form 서비스(체크리스트 제출)

@@ -1,4 +1,4 @@
-import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../../models/FormType';
+import { CheckListSetupDaySectionType, checkListFormType } from '../../../models/FormType';
 import NumberViewInput from '../../../components/common/form/viewInput/NumberViewInput';
 import ViewInput from '../../../components/common/form/viewInput/ViewInput';
 import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNoViewButton';
@@ -16,7 +16,7 @@ const MATCH_ITEMS = {
 };
 
 type Props = {
-    values: ComplianceValuesType;
+    values: checkListFormType;
     onSubmit?: () => void;
     existFields: CheckListSetupDaySectionType;
 };

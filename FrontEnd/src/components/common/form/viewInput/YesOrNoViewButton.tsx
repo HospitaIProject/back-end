@@ -1,4 +1,4 @@
-// import { ComplianceValuesType } from '../../../../models/FormType';
+// import { checkListFormType } from '../../../../models/FormType';
 
 import InputViewContainer from './InputViewContainer';
 
