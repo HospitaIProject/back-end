@@ -19,7 +19,8 @@ public enum ErrorCode {
     CHECK_LIST_ITEM_CONFLICT(HttpStatus.CONFLICT, "E409002", "이미 등록된 체크리스트 목록입니다."),
 
     // 422, UNPROCESSABLE_ENTITY
-    PATIENT_UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422001", "유효하지 않은 환자 등록 요청입니다."),
+    UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422001", "유효하지 않은 엔티티 등록 요청입니다."),
+    PATIENT_UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422002", "유효하지 않은 환자 등록 요청입니다."),
 
     //500
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E500001", "서버 에러가 발생했습니다.");
