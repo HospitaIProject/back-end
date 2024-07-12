@@ -9,12 +9,12 @@ import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
+import com.team.hospital.api.patient.Patient;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -47,7 +47,8 @@ public class CheckListController {
         List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(operationId);
-        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListCreatedToday));
+        Patient patient = operation.getPatient();
+        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), patient, checkListCreatedToday));
     }
 
     @GetMapping("/api/checkList")

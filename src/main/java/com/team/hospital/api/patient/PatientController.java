@@ -114,7 +114,7 @@ public class PatientController {
     }
 
     private PatientWithOperationDateDTO convertToPatientWithOperationDateDTO(Patient patient) {
-        List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream().sorted(Comparator.comparing(OperationDTO::getOperationDate).reversed()).toList();
+        List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId());
         Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
 

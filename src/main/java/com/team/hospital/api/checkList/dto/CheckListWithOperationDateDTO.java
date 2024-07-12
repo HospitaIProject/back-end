@@ -3,6 +3,8 @@ package com.team.hospital.api.checkList.dto;
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.OperationDateDTO;
+import com.team.hospital.api.patient.Patient;
+import com.team.hospital.api.patient.dto.PatientDTO;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,10 +18,10 @@ public class CheckListWithOperationDateDTO {
     private OperationDateDTO operationDateDTO;
     private boolean checkListCreatedToday;
 
-    public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, boolean checkListCreatedToday) {
+    public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, Patient patient, boolean checkListCreatedToday) {
         return CheckListWithOperationDateDTO.builder()
                 .checkListDTOs(checkLists.stream().map(CheckListDTO::toEntity).toList())
-                .operationDateDTO(OperationDateDTO.toEntity(operationDTO))
+                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
                 .checkListCreatedToday(checkListCreatedToday)
                 .build();
     }
