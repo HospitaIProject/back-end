@@ -11,6 +11,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,8 @@ public class OperationService {
     public List<OperationDTO> findAllByPatient(Long patientId) {
         Patient patient = patientService.findPatientById(patientId);
         List<Operation> operations = operationRepository.findAllByPatient(patient);
+
+        operations.sort(Comparator.comparing((Operation operation) -> operation.getPatient().getOperationDate()).reversed());
         return OperationDTO.buildOperationDTOs(operations);
     }
 
