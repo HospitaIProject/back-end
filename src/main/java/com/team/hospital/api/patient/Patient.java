@@ -2,14 +2,13 @@ package com.team.hospital.api.patient;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.operation.enumType.ASAScore;
-import com.team.hospital.api.operation.enumType.Dignosis;
+import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.enumType.Sex;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -56,7 +55,7 @@ public class Patient extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Dignosis dignosis;                  // 진단명
+    private Diagnosis diagnosis;                  // 진단명
 
     @Column(nullable = false)
     private Date operationDate;                 // 수술일
@@ -81,7 +80,7 @@ public class Patient extends BaseEntity {
                 .bmi(registerPatient.getBmi())
                 .asaScore(registerPatient.getAsaScore())
                 .location(registerPatient.getLocation())
-                .dignosis(registerPatient.getDignosis())
+                .diagnosis(registerPatient.getDiagnosis())
                 .operationDate(registerPatient.getOperationDate())
                 .hospitalizedDate(registerPatient.getHospitalizedDate())
                 .dischargedDate(registerPatient.getDischargedDate())
@@ -99,7 +98,7 @@ public class Patient extends BaseEntity {
         this.bmi = registerPatient.getBmi();
         this.asaScore = registerPatient.getAsaScore();
         this.location = registerPatient.getLocation();
-        this.dignosis = registerPatient.getDignosis();
+        this.diagnosis = registerPatient.getDiagnosis();
         this.operationDate = registerPatient.getOperationDate();
         this.hospitalizedDate = registerPatient.getHospitalizedDate();
         this.dischargedDate = registerPatient.getDischargedDate();

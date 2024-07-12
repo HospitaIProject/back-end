@@ -1,16 +1,13 @@
 package com.team.hospital.api.patient.dto;
 
 import com.team.hospital.api.operation.enumType.ASAScore;
-import com.team.hospital.api.operation.enumType.Dignosis;
+import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.enumType.Sex;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -37,7 +34,7 @@ public class PatientDTO {
 
     private Location location;                  // 위치
 
-    private Dignosis dignosis;                  // 진단명
+    private Diagnosis diagnosis;                  // 진단명
 
     private Date operationDate;                 // 수술일
 
@@ -59,7 +56,7 @@ public class PatientDTO {
                 .bmi(patient.getBmi())
                 .asaScore(patient.getAsaScore())
                 .location(patient.getLocation())
-                .dignosis(patient.getDignosis())
+                .diagnosis(patient.getDiagnosis())
                 .operationDate(patient.getOperationDate())
                 .hospitalizedDate(patient.getHospitalizedDate())
                 .dischargedDate(patient.getDischargedDate())

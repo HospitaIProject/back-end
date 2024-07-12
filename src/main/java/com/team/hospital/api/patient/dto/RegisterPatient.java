@@ -1,7 +1,7 @@
 package com.team.hospital.api.patient.dto;
 
 import com.team.hospital.api.operation.enumType.ASAScore;
-import com.team.hospital.api.operation.enumType.Dignosis;
+import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.patient.enumType.Sex;
 import jakarta.persistence.EnumType;
@@ -37,7 +37,7 @@ public class RegisterPatient {
     private Location location;                  // 위치
 
     @Enumerated(EnumType.STRING)
-    private Dignosis dignosis;                  // 진단명
+    private Diagnosis diagnosis;                  // 진단명
 
     private Date operationDate;         // 수술일
 
