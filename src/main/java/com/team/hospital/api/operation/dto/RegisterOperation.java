@@ -1,52 +1,34 @@
 package com.team.hospital.api.operation.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.operation.enumType.ASAScore;
-import com.team.hospital.api.operation.enumType.StomaFormation;
+import com.team.hospital.api.operation.enumType.*;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Builder
 public class RegisterOperation {
 
-    private float height;
+    private List<OperationMethod> operationMethod;        // 수술 방법
 
-    private float weight;
+    private List<String> customOperationMethod;                 // 사용자 정의 수술 방법
 
-    private float bmi;
+    private OperationApproach operationApproach;    // 수술 approach
 
-    private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
+    private BooleanOption stomaFormation;            // 장루 형성술
 
-    private String location;        // 위치
+    private LocalDateTime operationStartTime;     // 수술 시작 시간
 
-    private String dignosis;        // 진단
+    private LocalDateTime operationEndTime;     // 수술 시작 시간
 
-    private Date operationDate;    // 수술일
+    private int totalOperationTime;             // 전체 수술 시간 (분)
 
-    private Date hospitalizedDate;  // 입원일
+    private double totalFluidsAmount;             // 수술 중 총 들어간 수액( crystalloid) 양 (cc)
 
-    private Date dischargedDate;    // 퇴원일
+    private double bloodLoss;             // 수술 중 실혈양 (cc)
 
-    private int totalHospitalizedDays;  // 총 재원일 수
-
-    private String operationMethod;      // 수술 방법
-
-    private String operationApproach;   // 수술 approach
-
-    private StomaFormation stomaFormation;      // 장루 형성술
-
-    private String ajcCStage;           // 암 진행도
-
-    private int numberOfRetrievedLine;  // 제거된 림프절 개수
-
-    private BooleanOption complicationOccurence;
-
-    private String cdClassification;
-
-    private BooleanOption reOperationWithIn30Days;
-
-    private String reOperationCause;
 }
