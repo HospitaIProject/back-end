@@ -2,14 +2,17 @@ package com.team.hospital.api.operation;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.operation.converter.CustomOperationMethodConverter;
+import com.team.hospital.api.operation.converter.OperationMethodConverter;
+import com.team.hospital.api.operation.enumType.*;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.operation.dto.RegisterOperation;
-import com.team.hospital.api.operation.enumType.ASAScore;
-import com.team.hospital.api.operation.enumType.StomaFormation;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Builder
@@ -23,45 +26,35 @@ public class Operation extends BaseEntity {
     @Column(name = "operation_id")
     private Long id;
 
-    private float height;
+    @Convert(converter = OperationMethodConverter.class)
+    @Column(nullable = false)
+    private List<OperationMethod> operationMethod;              // 수술 방법
 
-    private float weight;
-
-    private float bmi;
-
-    @Enumerated(EnumType.STRING)
-    private ASAScore asaScore;      // 마취전 건강 상태 평가 점수
-
-    private String location;        // 위치
-
-    private String dignosis;        // 진단
-
-    private Date operationDate;    // 수술일
-
-    private Date hospitalizedDate;  // 입원일
-
-    private Date dischargedDate;    // 퇴원일
-
-    private int totalHospitalizedDays;  // 총 재원일 수
-
-    private String operationMethod;      // 수술 방법
-
-    private String operationApproach;   // 수술 approach
+    @Convert(converter = CustomOperationMethodConverter.class)
+    @Column(nullable = true)
+    private List<String> customOperationMethod;                 // 사용자 정의 수술 방법
 
     @Enumerated(EnumType.STRING)
-    private StomaFormation stomaFormation;      // 장루 형성술
+    @Column(nullable = false)
+    private OperationApproach operationApproach;            // 수술 approach
 
-    private String ajcCStage;           // 암 진행도
+    @Column(nullable = false)
+    private BooleanOption stomaFormation;                   // 장루 형성술
 
-    private int numberOfRetrievedLine;  // 제거된 림프절 개수
+    @Column(nullable = false)
+    private LocalDateTime operationStartTime;           // 수술 시작 시간
 
-    private BooleanOption complicationOccurence;
+    @Column(nullable = false)
+    private LocalDateTime operationEndTime;             // 수술 시작 시간
 
-    private String cdClassification;
+    @Column(nullable = false)
+    private int totalOperationTime;                     // 전체 수술 시간 (분)
 
-    private BooleanOption reOperationWithIn30Days;
+    @Column(nullable = false)
+    private double totalFluidsAmount;                   // 수술 중 총 들어간 수액( crystalloid) 양 (cc)
 
-    private String reOperationCause;
+    @Column(nullable = false)
+    private double bloodLoss;                                   // 수술 중 실혈양 (cc)
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
@@ -69,48 +62,28 @@ public class Operation extends BaseEntity {
 
     public static Operation createOperation(RegisterOperation register, Patient patient) {
         return Operation.builder()
-                .height(register.getHeight())
-                .weight(register.getWeight())
-                .bmi(register.getBmi())
-                .asaScore(register.getAsaScore())
-                .location(register.getLocation())
-                .dignosis(register.getDignosis())
-                .operationDate(register.getOperationDate())
-                .hospitalizedDate(register.getHospitalizedDate())
-                .dischargedDate(register.getDischargedDate())
-                .totalHospitalizedDays(register.getTotalHospitalizedDays())
                 .operationMethod(register.getOperationMethod())
+                .customOperationMethod(register.getCustomOperationMethod())
                 .operationApproach(register.getOperationApproach())
                 .stomaFormation(register.getStomaFormation())
-                .ajcCStage(register.getAjcCStage())
-                .numberOfRetrievedLine(register.getNumberOfRetrievedLine())
-                .complicationOccurence(register.getComplicationOccurence())
-                .cdClassification(register.getCdClassification())
-                .reOperationWithIn30Days(register.getReOperationWithIn30Days())
-                .reOperationCause(register.getReOperationCause())
+                .operationStartTime(register.getOperationStartTime())
+                .operationEndTime(register.getOperationEndTime())
+                .totalOperationTime(register.getTotalOperationTime())
+                .totalFluidsAmount(register.getTotalFluidsAmount())
+                .bloodLoss(register.getBloodLoss())
                 .patient(patient)
                 .build();
     }
 
     public void updateOperation(RegisterOperation registerOperation) {
-        height = registerOperation.getHeight();
-        weight = registerOperation.getWeight();
-        bmi = registerOperation.getBmi();
-        asaScore = registerOperation.getAsaScore();
-        location = registerOperation.getLocation();
-        dignosis = registerOperation.getDignosis();
-        operationDate = registerOperation.getOperationDate();
-        hospitalizedDate = registerOperation.getHospitalizedDate();
-        dischargedDate = registerOperation.getDischargedDate();
-        totalHospitalizedDays = registerOperation.getTotalHospitalizedDays();
-        operationMethod = registerOperation.getOperationMethod();
-        operationApproach = registerOperation.getOperationApproach();
-        stomaFormation = registerOperation.getStomaFormation();
-        ajcCStage = registerOperation.getAjcCStage();
-        numberOfRetrievedLine = registerOperation.getNumberOfRetrievedLine();
-        complicationOccurence = registerOperation.getComplicationOccurence();
-        cdClassification = registerOperation.getCdClassification();
-        reOperationWithIn30Days = registerOperation.getReOperationWithIn30Days();
-        reOperationCause = registerOperation.getReOperationCause();
+        this.operationMethod = registerOperation.getOperationMethod();
+        this.customOperationMethod = registerOperation.getCustomOperationMethod();
+        this.operationApproach = registerOperation.getOperationApproach();
+        this.stomaFormation = registerOperation.getStomaFormation();
+        this.operationStartTime = registerOperation.getOperationStartTime();
+        this.operationEndTime = registerOperation.getOperationEndTime();
+        this.totalOperationTime = registerOperation.getTotalOperationTime();
+        this.totalFluidsAmount = registerOperation.getTotalFluidsAmount();
+        this.bloodLoss = registerOperation.getBloodLoss();
     }
 }
