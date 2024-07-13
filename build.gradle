@@ -24,8 +24,9 @@ repositories {
 }
 
 dependencies {
-	// spring security
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Apache POI
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 
 	implementation 'mysql:mysql-connector-java:8.0.28'
 
