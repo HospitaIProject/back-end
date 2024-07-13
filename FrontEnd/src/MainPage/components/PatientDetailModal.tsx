@@ -28,7 +28,7 @@ function ConfirmNewPatientFormModal({ values, onClose }: Props) {
                 <NumberViewInput unit="kg/cm²" label="BMI" value={patientDTO.bmi} />
                 <ViewInput label="ASA score" value={patientDTO.asaScore} />
                 <ViewInput label="위치" value={patientDTO.location} />
-                <ViewInput label="진단명" value={patientDTO.dignosis} />
+                <ViewInput label="진단명" value={patientDTO.diagnosis} />
                 <ViewInput label="입원일" value={hospitalizedDate} />
                 <ViewInput label="수술일" value={operationDate} />
                 <ViewInput label="퇴원일" value={dischargedDate} />

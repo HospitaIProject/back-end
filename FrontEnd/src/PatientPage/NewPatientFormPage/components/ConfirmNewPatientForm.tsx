@@ -25,7 +25,7 @@ function ConfirmNewPatientForm({ values, onSubmit }: Props) {
             <NumberViewInput label="BMI" value={values.bmi} />
             <ViewInput label="ASA score" value={values.asaScore} />
             <ViewInput label="위치" value={values.location} />
-            <ViewInput label="진단명" value={values.dignosis} />
+            <ViewInput label="진단명" value={values.diagnosis} />
             <ViewInput label="입원일" value={hospitalizedDate} />
             <ViewInput label="수술일" value={operationDate} />
             <ViewInput label="퇴원일" value={dischargedDate} />

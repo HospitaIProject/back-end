@@ -28,7 +28,7 @@ const MATCH_PATIENT_ITEMS = {
     // *RECTUM: 'Rectum', 겹침*
     APPENDICEAL: 'Appendiceal',
     ANUS: 'Anus',
-    //dignosis
+    //diagnosis
 };
 const MATCH_OPETATION_ITEMS = {
     RHC_ERHC: 'RHC,ERHC',

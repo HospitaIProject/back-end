@@ -2,7 +2,7 @@
 
 type AsaScoreType = 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI';
 type LocationType = 'RT_SIDED_COLON' | 'LT_SIDED_COLON' | 'RECTUM' | 'MULTIPLE';
-type DignosisType =
+type DiagnosisType =
     | 'ASCENDING_COLON'
     | 'HF_COLON'
     | 'T_COLON'
@@ -15,7 +15,7 @@ type DignosisType =
     | 'APPENDICEAL'
     | 'ANUS';
 export type PatientFormType = {
-    [key: string]: string | number | Date | DignosisType | AsaScoreType | LocationType;
+    [key: string]: string | number | Date | DiagnosisType | AsaScoreType | LocationType;
     patientNumber: number | ''; //등록번호
     name: 'MALE' | 'FEMALE' | ''; //환자이름
     sex: string | ''; //성별
@@ -25,10 +25,10 @@ export type PatientFormType = {
     bmi: number | ''; //BMI(kg/cm^2)
     asaScore: AsaScoreType | ''; //ASA score
     location: LocationType | ''; //위치            //enum
-    dignosis: DignosisType | ''; //진단명          //enum
-    operationDate: string | ''; //수술일
-    hospitalizedDate: string | ''; //입원일
-    dischargedDate: string | ''; //퇴원일
+    diagnosis: DiagnosisType | ''; //진단명          //enum
+    operationDate: Date | ''; //수술일
+    hospitalizedDate: Date | ''; //입원일
+    dischargedDate: Date | ''; //퇴원일
     totalHospitalizedDays: number | ''; //총 재원 일수(일)
 };
 
@@ -45,7 +45,7 @@ export type PatientWithOperationDtoType = {
         bmi: number; // BMI
         asaScore: AsaScoreType; // ASA score
         location: LocationType; // 위치
-        dignosis: DignosisType; // 진단명
+        diagnosis: DiagnosisType; // 진단명
         operationDate: string; // 수술일
         hospitalizedDate: string; // 입원일
         dischargedDate: string; // 퇴원일

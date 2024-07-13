@@ -26,7 +26,7 @@ function NewPatientFormPage() {
         bmi: '', //BMI(kg/cm^2)
         asaScore: '', //ASA score
         location: '', //위치            //enum
-        dignosis: '', //진단명          //enum
+        diagnosis: '', //진단명          //enum
         operationDate: '', //수술일
         hospitalizedDate: '', //입원일
         dischargedDate: '', //퇴원일
@@ -116,23 +116,23 @@ function NewPatientFormPage() {
                             { value: 'MULTIPLE', name: 'Multiple' },
                         ]}
                     />
-                    <TextInput
+                    <SingleSelector
                         label="진단명"
-                        htmlFor="dignosis"
+                        htmlFor="diagnosis"
                         formik={formik}
-                        // values={[
-                        //     { value: 'ASCENDING_COLON', name: 'Ascending colon' },
-                        //     { value: 'HF_COLON', name: 'HF colon' },
-                        //     { value: 'T_COLON', name: 'T colon' },
-                        //     { value: 'SF_COLON', name: 'SF colon' },
-                        //     { value: 'DS_COLON', name: 'DS colon' },
-                        //     { value: 'SIGMOID_COLON', name: 'Sigmoid colon' },
-                        //     { value: 'RS_COLON', name: 'RS colon' },
-                        //     { value: 'RECTUM', name: 'Rectum' },
-                        //     { value: 'CECUM', name: 'Cecum' },
-                        //     { value: 'APPENDICEAL', name: 'Appendiceal' },
-                        //     { value: 'ANUS', name: 'Anus' },
-                        // ]}
+                        values={[
+                            { value: 'ASCENDING_COLON', name: 'Ascending colon' },
+                            { value: 'HF_COLON', name: 'HF colon' },
+                            { value: 'T_COLON', name: 'T colon' },
+                            { value: 'SF_COLON', name: 'SF colon' },
+                            { value: 'DS_COLON', name: 'DS colon' },
+                            { value: 'SIGMOID_COLON', name: 'Sigmoid colon' },
+                            { value: 'RS_COLON', name: 'RS colon' },
+                            { value: 'RECTUM', name: 'Rectum' },
+                            { value: 'CECUM', name: 'Cecum' },
+                            { value: 'APPENDICEAL', name: 'Appendiceal' },
+                            { value: 'ANUS', name: 'Anus' },
+                        ]}
                     />
                     <DateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
                     <DateInput label="수술일" htmlFor="operationDate" formik={formik} />
