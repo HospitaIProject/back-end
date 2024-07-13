@@ -1,6 +1,7 @@
 import { ITEMS_NAME_MAP } from '../../../utils/mappingNames';
 import CheckBoxIcon from '../../../icons/CheckBoxIcon';
 import { CheckListSetupType } from '../../../models/CheckListsType';
+import { getValueLabel } from '../../../utils/getNameByValue';
 
 type Props = {
     values: CheckListSetupType;
@@ -15,7 +16,10 @@ function PatientCheckCard({ values, patientKey, handleChange }: Props) {
         <label
             className={`${Boolean(values[patientKey]) ? 'text-gray-700' : 'text-gray-300'} flex ${isReadOnly ? 'cursor-pointer p-2 text-sm mobile:text-base' : 'p-3'} flex-row justify-between gap-2 rounded-md transition-all hover:bg-green-50 mobile:max-w-screen-mobile mobile:justify-center mobile:gap-4`}
         >
-            <span className="flex items-center w-full max-w-64">{`${ITEMS_NAME_MAP[patientKey]}`}</span>
+            <span className="flex items-center w-full max-w-64">{`${getValueLabel({
+                value: patientKey,
+                type: 'checkListSetup',
+            })}`}</span>
 
             <CheckBoxIcon
                 uncheckedClassName={`${isReadOnly ? 'w-6 h-6' : 'w-8 h-8'}  shrink-0 text-gray-300`}

@@ -133,7 +133,7 @@ function PatientSummaryCard({ userData }: Props) {
                         )}
                         {!isOperationData && (
                             <Link
-                                to={`/patient/operation/list?id=${userData.patientDTO.id}&name=${userData.patientDTO.name}`}
+                                to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
                                 className={`mx-1 flex flex-row items-center gap-2 rounded-lg border bg-gray-50 p-2 text-gray-400 shadow-sm`}
                             >
                                 <span className="text-sm">수술정보 등록이 필요합니다.</span>
@@ -155,7 +155,7 @@ function PatientSummaryCard({ userData }: Props) {
                     </span>
 
                     <Link
-                        to={`/patient/operation/list?id=${userData.patientDTO.id}&name=${userData.patientDTO.name}`}
+                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
                         className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
                     >
                         수술정보관리

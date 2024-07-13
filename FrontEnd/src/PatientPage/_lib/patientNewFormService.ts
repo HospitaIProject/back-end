@@ -36,7 +36,7 @@ export const useNewOperationInfoFormMutation = () => {
             console.log(error);
             alert('서버에러가 발생했습니다. 다시 시도해주세요.');
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
             alert('등록되었습니다.');
             navigate(-1);
         },
@@ -53,7 +53,9 @@ export const useNewPatientFormMutation = () => {
             console.log(error);
             alert('서버에러가 발생했습니다. 다시 시도해주세요.');
         },
-        onSuccess: () => {
+        onSuccess: (data) => {
+            console.log('xxxxx', data);
+
             alert('제출되었습니다.');
             navigate('');
         },

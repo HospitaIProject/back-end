@@ -42,7 +42,7 @@ function ModalFullScreenContainer({ children, title, onClose, maxWidthClassName,
                         <CloseIcon className="w-8 h-8 text-inherit" />
                     </button>
                 </header>
-                <div className="w-full overflow-y-auto">{children}</div>
+                <div className="w-full h-full overflow-y-auto">{children}</div>
             </div>
         </div>,
         document.getElementById('modal-root') as HTMLElement,

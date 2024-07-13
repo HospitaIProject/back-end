@@ -48,7 +48,11 @@ function InputContainer<T>({ label, htmlFor, children, isInput, formik, isRender
                     htmlFor={htmlFor}
                 >
                     {label}
-                    {isInput && <DoubleCheckIcon className="flex-shrink-0 inline-block w-5 h-5 text-inherit" />}
+                    {
+                        <DoubleCheckIcon
+                            className={`inline-block h-5 w-5 flex-shrink-0 text-inherit ${isInput ? '' : 'hidden'}`}
+                        />
+                    }
                 </label>
                 <div className="flex flex-row w-full gap-2 mobile:justify-between">
                     <div className="flex flex-col flex-grow gap-1 pr-2">

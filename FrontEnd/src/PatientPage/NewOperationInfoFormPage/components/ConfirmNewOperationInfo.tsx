@@ -7,6 +7,8 @@ import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNo
 import { OperationInfoFormType } from '../../../models/OperationType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
 import PatientChecklistSetupModal from './PatientChecklistSetupModal';
+import { getValueLabel } from '../../../utils/getNameByValue';
+import { useOperationMethodFormatted } from '../../../Hooks/useOperationMethodFormatted';
 
 const MATCH_ITEMS = {
     COLOSTOMY: 'Colostomy',
@@ -26,9 +28,14 @@ type Props = {
     checkListSetup: CheckListSetupType;
 };
 function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
-    const { onlyDate: operationDate } = useDateFormatted(values.operationDate);
-    const { onlyDate: hospitalizedDate } = useDateFormatted(values.hospitalizedDate);
-    const { onlyDate: dischargedDate } = useDateFormatted(values.dischargedDate);
+    const { onlyTime: operationStartTime } = useDateFormatted(values.operationStartTime);
+    const { onlyTime: operationEndTime } = useDateFormatted(values.operationEndTime);
+
+    const operationMethodFormatted = useOperationMethodFormatted({
+        operationMethod: values.operationMethod,
+        customOperationMethod: values.customOperationMethod,
+    });
+
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);
 
     const handleOpenCheckListSetup = () => {
@@ -39,26 +46,24 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
     }; // 체크리스트 설정 모달 닫기
     return (
         <>
-            <div className="grid flex-col w-full grid-cols-1 gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
-                <NumberViewInput label="키(cm)" value={values.height} unit="cm" />
-                <NumberViewInput label="몸무게(kg)" value={values.weight} unit="kg" />
-                <NumberViewInput label="BMI" value={values.bmi} />
-                <ViewInput label="ASA score" value={values.asaScore} />
-                <ViewInput label="위치" value={values.location} />
-                <ViewInput label="진단" value={values.dignosis} />
-                <ViewInput label="수술일" value={operationDate} />
-                <ViewInput label="입원일" value={hospitalizedDate} />
-                <ViewInput label="퇴원일" value={dischargedDate} />
-                <NumberViewInput label="총 재원일수" value={values.totalHospitalizedDays} />
-                <ViewInput label="수술방법" value={values.operationMethod} />
-                <ViewInput label="수술 approach" value={values.operationApproach} />
-                <ViewInput label="Stoma formation" value={getNameByValue(values.stomaFormation)} />
-                <ViewInput label="AJCC stage" value={values.ajcCStage} />
-                <NumberViewInput label="No. of retrieved LN" value={values.numberOfRetrievedLine} />
-                <YesOrNoViewButton label="Complication 발생 여부" value={values.complicationOccurence} />
-                <ViewInput label="C-D classification" value={values.cdClassification} />
-                <YesOrNoViewButton label="Reoperation within 30days" value={values.reOperationWithIn30Days} />
-                <ViewInput label="Reoperation 원인" value={values.reOperationCause} />
+            <div className="grid flex-col grid-cols-1 gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
+                <ViewInput label="수술방법" value={`${operationMethodFormatted}`} />
+
+                <ViewInput
+                    label="수술approach"
+                    value={getValueLabel({
+                        value: values.operationApproach,
+                        type: 'operation',
+                    })}
+                />
+                <YesOrNoViewButton label="장루 조성술 여부" value={values.stomaFormation} />
+                <ViewInput label="수술 시작 시간" value={operationStartTime} />
+                <ViewInput label="수술 종료 시간" value={operationEndTime} />
+                <NumberViewInput unit="분" label="전체 수술 시간 (분)" value={values.totalOperationTime} />
+                <NumberViewInput unit="cc" label="수술 중 총 들어간 수액 양 (cc)" value={values.totalFluidsAmount} />
+
+                <NumberViewInput unit="cc" label="수술 중 실혈량 (cc)" value={values.bloodLoss} />
+
                 <div className="flex flex-col items-center w-full mt-4 tablet:col-span-2">
                     <span className="mb-2 text-base text-yellow-600">*선택한 Checklist 확인 필수</span>
                     <button

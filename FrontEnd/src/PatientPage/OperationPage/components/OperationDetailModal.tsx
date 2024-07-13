@@ -1,10 +1,10 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
 import DetailViewContainer from '../../../components/common/detail/DetailViewContainer';
-import { OperationType } from '../../../models/OperationType';
+import { OperationItemType } from '../../../models/OperationType';
 import OperationDetail from './OperationDetail';
 
 type Props = {
-    values: OperationType;
+    values: OperationItemType;
     onClose: () => void;
 };
 

@@ -29,7 +29,7 @@ export default function Header() {
     } else if (pathname.startsWith('/patient/operation/list')) {
         label = '환자 수술이력';
     } else if (pathname.startsWith('/patient/new/operation')) {
-        label = '환자 수술정보등록';
+        label = '수술정보등록';
     } else if (pathname.startsWith('/patient/checkLists')) {
         label = '체크리스트 목록';
     }

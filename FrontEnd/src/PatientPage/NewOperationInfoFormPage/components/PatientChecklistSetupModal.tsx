@@ -19,7 +19,7 @@ function PatientChecklistSetupModal({ values, handleChange, onClose, title }: Pr
         `}
             onClose={onClose}
         >
-            <div className="flex flex-col w-full px-6 mx-auto max">
+            <div className="flex flex-col flex-1 px-6 mx-auto">
                 <div className="flex justify-center w-full py-2 text-gray-700 bg-gray-100 rounded-md">-수술전-</div>
 
                 <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">

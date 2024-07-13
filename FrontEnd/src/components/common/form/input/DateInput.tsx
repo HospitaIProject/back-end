@@ -66,7 +66,6 @@ function DateInput<T>({ label, htmlFor, formik }: { label: string; htmlFor: stri
                             className={`${isDisabled ? 'bg-gray-100' : 'bg-white'} w-full cursor-pointer outline-none`}
                             readOnly
                         />
-
                         <CalendarIcon className="w-6 h-6 text-gray-400" />
                     </button>
                     <button

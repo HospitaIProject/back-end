@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
-import { OperationType } from '../../models/OperationType';
+import { OperationItemType } from '../../models/OperationType';
 import { CheckListSetupType } from '../../models/CheckListsType';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from 'react-router-dom';
 
-const getOperationList = async ({ patientId }: { patientId: number }): Promise<OperationType[]> => {
+const getOperationList = async ({ patientId }: { patientId: number }): Promise<OperationItemType[]> => {
     const response = await Axios.get(`/api/operations/${patientId}`);
     return response.data.data;
 };
@@ -15,7 +15,7 @@ const getCheckListsSetup = async ({ operationId }: { operationId: number }): Pro
 };
 
 export const useOperationListQuery = ({ patientId }: { patientId: number }) => {
-    const query = useQuery<OperationType[], AxiosError<ErrorResponse>>({
+    const query = useQuery<OperationItemType[], AxiosError<ErrorResponse>>({
         queryKey: ['operation', 'list', patientId],
         queryFn: () => getOperationList({ patientId }),
     });
