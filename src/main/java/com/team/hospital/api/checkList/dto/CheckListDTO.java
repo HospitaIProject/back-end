@@ -2,8 +2,7 @@ package com.team.hospital.api.checkList.dto;
 
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.checkList.enumType.PainScore;
-import com.team.hospital.api.checkList.enumType.Pod;
+import com.team.hospital.api.checkList.enumType.PainTime;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -57,10 +56,10 @@ public class CheckListDTO {
     private BooleanOption podTwoMeal;                    // 통증
     private BooleanOption podThreeMeal;                  // 통증
 
-    private BooleanOption postPain;                      // 운동
-    private BooleanOption podOnePain;                    // 식사
-    private BooleanOption podTwoPain;                    // 통증
-    private BooleanOption podThreePain;                  // 통증
+    private List<PainTime> postPain;                      // 운동
+    private List<PainTime> podOnePain;                    // 식사
+    private List<PainTime> podTwoPain;                    // 통증
+    private List<PainTime> podThreePain;                  // 통증
 
     // 수술 전
     private String explainedPreOp_remarks;                // EAS 수술전 설명
@@ -99,10 +98,10 @@ public class CheckListDTO {
     private String podThreeMeal_remarks;
 
     // Pod Pain
-    private String postPain_remarks;
-    private String podOnePain_remarks;
-    private String podTwoPain_remarks;
-    private String podThreePain_remarks;
+//    private String postPain_remarks;
+//    private String podOnePain_remarks;
+//    private String podTwoPain_remarks;
+//    private String podThreePain_remarks;
 
     public static CheckListDTO toEntity(CheckList checkList) {
         CheckListDTOBuilder checkListDTO = CheckListDTO.builder()
@@ -218,20 +217,16 @@ public class CheckListDTO {
             checkListDTO.podThreeMeal_remarks(checkList.getPodThreeMeal().getRemarks());
         }
         if (checkList.getPostPain() != null) {
-            checkListDTO.postPain(checkList.getPostPain().getOption());
-            checkListDTO.postPain_remarks(checkList.getPostPain().getRemarks());
+            checkListDTO.postPain(checkList.getPostPain());
         }
         if (checkList.getPodOnePain() != null) {
-            checkListDTO.podOnePain(checkList.getPodOnePain().getOption());
-            checkListDTO.podOnePain_remarks(checkList.getPodOnePain().getRemarks());
+            checkListDTO.podOnePain(checkList.getPodOnePain());
         }
         if (checkList.getPodTwoPain() != null) {
-            checkListDTO.podTwoPain(checkList.getPodTwoPain().getOption());
-            checkListDTO.podTwoPain_remarks(checkList.getPodTwoPain().getRemarks());
+            checkListDTO.podTwoPain(checkList.getPodTwoPain());
         }
         if (checkList.getPodThreePain() != null) {
-            checkListDTO.podThreePain(checkList.getPodThreePain().getOption());
-            checkListDTO.podThreePain_remarks(checkList.getPodThreePain().getRemarks());
+            checkListDTO.podThreePain(checkList.getPodThreePain());
         }
         return checkListDTO.build();
     }

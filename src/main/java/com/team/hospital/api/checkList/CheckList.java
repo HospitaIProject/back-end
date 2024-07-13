@@ -1,11 +1,14 @@
 package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.base.BaseEntity;
+import com.team.hospital.api.checkList.converter.PainTimeConverter;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.enumType.*;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -207,33 +210,17 @@ public class CheckList extends BaseEntity {
     private CheckListDetail_1 podThreeMeal; // POD 3day 운동
 
     // POD Pain
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "post_pain")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "post_pain_remarks"))
-    })
-    private CheckListDetail_1 postPain; // Post OP day 운동
+    @Convert(converter = PainTimeConverter.class)
+    private List<PainTime> postPain; // Post OP day 운동
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_one_pain")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_pain_remarks"))
-    })
-    private CheckListDetail_1 podOnePain; // POD 1day 운동
+    @Convert(converter = PainTimeConverter.class)
+    private List<PainTime> podOnePain; // POD 1day 운동
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_two_pain")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_pain_remarks"))
-    })
-    private CheckListDetail_1 podTwoPain; // POD 2day 운동
+    @Convert(converter = PainTimeConverter.class)
+    private List<PainTime> podTwoPain; // POD 2day 운동
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_three_pain")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_pain_remarks"))
-    })
-    private CheckListDetail_1 podThreePain; // POD 3day 운동
+    @Convert(converter = PainTimeConverter.class)
+    private List<PainTime> podThreePain; // POD 3day 운동
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id")
@@ -278,10 +265,10 @@ public class CheckList extends BaseEntity {
                 .podThreeMeal(CheckListDetail_1.buildComplianceDetail(write.getPodThreeMeal(), write.getPodThreeMeal_remarks()))
 
                 // POD Pain
-                .postPain(CheckListDetail_1.buildComplianceDetail(write.getPostPain(), write.getPostPain_remarks()))
-                .podOnePain(CheckListDetail_1.buildComplianceDetail(write.getPodOnePain(), write.getPodOnePain_remarks()))
-                .podTwoPain(CheckListDetail_1.buildComplianceDetail(write.getPodTwoPain(), write.getPodTwoPain_remarks()))
-                .podThreePain(CheckListDetail_1.buildComplianceDetail(write.getPodThreePain(), write.getPodThreePain_remarks()))
+                .postPain(write.getPostPain())
+                .podOnePain(write.getPodOnePain())
+                .podTwoPain(write.getPodTwoPain())
+                .podThreePain(write.getPodThreePain())
 
                 // CheckListItem
                 .checkListItem(checkListItem)
@@ -320,9 +307,9 @@ public class CheckList extends BaseEntity {
         podTwoMeal.update(write.getPodTwoMeal(), write.getPodTwoMeal_remarks());
         podThreeMeal.update(write.getPodThreeMeal(), write.getPodThreeMeal_remarks());
 
-        postPain.update(write.getPostPain(), write.getPostPain_remarks());
-        podOnePain.update(write.getPodOnePain(), write.getPodOnePain_remarks());
-        podTwoPain.update(write.getPodTwoPain(), write.getPodTwoPain_remarks());
-        podThreePain.update(write.getPodThreePain(), write.getPodThreePain_remarks());
+        this.postPain = write.getPostPain();
+        this.podOnePain = write.getPodOnePain();
+        this.podTwoPain = write.getPodTwoPain();
+        this.podThreePain = write.getPodThreePain();
     }
 }
