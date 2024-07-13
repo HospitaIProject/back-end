@@ -32,7 +32,10 @@ function MainPage() {
                 <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
 
                 <ul className="grid grid-cols-1 gap-2 py-2 mobile:grid-cols-2 mobile:px-2">
-                    {isSuccess && patientListQuery.data.map((data) => <PatientSummaryCard userData={data} />)}
+                    {isSuccess &&
+                        patientListQuery.data.map((data) => (
+                            <PatientSummaryCard userData={data} key={data.patientDTO.patientId} />
+                        ))}
                 </ul>
 
                 <ResponsivePagination />

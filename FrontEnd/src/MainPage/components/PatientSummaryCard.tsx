@@ -64,7 +64,6 @@ function PatientSummaryCard({ userData }: Props) {
     return (
         <>
             <li
-                key={userData.patientDTO.patientNumber}
                 className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
