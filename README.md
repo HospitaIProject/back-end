@@ -1,4 +1,6 @@
 # 수술 환자 관리 시스템
+![image](https://github.com/user-attachments/assets/bd613b85-edd0-4a7b-a2ca-4f527a0caaac)
+
 - 프로젝트 기간 : 24.07
 - 개발인원
   - Back-end : 2명
