@@ -9,6 +9,7 @@ import com.team.hospital.api.patient.enumType.Sex;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -58,13 +59,13 @@ public class Patient extends BaseEntity {
     private Diagnosis diagnosis;                  // 진단명
 
     @Column(nullable = false)
-    private Date operationDate;                 // 수술일
+    private LocalDate operationDate;                 // 수술일
 
     @Column(nullable = false)
-    private Date hospitalizedDate;              // 입원일
+    private LocalDate hospitalizedDate;              // 입원일
 
     @Column(nullable = false)
-    private Date dischargedDate;                // 퇴원일
+    private LocalDate dischargedDate;                // 퇴원일
 
     @Column(nullable = false)
     private int totalHospitalizedDays;          // 총 재원 일수
