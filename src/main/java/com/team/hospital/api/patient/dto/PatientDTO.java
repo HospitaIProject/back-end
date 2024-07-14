@@ -8,6 +8,7 @@ import com.team.hospital.api.patient.enumType.Sex;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -36,11 +37,11 @@ public class PatientDTO {
 
     private Diagnosis diagnosis;                  // 진단명
 
-    private Date operationDate;                 // 수술일
+    private LocalDate operationDate;                 // 수술일
 
-    private Date hospitalizedDate;              // 입원일
+    private LocalDate hospitalizedDate;              // 입원일
 
-    private Date dischargedDate;                // 퇴원일
+    private LocalDate dischargedDate;                // 퇴원일
 
     private int totalHospitalizedDays;          // 총 재원 일수
 
