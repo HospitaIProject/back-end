@@ -6,6 +6,7 @@ function DesktopPagination() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const [searchParams] = useSearchParams();
+    const pageSize = 1;
 
     const handleRouter = ({ selected }: { selected: number }) => {
         const page = selected + 1;
@@ -29,7 +30,7 @@ function DesktopPagination() {
             }
             nextLabel={
                 <ArrowIcon
-                    className={`flex h-10 w-14 items-center justify-center rounded-md border p-1 ${forcePage === 19 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`flex h-10 w-14 items-center justify-center rounded-md border p-1 ${forcePage === pageSize - 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                 />
             }
             breakLabel={
@@ -37,13 +38,13 @@ function DesktopPagination() {
                     <span>..</span>
                 </div>
             }
-            pageCount={20}
+            pageCount={pageSize}
             onPageChange={handleRouter}
-            containerClassName={'flex flex-row   gap-2 mx-auto mt-4 items-center '}
+            containerClassName={'flex flex-row p-4   gap-2 mx-auto mt-4 items-center '}
             pageLinkClassName={
                 'flex items-center justify-center w-10 h-10 text-sm border rounded-md border-neutral-300 hover:border-neutral-500'
             }
-            activeLinkClassName="bg-gray-500 text-white"
+            activeLinkClassName="bg-blue-500 text-white"
             pageRangeDisplayed={4} //선택된 페이지 주변에 보여질 페이지 수
             marginPagesDisplayed={1} //첫 페이지와 마지막 페이지 주변에 보여질 페이지 수
             forcePage={forcePage} //선택된 페이지

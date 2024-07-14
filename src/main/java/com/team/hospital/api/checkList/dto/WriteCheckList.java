@@ -1,84 +1,89 @@
 package com.team.hospital.api.checkList.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.checkList.enumType.PainScore;
-import com.team.hospital.api.checkList.enumType.Pod;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Getter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class WriteCheckList {
 
-    private BooleanOption explainBeforeOperation;               //ERAS 수술 전 설명
-    private BooleanOption takingONSBeforeOperationTwo_Hours;    //수술 2시간 전 ONS 복용여뷰
-    private BooleanOption takingAfterBowelPreparation;          //Bowel Preparation 후 경장영양액 복용여부
-    private BooleanOption preventionDVT;                        //DVT 예방
-    private BooleanOption takingLaxatives;                      //Laxatives 복용
-    private BooleanOption chewingGum;                           //껌
-    private Pod dayOfRemoveJP_Drain;                            //JP drain 제거일
-    private BooleanOption reasonByRemoveJP_DrainDelay;          //JP drain 제거 지연 이유
-    private BooleanOption dayOfRemoveUrinary_Catheter;          //Urinary catheter 제거일
-    private BooleanOption reasonByRemoveUrinary_CatheterDelay;  //Urinary catheter 제거 지연 이유
-    private BooleanOption afterOperationLimitIV_Fluid;          //수술 후 IV fluid 제한
-    private BooleanOption dayOfRemoveIV_Fluid;                  //IV fluid 제거일
-    private BooleanOption reasonByRemoveIV_FluidDelay;          //IV fluid 제거 지연 이유
-    private BooleanOption post_Nausea_Vomiting;                 //Post OP Nausea & Vomiting prophylaxis
-    private BooleanOption postOpDayExercise;                    //Post OP day 운동
-    private BooleanOption pod_1Exercise;                        //POD#1 운동
-    private BooleanOption pod_2Exercise;                        //POD#2 운동
-    private BooleanOption pod_3Exercise;                        //POD#3 운동
-    private BooleanOption postOpDayMeal;                        //Post OP day 식사
-    private BooleanOption pod_1Meal;                            //POD#1 식사
-    private BooleanOption pod_2Meal;                            //POD#2 식사
-    private BooleanOption beforeOperationMedicine;              //수술 전 통증 조절약
-    private String silt_Itm;                                    //수술 중 SILT or ITM
-    private BooleanOption postOpEffectivePainControl;           //Post op Effective Pain Control
-    private PainScore pod_1PainScore;                           //POD#1 pain score
-    private PainScore pod_2PainScore;                           //POD#2 pain score
-    private PainScore pod_3PainScore;                           //POD#3 pain score
-    private BooleanOption beforeSixtyMinute;                    //피부 절개 60분 전 예방적 항생제 투어
-    private BooleanOption maintainTemperature;                  //수술 중 환자 체온 유지
-    private BooleanOption volumeOfIntraoperativeInfusion;       //Volume of intraoperative infusion(ml)
-    private float bloodLoss;                                    //Blood loss(cc)
-    private float urineOutput;                                  //Urine output(cc)
-    private float operationTime;                                //Operation time (min)
-    private BooleanOption hasPost_Nausea_Vomiting;               //Pot OP Nausea & Vomiting prophylaxis 여부
-    private String locate;                                      //입원 병동
+    // 수술 중
+    private BooleanOption maintainTemp;                  // 수술 중 환자 체온 유지 여부
+    private BooleanOption fluidRestriction;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
+    private BooleanOption antiNausea;                    // 수술 중 구역구토 방지제 사용 여부
+    private BooleanOption painControl;                   // 수술 중 통증 조절을 위한 처치 여부
 
-    //비고 필드
-    private String explainBeforeOperation_remark;               //ERAS 수술 전 설명
-    private String takingONSBeforeOperationTwo_Hours_remark;    //수술 2시간 전 ONS 복용여뷰
-    private String takingAfterBowelPreparation_remark;          //Bowel Preparation 후 경장영양액 복용여부
-    private String preventionDVT_remark;                        //DVT 예방
-    private String takingLaxatives_remark;                      //Laxatives 복용
-    private String chewingGum_remark;                           //껌
-    private String dayOfRemoveJP_Drain_remark;                  //JP drain 제거일
-    private String reasonByRemoveJP_DrainDelay_remark;          //JP drain 제거 지연 이유
-    private String dayOfRemoveUrinary_Catheter_remark;          //Urinary catheter 제거일
-    private String reasonByRemoveUrinary_CatheterDelay_remark;  //Urinary catheter 제거 지연 이유
-    private String afterOperationLimitIV_Fluid_remark;          //수술 후 IV fluid 제한
-    private String dayOfRemoveIV_Fluid_remark;                  //IV fluid 제거일
-    private String reasonByRemoveIV_FluidDelay_remark;          //IV fluid 제거 지연 이유
-    private String post_Nausea_Vomiting_remark;                 //Post OP Nausea & Vomiting prophylaxis
-    private String postOpDayExercise_remark;                    //Post OP day 운동
-    private String pod_1Exercise_remark;                        //POD#1 운동
-    private String pod_2Exercise_remark;                        //POD#2 운동
-    private String pod_3Exercise_remark;                        //POD#3 운동
-    private String postOpDayMeal_remark;                        //Post OP day 식사
-    private String pod_1Meal_remark;                            //POD#1 식사
-    private String pod_2Meal_remark;                            //POD#2 식사
-    private String beforeOperationMedicine_remark;              //수술 전 통증 조절약
-    private String silt_Itm_remark;                             //수술 중 SILT or ITM
-    private String postOpEffectivePainControl_remark;           //Post op Effective Pain Control
-    private String pod_1PainScore_remark;                       //POD#1 pain score
-    private String pod_2PainScore_remark;                       //POD#2 pain score
-    private String pod_3PainScore_remark;                       //POD#3 pain score
-    private String beforeSixtyMinute_remark;                    //피부 절개 60분 전 예방적 항생제 투어
-    private String maintainTemperature_remark;                  //수술 중 환자 체온 유지
-    private String volumeOfIntraoperativeInfusion_remark;       //Volume of intraoperative infusion(ml)
-    private String bloodLoss_remark;                            //Blood loss(cc)
-    private String urineOutput_remark;                          //Urine output(cc)
-    private String operationTime_remark;                        //Operation time (min)
-    private String hasPost_Nausea_Vomiting_remark;               //Pot OP Nausea & Vomiting prophylaxis 여부
-    private String locate_remark;                               //입원 병동
+    // 수술 후
+    private BooleanOption giStimulant;                   // 위장관 촉진 약 복용 여부
+    private BooleanOption gumChewing;                    // 하루 3번 15분동안 껌씹기 여부
+    private BooleanOption antiNauseaPostOp;              // 수술 후 구역구토방지제 사용 여부
+    private BooleanOption ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
+    private BooleanOption nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
+
+    private BooleanOption jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
+    private LocalDate jpDrainRemovalDate;
+
+    private BooleanOption catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
+    private LocalDate catheterRemovalDate;
+    private BooleanOption catheterReInsertion;
+
+    private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
+    private LocalDate ivLineRemovalDate;
+
+
+    // Pod Exercise
+    private BooleanOption postExercise;
+    private BooleanOption podOneExercise;
+    private BooleanOption podTwoExercise;
+    private BooleanOption podThreeExercise;
+
+    // Pod Meal
+    private BooleanOption postMeal;
+    private BooleanOption podOneMeal;
+    private BooleanOption podTwoMeal;
+
+    // Pod Pain
+    private DailyPainScore postPain;
+    private DailyPainScore podOnePain;
+    private DailyPainScore podTwoPain;
+    private DailyPainScore podThreePain;
+
+
+    // 비고 필드
+    // 수술 중
+    private String maintainTemp_remarks;                  // 수술 중 환자 체온 유지 여부
+    private String fluidRestriction_remarks;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
+    private String antiNausea_remarks;                    // 수술 중 구역구토 방지제 사용 여부
+    private String painControl_remarks;                   // 수술 중 통증 조절을 위한 처치 여부
+
+    // 수술 후
+    private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
+    private String gumChewing_remarks;                    // 하루 3번 15분동안 껌씹기 여부
+    private String antiNauseaPostOp_remarks;              // 수술 후 구역구토방지제 사용 여부
+    private String ivFluidRestrictionPostOp_remarks;      // 수술 후 IV fluid 제한 여부
+    private String nonOpioidPainControl_remarks;          // 수술 후 non-opioid pain control 여부
+    private String jpDrainRemoval_remarks;                // 수술 후 3일이내 JP drain 제거 여부
+    private String catheterRemoval_remarks;               // 수술 후 수술장에서 소변줄 제거 여부
+    private String ivLineRemoval_remarks;                 // 수술 후 3일이내 IV line 제거 여부
+
+    // Pod Exercise
+    private String postExercise_remarks;
+    private String podOneExercise_remarks;
+    private String podTwoExercise_remarks;
+    private String podThreeExercise_remarks;
+
+    // Pod Meal
+    private String postMeal_remarks;
+    private String podOneMeal_remarks;
+    private String podTwoMeal_remarks;
+
+    // Pod Pain
+//    private String postPain_remarks;
+//    private String podOnePain_remarks;
+//    private String podTwoPain_remarks;
+//    private String podThreePain_remarks;
 
 }

@@ -4,6 +4,7 @@ import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.RegisterOperation;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@Tag(name = "수술 관리", description = "수술 관리 API")
 public class OperationController {
 
     private final OperationService operationService;

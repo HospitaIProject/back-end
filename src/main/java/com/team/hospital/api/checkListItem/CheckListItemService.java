@@ -6,12 +6,13 @@ import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CheckListItemService {
 
     private final CheckListItemRepository checkListItemRepository;
@@ -22,7 +23,13 @@ public class CheckListItemService {
     public void save(WriteCheckListItem writeCheckListItem, Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         CheckListItem checkListItem = CheckListItem.createCheckListItem(writeCheckListItem, operation);
-        checkListItemRepository.save(checkListItem);
+
+        try {
+            checkListItemRepository.save(checkListItem);
+        } catch (DataIntegrityViolationException e) {
+            // 중복된 항목이 있을 경우 예외 처리
+            throw new CheckListItemNotFoundException("해당 수술에 등록된 체크리스트 목록이 존재합니다. 존재하는 체크리스트 목록을 수정하십시오.");
+        }
     }
 
     @Transactional
@@ -37,16 +44,17 @@ public class CheckListItemService {
         checkListItemRepository.delete(checkListItem);
     }
 
+    @Transactional
+    public CheckListItem findCheckListItemByOperation(Long operationId) {
+        Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperationId(operationId);
+        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException("해당 수술에 체크리스트 목록이 등록되지 않았습니다.");
+        return checkListItem.get();
+    }
+
     public CheckListItem findCheckListItemById(Long checkListItemId) {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findById(checkListItemId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
         return checkListItem.get();
     }
 
-    public CheckListItem findCheckListItemByOperation(Long operationId) {
-        Operation operation = operationService.findOperationById(operationId);
-        Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperation(operation);
-        if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
-        return checkListItem.get();
-    }
 }

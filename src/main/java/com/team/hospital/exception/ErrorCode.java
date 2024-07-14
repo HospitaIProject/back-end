@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    // 400, BadRequeset
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "E400001", "유효하지 않은 요청입니다."),
+
     // 404, NotFound
     PATIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "존재하지 않는 환자입니다."),
     OPERATION_NOT_FOUND(HttpStatus.NOT_FOUND, "E404002", "등록되지 않은 수술입니다."),
@@ -16,6 +19,11 @@ public enum ErrorCode {
 
     // 409, Conflict
     PATIENT_CONFLICT(HttpStatus.CONFLICT, "E409001", "이미 등록된 환자 번호입니다."),
+    CHECK_LIST_ITEM_CONFLICT(HttpStatus.CONFLICT, "E409002", "이미 등록된 체크리스트 목록입니다."),
+
+    // 422, UNPROCESSABLE_ENTITY
+    UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422001", "유효하지 않은 엔티티 등록 요청입니다."),
+    PATIENT_UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422002", "유효하지 않은 환자 등록 요청입니다."),
 
     //500
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E500001", "서버 에러가 발생했습니다.");

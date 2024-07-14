@@ -10,14 +10,14 @@ const CATEGORY_LIST = [
 function Navbar({ isOpen }: { isOpen: boolean }) {
     return (
         <nav
-            className={`absolute flex w-full items-center justify-between border-b bg-white transition-all ${isOpen ? '' : 'h-0 overflow-hidden'}`}
+            className={`absolute flex w-full items-center justify-between rounded-b-lg bg-white transition-all ${isOpen ? 'shadow-md' : 'h-0 overflow-hidden'}`}
         >
             <ul className={`flex flex-col gap-3 p-4`}>
                 {CATEGORY_LIST.map((category) => (
                     <li key={category.title}>
                         <Link to={category.path} className="flex flex-row items-center gap-1">
-                            <span>{category.title}</span>
-                            <ArrowIcon className="w-5 h-5" />
+                            <span className="font-medium text-gray-700">{category.title}</span>
+                            <ArrowIcon className="h-5 w-5 text-gray-700" />
                         </Link>
                     </li>
                 ))}

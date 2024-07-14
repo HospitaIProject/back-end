@@ -4,10 +4,10 @@ import MobilePagination from './MobilePagination';
 function ResponsivePagination() {
     return (
         <>
-            <div className="mobile:hidden">
+            <div className="flex flex-row w-full mt-auto mobile:hidden">
                 <MobilePagination />
             </div>
-            <div className="hidden w-full mobile:flex">
+            <div className="flex-row hidden w-full mt-auto mobile:flex">
                 <DesktopPagination />
             </div>
         </>

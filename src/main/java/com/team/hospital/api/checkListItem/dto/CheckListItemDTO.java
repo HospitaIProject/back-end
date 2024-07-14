@@ -10,70 +10,69 @@ public class CheckListItemDTO {
 
     private Long checkListItemId;
 
-    private boolean explainBeforeOperation;                       //EAS 수술전 설명
-    private boolean takingONSBeforeOperationTwo_Hours;            //수술 2시간 전 ONS 복용여부
-    private boolean takingAfterBowelPreparation;                  //Bowel preparation 후 ONS 경장영양액 복용여부
-    private boolean preventionDVT;                                //DVT 예방
-    private boolean takingLaxatives;                              //Laxatives 복용
-    private boolean chewingGum;                                   //Chewing gum
-    private boolean dayOfRemoveJP_Drain;                          //JP Drain 제거일
-    private boolean reasonByRemoveJP_DrainDelay;                  //JP Drain 제거 지연 사유
-    private boolean dayOfRemoveUrinary_Catheter;                  //Urinary catheter 제거일
-    private boolean reasonByRemoveUrinary_CatheterDelay;          //Urinary catheter 제거 지연 사유
-    private boolean afterOperationLimitIV_Fluid;                  //수술 후 IV fluid 제한
-    private boolean dayOfRemoveIV_Fluid;                          //IV fluid 제거일
-    private boolean reasonByRemoveIV_FluidDelay;                  //IV fluid 제거 지연 이유
-    private boolean post_Nausea_Vomiting;                         //Post OP Nausea & Vomiting prophylaxis
-    private boolean postOpDayExercise;                            //Post OP day 운동
-    private boolean pod_Exercise;                                //POD#1 운동
-    private boolean postOpDayMeal;                                //Post OP day 식사
-    private boolean pod_Meal;                                    //POD#1 식사
-    private boolean beforeOperationMedicine;                      //수술 전 통증 조절약
-    private boolean silt_Itm;
-    private boolean postOpEffectivePainControl;
-    private boolean pod_PainScore;
-    private boolean beforeSixtyMinute;
-    private boolean maintainTemperature;
-    private boolean volumeOfIntraoperativeInfusion;
-    private boolean bloodLoss;
-    private boolean urineOutput;
-    private boolean operationTime;
-    private boolean hasPost_Nausea_Vomiting;
-    private boolean locate;
+    // 수술 전
+    private boolean explainedPreOp;                // EAS 수술전 설명
+    private boolean onsPreOp2hr;                   // 수술 2시간 전 ONS 복용여부
+    private boolean onsPostBowelPrep;              // Bowel preparation 후 ONS 경장영양액 복용여부
+    private boolean dvtPrevention;                 // DVT 예방
+    private boolean antibioticPreIncision;         // 피부 절개 60분전 예방적 항생제 투여
+    private boolean painMedPreOp;                  // 수술전 통증 조절약 복용 여부
+
+    // 수술 중
+    private boolean maintainTemp;                  // 수술 중 환자 체온 유지 여부
+    private boolean fluidRestriction;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
+    private boolean antiNausea;                    // 수술 중 구역구토 방지제 사용 여부
+    private boolean painControl;                   // 수술 중 통증 조절을 위한 처치 여부
+
+    // 수술 후
+    private boolean giStimulant;                   // 위장관 촉진 약 복용 여부
+    private boolean gumChewing;                    // 하루 3번 15분동안 껌씹기 여부
+    private boolean antiNauseaPostOp;              // 수술 후 구역구토방지제 사용 여부
+    private boolean ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
+    private boolean nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
+    private boolean jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
+    private boolean catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
+    private boolean ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
+
+    private boolean podExercise;                   // 운동
+    private boolean podMeal;                       // 식사
+    private boolean podPain;                       // 통증
+
+//    private boolean complications;                 // 합병증
 
     public static CheckListItemDTO toEntity(CheckListItem checkListItem) {
         return CheckListItemDTO.builder()
                 .checkListItemId(checkListItem.getId())
-                .explainBeforeOperation(checkListItem.isExplainBeforeOperation())
-                .takingONSBeforeOperationTwo_Hours(checkListItem.isTakingONSBeforeOperationTwo_Hours())
-                .takingAfterBowelPreparation(checkListItem.isTakingAfterBowelPreparation())
-                .preventionDVT(checkListItem.isPreventionDVT())
-                .takingLaxatives(checkListItem.isTakingLaxatives())
-                .chewingGum(checkListItem.isChewingGum())
-                .dayOfRemoveJP_Drain(checkListItem.isDayOfRemoveJP_Drain())
-                .reasonByRemoveJP_DrainDelay(checkListItem.isReasonByRemoveJP_DrainDelay())
-                .dayOfRemoveUrinary_Catheter(checkListItem.isDayOfRemoveUrinary_Catheter())
-                .reasonByRemoveUrinary_CatheterDelay(checkListItem.isReasonByRemoveUrinary_CatheterDelay())
-                .afterOperationLimitIV_Fluid(checkListItem.isAfterOperationLimitIV_Fluid())
-                .dayOfRemoveIV_Fluid(checkListItem.isDayOfRemoveIV_Fluid())
-                .reasonByRemoveIV_FluidDelay(checkListItem.isReasonByRemoveIV_FluidDelay())
-                .post_Nausea_Vomiting(checkListItem.isPost_Nausea_Vomiting())
-                .postOpDayExercise(checkListItem.isPostOpDayExercise())
-                .pod_Exercise(checkListItem.isPod_Exercise())
-                .postOpDayMeal(checkListItem.isPostOpDayMeal())
-                .pod_Meal(checkListItem.isPod_Meal())
-                .beforeOperationMedicine(checkListItem.isBeforeOperationMedicine())
-                .silt_Itm(checkListItem.isSilt_Itm())
-                .postOpEffectivePainControl(checkListItem.isPostOpEffectivePainControl())
-                .pod_PainScore(checkListItem.isPod_PainScore())
-                .beforeSixtyMinute(checkListItem.isBeforeSixtyMinute())
-                .maintainTemperature(checkListItem.isMaintainTemperature())
-                .volumeOfIntraoperativeInfusion(checkListItem.isVolumeOfIntraoperativeInfusion())
-                .bloodLoss(checkListItem.isBloodLoss())
-                .urineOutput(checkListItem.isUrineOutput())
-                .operationTime(checkListItem.isOperationTime())
-                .hasPost_Nausea_Vomiting(checkListItem.isHasPost_Nausea_Vomiting())
-                .locate(checkListItem.isLocate())
+
+                // 수술 전
+                .explainedPreOp(checkListItem.isExplainedPreOp())
+                .onsPreOp2hr(checkListItem.isOnsPreOp2hr())
+                .onsPostBowelPrep(checkListItem.isOnsPostBowelPrep())
+                .dvtPrevention(checkListItem.isDvtPrevention())
+                .antibioticPreIncision(checkListItem.isAntibioticPreIncision())
+                .painMedPreOp(checkListItem.isPainMedPreOp())
+
+                // 수술 중
+                .maintainTemp(checkListItem.isMaintainTemp())
+                .fluidRestriction(checkListItem.isFluidRestriction())
+                .antiNausea(checkListItem.isAntiNausea())
+                .painControl(checkListItem.isPainControl())
+
+                // 수술 중
+                .giStimulant(checkListItem.isGiStimulant())
+                .gumChewing(checkListItem.isGumChewing())
+                .antiNauseaPostOp(checkListItem.isAntiNauseaPostOp())
+                .ivFluidRestrictionPostOp(checkListItem.isIvFluidRestrictionPostOp())
+                .nonOpioidPainControl(checkListItem.isNonOpioidPainControl())
+                .jpDrainRemoval(checkListItem.isJpDrainRemoval())
+                .catheterRemoval(checkListItem.isCatheterRemoval())
+                .ivLineRemoval(checkListItem.isIvLineRemoval())
+
+                // 수술 후
+                .podExercise(checkListItem.isPodExercise())
+                .podMeal(checkListItem.isPodMeal())
+                .podPain(checkListItem.isPodPain())
+//                .complications(checkListItem.isComplications)
                 .build();
     }
 }
