@@ -1,5 +1,6 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
+import { useState } from 'react';
 type Props<T> = {
     label: string;
     htmlFor: string;
@@ -10,6 +11,10 @@ type Props<T> = {
 };
 
 function NumberInput<T>({ label, htmlFor, formik, unit, isRender }: Props<T>) {
+    const [isFocused, setIsFocused] = useState(false); // focus 여부를 나타내는 state
+
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         formik?.setFieldValue(htmlFor, e.target.value);
         formik?.setFieldError(htmlFor, '');
@@ -22,11 +27,13 @@ function NumberInput<T>({ label, htmlFor, formik, unit, isRender }: Props<T>) {
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div
-                className={` ${isValid ? 'border-2 border-red-400' : ''} flex h-12 flex-grow flex-row items-center gap-2 overflow-hidden rounded-lg border border-gray-300 px-3`}
+                className={` ${isValid ? 'border-2 border-red-400' : ''} ${isFocused ? 'border-2 border-blue-400' : 'border-gray-300'} flex h-12 flex-grow flex-row items-center gap-2 overflow-hidden rounded-lg border px-3`}
             >
                 <input
                     type="number"
                     onChange={handleChange}
+                    onFocus={handleFocus} // focus 이벤트 추가
+                    onBlur={handleBlur} // blur 이벤트 추가
                     placeholder="숫자를 입력해주세요."
                     className="w-full outline-none"
                     onKeyDown={(e) => {

@@ -39,15 +39,19 @@ function SingleSelector<T>({
                     classNamePrefix="select"
                     placeholder="선택"
                     styles={{
-                        control: (provided) => ({
-                            ...provided,
+                        control: (baseStyles, state) => ({
+                            ...baseStyles,
                             width: '100%',
                             minHeight: '3rem',
                             borderWidth: '1px', // 원하는 두께로 변경
                             boxShadow: `none`, // 선택 시 그림자 제거 (선택적)
                             borderRadius: `0.5rem`, // 원하는 모양으로 변경
                             '&:hover': {},
-                            border: isValid ? '2px solid #e53e3e' : '1px solid #d2d6dc',
+                            border: isValid
+                                ? '2px solid #e53e3e'
+                                : '' || state.isFocused
+                                  ? '2px solid rgb(96 165 250) '
+                                  : '1px solid rgb(209 213 219) ',
                             cursor: 'pointer',
                         }),
                         container: (provided) => ({

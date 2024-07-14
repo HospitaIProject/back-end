@@ -1,5 +1,6 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
+import { useState } from 'react';
 
 type Props<T> = {
     label: string;
@@ -9,6 +10,10 @@ type Props<T> = {
 };
 
 function TextInput<T>({ label, htmlFor, formik, isRender }: Props<T>) {
+    const [isFocused, setIsFocused] = useState(false);
+
+    const handleFocus = () => setIsFocused(true);
+    const handleBlur = () => setIsFocused(false);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         formik?.setFieldValue(htmlFor, e.target.value);
         formik?.setFieldError(htmlFor, '');
@@ -22,9 +27,12 @@ function TextInput<T>({ label, htmlFor, formik, isRender }: Props<T>) {
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div className="flex flex-grow overflow-hidden">
                 <input
+                    type="text"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="텍스트를 입력 해주세요."
-                    className={`h-12 w-full rounded-lg border border-gray-300 px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
+                    className={`h-12 w-full outline-none ${isFocused ? 'border-2 border-blue-400' : ''} rounded-lg border border-gray-300 px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
                 />
             </div>
         </InputContainer>
