@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    // 400, BadRequeset
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, "E400001", "유효하지 않은 요청입니다."),
+
     // 404, NotFound
     PATIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "존재하지 않는 환자입니다."),
     OPERATION_NOT_FOUND(HttpStatus.NOT_FOUND, "E404002", "등록되지 않은 수술입니다."),
