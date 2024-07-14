@@ -2,6 +2,7 @@ package com.team.hospital.exception;
 
 import com.team.hospital.api.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,12 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleUnprocessableEntityException(HttpMessageNotReadableException e) {
         log.error("Exception Code: {}, Message: {}", UNPROCESSABLE_ENTITY, e.getMessage(), e);
         return ResponseEntity.status(UNPROCESSABLE_ENTITY.getHttpStatus()).body(ErrorResponse.createError(UNPROCESSABLE_ENTITY));
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<ErrorResponse> handleUnprocessableEntityException(DataIntegrityViolationException e) {
+        log.error("Exception Code: {}, Message: {}", BAD_REQUEST, e.getMessage(), e);
+        return ResponseEntity.status(BAD_REQUEST.getHttpStatus()).body(ErrorResponse.createError(BAD_REQUEST));
     }
 
     @ExceptionHandler(Exception.class)
