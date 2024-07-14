@@ -57,24 +57,24 @@ public class CheckListItem extends BaseEntity {
         return CheckListItem.builder()
 
                 // 수술 전
-                .explainedPreOp(write.isExplainBeforeOperation())
-                .onsPreOp2hr(write.isTakingONSBeforeOperationTwoHours())
-                .onsPostBowelPrep(write.isTakingAfterBowelPreparation())
-                .dvtPrevention(write.isPreventionDVT())
-                .antibioticPreIncision(write.isAntibioticBeforeIncision())
-                .painMedPreOp(write.isPainMedBeforeOperation())
+                .explainedPreOp(write.isExplainedPreOp())
+                .onsPreOp2hr(write.isOnsPreOp2hr())
+                .onsPostBowelPrep(write.isOnsPostBowelPrep())
+                .dvtPrevention(write.isDvtPrevention())
+                .antibioticPreIncision(write.isAntibioticPreIncision())
+                .painMedPreOp(write.isPainMedPreOp())
 
                 // 수술 중
-                .maintainTemp(write.isMaintainTempDuringOperation())
-                .fluidRestriction(write.isFluidRestrictionDuringOperation())
-                .antiNausea(write.isAntiNauseaDuringOperation())
-                .painControl(write.isPainControlDuringOperation())
+                .maintainTemp(write.isMaintainTemp())
+                .fluidRestriction(write.isFluidRestriction())
+                .antiNausea(write.isAntiNausea())
+                .painControl(write.isPainControl())
 
                 // 수술 후
                 .giStimulant(write.isGiStimulant())
                 .gumChewing(write.isGumChewing())
-                .antiNauseaPostOp(write.isAntiNauseaPostOperation())
-                .ivFluidRestrictionPostOp(write.isIvFluidRestrictionPostOperation())
+                .antiNauseaPostOp(write.isAntiNauseaPostOp())
+                .ivFluidRestrictionPostOp(write.isIvFluidRestrictionPostOp())
                 .nonOpioidPainControl(write.isNonOpioidPainControl())
                 .jpDrainRemoval(write.isJpDrainRemoval())
                 .catheterRemoval(write.isCatheterRemoval())
@@ -89,20 +89,20 @@ public class CheckListItem extends BaseEntity {
     }
 
     public void updateCheckListItem(WriteCheckListItem write) {
-        this.explainedPreOp = write.isExplainBeforeOperation();
-        this.onsPreOp2hr = write.isTakingONSBeforeOperationTwoHours();
-        this.onsPostBowelPrep = write.isTakingAfterBowelPreparation();
-        this.dvtPrevention = write.isPreventionDVT();
-        this.antibioticPreIncision = write.isAntibioticBeforeIncision();
-        this.painMedPreOp = write.isPainMedBeforeOperation();
-        this.maintainTemp = write.isMaintainTempDuringOperation();
-        this.fluidRestriction = write.isFluidRestrictionDuringOperation();
-        this.antiNausea = write.isAntiNauseaDuringOperation();
-        this.painControl = write.isPainControlDuringOperation();
+        this.explainedPreOp = write.isExplainedPreOp();
+        this.onsPreOp2hr = write.isOnsPreOp2hr();
+        this.onsPostBowelPrep = write.isOnsPostBowelPrep();
+        this.dvtPrevention = write.isDvtPrevention();
+        this.antibioticPreIncision = write.isAntibioticPreIncision();
+        this.painMedPreOp = write.isPainMedPreOp();
+        this.maintainTemp = write.isMaintainTemp();
+        this.fluidRestriction = write.isFluidRestriction();
+        this.antiNausea = write.isAntiNausea();
+        this.painControl = write.isPainControl();
         this.giStimulant = write.isGiStimulant();
         this.gumChewing = write.isGumChewing();
-        this.antiNauseaPostOp = write.isAntiNauseaPostOperation();
-        this.ivFluidRestrictionPostOp = write.isIvFluidRestrictionPostOperation();
+        this.antiNauseaPostOp = write.isAntiNauseaPostOp();
+        this.ivFluidRestrictionPostOp = write.isIvFluidRestrictionPostOp();
         this.nonOpioidPainControl = write.isNonOpioidPainControl();
         this.jpDrainRemoval = write.isJpDrainRemoval();
         this.catheterRemoval = write.isCatheterRemoval();
