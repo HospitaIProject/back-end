@@ -38,6 +38,8 @@ public class CheckListItemDTO {
     private boolean podMeal;                       // 식사
     private boolean podPain;                       // 통증
 
+//    private boolean complications;                 // 합병증
+
     public static CheckListItemDTO toEntity(CheckListItem checkListItem) {
         return CheckListItemDTO.builder()
                 .checkListItemId(checkListItem.getId())
@@ -49,6 +51,12 @@ public class CheckListItemDTO {
                 .dvtPrevention(checkListItem.isDvtPrevention())
                 .antibioticPreIncision(checkListItem.isAntibioticPreIncision())
                 .painMedPreOp(checkListItem.isPainMedPreOp())
+
+                // 수술 중
+                .maintainTemp(checkListItem.isMaintainTemp())
+                .fluidRestriction(checkListItem.isFluidRestriction())
+                .antiNausea(checkListItem.isAntiNausea())
+                .painControl(checkListItem.isPainControl())
 
                 // 수술 중
                 .giStimulant(checkListItem.isGiStimulant())
@@ -64,6 +72,7 @@ public class CheckListItemDTO {
                 .podExercise(checkListItem.isPodExercise())
                 .podMeal(checkListItem.isPodMeal())
                 .podPain(checkListItem.isPodPain())
+//                .complications(checkListItem.isComplications)
                 .build();
     }
 }
