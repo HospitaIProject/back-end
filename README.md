@@ -18,7 +18,7 @@
 
 ---
 ## 사용 기술
-Back-End : <br>
+Back-End : 
 - <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
 - <img src="https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=spring%20security&logoColor=white">
 - <img src="https://img.shields.io/badge/json%20web%20tokens-000000?style=for-the-badge&logo=json%20web%20tokens&logoColor=white">
@@ -28,7 +28,7 @@ Back-End : <br>
 - <img src="https://img.shields.io/badge/nginx-85EA2D?style=for-the-badge&logo=nginx&logoColor=white">
 
 
-Front-End 웹 :
+Front-End :
 - <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
 - <img src="https://img.shields.io/badge/react%20query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white">
 - <img src="https://img.shields.io/badge/tailwind%20css-06B6D4?style=for-the-badge&logo=tailwind%20css&logoColor=white">
