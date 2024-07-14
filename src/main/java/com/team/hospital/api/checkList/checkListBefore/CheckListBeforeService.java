@@ -1,6 +1,5 @@
 package com.team.hospital.api.checkList.checkListBefore;
 
-import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
