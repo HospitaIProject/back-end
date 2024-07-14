@@ -13,18 +13,18 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckListDetail_3 {
+public class CheckListFirst {
 
     @Enumerated(EnumType.STRING)
-    private PainScore option;
+    private BooleanOption option;
 
     private String remarks;  // 비고
 
-    public static CheckListDetail_3 buildComplianceDetail(PainScore option, String remarks){
-        return CheckListDetail_3.builder().option(option).remarks(remarks).build();
+    public static CheckListFirst buildComplianceDetail(BooleanOption option, String remarks){
+        return CheckListFirst.builder().option(option).remarks(remarks).build();
     }
 
-    public void update(PainScore option, String remarks){
+    public void update(BooleanOption option, String remarks){
         this.option = option;
         this.remarks = remarks;
     }

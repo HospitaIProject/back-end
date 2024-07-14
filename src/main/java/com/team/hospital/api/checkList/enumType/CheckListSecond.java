@@ -8,24 +8,33 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Embeddable
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CheckListDetail_1 {
+public class CheckListSecond {
 
     @Enumerated(EnumType.STRING)
     private BooleanOption option;
 
     private String remarks;  // 비고
 
-    public static CheckListDetail_1 buildComplianceDetail(BooleanOption option, String remarks){
-        return CheckListDetail_1.builder().option(option).remarks(remarks).build();
+    private LocalDate removedDate;
+
+    public static CheckListSecond buildComplianceDetail(BooleanOption option, String remarks, LocalDate removedDate){
+        return CheckListSecond.builder()
+                .option(option)
+                .remarks(remarks)
+                .removedDate(removedDate)
+                .build();
     }
 
-    public void update(BooleanOption option, String remarks){
+    public void update(BooleanOption option, String remarks, LocalDate removedDate){
         this.option = option;
         this.remarks = remarks;
+        this.removedDate = removedDate;
     }
 }
