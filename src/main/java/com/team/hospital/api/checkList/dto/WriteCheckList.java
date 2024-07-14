@@ -1,9 +1,11 @@
 package com.team.hospital.api.checkList.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.checkList.enumType.PainScore;
-import com.team.hospital.api.checkList.enumType.Pod;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Getter;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 public class WriteCheckList {
@@ -28,9 +30,17 @@ public class WriteCheckList {
     private BooleanOption antiNauseaPostOp;              // 수술 후 구역구토방지제 사용 여부
     private BooleanOption ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
     private BooleanOption nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
+
     private BooleanOption jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
+    private LocalDate jpDrainRemovalDate;
+
     private BooleanOption catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
+    private LocalDate catheterRemovalDate;
+    private BooleanOption catheterReInsertion;
+
     private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
+    private LocalDate ivLineRemovalDate;
+
 
     // Pod Exercise
     private BooleanOption postExercise;
@@ -42,13 +52,12 @@ public class WriteCheckList {
     private BooleanOption postMeal;
     private BooleanOption podOneMeal;
     private BooleanOption podTwoMeal;
-    private BooleanOption podThreeMeal;
 
     // Pod Pain
-    private BooleanOption postPain;
-    private BooleanOption podOnePain;
-    private BooleanOption podTwoPain;
-    private BooleanOption podThreePain;
+    private DailyPainScore postPain;
+    private DailyPainScore podOnePain;
+    private DailyPainScore podTwoPain;
+    private DailyPainScore podThreePain;
 
 
     // 비고 필드
@@ -86,12 +95,11 @@ public class WriteCheckList {
     private String postMeal_remarks;
     private String podOneMeal_remarks;
     private String podTwoMeal_remarks;
-    private String podThreeMeal_remarks;
 
     // Pod Pain
-    private String postPain_remarks;
-    private String podOnePain_remarks;
-    private String podTwoPain_remarks;
-    private String podThreePain_remarks;
+//    private String postPain_remarks;
+//    private String podOnePain_remarks;
+//    private String podTwoPain_remarks;
+//    private String podThreePain_remarks;
 
 }

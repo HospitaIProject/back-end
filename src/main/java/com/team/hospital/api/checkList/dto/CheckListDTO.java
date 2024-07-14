@@ -2,13 +2,11 @@ package com.team.hospital.api.checkList.dto;
 
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.checkList.enumType.PainTime;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -54,12 +52,11 @@ public class CheckListDTO {
     private BooleanOption postMeal;                      // 운동
     private BooleanOption podOneMeal;                    // 식사
     private BooleanOption podTwoMeal;                    // 통증
-    private BooleanOption podThreeMeal;                  // 통증
 
-    private List<PainTime> postPain;                      // 운동
-    private List<PainTime> podOnePain;                    // 식사
-    private List<PainTime> podTwoPain;                    // 통증
-    private List<PainTime> podThreePain;                  // 통증
+    private DailyPainScore postPain;                      // 운동
+    private DailyPainScore podOnePain;                    // 식사
+    private DailyPainScore podTwoPain;                    // 통증
+    private DailyPainScore podThreePain;                  // 통증
 
     // 수술 전
     private String explainedPreOp_remarks;                // EAS 수술전 설명
@@ -95,7 +92,6 @@ public class CheckListDTO {
     private String postMeal_remarks;
     private String podOneMeal_remarks;
     private String podTwoMeal_remarks;
-    private String podThreeMeal_remarks;
 
     // Pod Pain
 //    private String postPain_remarks;
@@ -112,30 +108,6 @@ public class CheckListDTO {
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt());
 
-        if (checkList.getExplainedPreOp() != null) {
-            checkListDTO.explainedPreOp(checkList.getExplainedPreOp().getOption());
-            checkListDTO.explainedPreOp_remarks(checkList.getExplainedPreOp().getRemarks());
-        }
-        if (checkList.getOnsPreOp2hr() != null) {
-            checkListDTO.onsPreOp2hr(checkList.getOnsPreOp2hr().getOption());
-            checkListDTO.onsPreOp2hr_remarks(checkList.getOnsPreOp2hr().getRemarks());
-        }
-        if (checkList.getOnsPostBowelPrep() != null) {
-            checkListDTO.onsPostBowelPrep(checkList.getOnsPostBowelPrep().getOption());
-            checkListDTO.onsPostBowelPrep_remarks(checkList.getOnsPostBowelPrep().getRemarks());
-        }
-        if (checkList.getDvtPrevention() != null) {
-            checkListDTO.dvtPrevention(checkList.getDvtPrevention().getOption());
-            checkListDTO.dvtPrevention_remarks(checkList.getDvtPrevention().getRemarks());
-        }
-        if (checkList.getAntibioticPreIncision() != null) {
-            checkListDTO.antibioticPreIncision(checkList.getAntibioticPreIncision().getOption());
-            checkListDTO.antibioticPreIncision_remarks(checkList.getAntibioticPreIncision().getRemarks());
-        }
-        if (checkList.getPainMedPreOp() != null) {
-            checkListDTO.painMedPreOp(checkList.getPainMedPreOp().getOption());
-            checkListDTO.painMedPreOp_remarks(checkList.getPainMedPreOp().getRemarks());
-        }
         if (checkList.getMaintainTemp() != null) {
             checkListDTO.maintainTemp(checkList.getMaintainTemp().getOption());
             checkListDTO.maintainTemp_remarks(checkList.getMaintainTemp().getRemarks());
@@ -212,10 +184,6 @@ public class CheckListDTO {
             checkListDTO.podTwoMeal(checkList.getPodTwoMeal().getOption());
             checkListDTO.podTwoMeal_remarks(checkList.getPodTwoMeal().getRemarks());
         }
-        if (checkList.getPodThreeMeal() != null) {
-            checkListDTO.podThreeMeal(checkList.getPodThreeMeal().getOption());
-            checkListDTO.podThreeMeal_remarks(checkList.getPodThreeMeal().getRemarks());
-        }
         if (checkList.getPostPain() != null) {
             checkListDTO.postPain(checkList.getPostPain());
         }
@@ -231,9 +199,4 @@ public class CheckListDTO {
         return checkListDTO.build();
     }
 
-    public static List<CheckListDTO> buildComplianceDTOs(List<CheckList> list) {
-        return list.stream()
-                .map(CheckListDTO::toEntity)
-                .collect(Collectors.toList());
-    }
 }
