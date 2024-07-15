@@ -23,7 +23,7 @@ public class CheckListService {
     @Transactional
     public void save(WriteCheckList write, Long checkListItemId) {
         CheckListItem checkListItem = checkListItemService.findCheckListItemById(checkListItemId);
-        CheckList checkList = CheckList.toEntity(write, checkListItem);
+        CheckList checkList = CheckList.createCheckList(write, checkListItem);
         checkListRepository.save(checkList);
     }
 
