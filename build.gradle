@@ -28,6 +28,7 @@ dependencies {
 	// Apache POI
 	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 
+	//mysql
 	implementation 'mysql:mysql-connector-java:8.0.28'
 
 	// sqlite
@@ -49,6 +50,15 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//jwt
+	implementation 'com.auth0:java-jwt:3.18.1'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 }
 
 tasks.named('test') {

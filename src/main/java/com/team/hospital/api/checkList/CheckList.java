@@ -178,7 +178,7 @@ public class CheckList extends BaseEntity {
     @JoinColumn(name = "check_list_item_id")
     private CheckListItem checkListItem;
 
-    public static CheckList toEntity(WriteCheckList write, CheckListItem checkListItem) {
+    public static CheckList createCheckList(WriteCheckList write, CheckListItem checkListItem) {
         return CheckList.builder()
                 // 수술 중
                 .maintainTemp(CheckListFirst.buildComplianceDetail(write.getMaintainTemp(), write.getMaintainTemp_remarks()))

@@ -11,6 +11,11 @@ public enum ErrorCode {
     // 400, BadRequeset
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "E400001", "유효하지 않은 요청입니다."),
 
+    //401
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "E401001", "인증 실패"),
+    LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "E401002", "아이디 또는 비밀번호 불일치"),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "E401003", "Token Expired"),
+
     // 404, NotFound
     PATIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "E404001", "존재하지 않는 환자입니다."),
     OPERATION_NOT_FOUND(HttpStatus.NOT_FOUND, "E404002", "등록되지 않은 수술입니다."),
