@@ -177,7 +177,7 @@ export const useInitialValues = ({
         podTwoMeal_remarks: isPod2 && existFields?.podMeal ? '' : undefined,
     };
     if (checkListBeforeData) {
-        const checkListBefore = checkListBeforeData.checkListBeforeDTO;
+        const checkListBefore = checkListBeforeData;
         initialValues.explainedPreOp = checkListBefore?.explainedPreOp;
         initialValues.onsPreOp2hr = checkListBefore?.onsPreOp2hr;
         initialValues.onsPostBowelPrep = checkListBefore?.onsPostBowelPrep;
@@ -194,7 +194,7 @@ export const useInitialValues = ({
     }
 
     if (checkListDuringData) {
-        const checkListDuring = checkListDuringData.checkListDuringDTO;
+        const checkListDuring = checkListDuringData;
         initialValues.maintainTemp = checkListDuring?.maintainTemp;
         initialValues.fluidRestriction = checkListDuring?.fluidRestriction;
         initialValues.antiNausea = checkListDuring?.antiNausea;

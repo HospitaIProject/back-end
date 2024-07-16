@@ -1,4 +1,9 @@
-import { checkListFormType } from '../../../models/CheckListsType';
+import {
+    CheckListsAfterItemType,
+    CheckListsBeforeItemType,
+    CheckListsDuringItemType,
+    checkListFormType,
+} from '../../../models/CheckListsType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
 import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNoViewButton';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
@@ -9,12 +14,16 @@ import CalendarIcon from '../../../icons/CalendarIcon';
 import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
 
 type Props = {
-    values: checkListFormType;
+    formValues?: checkListFormType;
+    prevValues?: CheckListsBeforeItemType;
+    todayValues?: CheckListsDuringItemType;
+    postValues?: CheckListsAfterItemType;
+
     onSubmit?: () => void;
     existFields: CheckListSetupType;
 };
 
-function ConfirmComplianceForm({ values, onSubmit, existFields }: Props) {
+function ConfirmComplianceForm({ formValues, prevValues, todayValues, postValues, onSubmit, existFields }: Props) {
     const [searchParams] = useSearchParams();
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
@@ -23,9 +32,17 @@ function ConfirmComplianceForm({ values, onSubmit, existFields }: Props) {
     const isPod2 = diffDay === '-2'; //POD 2일차인지 여부
     const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
     const statusTitle = dateStatus === 'PREV' ? '수술 전' : dateStatus === 'POST' ? '수술 후' : '수술 당일';
+
+    let values = {
+        ...formValues,
+        ...prevValues,
+        ...todayValues,
+        ...postValues,
+    };
     const { onlyDate: jpDrainRemovalDate } = useDateFormatted(values.jpDrainRemovalDate || '');
     const { onlyDate: catheterRemovalDate } = useDateFormatted(values.catheterRemovalDate || '');
     const { onlyDate: ivLineRemovalDate } = useDateFormatted(values.ivLineRemovalDate || '');
+
     return (
         <>
             <span className="mx-auto flex w-fit flex-row text-center text-lg font-bold">{statusTitle}</span>
@@ -73,6 +90,7 @@ function ConfirmComplianceForm({ values, onSubmit, existFields }: Props) {
                 />
                 {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="제출하기" />}
             </div>
+
             <div
                 className={`${dateStatus === 'TODAY' ? 'grid' : 'hidden'} w-full grid-cols-1 flex-col gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20`}
             >

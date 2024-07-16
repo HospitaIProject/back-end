@@ -3,25 +3,25 @@ import Axios from '../../utils/axiosInstance';
 import {
     CheckListsBeforeItemType,
     CheckListsDuringItemType,
-    ResponseCheckListAfterType,
+    ResponseCheckListsType,
 } from '../../models/CheckListsType';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 
 const getCheckListBefore = async (operationId: number): Promise<CheckListsBeforeItemType> => {
     const response = await Axios.get(`api/checkListBeforeDetail/${operationId}`);
-    return response.data.data;
+    return response.data.data.checkListBeforeDTO;
 }; // 수술전 체크리스트
 
 const getCheckListDuring = async (operationId: number): Promise<CheckListsDuringItemType> => {
     const response = await Axios.get(`api/checkListDuringDetail/${operationId}`);
-    return response.data.data;
+    return response.data.data.checkListDuringDTO;
 }; // 수술당일 체크리스트
 
-const getCheckListAfter = async (operationId: number): Promise<ResponseCheckListAfterType> => {
+const getCheckLists = async (operationId: number): Promise<ResponseCheckListsType> => {
     const response = await Axios.get(`api/checkLists/${operationId}`);
     return response.data.data;
-}; // 수술후 체크리스트
+}; // 전체 체크리스트
 
 //--------------------------------------------
 
@@ -56,11 +56,10 @@ export const useCheckListDuringQuery = ({
     return query;
 };
 
-export const useCheckListAfterQuery = ({ operationId, enabled = true }: { operationId: number; enabled?: boolean }) => {
-    const query = useQuery<ResponseCheckListAfterType, AxiosError<ErrorResponseType>>({
+export const useCheckListsQuery = ({ operationId }: { operationId: number }) => {
+    const query = useQuery<ResponseCheckListsType, AxiosError<ErrorResponseType>>({
         queryKey: ['getCheckListAfterOperation', operationId],
-        queryFn: () => getCheckListAfter(operationId),
-        enabled: enabled,
+        queryFn: () => getCheckLists(operationId),
     });
     return query;
 };

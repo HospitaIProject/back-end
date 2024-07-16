@@ -135,51 +135,47 @@ export type checkListFormType = {
 }; // 체크리스트 폼
 
 export type CheckListsBeforeItemType = {
-    checkListBeforeDTO: {
-        patientId: number;
-        patientName: string;
-        patientNumber: number;
-        checkListBeforeId: number;
-        createAt: string;
-        updatedAt: string;
+    patientId: number;
+    patientName: string;
+    patientNumber: number;
+    checkListBeforeId: number;
+    createAt: string;
+    updatedAt: string;
 
-        explainedPreOp?: 'YES' | 'NO';
-        onsPreOp2hr?: 'YES' | 'NO';
-        onsPostBowelPrep?: 'YES' | 'NO';
-        dvtPrevention?: 'YES' | 'NO';
-        antibioticPreIncision?: 'YES' | 'NO';
-        painMedPreOp?: 'YES' | 'NO';
+    explainedPreOp?: 'YES' | 'NO';
+    onsPreOp2hr?: 'YES' | 'NO';
+    onsPostBowelPrep?: 'YES' | 'NO';
+    dvtPrevention?: 'YES' | 'NO';
+    antibioticPreIncision?: 'YES' | 'NO';
+    painMedPreOp?: 'YES' | 'NO';
 
-        explainedPreOp_remarks?: string;
-        onsPreOp2hr_remarks?: string;
-        onsPostBowelPrep_remarks?: string;
-        dvtPrevention_remarks?: string;
-        antibioticPreIncision_remarks?: string;
-        painMedPreOp_remarks?: string;
-        //-------------------------수술전
-    };
+    explainedPreOp_remarks?: string;
+    onsPreOp2hr_remarks?: string;
+    onsPostBowelPrep_remarks?: string;
+    dvtPrevention_remarks?: string;
+    antibioticPreIncision_remarks?: string;
+    painMedPreOp_remarks?: string;
+    //-------------------------수술전
 };
 export type CheckListsDuringItemType = {
-    checkListDuringDTO: {
-        patientId: number;
-        patientName: string;
-        patientNumber: number;
-        checkListDuringId: number;
-        createAt: string;
-        updatedAt: string;
+    patientId: number;
+    patientName: string;
+    patientNumber: number;
+    checkListDuringId: number;
+    createAt: string;
+    updatedAt: string;
 
-        maintainTemp?: 'YES' | 'NO';
-        fluidRestriction?: 'YES' | 'NO';
-        antiNausea?: 'YES' | 'NO';
-        painControl?: 'YES' | 'NO';
+    maintainTemp?: 'YES' | 'NO';
+    fluidRestriction?: 'YES' | 'NO';
+    antiNausea?: 'YES' | 'NO';
+    painControl?: 'YES' | 'NO';
 
-        maintainTemp_remarks?: string;
-        fluidRestriction_remarks?: string;
-        antiNausea_remarks?: string;
-        painControl_remarks?: string;
+    maintainTemp_remarks?: string;
+    fluidRestriction_remarks?: string;
+    antiNausea_remarks?: string;
+    painControl_remarks?: string;
 
-        //-------------------------수술당일
-    };
+    //-------------------------수술당일
 };
 
 export type CheckListsAfterItemType = {
@@ -231,14 +227,17 @@ export type CheckListsAfterItemType = {
     podTwoMeal_remarks?: string;
 };
 
-export type ResponseCheckListAfterType = {
-    checkListDTOs: CheckListsAfterItemType[];
-    // operationDateDTO: {
-    //     operationId: number;
-    //     operationMethod: string;
-    //     operationDate: string;
-    //     hospitalizedDate: string;
-    //     dischargedDate: string;
-    // };
-    // checkListCreatedToday: boolean;
+export type ResponseCheckListsType = {
+    checkListBeforeDTO?: CheckListsBeforeItemType;
+    checkListDuringDTO?: CheckListsDuringItemType;
+    checkListDTOs?: CheckListsAfterItemType[];
+    checkListCreatedToday: boolean;
+    operationDateDTO: {
+        operationId: number;
+        operationMethod: string[];
+        customOperationMethod: string[];
+        operationDate: string;
+        hospitalizedDate: string;
+        dischargedDate: string;
+    };
 }; // 체크리스트 응답

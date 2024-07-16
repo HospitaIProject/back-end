@@ -12,7 +12,7 @@ type Props = {
 function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
-            <ConfirmComplianceForm values={values} onSubmit={onSubmit} existFields={existFields} />
+            <ConfirmComplianceForm formValues={values} onSubmit={onSubmit} existFields={existFields} />
         </ModalFullScreenContainer>
     );
 }
