@@ -46,7 +46,7 @@ function OperationListPage() {
                 <DisplayEmptyData isRender={operationListQuery.data.length === 0} label="수술 이력이 없습니다." />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {operationListQuery.data.map((data) => (
-                        <OperationSummaryCard operationData={data} />
+                        <OperationSummaryCard key={data.operationId} operationData={data} />
                     ))}
                 </ul>
 
