@@ -25,7 +25,7 @@ const getCheckListAfter = async (operationId: number): Promise<ResponseCheckList
 
 //--------------------------------------------
 
-export const useCheckListBeforeOperationQuery = ({
+export const useCheckListBeforeQuery = ({
     operationId,
     enabled = true,
 }: {
@@ -41,7 +41,7 @@ export const useCheckListBeforeOperationQuery = ({
     return query;
 };
 
-export const useCheckListDuringOperationQuery = ({
+export const useCheckListDuringQuery = ({
     operationId,
     enabled = true,
 }: {
@@ -56,13 +56,7 @@ export const useCheckListDuringOperationQuery = ({
     return query;
 };
 
-export const useCheckListAfterOperationQuery = ({
-    operationId,
-    enabled = true,
-}: {
-    operationId: number;
-    enabled?: boolean;
-}) => {
+export const useCheckListAfterQuery = ({ operationId, enabled = true }: { operationId: number; enabled?: boolean }) => {
     const query = useQuery<ResponseCheckListAfterType, AxiosError<ErrorResponseType>>({
         queryKey: ['getCheckListAfterOperation', operationId],
         queryFn: () => getCheckListAfter(operationId),
