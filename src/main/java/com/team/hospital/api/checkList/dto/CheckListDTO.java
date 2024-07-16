@@ -20,12 +20,6 @@ public class CheckListDTO {
     private LocalDateTime createAt;                             //생성 날짜
     private LocalDateTime updatedAt;                            //수정 날짜
 
-    // 수술 중
-    private BooleanOption maintainTemp;                  // 수술 중 환자 체온 유지 여부
-    private BooleanOption fluidRestriction;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
-    private BooleanOption antiNausea;                    // 수술 중 구역구토 방지제 사용 여부
-    private BooleanOption painControl;                   // 수술 중 통증 조절을 위한 처치 여부
-
     // 수술 후
     private BooleanOption giStimulant;                   // 위장관 촉진 약 복용 여부
     private BooleanOption gumChewing;                    // 하루 3번 15분동안 껌씹기 여부
@@ -49,20 +43,6 @@ public class CheckListDTO {
     private DailyPainScore podOnePain;                    // 식사
     private DailyPainScore podTwoPain;                    // 통증
     private DailyPainScore podThreePain;                  // 통증
-
-    // 수술 전
-    private String explainedPreOp_remarks;                // EAS 수술전 설명
-    private String onsPreOp2hr_remarks;                   // 수술 2시간 전 ONS 복용여부
-    private String onsPostBowelPrep_remarks;              // Bowel preparation 후 ONS 경장영양액 복용여부
-    private String dvtPrevention_remarks;                 // DVT 예방
-    private String antibioticPreIncision_remarks;         // 피부 절개 60분전 예방적 항생제 투여
-    private String painMedPreOp_remarks;                  // 수술전 통증 조절약 복용 여부
-
-    // 수술 중
-    private String maintainTemp_remarks;                  // 수술 중 환자 체온 유지 여부
-    private String fluidRestriction_remarks;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
-    private String antiNausea_remarks;                    // 수술 중 구역구토 방지제 사용 여부
-    private String painControl_remarks;                   // 수술 중 통증 조절을 위한 처치 여부
 
     // 수술 후
     private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
@@ -100,22 +80,6 @@ public class CheckListDTO {
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt());
 
-        if (checkList.getMaintainTemp() != null) {
-            checkListDTO.maintainTemp(checkList.getMaintainTemp().getOption());
-            checkListDTO.maintainTemp_remarks(checkList.getMaintainTemp().getRemarks());
-        }
-        if (checkList.getFluidRestriction() != null) {
-            checkListDTO.fluidRestriction(checkList.getFluidRestriction().getOption());
-            checkListDTO.fluidRestriction_remarks(checkList.getFluidRestriction().getRemarks());
-        }
-        if (checkList.getAntiNausea() != null) {
-            checkListDTO.antiNausea(checkList.getAntiNausea().getOption());
-            checkListDTO.antiNausea_remarks(checkList.getAntiNausea().getRemarks());
-        }
-        if (checkList.getPainControl() != null) {
-            checkListDTO.painControl(checkList.getPainControl().getOption());
-            checkListDTO.painControl_remarks(checkList.getPainControl().getRemarks());
-        }
         if (checkList.getGiStimulant() != null) {
             checkListDTO.giStimulant(checkList.getGiStimulant().getOption());
             checkListDTO.giStimulant_remarks(checkList.getGiStimulant().getRemarks());
