@@ -12,7 +12,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Builder
@@ -56,6 +55,9 @@ public class Operation extends BaseEntity {
     @Column(nullable = false)
     private double bloodLoss;                                   // 수술 중 실혈양 (cc)
 
+    @Enumerated(EnumType.STRING)
+    private BooleanOption complicationStatus;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
@@ -85,5 +87,9 @@ public class Operation extends BaseEntity {
         this.totalOperationTime = registerOperation.getTotalOperationTime();
         this.totalFluidsAmount = registerOperation.getTotalFluidsAmount();
         this.bloodLoss = registerOperation.getBloodLoss();
+    }
+
+    public void updateComplicationStatus(BooleanOption booleanOption) {
+        this.complicationStatus = booleanOption;
     }
 }
