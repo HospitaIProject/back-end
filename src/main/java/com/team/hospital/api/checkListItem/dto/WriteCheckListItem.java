@@ -1,8 +1,10 @@
 package com.team.hospital.api.checkListItem.dto;
 
 import lombok.Getter;
+
 @Getter
 public class WriteCheckListItem {
+
     // 수술 전
     private boolean explainedPreOp;                // EAS 수술전 설명
     private boolean onsPreOp2hr;                   // 수술 2시간 전 ONS 복용여부
@@ -30,7 +32,5 @@ public class WriteCheckListItem {
     private boolean podExercise;                   // 운동
     private boolean podMeal;                       // 식사
     private boolean podPain;                       // 통증
-
-//    private boolean complications;               // 합병증
 
 }
