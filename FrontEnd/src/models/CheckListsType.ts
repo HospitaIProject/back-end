@@ -160,75 +160,75 @@ export type CheckListsBeforeItemType = {
     };
 };
 export type CheckListsDuringItemType = {
-    patientId: number;
-    patientName: string;
-    patientNumber: number;
-    checkListDuringId: number;
-    createAt: string;
-    updatedAt: string;
-
-    maintainTemp?: 'YES' | 'NO';
-    fluidRestriction?: 'YES' | 'NO';
-    antiNausea?: 'YES' | 'NO';
-    painControl?: 'YES' | 'NO';
-
-    maintainTemp_remarks?: string;
-    fluidRestriction_remarks?: string;
-    antiNausea_remarks?: string;
-    painControl_remarks?: string;
-
-    //-------------------------수술당일
-};
-
-export type CheckListsAfterItemType = {
-    checkListDTOs: {
+    checkListDuringDTO: {
         patientId: number;
         patientName: string;
         patientNumber: number;
-        checkListId: number;
+        checkListDuringId: number;
         createAt: string;
         updatedAt: string;
 
-        giStimulant?: 'YES' | 'NO';
-        gumChewing?: 'YES' | 'NO';
-        antiNauseaPostOp?: 'YES' | 'NO';
-        ivFluidRestrictionPostOp?: 'YES' | 'NO'; //수술 후 IV fluid 제한
-        nonOpioidPainControl?: 'YES' | 'NO'; //수술 후 non-opioid pain control 여부
-        jpDrainRemoval?: 'YES' | 'NO'; //수술 후 3일이내 JP drain 제거 여부
-        jpDrainRemovalDate?: Date; //제거한날 기입 *비고
-        catheterRemoval?: 'YES' | 'NO'; //수술 후 수술장에서 소변줄 제거 여부
-        catheterRemovalDate?: Date; //제거한날 기입
-        catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
-        ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
-        ivLineRemovalDate?: Date; //제거한날 기입
-        postExercise?: 'YES' | 'NO'; //Post OP day 운동
-        podOneExercise?: 'YES' | 'NO'; //POD 1day 운동
-        podTwoExercise?: 'YES' | 'NO'; //POD 2day 운동
-        podThreeExercise?: 'YES' | 'NO'; //POD 3day 운동
-        postMeal?: 'YES' | 'NO'; //Post OP day 식사
-        podOneMeal?: 'YES' | 'NO'; //POD 1day 식사
-        podTwoMeal?: 'YES' | 'NO'; //POD 2day 식사
-        postPain?: PostPainType; //수술 후 통증
-        podOnePain?: PostPainType; //POD 1day 통증
-        podTwoPain?: PostPainType; //POD 2day 통증
-        podThreePain?: PostPainType; //POD 3day 통증
+        maintainTemp?: 'YES' | 'NO';
+        fluidRestriction?: 'YES' | 'NO';
+        antiNausea?: 'YES' | 'NO';
+        painControl?: 'YES' | 'NO';
 
-        giStimulant_remarks?: string;
-        gumChewing_remarks?: string;
-        antiNauseaPostOp_remarks?: string;
-        ivFluidRestrictionPostOp_remarks?: string;
-        nonOpioidPainControl_remarks?: string;
-        jpDrainRemoval_remarks?: string;
-        catheterRemoval_remarks?: string;
-        ivLineRemoval_remarks?: string;
-        postExercise_remarks?: string;
-        podOneExercise_remarks?: string;
-        podTwoExercise_remarks?: string;
-        podThreeExercise_remarks?: string;
-        postMeal_remarks?: string;
-        podOneMeal_remarks?: string;
-        podTwoMeal_remarks?: string;
+        maintainTemp_remarks?: string;
+        fluidRestriction_remarks?: string;
+        antiNausea_remarks?: string;
+        painControl_remarks?: string;
+
+        //-------------------------수술당일
     };
+};
+
+export type CheckListsAfterItemType = {
+    patientId: number;
+    patientName: string;
+    patientNumber: number;
+    checkListId: number;
+    createAt: string;
+    updatedAt: string;
+
+    giStimulant?: 'YES' | 'NO';
+    gumChewing?: 'YES' | 'NO';
+    antiNauseaPostOp?: 'YES' | 'NO';
+    ivFluidRestrictionPostOp?: 'YES' | 'NO'; //수술 후 IV fluid 제한
+    nonOpioidPainControl?: 'YES' | 'NO'; //수술 후 non-opioid pain control 여부
+    jpDrainRemoval?: 'YES' | 'NO'; //수술 후 3일이내 JP drain 제거 여부
+    jpDrainRemovalDate?: Date; //제거한날 기입 *비고
+    catheterRemoval?: 'YES' | 'NO'; //수술 후 수술장에서 소변줄 제거 여부
+    catheterRemovalDate?: Date; //제거한날 기입
+    catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
+    ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
+    ivLineRemovalDate?: Date; //제거한날 기입
+    postExercise?: 'YES' | 'NO'; //Post OP day 운동
+    podOneExercise?: 'YES' | 'NO'; //POD 1day 운동
+    podTwoExercise?: 'YES' | 'NO'; //POD 2day 운동
+    podThreeExercise?: 'YES' | 'NO'; //POD 3day 운동
+    postMeal?: 'YES' | 'NO'; //Post OP day 식사
+    podOneMeal?: 'YES' | 'NO'; //POD 1day 식사
+    podTwoMeal?: 'YES' | 'NO'; //POD 2day 식사
+    postPain?: PostPainType; //수술 후 통증
+    podOnePain?: PostPainType; //POD 1day 통증
+    podTwoPain?: PostPainType; //POD 2day 통증
+    podThreePain?: PostPainType; //POD 3day 통증
+
+    giStimulant_remarks?: string;
+    gumChewing_remarks?: string;
+    antiNauseaPostOp_remarks?: string;
+    ivFluidRestrictionPostOp_remarks?: string;
+    nonOpioidPainControl_remarks?: string;
+    jpDrainRemoval_remarks?: string;
+    catheterRemoval_remarks?: string;
+    ivLineRemoval_remarks?: string;
+    postExercise_remarks?: string;
+    podOneExercise_remarks?: string;
+    podTwoExercise_remarks?: string;
+    podThreeExercise_remarks?: string;
+    postMeal_remarks?: string;
+    podOneMeal_remarks?: string;
+    podTwoMeal_remarks?: string;
 };
 
 export type ResponseCheckListAfterType = {

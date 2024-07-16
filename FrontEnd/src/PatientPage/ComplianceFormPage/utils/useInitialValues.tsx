@@ -1,6 +1,6 @@
 import { useSearchParams } from 'react-router-dom';
 import { CheckListSetupType, checkListFormType } from '../../../models/CheckListsType';
-import { useCheckListBeforeOperationQuery, useCheckListDuringOperationQuery } from '../../_lib/checkListsService';
+import { useCheckListBeforeQuery, useCheckListDuringQuery } from '../../_lib/checkListsService';
 import { useEffect } from 'react';
 import { pushNotification } from '../../../utils/pushNotification';
 
@@ -20,11 +20,11 @@ export const useInitialValues = ({
     const isPrevEnabled = dateStatus !== 'PREV';
     const isTodayEnabled = dateStatus !== 'PREV' && dateStatus !== 'TODAY';
 
-    const checkListBeforeQuery = useCheckListBeforeOperationQuery({
+    const checkListBeforeQuery = useCheckListBeforeQuery({
         operationId: Number(operationId),
         enabled: isPrevEnabled,
     });
-    const checkListDuringQuery = useCheckListDuringOperationQuery({
+    const checkListDuringQuery = useCheckListDuringQuery({
         operationId: Number(operationId),
         enabled: isTodayEnabled,
     });
