@@ -1,4 +1,4 @@
-package com.team.hospital.api.checkList.checkListBefore;
+package com.team.hospital.api.checkListBefore;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import lombok.Builder;
@@ -13,7 +13,7 @@ public class CheckListBeforeDTO {
     private Long patientId;                                     //환자 ID
     private String patientName;                                 //환자 이름
     private Long patientNumber;                                 //환자 번호
-    private Long checkListId;                                   //checkListId
+    private Long checkListBeforeId;                             //checkListBeforeId
 
     private LocalDateTime createAt;                             //생성 날짜
     private LocalDateTime updatedAt;                            //수정 날짜
@@ -39,7 +39,7 @@ public class CheckListBeforeDTO {
                 .patientId(checkListBefore.getCheckListItem().getOperation().getPatient().getId())
                 .patientName(checkListBefore.getCheckListItem().getOperation().getPatient().getName())
                 .patientNumber(checkListBefore.getCheckListItem().getOperation().getPatient().getPatientNumber())
-                .checkListId(checkListBefore.getId())
+                .checkListBeforeId(checkListBefore.getId())
                 .createAt(checkListBefore.getCreatedAt())
                 .updatedAt(checkListBefore.getUpdatedAt());
 

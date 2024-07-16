@@ -1,4 +1,4 @@
-package com.team.hospital.api.checkList.checkListBefore;
+package com.team.hospital.api.checkListBefore;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
@@ -15,7 +15,7 @@ public class CheckListBefore extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "check_list_befroe_id")
+    @Column(name = "check_list_before_id")
     private Long id;
 
     // 수술 전
@@ -69,12 +69,12 @@ public class CheckListBefore extends BaseEntity {
         return CheckListBefore.builder()
 
                 // 수술 전
-                .explainedPreOp(CheckListFirst.buildComplianceDetail(write.getExplainedPreOp(), write.getExplainedPreOp_remarks()))
-                .onsPreOp2hr(CheckListFirst.buildComplianceDetail(write.getOnsPreOp2hr(), write.getOnsPreOp2hr_remarks()))
-                .onsPostBowelPrep(CheckListFirst.buildComplianceDetail(write.getOnsPostBowelPrep(), write.getOnsPostBowelPrep_remarks()))
-                .dvtPrevention(CheckListFirst.buildComplianceDetail(write.getDvtPrevention(), write.getDvtPrevention_remarks()))
-                .antibioticPreIncision(CheckListFirst.buildComplianceDetail(write.getAntibioticPreIncision(), write.getAntibioticPreIncision_remarks()))
-                .painMedPreOp(CheckListFirst.buildComplianceDetail(write.getPainMedPreOp(), write.getPainMedPreOp_remarks()))
+                .explainedPreOp(CheckListFirst.of(write.getExplainedPreOp(), write.getExplainedPreOp_remarks()))
+                .onsPreOp2hr(CheckListFirst.of(write.getOnsPreOp2hr(), write.getOnsPreOp2hr_remarks()))
+                .onsPostBowelPrep(CheckListFirst.of(write.getOnsPostBowelPrep(), write.getOnsPostBowelPrep_remarks()))
+                .dvtPrevention(CheckListFirst.of(write.getDvtPrevention(), write.getDvtPrevention_remarks()))
+                .antibioticPreIncision(CheckListFirst.of(write.getAntibioticPreIncision(), write.getAntibioticPreIncision_remarks()))
+                .painMedPreOp(CheckListFirst.of(write.getPainMedPreOp(), write.getPainMedPreOp_remarks()))
 
                 .checkListItem(checkListItem)
                 .build();
