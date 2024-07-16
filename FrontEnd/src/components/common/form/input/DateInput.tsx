@@ -2,7 +2,6 @@ import { FormikProps } from 'formik';
 import CalendarIcon from '../../../../icons/CalendarIcon';
 import DatePickerModal from '../../datePicker/DatePickerModal';
 import { useState } from 'react';
-import { useDateFormatted } from '../../../../Hooks/useDateFormatted';
 
 type Props<T> = {
     label: string;
@@ -12,7 +11,7 @@ type Props<T> = {
     isRender?: boolean;
 };
 
-function DateInput<T>({ label, htmlFor, formik, placeHolder, isRender }: Props<T>) {
+function DateInput<T>({ htmlFor, formik, isRender }: Props<T>) {
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const handleOpenModal = () => {
@@ -27,8 +26,6 @@ function DateInput<T>({ label, htmlFor, formik, placeHolder, isRender }: Props<T
         setIsOpenModal(false);
     };
 
-    const { onlyDate } = useDateFormatted(formik.getFieldProps(htmlFor).value); // formik의 날짜 값 변환
-
     const isInput = formik?.getFieldProps(htmlFor).value; // formik의 값이 있는지 여부 및 값
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
 
@@ -40,7 +37,7 @@ function DateInput<T>({ label, htmlFor, formik, placeHolder, isRender }: Props<T
                     onClick={handleOpenModal}
                     className={` ${isValid ? 'border-2 border-red-400' : ''} flex h-fit ${isInput ? 'text-blue-500' : 'text-gray-400'} w-fit flex-row items-center justify-between gap-2 overflow-hidden rounded-lg bg-white p-1`}
                 >
-                    <CalendarIcon className="w-6 h-6 text-inherit" />
+                    <CalendarIcon className="h-6 w-6 text-inherit" />
                 </button>
                 {/* <button
                         type="button"

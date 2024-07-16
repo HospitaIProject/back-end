@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
-import Select, { ActionMeta, SingleValue } from 'react-select';
+import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 
 function SingleSelector<T>({

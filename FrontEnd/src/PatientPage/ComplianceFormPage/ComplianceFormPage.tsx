@@ -1,4 +1,4 @@
-import { FormikProps, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
 import { checkListFormType } from '../../models/CheckListsType';
 import { useEffect, useState } from 'react';

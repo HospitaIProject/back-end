@@ -1,6 +1,5 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
-import { useState } from 'react';
 
 function MultiInput<T>({
     label,

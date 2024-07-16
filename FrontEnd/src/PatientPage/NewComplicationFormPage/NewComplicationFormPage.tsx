@@ -104,9 +104,9 @@ function NewComplicationFormPage() {
         }
         // setIsConfirmPage(true);
     };
-    const handleCloseConfirm = () => {
-        setIsConfirmPage(false);
-    }; // 확인 모달 닫기
+    // const handleCloseConfirm = () => {
+    //     setIsConfirmPage(false);
+    // }; // 확인 모달 닫기
 
     return (
         <>

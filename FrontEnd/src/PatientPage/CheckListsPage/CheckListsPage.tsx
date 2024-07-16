@@ -3,19 +3,12 @@ import Loading from '../../components/common/Loading';
 import ResponsivePagination from '../../components/common/ResponsivePagination';
 import CheckListsSummaryCard from './components/CheckListsSummaryCard';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import PlusIcon from '../../icons/PlusIcon';
 import { useCheckListSetupQuery } from '../_lib/complianceFormSevice';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import { pushNotification } from '../../utils/pushNotification';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { useCheckListsQuery } from '../_lib/checkListsService';
-import {
-    CheckListsAfterItemType,
-    CheckListsBeforeItemType,
-    CheckListsDuringItemType,
-} from '../../models/CheckListsType';
-type xx = CheckListsBeforeItemType & CheckListsDuringItemType & CheckListsAfterItemType;
 
 function CheckListsPage() {
     // const [searchParams] = useSearchParams();
@@ -30,9 +23,13 @@ function CheckListsPage() {
     const {
         data: checkListSetupData,
         isPending: isCheckListSetupPending,
-        error: checkListSetupError,
+        // error: checkListSetupError,
     } = checkListSetupQuery; //체크리스트 세팅 데이터
-    const { data: checkListsData, isPending: isCheckListsPending, error: checkListsError } = checkListsQuery; //체크리스트 목록 데이터
+    const {
+        data: checkListsData,
+        isPending: isCheckListsPending,
+        // error: checkListsError
+    } = checkListsQuery; //체크리스트 목록 데이터
 
     const { diffDay } = useOperationDayFormat(checkListsData?.operationDateDTO.operationDate || ''); //수술일로부터 몇일이 지났는지
     const { dateComparison } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || ''); //수술일과 현재날짜 비교
