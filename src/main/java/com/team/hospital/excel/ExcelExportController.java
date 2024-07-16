@@ -17,7 +17,7 @@ public class ExcelExportController {
 
     private final ExcelExportService excelExportService;
 
-    @GetMapping("export-excel")
+    @GetMapping("/excel")
     public ResponseEntity<InputStreamResource> exportToExcel() throws IOException {
         ByteArrayInputStream in = excelExportService.exportToExcel();
 

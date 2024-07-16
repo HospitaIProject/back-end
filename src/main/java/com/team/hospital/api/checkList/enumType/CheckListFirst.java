@@ -20,7 +20,7 @@ public class CheckListFirst {
 
     private String remarks;  // 비고
 
-    public static CheckListFirst buildComplianceDetail(BooleanOption option, String remarks){
+    public static CheckListFirst of(BooleanOption option, String remarks){
         return CheckListFirst.builder().option(option).remarks(remarks).build();
     }
 

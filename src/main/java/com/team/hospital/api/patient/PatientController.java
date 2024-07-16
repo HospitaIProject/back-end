@@ -1,6 +1,6 @@
 package com.team.hospital.api.patient;
 
-import com.team.hospital.api.SuccessResponse;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;

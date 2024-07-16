@@ -14,9 +14,9 @@ public class DailyPainScoreConverter implements AttributeConverter<DailyPainScor
         if (dailyPainScore == null) {
             return null;
         }
-        return dailyPainScore.getMorning() + SPLIT_CHAR +
-                dailyPainScore.getAfternoon() + SPLIT_CHAR +
-                dailyPainScore.getEvening();
+        return dailyPainScore.getDay() + SPLIT_CHAR +
+                dailyPainScore.getEvening() + SPLIT_CHAR +
+                dailyPainScore.getNight();
     }
 
     @Override

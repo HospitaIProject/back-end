@@ -1,6 +1,6 @@
 package com.team.hospital.api.operation;
 
-import com.team.hospital.api.SuccessResponse;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.RegisterOperation;
 import io.swagger.v3.oas.annotations.Operation;

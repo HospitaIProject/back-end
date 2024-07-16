@@ -6,10 +6,10 @@ import com.team.hospital.exception.NotFoundException;
 public class CheckListNotFoundException extends NotFoundException {
 
     public CheckListNotFoundException(String message) {
-        super(ErrorCode.CHECK_LIST_NOT_FOUND, message);
+        super(ErrorCode.CHECKLIST_NOT_FOUND, message);
     }
 
     public CheckListNotFoundException() {
-        super(ErrorCode.CHECK_LIST_NOT_FOUND);
+        super(ErrorCode.CHECKLIST_NOT_FOUND);
     }
 }

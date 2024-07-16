@@ -1,4 +1,4 @@
-package com.team.hospital.api;
+package com.team.hospital.api.apiResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

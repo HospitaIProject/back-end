@@ -24,7 +24,7 @@ public class CheckListSecond {
 
     private LocalDate removedDate;
 
-    public static CheckListSecond buildComplianceDetail(BooleanOption option, String remarks, LocalDate removedDate){
+    public static CheckListSecond of(BooleanOption option, String remarks, LocalDate removedDate){
         return CheckListSecond.builder()
                 .option(option)
                 .remarks(remarks)

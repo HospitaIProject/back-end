@@ -1,10 +1,16 @@
 package com.team.hospital.api.checkList;
 
-import com.team.hospital.api.SuccessResponse;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.dto.CheckListDTO;
 import com.team.hospital.api.checkList.dto.CheckListResponse;
 import com.team.hospital.api.checkList.dto.CheckListWithOperationDateDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
+import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
+import com.team.hospital.api.checkListBefore.CheckListBeforeService;
+import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
+import com.team.hospital.api.checkListDuring.CheckListDuringDTO;
+import com.team.hospital.api.checkListDuring.CheckListDuringService;
+import com.team.hospital.api.checkListDuring.exception.CheckListDuringNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.OperationService;
@@ -22,8 +28,10 @@ import java.util.List;
 @Tag(name = "체크리스트 관리", description = "체크리스트 관리 API")
 public class CheckListController {
 
-    private final CheckListService checkListService;
     private final CheckListItemService checkListItemService;
+    private final CheckListService checkListService;
+    private final CheckListBeforeService checkListBeforeService;
+    private final CheckListDuringService checkListDuringService;
     private final OperationService operationService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
@@ -48,11 +56,27 @@ public class CheckListController {
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(operationId);
         Patient patient = operation.getPatient();
-        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), patient, checkListCreatedToday));
+
+        CheckListBeforeDTO  checkListBeforeDTO;
+        CheckListDuringDTO checkListDuringDTO;
+
+        try {
+            checkListBeforeDTO = checkListBeforeService.findCheckListBeforeByOperationId(operationId);
+        } catch (CheckListBeforeNotFoundException e) {
+            checkListBeforeDTO = null;
+        }
+
+        try {
+            checkListDuringDTO = checkListDuringService.findCheckListDuringByOperationId(operationId);
+        } catch (CheckListDuringNotFoundException e) {
+            checkListDuringDTO = null;
+        }
+
+        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListBeforeDTO, checkListDuringDTO,patient, checkListCreatedToday));
     }
 
     @GetMapping("/api/checkList")
-    @Operation(summary = "전체 체크리스트 조회")
+    @Operation(summary = "수술 후 체크리스트 전체 조회")
     public SuccessResponse<List<CheckListDTO>> findAllCheckList() {
         List<CheckListDTO> list = checkListService.findAll().stream().map(CheckListDTO::toEntity).toList();
         return SuccessResponse.createSuccess(list);
