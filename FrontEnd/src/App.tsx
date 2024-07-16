@@ -9,6 +9,7 @@ import RQProviders from './components/RQProvider';
 import NewPatientFormPage from './PatientPage/NewPatientFormPage/NewPatientFormPage';
 import OperationListPage from './PatientPage/OperationPage/OperationListPage';
 import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
+import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                             <Route path="/patient/new/operation" element={<NewOperationInfoFormPage />} />
                             {/* compilance 체크리스트 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
+                            <Route path="/patient/new/complication" element={<NewComplicationFormPage />} />
                         </Route>
                         <Route path="/login" element={<LoginPage />} />
                     </Route>
