@@ -27,7 +27,7 @@ public class CheckListThird {
     @Enumerated(EnumType.STRING)
     private BooleanOption foleyCathReInsertion;
 
-    public static CheckListThird buildComplianceDetail(BooleanOption option, String remarks, LocalDate removedDate, BooleanOption foleyCathReInsertion) {
+    public static CheckListThird of(BooleanOption option, String remarks, LocalDate removedDate, BooleanOption foleyCathReInsertion) {
         return CheckListThird.builder()
                 .option(option)
                 .remarks(remarks)
