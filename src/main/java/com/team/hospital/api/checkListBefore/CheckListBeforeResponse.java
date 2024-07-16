@@ -1,4 +1,4 @@
-package com.team.hospital.api.checkList.checkListBefore;
+package com.team.hospital.api.checkListBefore;
 
 import lombok.Builder;
 import lombok.Getter;
