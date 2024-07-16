@@ -7,20 +7,20 @@ type ToastProps = {
     msg: string;
     type: ToastType;
     theme: ThemeType;
+    position?: 'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 };
 
-export const pushNotification = ({ msg, type, theme }: ToastProps) => {
+export const pushNotification = ({ msg, type, theme, position = 'bottom-center' }: ToastProps) => {
     toast[type](msg, {
-        duration: 1000,
-        position: 'bottom-center',
+        duration: 2500,
+        position: position,
 
         // Styling
         style: {
-            padding: '14px',
             maxWidth: '500px',
             background: `${theme === 'dark' ? '#333' : '#fff'}`,
             color: `${theme === 'dark' ? '#fff' : '#333'}`,
-            borderRadius: '0px',
+            borderRadius: '10px',
         },
         className: 'w-full rounded-none border text-md text-sm  ',
 
