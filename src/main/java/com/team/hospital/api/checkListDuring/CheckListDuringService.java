@@ -1,9 +1,5 @@
 package com.team.hospital.api.checkListDuring;
 
-import com.team.hospital.api.checkListBefore.CheckListBefore;
-import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
-import com.team.hospital.api.checkListBefore.exception.CheckListBeforeAlreadyExistsException;
-import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
 import com.team.hospital.api.checkListDuring.exception.CheckListDuringNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
