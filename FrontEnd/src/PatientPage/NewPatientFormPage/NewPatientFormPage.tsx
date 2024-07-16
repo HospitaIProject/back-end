@@ -9,7 +9,7 @@ import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal'
 import { useNewPatientFormMutation } from '../_lib/patientNewFormService';
 import { pushNotification } from '../../utils/pushNotification';
 import BMIinput from '../../components/common/form/input/BMIinput';
-import DateInput from '../../components/common/form/input/DateInput';
+import HospitalDateInput from '../../components/common/form/input/HospitalDateInput';
 import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
 
 function NewPatientFormPage() {
@@ -134,9 +134,9 @@ function NewPatientFormPage() {
                             { value: 'ANUS', name: 'Anus' },
                         ]}
                     />
-                    <DateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
-                    <DateInput label="수술일" htmlFor="operationDate" formik={formik} />
-                    <DateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
+                    <HospitalDateInput label="입원일" htmlFor="hospitalizedDate" formik={formik} />
+                    <HospitalDateInput label="수술일" htmlFor="operationDate" formik={formik} />
+                    <HospitalDateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
                     <TotalHospitalizedInput label="총 재원 일수" htmlFor="totalHospitalizedDays" formik={formik} />
                 </form>
                 <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
