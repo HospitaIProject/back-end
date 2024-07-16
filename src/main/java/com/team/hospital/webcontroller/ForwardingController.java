@@ -1,4 +1,4 @@
-package com.team.hospital.api;
+package com.team.hospital.webcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
