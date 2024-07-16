@@ -6,10 +6,10 @@ import com.team.hospital.exception.ErrorCode;
 public class CheckListItemAlreadyExistsException extends ConflictException {
 
     public CheckListItemAlreadyExistsException(String message) {
-        super(ErrorCode.CHECK_LIST_ITEM_CONFLICT, message);
+        super(ErrorCode.CHECKLIST_ITEM_CONFLICT, message);
     }
 
     public CheckListItemAlreadyExistsException() {
-        super(ErrorCode.CHECK_LIST_ITEM_CONFLICT);
+        super(ErrorCode.CHECKLIST_ITEM_CONFLICT);
     }
 }

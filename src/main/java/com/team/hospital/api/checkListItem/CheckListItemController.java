@@ -1,6 +1,6 @@
 package com.team.hospital.api.checkListItem;
 
-import com.team.hospital.api.SuccessResponse;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkListItem.dto.CheckListItemDTO;
 import com.team.hospital.api.checkListItem.dto.CheckListItemResponse;
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;

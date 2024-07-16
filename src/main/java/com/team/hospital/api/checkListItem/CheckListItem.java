@@ -47,8 +47,6 @@ public class CheckListItem extends BaseEntity {
     private boolean podMeal;                       // 식사
     private boolean podPain;                       // 통증
 
-//    private boolean complications;               // 합병증
-
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "operation_id")
     private Operation operation;
@@ -83,7 +81,6 @@ public class CheckListItem extends BaseEntity {
                 .podExercise(write.isPodExercise())
                 .podMeal(write.isPodMeal())
                 .podPain(write.isPodPain())
-//                .complications(write.isComplications())
                 .operation(operation)
                 .build();
     }
@@ -110,7 +107,6 @@ public class CheckListItem extends BaseEntity {
         this.podExercise = write.isPodExercise();
         this.podMeal = write.isPodMeal();
         this.podPain = write.isPodPain();
-//        this.complications = write.isComplications();
     }
 
 }
