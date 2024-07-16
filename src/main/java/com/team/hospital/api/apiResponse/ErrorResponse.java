@@ -1,4 +1,4 @@
-package com.team.hospital.api;
+package com.team.hospital.api.apiResponse;
 
 import com.team.hospital.exception.ErrorCode;
 import lombok.AllArgsConstructor;
