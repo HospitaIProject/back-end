@@ -20,35 +20,6 @@ public class CheckList extends BaseEntity {
     @Column(name = "check_list_id")
     private Long id;
 
-    // 수술 중
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "maintain_temp")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "maintain_temp_remarks"))
-    })
-    private CheckListFirst maintainTemp; // 수술 중 환자 체온 유지 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "fluid_restriction")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "fluid_restriction_remarks"))
-    })
-    private CheckListFirst fluidRestriction; // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "anti_nausea")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "anti_nausea_remarks"))
-    })
-    private CheckListFirst antiNausea; // 수술 중 구역구토 방지제 사용 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pain_control")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pain_control_remarks"))
-    })
-    private CheckListFirst painControl; // 수술 중 통증 조절을 위한 처치 여부
-
     // 수술 후
     @Embedded
     @AttributeOverrides({
@@ -180,32 +151,27 @@ public class CheckList extends BaseEntity {
 
     public static CheckList toEntity(WriteCheckList write, CheckListItem checkListItem) {
         return CheckList.builder()
-                // 수술 중
-                .maintainTemp(CheckListFirst.buildComplianceDetail(write.getMaintainTemp(), write.getMaintainTemp_remarks()))
-                .fluidRestriction(CheckListFirst.buildComplianceDetail(write.getFluidRestriction(), write.getFluidRestriction_remarks()))
-                .antiNausea(CheckListFirst.buildComplianceDetail(write.getAntiNausea(), write.getAntiNausea_remarks()))
-                .painControl(CheckListFirst.buildComplianceDetail(write.getPainControl(), write.getPainControl_remarks()))
 
                 // 수술 후
-                .giStimulant(CheckListFirst.buildComplianceDetail(write.getGiStimulant(), write.getGiStimulant_remarks()))
-                .gumChewing(CheckListFirst.buildComplianceDetail(write.getGumChewing(), write.getGumChewing_remarks()))
-                .antiNauseaPostOp(CheckListFirst.buildComplianceDetail(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks()))
-                .ivFluidRestrictionPostOp(CheckListFirst.buildComplianceDetail(write.getIvFluidRestrictionPostOp(), write.getIvFluidRestrictionPostOp_remarks()))
-                .nonOpioidPainControl(CheckListFirst.buildComplianceDetail(write.getNonOpioidPainControl(), write.getNonOpioidPainControl_remarks()))
-                .jpDrainRemoval(CheckListSecond.buildComplianceDetail(write.getJpDrainRemoval(), write.getJpDrainRemoval_remarks(), write.getJpDrainRemovalDate()))
-                .catheterRemoval(CheckListThird.buildComplianceDetail(write.getCatheterRemoval(), write.getCatheterRemoval_remarks(), write.getCatheterRemovalDate(), write.getCatheterReInsertion()))
-                .ivLineRemoval(CheckListSecond.buildComplianceDetail(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate()))
+                .giStimulant(CheckListFirst.of(write.getGiStimulant(), write.getGiStimulant_remarks()))
+                .gumChewing(CheckListFirst.of(write.getGumChewing(), write.getGumChewing_remarks()))
+                .antiNauseaPostOp(CheckListFirst.of(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks()))
+                .ivFluidRestrictionPostOp(CheckListFirst.of(write.getIvFluidRestrictionPostOp(), write.getIvFluidRestrictionPostOp_remarks()))
+                .nonOpioidPainControl(CheckListFirst.of(write.getNonOpioidPainControl(), write.getNonOpioidPainControl_remarks()))
+                .jpDrainRemoval(CheckListSecond.of(write.getJpDrainRemoval(), write.getJpDrainRemoval_remarks(), write.getJpDrainRemovalDate()))
+                .catheterRemoval(CheckListThird.of(write.getCatheterRemoval(), write.getCatheterRemoval_remarks(), write.getCatheterRemovalDate(), write.getCatheterReInsertion()))
+                .ivLineRemoval(CheckListSecond.of(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate()))
 
                 // POD Exercise
-                .postExercise(CheckListFirst.buildComplianceDetail(write.getPostExercise(), write.getPostExercise_remarks()))
-                .podOneExercise(CheckListFirst.buildComplianceDetail(write.getPodOneExercise(), write.getPodOneExercise_remarks()))
-                .podTwoExercise(CheckListFirst.buildComplianceDetail(write.getPodTwoExercise(), write.getPodTwoExercise_remarks()))
-                .podThreeExercise(CheckListFirst.buildComplianceDetail(write.getPodThreeExercise(), write.getPodThreeExercise_remarks()))
+                .postExercise(CheckListFirst.of(write.getPostExercise(), write.getPostExercise_remarks()))
+                .podOneExercise(CheckListFirst.of(write.getPodOneExercise(), write.getPodOneExercise_remarks()))
+                .podTwoExercise(CheckListFirst.of(write.getPodTwoExercise(), write.getPodTwoExercise_remarks()))
+                .podThreeExercise(CheckListFirst.of(write.getPodThreeExercise(), write.getPodThreeExercise_remarks()))
 
                 // POD Meal
-                .postMeal(CheckListFirst.buildComplianceDetail(write.getPostMeal(), write.getPostMeal_remarks()))
-                .podOneMeal(CheckListFirst.buildComplianceDetail(write.getPodOneMeal(), write.getPodOneMeal_remarks()))
-                .podTwoMeal(CheckListFirst.buildComplianceDetail(write.getPodTwoMeal(), write.getPodTwoMeal_remarks()))
+                .postMeal(CheckListFirst.of(write.getPostMeal(), write.getPostMeal_remarks()))
+                .podOneMeal(CheckListFirst.of(write.getPodOneMeal(), write.getPodOneMeal_remarks()))
+                .podTwoMeal(CheckListFirst.of(write.getPodTwoMeal(), write.getPodTwoMeal_remarks()))
 
                 // POD Pain
                 .postPain(write.getPostPain())
@@ -219,11 +185,6 @@ public class CheckList extends BaseEntity {
     }
 
     public void updateCheckList(WriteCheckList write) {
-        this.maintainTemp.update(write.getMaintainTemp(), write.getMaintainTemp_remarks());
-        this.fluidRestriction.update(write.getFluidRestriction(), write.getFluidRestriction_remarks());
-        this.antiNausea.update(write.getAntiNausea(), write.getAntiNausea_remarks());
-        this.painControl.update(write.getPainControl(), write.getPainControl_remarks());
-
         this.giStimulant.update(write.getGiStimulant(), write.getGiStimulant_remarks());
         this.gumChewing.update(write.getGumChewing(), write.getGumChewing_remarks());
         this.antiNauseaPostOp.update(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks());

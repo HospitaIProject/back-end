@@ -24,7 +24,7 @@ public class CheckListBefore extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "explained_pre_op")),
             @AttributeOverride(name = "remarks", column = @Column(name = "explained_pre_op_remarks"))
     })
-    private CheckListFirst explainedPreOp; // EAS 수술전 설명
+    private CheckListFirst explainedPreOp; // ERAS 수술전 설명
 
     @Embedded
     @AttributeOverrides({
