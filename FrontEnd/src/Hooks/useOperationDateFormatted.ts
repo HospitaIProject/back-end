@@ -18,7 +18,7 @@ const useOperationDayFormat = (date: string, writeDate?: string) => {
 
     if (writeDate) {
         const writeDay = dayjs(writeDate).startOf('day'); // 글쓴 날짜의 시간을 제거
-        const writeDiffDay = writeDay.diff(operationDay, 'day'); // 글쓴 날짜와 수술 날짜의 차이
+        const writeDiffDay = operationDay.diff(writeDay, 'day'); // 글쓴 날짜와 수술 날짜의 차이
 
         return {
             writeDiffDay: writeDiffDay,
