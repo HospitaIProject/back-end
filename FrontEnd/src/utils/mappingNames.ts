@@ -34,3 +34,36 @@ export const CHECKLIST_ITEMS_NAME = {
     podThreePain: 'POD 3day 수술 후 통증',
     //-------------------------수술후
 };
+interface ComplicationItems {
+    [key: string]: string;
+}
+
+export const COMPLICATION_ITEMS_NAME: ComplicationItems = {
+    anastomosisBleeding: 'Anastomosis bleeding',
+    anastomosisLeakage: 'Anastomosis leakage',
+    anstomosisStenosis: 'Anastomosis stenosis',
+    organSpaceSsi: 'Organ/ Space SSI',
+    ileus: 'Ileus',
+    giBleeding: 'GI bleeding',
+    bowelIschemia: 'Bowel ischemia',
+    chyleAscites: 'Chyle ascites',
+    additionalEnteritis: '그 외 enteritis',
+    arrhythemia: 'Arrhythemia',
+    coronaryIschemia: 'Coronary ischemia',
+    dvt: 'DVT',
+    pulmonaryEmbolism: 'Pulmonary embolism',
+    phlebitis: 'Phlebitis',
+    dic: 'DIC',
+    atelectasis: 'Atelectasis',
+    pneumothorax: 'Pneumothorax',
+    pneumonia: 'Pneumonia',
+    ards: 'ARDS',
+    pleuralEffusion: 'Pleural effusion',
+    urinaryDysfunctionRetension: 'Urinary dysfunction/retension',
+    arf: 'ARF',
+    bladderLeakage: 'Bladder leakage',
+    superficialDeepSsi: 'Superficial/ Deep SSI',
+    seroma: 'Seroma',
+    stomaCx: 'Stoma CX',
+    incisionalHernia: 'Incisional hernia',
+};
