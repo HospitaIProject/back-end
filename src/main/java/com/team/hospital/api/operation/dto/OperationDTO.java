@@ -35,6 +35,8 @@ public class OperationDTO {
 
     private double bloodLoss;             // 수술 중 실혈양 (cc)
 
+    private BooleanOption complicationStatus;        // 합병증 여부
+
     public static OperationDTO toEntity(Operation operation){
         return OperationDTO.builder()
                 .operationId(operation.getId())
@@ -47,6 +49,7 @@ public class OperationDTO {
                 .totalOperationTime(operation.getTotalOperationTime())
                 .totalFluidsAmount(operation.getTotalFluidsAmount())
                 .bloodLoss(operation.getBloodLoss())
+                .complicationStatus(operation.getComplicationStatus())
                 .build();
     }
 
