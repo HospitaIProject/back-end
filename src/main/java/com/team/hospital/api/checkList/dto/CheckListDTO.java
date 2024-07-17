@@ -6,6 +6,7 @@ import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -26,9 +27,18 @@ public class CheckListDTO {
     private BooleanOption antiNauseaPostOp;              // 수술 후 구역구토방지제 사용 여부
     private BooleanOption ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
     private BooleanOption nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
+
+    //
     private BooleanOption jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
+    private LocalDate jpDrainRemovalDate;
+
     private BooleanOption catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
+    private LocalDate catheterRemovalDate;
+    private BooleanOption catheterReInsertion;
+
     private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
+    private LocalDate ivLineRemovalDate;
+    //
 
     private BooleanOption postExercise;                  // 운동
     private BooleanOption podOneExercise;                // 식사
@@ -102,14 +112,18 @@ public class CheckListDTO {
         }
         if (checkList.getJpDrainRemoval() != null) {
             checkListDTO.jpDrainRemoval(checkList.getJpDrainRemoval().getOption());
+            checkListDTO.jpDrainRemovalDate(checkList.getJpDrainRemoval().getRemovedDate());
             checkListDTO.jpDrainRemoval_remarks(checkList.getJpDrainRemoval().getRemarks());
         }
         if (checkList.getCatheterRemoval() != null) {
             checkListDTO.catheterRemoval(checkList.getCatheterRemoval().getOption());
+            checkListDTO.catheterRemovalDate(checkList.getCatheterRemoval().getRemovedDate());
+            checkListDTO.catheterReInsertion(checkList.getCatheterRemoval().getFoleyCathReInsertion());
             checkListDTO.catheterRemoval_remarks(checkList.getCatheterRemoval().getRemarks());
         }
         if (checkList.getIvLineRemoval() != null) {
             checkListDTO.ivLineRemoval(checkList.getIvLineRemoval().getOption());
+            checkListDTO.ivLineRemovalDate(checkList.getIvLineRemoval().getRemovedDate());
             checkListDTO.ivLineRemoval_remarks(checkList.getIvLineRemoval().getRemarks());
         }
         if (checkList.getPostExercise() != null) {

@@ -31,12 +31,18 @@ public class ComplicationService {
     }
 
     @Transactional
+    public void delete(Long operationId) {
+        Complication complication = findComplicationByOperationId(operationId);
+        complicationRepository.delete(complication);
+    }
+
+    @Transactional
     public void updateComplicationStatus(Long operationId, BooleanOption booleanOptionq) {
         Operation operation = operationService.findOperationById(operationId);
         operation.updateComplicationStatus(booleanOptionq);
     }
 
-    private Complication findComplicationByOperationId(Long operationId) {
+    public Complication findComplicationByOperationId(Long operationId) {
         Optional<Complication> complication = complicationRepository.findByOperationId(operationId);
         if (complication.isEmpty()) throw new IllegalStateException();
         return complication.get();

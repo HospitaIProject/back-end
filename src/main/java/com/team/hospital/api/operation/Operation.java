@@ -56,7 +56,8 @@ public class Operation extends BaseEntity {
     private double bloodLoss;                                   // 수술 중 실혈양 (cc)
 
     @Enumerated(EnumType.STRING)
-    private BooleanOption complicationStatus;
+    @Builder.Default
+    private BooleanOption complicationStatus = BooleanOption.NO;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")

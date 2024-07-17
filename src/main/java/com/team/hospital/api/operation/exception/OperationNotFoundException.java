@@ -6,10 +6,10 @@ import com.team.hospital.exception.NotFoundException;
 public class OperationNotFoundException extends NotFoundException {
 
     public OperationNotFoundException(String message) {
-        super(ErrorCode.PATIENT_NOT_FOUND, message);
+        super(ErrorCode.OPERATION_NOT_FOUND, message);
     }
 
     public OperationNotFoundException() {
-        super(ErrorCode.PATIENT_NOT_FOUND);
+        super(ErrorCode.OPERATION_NOT_FOUND);
     }
 }
