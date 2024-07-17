@@ -8,6 +8,7 @@ import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { pushNotification } from '../../utils/pushNotification';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
+import dayjs from 'dayjs';
 
 const postPatientNewForm = async ({ data }: { data: PatientFormType }) => {
     const { onlyDate: operationDate } = useDateFormatted(data.operationDate);
@@ -34,9 +35,18 @@ const postOperationInfoNewForm = async ({
     setupData: CheckListSetupType;
     patientId: number;
 }) => {
-    console.log('operationData', operationData);
+    const operationStartTime = dayjs(operationData.operationStartTime).add(9, 'hour').toISOString();
 
-    const patientResponse = await Axios.post(`api/operation/${patientId}`, operationData); //먼저 수술 정보를 등록하고
+    const operationEndTime = dayjs(operationData.operationEndTime).add(9, 'hour').toISOString();
+
+    const requestOperationData = {
+        ...operationData,
+        operationStartTime: operationStartTime,
+        operationEndTime: operationEndTime,
+    };
+    console.log('requestOperationData', requestOperationData);
+
+    const patientResponse = await Axios.post(`api/operation/${patientId}`, requestOperationData); //먼저 수술 정보를 등록하고
     const operationId = patientResponse.data.data; //등록된 수술 정보의 id를 가져옴
     const response = await Axios.post(`api/checkListItem/${operationId}`, setupData); //등록된 수술 정보에 체크리스트를 등록
 
