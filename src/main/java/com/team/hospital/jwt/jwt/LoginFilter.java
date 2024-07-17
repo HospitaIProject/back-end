@@ -1,12 +1,12 @@
 package com.team.hospital.jwt.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team.hospital.api.ErrorResponse;
-import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.account.dto.CustomAccountDetails;
 import com.team.hospital.api.account.dto.LoginRequest;
 import com.team.hospital.api.account.dto.LoginResponse;
 import com.team.hospital.api.account.dto.TokenDTO;
+import com.team.hospital.api.apiResponse.ErrorResponse;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.exception.ErrorCode;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;

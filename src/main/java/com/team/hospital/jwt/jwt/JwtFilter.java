@@ -1,9 +1,9 @@
 package com.team.hospital.jwt.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.team.hospital.api.ErrorResponse;
 import com.team.hospital.api.account.CustomAccountDetailsService;
 import com.team.hospital.api.account.dto.CustomAccountDetails;
+import com.team.hospital.api.apiResponse.ErrorResponse;
 import com.team.hospital.exception.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
