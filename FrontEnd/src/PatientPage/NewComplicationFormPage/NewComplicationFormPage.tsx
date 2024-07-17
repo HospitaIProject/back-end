@@ -1,5 +1,4 @@
 import { useFormik } from 'formik';
-import SingleSelector from '../../components/common/form/input/SingleSelector';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 
@@ -7,6 +6,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { ComplicationFormType } from '../../models/ComplicationType';
 import { COMPLICATION_ITEMS_NAME } from '../../utils/mappingNames';
 import { useComplicationMutation } from '../_lib/complicationService';
+import RadioButton from '../../components/common/form/input/RadioButton';
 
 const CD_CLASSIFICATION = [
     { value: 'I', name: 'I' },
@@ -114,7 +114,7 @@ function NewComplicationFormPage() {
                 <form className="mx-auto mt-5 flex w-full flex-col gap-4 bg-white p-4" onSubmit={formik.handleSubmit}>
                     <div></div>
                     {Object.keys(COMPLICATION_ITEMS_NAME).map((key) => (
-                        <SingleSelector
+                        <RadioButton
                             key={key} // 고유한 key 속성 제공
                             label={COMPLICATION_ITEMS_NAME[key]}
                             htmlFor={key}
