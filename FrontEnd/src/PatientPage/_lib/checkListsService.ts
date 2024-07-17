@@ -27,11 +27,12 @@ const getCheckLists = async (operationId: number): Promise<ResponseCheckListsTyp
 
 export const useCheckListBeforeQuery = ({
     operationId,
-    enabled = true,
+    enabled = false,
 }: {
     operationId: number;
     enabled?: boolean;
 }) => {
+    console.log('xxxxxx', enabled);
     const query = useQuery<CheckListsBeforeItemType, AxiosError<ErrorResponseType>>({
         queryKey: ['checklistBeforeOperation', operationId],
         queryFn: () => getCheckListBefore(operationId),
@@ -43,7 +44,7 @@ export const useCheckListBeforeQuery = ({
 
 export const useCheckListDuringQuery = ({
     operationId,
-    enabled = true,
+    enabled = false,
 }: {
     operationId: number;
     enabled?: boolean;

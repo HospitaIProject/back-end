@@ -19,11 +19,16 @@ export const useInitialValues = ({
 
     const isPrevEnabled = dateStatus !== 'PREV';
     const isTodayEnabled = dateStatus !== 'PREV' && dateStatus !== 'TODAY';
+    console.log('diffDay:', diffDay);
+    console.log('dateStatus:', dateStatus);
+    console.log('isPrevEnabled:', isPrevEnabled);
+    console.log('isTodayEnabled:', isTodayEnabled);
 
     const checkListBeforeQuery = useCheckListBeforeQuery({
         operationId: Number(operationId),
         enabled: isPrevEnabled,
     });
+    console.log('dateStatus', dateStatus);
     const checkListDuringQuery = useCheckListDuringQuery({
         operationId: Number(operationId),
         enabled: isTodayEnabled,
@@ -57,8 +62,7 @@ export const useInitialValues = ({
                 position: 'top-center',
             });
         }
-        if (checkListDuringError && toggleDateStatus !== 'TODAY') {
-            console.log('ㅌㅌㅌㅌ');
+        if (checkListDuringError && toggleDateStatus == 'TODAY') {
             pushNotification({
                 msg: checkListDuringError.response?.data.message || '수술 중 체크리스트를 불러오는데 실패했습니다.',
                 type: 'error',
