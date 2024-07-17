@@ -19,6 +19,11 @@
 - 정리된 기록을 Excel 파일로 추출할 수 있습니다.
 
 ---
+# 순서도
+![image](https://github.com/user-attachments/assets/ea92c744-c4cb-4691-986b-4e8fc72550ad)
+
+
+---
 ## 사용 기술
 Back-End : 
 - <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
