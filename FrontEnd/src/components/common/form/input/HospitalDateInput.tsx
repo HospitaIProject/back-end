@@ -1,3 +1,4 @@
+//test
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
 import CalendarIcon from '../../../../icons/CalendarIcon';
@@ -66,7 +67,7 @@ function HospitalDateInput<T>({ label, htmlFor, formik }: { label: string; htmlF
                             className={`${isDisabled ? 'bg-gray-100' : 'bg-white'} w-full cursor-pointer outline-none`}
                             readOnly
                         />
-                        <CalendarIcon className="w-6 h-6 text-gray-400" />
+                        <CalendarIcon className="h-6 w-6 text-gray-400" />
                     </button>
                     <button
                         type="button"
@@ -74,7 +75,7 @@ function HospitalDateInput<T>({ label, htmlFor, formik }: { label: string; htmlF
                         onClick={() => formik?.setFieldValue(htmlFor, '')}
                     >
                         <span className="text-sm text-red-400">삭제</span>
-                        <CloseIcon className="w-5 h-5 text-red-400" />
+                        <CloseIcon className="h-5 w-5 text-red-400" />
                     </button>
                 </div>
             </InputContainer>

@@ -1,3 +1,4 @@
+//test
 import React, { useCallback, useEffect, useState } from 'react';
 import SearchIcon from '../../../icons/SearchIcon';
 
@@ -58,12 +59,12 @@ function CategorySearch() {
         <div
             className={`flex h-10 w-full flex-row items-center rounded-3xl border bg-gray-100 p-2 ${isFocused ? 'border-gray-400' : 'border-gray-200'} `}
         >
-            <button className="flex items-center justify-center h-full cursor-pointer w-11">
+            <button className="flex h-full w-11 cursor-pointer items-center justify-center">
                 {!loading && (
                     <SearchIcon className={`h-5 w-5 ${isFocused ? 'rotate-90 text-blue-600' : 'text-gray-600'}`} />
                 )}
                 {loading && (
-                    <div className="w-full h-full">
+                    <div className="h-full w-full">
                         <DotLoadingIcon />
                     </div>
                 )}
@@ -72,12 +73,12 @@ function CategorySearch() {
                 ref={inputRef}
                 onFocus={() => inputRef.current?.focus()}
                 placeholder="검색"
-                className="w-full h-5 ml-2 mr-4 outline-none bg-inherit text-neutral-500"
+                className="ml-2 mr-4 h-5 w-full bg-inherit text-neutral-500 outline-none"
                 onChange={(e) => handleInputChange(e)}
                 defaultValue={searchParams.get('q') || ''}
             />
             <button onClick={handleReset} className={` ${searchParams.get('q') ? 'block' : 'hidden'} `}>
-                <CloseIcon className="w-6 h-6 text-gray-400" />
+                <CloseIcon className="h-6 w-6 text-gray-400" />
             </button>
         </div>
     );
