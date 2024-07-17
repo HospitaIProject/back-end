@@ -10,6 +10,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { useCheckListsQuery } from '../_lib/checkListsService';
 import CheckListsEmptyCard from './components/CheckListsEmptyCard';
+import { useQueryClient } from '@tanstack/react-query';
 
 function CheckListsPage() {
     // const [searchParams] = useSearchParams();

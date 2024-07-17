@@ -3,6 +3,7 @@ import { CheckListSetupType, checkListFormType } from '../../../models/CheckList
 import { useCheckListBeforeQuery, useCheckListDuringQuery } from '../../_lib/checkListsService';
 import { useEffect } from 'react';
 import { pushNotification } from '../../../utils/pushNotification';
+import { useQueryClient } from '@tanstack/react-query';
 
 //호출시점에 데이터가 전달 안될수도 있음. 그래서 optional chaining 사용
 export const useInitialValues = ({
@@ -13,6 +14,8 @@ export const useInitialValues = ({
     toggleDateStatus: 'PREV' | 'TODAY' | 'POST';
 }) => {
     const [searchParams] = useSearchParams();
+    const queryClient = useQueryClient();
+
     const operationId = searchParams.get('id'); //수술ID
     const diffDay = searchParams.get('diffDay'); //몇일차인지
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
@@ -43,14 +46,6 @@ export const useInitialValues = ({
         isPending: isCheckListDuringPending,
         error: checkListDuringError,
     } = checkListDuringQuery;
-    useEffect(() => {
-        if (checkListBeforeError) {
-            console.log('checkListBeforeError', checkListBeforeError);
-        }
-        if (checkListDuringError) {
-            console.log('checkListDuringError', checkListDuringError);
-        }
-    }, [checkListBeforeError, checkListDuringError]); //에러가 있을때 확인
 
     useEffect(() => {
         if (checkListBeforeError && toggleDateStatus === 'PREV') {
@@ -76,6 +71,20 @@ export const useInitialValues = ({
         console.log('checkListBeforeData', checkListBeforeData);
         console.log('checkListDuringData', checkListDuringData);
     }, [checkListBeforeData, checkListDuringData]);
+
+    useEffect(() => {
+        return () => {
+            // checkListBeforeOperation 쿼리 캐시 삭제
+            queryClient.removeQueries({
+                queryKey: ['checklistBeforeOperation', Number(operationId)],
+            });
+
+            // checkListDuringOperation 쿼리 캐시 삭제
+            queryClient.removeQueries({
+                queryKey: ['checkListDuringOperation', Number(operationId)],
+            });
+        };
+    }, [operationId, queryClient]);
 
     const isPostOp = diffDay === '0'; //수술 후인지 여부
     const isPod1 = diffDay === '-1'; //POD 1일차인지 여부
