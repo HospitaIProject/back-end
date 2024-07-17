@@ -20,7 +20,7 @@ function OperationSummaryCard({ operationData }: Props) {
         operationMethod: operationData.operationMethod,
         customOperationMethod: operationData.customOperationMethod,
     });
-    const { operationId, totalOperationTime } = operationData; //수술명
+    const { operationId, totalOperationTime } = operationData;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
