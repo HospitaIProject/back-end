@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import {
     CheckListsBeforeItemType,
@@ -27,7 +27,7 @@ const getCheckLists = async (operationId: number): Promise<ResponseCheckListsTyp
 
 export const useCheckListBeforeQuery = ({
     operationId,
-    enabled = true,
+    enabled = false,
 }: {
     operationId: number;
     enabled?: boolean;
@@ -43,13 +43,13 @@ export const useCheckListBeforeQuery = ({
 
 export const useCheckListDuringQuery = ({
     operationId,
-    enabled = true,
+    enabled = false,
 }: {
     operationId: number;
     enabled?: boolean;
 }) => {
     const query = useQuery<CheckListsDuringItemType, AxiosError<ErrorResponseType>>({
-        queryKey: ['getCheckListDuringOperation', operationId],
+        queryKey: ['checkListDuringOperation', operationId],
         queryFn: () => getCheckListDuring(operationId),
         enabled: enabled,
     });

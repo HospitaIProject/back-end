@@ -17,6 +17,7 @@ const getPatientList = async ({ q, sc }: { q: string; sc: string }): Promise<Pat
     const params = {
         filterType: SC_MATCH_ITEMS[sc],
         query: q,
+        size: 20,
     };
     console.log('params', params);
 

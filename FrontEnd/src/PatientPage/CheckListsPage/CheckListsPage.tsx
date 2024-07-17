@@ -9,6 +9,8 @@ import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import { pushNotification } from '../../utils/pushNotification';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { useCheckListsQuery } from '../_lib/checkListsService';
+import CheckListsEmptyCard from './components/CheckListsEmptyCard';
+import { useQueryClient } from '@tanstack/react-query';
 
 function CheckListsPage() {
     // const [searchParams] = useSearchParams();
@@ -109,6 +111,9 @@ function CheckListsPage() {
                             todayValues={checkListsData.checkListDuringDTO}
                         />
                     )}
+                    {!checkListsData.checkListDuringDTO && checkListsData.checkListDTOs?.length !== 0 && (
+                        <CheckListsEmptyCard type="TODAY" id={Number(operationId)} name={patientName ?? '알수없음'} />
+                    )}
                     {checkListsData.checkListBeforeDTO && (
                         <CheckListsSummaryCard
                             operationDateDTO={checkListsData.operationDateDTO}
@@ -118,6 +123,14 @@ function CheckListsPage() {
                             prevValues={checkListsData.checkListBeforeDTO}
                         />
                     )}
+                    {!checkListsData.checkListBeforeDTO &&
+                        (checkListsData.checkListDTOs?.length !== 0 || checkListsData.checkListDuringDTO) && (
+                            <CheckListsEmptyCard
+                                type="PREV"
+                                id={Number(operationId)}
+                                name={patientName ?? '알수없음'}
+                            />
+                        )}
                 </ul>
                 <ResponsivePagination />
             </div>
