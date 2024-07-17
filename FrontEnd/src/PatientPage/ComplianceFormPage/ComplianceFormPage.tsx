@@ -15,7 +15,6 @@ import MultiInput from '../../components/common/form/input/MultiInput';
 import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
-import { useQueryClient } from '@tanstack/react-query';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';

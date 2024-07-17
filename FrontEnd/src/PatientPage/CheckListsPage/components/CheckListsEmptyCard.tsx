@@ -1,5 +1,5 @@
 import ArrowIcon from '../../../icons/ArrowIcon';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 type Props = {
@@ -9,8 +9,6 @@ type Props = {
 };
 
 function CheckListsEmptyCard({ type, id, name }: Props) {
-    const navigate = useNavigate();
-
     const dateComparison = type === 'PREV' ? '수술 전' : '수술 당일';
 
     const handleRouteCheckListForm = () => {
