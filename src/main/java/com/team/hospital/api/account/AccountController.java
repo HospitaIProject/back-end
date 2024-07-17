@@ -1,7 +1,7 @@
 package com.team.hospital.api.account;
 
-import com.team.hospital.api.SuccessResponse;
 import com.team.hospital.api.account.dto.CreateAccountRequest;
+import com.team.hospital.api.apiResponse.SuccessResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
