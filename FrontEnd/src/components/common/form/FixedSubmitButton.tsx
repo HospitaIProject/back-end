@@ -7,7 +7,7 @@ type Props = {
 function FixedSubmitButton({ onClick, label, className }: Props) {
     return (
         <div
-            className={`${className} sticky bottom-0 z-10 mt-6 flex w-full bg-white py-2 shadow shadow-transparent tablet:col-span-2`}
+            className={`${className} sticky bottom-0 z-10 mt-auto flex w-full bg-white py-2 shadow shadow-transparent tablet:col-span-2`}
         >
             {/* 모바일에서 그림자가 sticky속성 사용시 그림자가 생기는 문제 해결 */}
 
