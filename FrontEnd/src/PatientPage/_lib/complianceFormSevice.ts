@@ -129,7 +129,7 @@ export const useComplianceFormMutation = () => {
                 type: 'success',
                 theme: 'dark',
             });
-            navigate(`/patient/checkLists?id=${operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전페이지는 스택에서 제거
+            navigate(`/patient/checkLists?id=${operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전 form페이지는 스택에서 제거
         },
     });
     return mutation;
