@@ -46,7 +46,7 @@ function FilterHeader() {
 
     const handleFilter = (value: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        if (value === 'all') {
+        if (value === 'patientName') {
             params.delete('sc');
         } else {
             params.set('sc', value);
@@ -56,8 +56,8 @@ function FilterHeader() {
     useEffect(() => {}, [sc]);
     return (
         <>
-            <div className="sticky top-0 z-10 flex flex-col items-center w-full gap-1 px-4 py-2 bg-white border-b border-blue-200 h-fit">
-                <div className="flex flex-row items-center w-full gap-2 mt-1 overflow-x-auto">
+            <div className="sticky top-0 z-10 flex h-fit w-full flex-col items-center gap-1 border-b border-blue-200 bg-white px-4 py-2">
+                <div className="mt-1 flex w-full flex-row items-center gap-2 overflow-x-auto">
                     {FILTER_ITEMS.map((item) => (
                         <button
                             key={item.value}
@@ -68,7 +68,7 @@ function FilterHeader() {
                         </button>
                     ))}
                 </div>
-                <div className="flex flex-row w-full gap-3 py-1">
+                <div className="flex w-full flex-row gap-3 py-1">
                     <CategorySearch />
                     <button onClick={openFilterModal} className="relative">
                         <FilterIcon className="h-[30px] w-[30px] text-gray-600" />
