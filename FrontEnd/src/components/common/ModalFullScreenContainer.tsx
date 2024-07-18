@@ -34,15 +34,15 @@ function ModalFullScreenContainer({ children, title, onClose, maxWidthClassName,
             <div
                 className={`flex w-full scroll-smooth ${maxWidthClassName ? maxWidthClassName : 'max-w-screen-tablet'} flex-col rounded-t-lg border-x border-t ${bgClassName ? bgClassName : 'bg-white'}`}
             >
-                <header className="flex flex-row justify-between w-full p-6 text-gray-600">
-                    <div className="flex justify-center flex-grow font-medium ml-7">
+                <header className="flex w-full flex-row justify-between p-6 text-gray-600">
+                    <div className="ml-7 flex flex-grow justify-center font-medium">
                         <span className="text-lg">{title}</span>
                     </div>
                     <button onClick={onClose}>
-                        <CloseIcon className="w-8 h-8 text-inherit" />
+                        <CloseIcon className="h-8 w-8 text-inherit" />
                     </button>
                 </header>
-                <div className="w-full h-full overflow-y-auto">{children}</div>
+                <div className="h-full w-full overflow-y-auto">{children}</div>
             </div>
         </div>,
         document.getElementById('modal-root') as HTMLElement,
