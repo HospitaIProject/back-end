@@ -5,7 +5,7 @@ import Axios from '../../utils/axiosInstance';
 // import { AxiosError } from 'axios';
 // import { ErrorResponse } from 'react-router-dom';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { pushNotification } from '../../utils/pushNotification';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
@@ -109,6 +109,9 @@ const postComplianceForm = async ({
 
 export const useComplianceFormMutation = () => {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const operationId = Number(searchParams.get('id'));
+    const name = searchParams.get('name');
     const mutation = useMutation({
         mutationFn: postComplianceForm,
 
@@ -126,7 +129,7 @@ export const useComplianceFormMutation = () => {
                 type: 'success',
                 theme: 'dark',
             });
-            navigate(-1);
+            navigate(`/patient/checkLists?id=${operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전페이지는 스택에서 제거
         },
     });
     return mutation;
