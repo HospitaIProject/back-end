@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +57,11 @@ public class CheckListBeforeService {
 
     public List<CheckListBefore> findAll() {
         return checkListBeforeRepository.findAll();
+    }
+
+    public boolean checkIfCheckListBeforeCreatedToday(Long operationId) {
+        CheckListBeforeDTO checkListBeforeDTO = findCheckListBeforeByOperationId(operationId);
+        return checkListBeforeDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
     }
 
 }
