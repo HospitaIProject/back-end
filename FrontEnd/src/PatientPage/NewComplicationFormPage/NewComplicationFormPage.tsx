@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 
 import { pushNotification } from '../../utils/pushNotification';
@@ -7,6 +7,11 @@ import { ComplicationFormType } from '../../models/ComplicationType';
 import { COMPLICATION_ITEMS_NAME } from '../../utils/mappingNames';
 import { useComplicationMutation } from '../_lib/complicationService';
 import RadioButton from '../../components/common/form/input/RadioButton';
+import CustomRadioButton from './components/CustomRadioButton';
+import TextInput from '../../components/common/form/input/TextInput';
+import ComplicationGuide from './components/ComplicationGuide';
+import ConfirmNewPatientFormModal from '../NewPatientFormPage/components/ConfirmNewPatientFormModal';
+import ConfirmNewComplicationFormModal from './components/ConfirmNewComplicationFormModal';
 
 const CD_CLASSIFICATION = [
     { value: 'I', name: 'I' },
@@ -66,6 +71,7 @@ function NewComplicationFormPage() {
                 cdClassification: '',
             },
         ],
+        remarks: '',
     };
     const formik = useFormik({
         initialValues, // 초기값
@@ -104,34 +110,84 @@ function NewComplicationFormPage() {
         }
         // setIsConfirmPage(true);
     };
-    // const handleCloseConfirm = () => {
-    //     setIsConfirmPage(false);
-    // }; // 확인 모달 닫기
+    const handleCloseConfirm = () => {
+        setIsConfirmPage(false);
+    }; // 확인 모달 닫기
+    useEffect(() => {
+        console.log('customComplications', formik.values.customComplications);
+    }, [formik.values.customComplications]);
 
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <form className="mx-auto mt-5 flex w-full flex-col gap-4 bg-white p-4" onSubmit={formik.handleSubmit}>
-                    <div></div>
-                    {Object.keys(COMPLICATION_ITEMS_NAME).map((key) => (
-                        <RadioButton
-                            key={key} // 고유한 key 속성 제공
-                            label={COMPLICATION_ITEMS_NAME[key]}
-                            htmlFor={key}
+                <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-5 bg-white" onSubmit={formik.handleSubmit}>
+                    <ComplicationGuide />
+                    {Object.keys(COMPLICATION_ITEMS_NAME).map((key: string) => (
+                        <>
+                            {key === 'anastomosisBleeding' && (
+                                <span className="mx-auto font-semibold text-gray-600">[문합부 관련]</span>
+                            )}
+                            {key === 'ileus' && <span className="mx-auto font-semibold text-gray-600">[소화기계]</span>}
+                            {key === 'arrhythemia' && (
+                                <span className="mx-auto font-semibold text-gray-600">[심혈관계]</span>
+                            )}
+                            {key === 'atelectasis' && (
+                                <span className="mx-auto font-semibold text-gray-600">[호흡기계]</span>
+                            )}
+                            {key === 'urinaryDysfunctionRetension' && (
+                                <span className="mx-auto font-semibold text-gray-600">[비뇨생식기계]</span>
+                            )}
+                            {key === 'superficialDeepSsi' && (
+                                <span className="mx-auto font-semibold text-gray-600">[피부창상관련]</span>
+                            )}
+                            <RadioButton
+                                key={key} // 고유한 key 속성 제공
+                                label={COMPLICATION_ITEMS_NAME[key]}
+                                htmlFor={key}
+                                formik={formik}
+                                values={CD_CLASSIFICATION}
+                            />
+                        </>
+                    ))}
+                    <div className="my-3 border-t" />
+                    {formik.values.customComplications.map((customComplication, index) => (
+                        <CustomRadioButton
+                            key={index}
+                            htmlFor={`customComplications[${index}].cdClassification`}
+                            nameHtmlFor={`customComplications[${index}].complicationName`}
                             formik={formik}
                             values={CD_CLASSIFICATION}
+                            index={index}
+                            label={index === 0 ? '[신경계]' : '[기타]'}
+                            isRender={true}
                         />
                     ))}
+
+                    <div className="flex flex-row justify-center w-full mx-auto max-w-screen-mobile px-14">
+                        <button
+                            type="button"
+                            className="w-full py-2 border rounded-md"
+                            onClick={() =>
+                                formik.setFieldValue('customComplications', [
+                                    ...formik.values.customComplications,
+                                    { complicationName: '', cdClassification: '' },
+                                ])
+                            }
+                        >
+                            <span className="text-gray-500">기타 추가 +</span>
+                        </button>
+                    </div>
+                    <TextInput label="비고" htmlFor="remarks" formik={formik} />
                 </form>
                 <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
             </div>
-            {/* {isConfirmPage && (
-                <ConfirmNewPatientFormModal
-                    values={formik.values}
+            {isConfirmPage && (
+                <ConfirmNewComplicationFormModal
+                    formValues={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
                 />
-            )} */}
+            )}
         </>
     );
 }

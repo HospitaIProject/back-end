@@ -52,4 +52,5 @@ export type ComplicationFormType = {
     // };
 
     customComplications: CustomType[];
+    remarks: string;
 };
