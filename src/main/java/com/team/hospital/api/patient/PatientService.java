@@ -6,9 +6,11 @@ import com.team.hospital.api.patient.exception.PatientNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,22 @@ public class PatientService {
     }
 
     public Slice<Patient> findPatientsByPatientNumber(Long patientNumber, Pageable pageable) {
-        return patientRepository.findByPatientNumber(patientNumber, pageable);
+        List<Patient> all = findAll();
+        List<Patient> patients = new ArrayList<>();
+        for (Patient patient : all) {
+            if (patient.getPatientNumber().toString().contains(patientNumber.toString()))
+                patients.add(patient);
+        }
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int start = currentPage * pageSize;
+        int end = Math.min(start + pageSize, patients.size());
+
+        List<Patient> pageContent = patients.subList(start, end);
+        boolean hasNext = patients.size() > end;
+
+        return new SliceImpl<>(pageContent, pageable, hasNext);
     }
 
     public Slice<Patient> findAll(Pageable pageable) {
