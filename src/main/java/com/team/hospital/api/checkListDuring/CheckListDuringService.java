@@ -67,5 +67,4 @@ public class CheckListDuringService {
         }
     }
 
-    boolean existsById(Long checkListDuringId) { return checkListDuringRepository.existsById(checkListDuringId);}
 }
