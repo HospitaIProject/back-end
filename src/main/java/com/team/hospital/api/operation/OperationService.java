@@ -1,19 +1,22 @@
 package com.team.hospital.api.operation;
 
-import com.team.hospital.api.operation.dto.OperationDTO;
+import com.team.hospital.api.operation.dto.RegisterOperation;
+import com.team.hospital.api.operation.enumType.OperationMethod;
 import com.team.hospital.api.operation.exception.OperationNotFoundException;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
-import com.team.hospital.api.operation.dto.RegisterOperation;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -42,18 +45,21 @@ public class OperationService {
         operationRepository.delete(operation);
     }
 
+    public List<Operation> findAll() {
+        return operationRepository.findAll();
+    }
+
     public Operation findOperationById(Long operationId) {
         Optional<Operation> operation = operationRepository.findById(operationId);
         if (operation.isEmpty()) throw new OperationNotFoundException();
         return operation.get();
     }
 
-    public List<OperationDTO> findAllByPatient(Long patientId) {
+    public List<Operation> findAllByPatient(Long patientId) {
         Patient patient = patientService.findPatientById(patientId);
         List<Operation> operations = operationRepository.findAllByPatient(patient);
-
         operations.sort(Comparator.comparing((Operation operation) -> operation.getPatient().getOperationDate()).reversed());
-        return OperationDTO.buildOperationDTOs(operations);
+        return operations;
     }
 
     public List<Operation> findAllByPatientV2(Long patientId) {
@@ -67,8 +73,39 @@ public class OperationService {
         return null;
     }
 
+    @Transactional(readOnly = true)
     public Slice<Patient> findPatientsByOperationMethod(String operationMethod, Pageable pageable) {
-        return operationRepository.findOperationsByOperationMethod(operationMethod, pageable).map(Operation::getPatient);
+        String lowerCaseOperationMethod = operationMethod.toLowerCase();
+
+        List<Patient> patients = findAll().stream()
+                .filter(operation -> {
+                    String operationMethodsString = convertToDatabaseColumn(operation.getOperationMethod()).toLowerCase();
+                    return operationMethodsString.contains(lowerCaseOperationMethod);
+                })
+                .map(operation -> {
+                    Hibernate.initialize(operation.getPatient());
+                    return operation.getPatient();
+                })
+                .toList();
+
+        int pageSize = pageable.getPageSize();
+        int currentPage = pageable.getPageNumber();
+        int start = currentPage * pageSize;
+        int end = Math.min(start + pageSize, patients.size());
+
+        List<Patient> pageContent = patients.subList(start, end);
+        boolean hasNext = patients.size() > end;
+
+        return new SliceImpl<>(pageContent, pageable, hasNext);
+    }
+
+    private static String convertToDatabaseColumn(List<OperationMethod> operationMethods) {
+        if (operationMethods == null || operationMethods.isEmpty()) {
+            return "";
+        }
+        return operationMethods.stream()
+                .map(Enum::name)
+                .collect(Collectors.joining(", "));
     }
 
 }
