@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +28,10 @@ public class OperationController {
     @GetMapping("/api/operations/{patientId}")
     @Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
-        List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId);
+        List<com.team.hospital.api.operation.Operation> operations = operationService.findAllByPatient(patientId);
+        List<OperationDTO> operationDTOS = operations.stream()
+                .map(OperationDTO::toEntity)
+                .collect(Collectors.toList());
         return SuccessResponse.createSuccess(operationDTOS);
     }
 
