@@ -54,25 +54,22 @@ public class CheckListController {
     public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
         List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
-        boolean checkListCreatedToday = checkListService.checkIfCheckListCreatedToday(operationId);
+
+        boolean createdToday = checkIfAnyCheckListCreatedToday(operationId);
         Patient patient = operation.getPatient();
 
-        CheckListBeforeDTO  checkListBeforeDTO;
-        CheckListDuringDTO checkListDuringDTO;
+        CheckListBeforeDTO checkListBeforeDTO = getCheckListBeforeDTO(operationId);
+        CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
 
-        try {
-            checkListBeforeDTO = checkListBeforeService.findCheckListBeforeByOperationId(operationId);
-        } catch (CheckListBeforeNotFoundException e) {
-            checkListBeforeDTO = null;
-        }
+        CheckListWithOperationDateDTO responseDTO = CheckListWithOperationDateDTO.toEntity(
+                checkLists,
+                OperationDTO.toEntity(operation),
+                checkListBeforeDTO,
+                checkListDuringDTO,
+                patient,
+                createdToday);
 
-        try {
-            checkListDuringDTO = checkListDuringService.findCheckListDuringByOperationId(operationId);
-        } catch (CheckListDuringNotFoundException e) {
-            checkListDuringDTO = null;
-        }
-
-        return SuccessResponse.createSuccess(CheckListWithOperationDateDTO.toEntity(checkLists, OperationDTO.toEntity(operation), checkListBeforeDTO, checkListDuringDTO,patient, checkListCreatedToday));
+        return SuccessResponse.createSuccess(responseDTO);
     }
 
     @GetMapping("/api/checkList")
@@ -102,5 +99,27 @@ public class CheckListController {
     public SuccessResponse<?> deleteCheckList(@PathVariable Long checkListId) {
         checkListService.delete(checkListId);
         return SuccessResponse.createSuccess();
+    }
+
+    private boolean checkIfAnyCheckListCreatedToday(Long operationId) {
+        return checkListService.checkIfCheckListCreatedToday(operationId) ||
+                checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
+                checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
+    }
+
+    private CheckListBeforeDTO getCheckListBeforeDTO(Long operationId) {
+        try {
+            return checkListBeforeService.findCheckListBeforeByOperationId(operationId);
+        } catch (CheckListBeforeNotFoundException e) {
+            return null;
+        }
+    }
+
+    private CheckListDuringDTO getCheckListDuringDTO(Long operationId) {
+        try {
+            return checkListDuringService.findCheckListDuringByOperationId(operationId);
+        } catch (CheckListDuringNotFoundException e) {
+            return null;
+        }
     }
 }

@@ -33,7 +33,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(ErrorResponse.createError(e.getErrorCode()));
     }
 
-
     // 이넘 타입에 이넘이 아닌 데이터가 들어옴.
     @ExceptionHandler(HttpMessageNotReadableException.class)
     protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {

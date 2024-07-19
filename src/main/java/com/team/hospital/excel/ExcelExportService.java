@@ -5,9 +5,8 @@ import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
 import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
-import com.team.hospital.api.checkListDuring.CheckListDuringService;
+import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
-import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.OperationMethod;
 import com.team.hospital.api.patient.Patient;
@@ -32,7 +31,6 @@ public class ExcelExportService {
     private final PatientService patientService;
     private final OperationService operationService;
     private final CheckListBeforeService checkListBeforeService;
-    private final CheckListDuringService checkListDuringService;
     private final CheckListService checkListService;
 
     public ByteArrayInputStream exportToExcel() throws IOException {
@@ -131,24 +129,24 @@ public class ExcelExportService {
 
         int rowIndex = 1;
         for (Patient patient : patients) {
-            List<OperationDTO> operations = operationService.findAllByPatient(patient.getId());
+            List<Operation> operations = operationService.findAllByPatient(patient.getId());
             if (operations.isEmpty()) {
                 continue; // 다음 환자 처리
             }
 
-            OperationDTO operation = operations.get(0);
+            Operation operation = operations.get(0);
 
             // CheckListBefore
             CheckListBeforeDTO checkListBeforeDTO;
             try {
-                checkListBeforeDTO = checkListBeforeService.findCheckListBeforeByOperationId(operation.getOperationId());
+                checkListBeforeDTO = checkListBeforeService.findCheckListBeforeByOperationId(operation.getId());
             } catch (CheckListBeforeNotFoundException e) {
                 continue;
             }
             // CheckListBefore
 
             // CheckList
-            List<CheckList> checkLists = checkListService.findAllByOperationId(operation.getOperationId());
+            List<CheckList> checkLists = checkListService.findAllByOperationId(operation.getId());
             CheckList checkList = checkLists.get(0);
             // CheckList
 

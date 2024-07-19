@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +56,11 @@ public class CheckListDuringService {
 
     public List<CheckListDuring> findAll() {
         return checkListDuringRepository.findAll();
+    }
+
+    public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
+        CheckListDuringDTO checkListDuringDTO = findCheckListDuringByOperationId(operationId);
+        return checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
     }
 
     boolean existsById(Long checkListDuringId) { return checkListDuringRepository.existsById(checkListDuringId);}

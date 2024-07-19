@@ -12,7 +12,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 //    List<Patient> findByPatientNumber(Long patientNumber);
 
-    Slice<Patient> findByPatientNumber(Long patientNumber, Pageable pageable);
-
     boolean existsByPatientNumber(Long patientNumber);
 }
