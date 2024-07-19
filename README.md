@@ -20,7 +20,8 @@
 
 ---
 # 순서도
-![image](https://github.com/user-attachments/assets/ea92c744-c4cb-4691-986b-4e8fc72550ad)
+![순서도 저장](https://github.com/user-attachments/assets/738dc6ff-a3e4-4c60-987e-2b08799ece60)
+
 
 
 ---
