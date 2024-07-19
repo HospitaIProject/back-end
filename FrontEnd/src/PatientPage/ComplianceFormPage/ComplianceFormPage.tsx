@@ -131,12 +131,12 @@ function ComplianceFormPage() {
                     ))}
                 </div>
 
-                <div className="mb-4 flex flex-row items-center gap-1 rounded-md border-b bg-gray-50 py-3 pl-28 pr-4 text-neutral-700">
-                    <span className="mx-auto text-center text-xl font-bold text-blue-500">{patientName}</span>
-                    <div className="flex w-24 flex-col items-end gap-1">
+                <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
+                    <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
+                    <div className="flex flex-col items-end w-24 gap-1">
                         <span className="text-sm font-medium text-gray-700">{formattedOnlyDate}</span>
 
-                        <span className="bg-yellow-200 p-1 text-sm font-medium text-gray-700">
+                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200">
                             {dateStatus === 'TODAY'
                                 ? 'D-Day'
                                 : dateStatus === 'PREV'
@@ -146,7 +146,7 @@ function ComplianceFormPage() {
                     </div>
                 </div>
 
-                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
+                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>
@@ -412,7 +412,7 @@ function ComplianceFormPage() {
                         />
                     </DropContainer>
                 </form>
-                <div className={`${isConfirmButton ? 'block' : 'hidden'}`}>
+                <div className={`mt-auto ${isConfirmButton ? 'block' : 'hidden'}`}>
                     <SubmitButton onClick={handleOpenConfirm} label="확인하기" />
                 </div>
             </div>

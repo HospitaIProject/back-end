@@ -14,6 +14,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import MultiSelector from '../../components/common/form/input/MultiSelector';
 import TimeInput from '../../components/common/form/input/TimeInput';
 import TotalOperationInput from '../../components/common/form/input/TotalOperationInput';
+import { validateCheckListSetup } from './components/utils/validateCheckListSetup';
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewOperationInfoFormMutation();
@@ -82,8 +83,27 @@ function NewOperationInfoFormPage() {
             }
         },
     });
-    const onChangeCheckListSetup = (checkItem: string, event: React.ChangeEvent<HTMLInputElement>) => {
-        setCheckListSetup({ ...checkListSetup, [checkItem]: event.target.checked });
+    const onSubmitCheckListSetup = (newCheckListSetup: CheckListSetupType) => {
+        let isValid = validateCheckListSetup({ values: newCheckListSetup });
+        console.log('newCheckListSetup', newCheckListSetup);
+        if (!isValid) {
+            pushNotification({
+                msg: '수술전, 수술당일, 수술후 각 섹션을 하나 이상 선택해주세요.',
+                type: 'error',
+                theme: 'dark',
+                position: 'top-center',
+            });
+            return;
+        } else {
+            pushNotification({
+                msg: '체크리스트 설정이 완료되었습니다.',
+                type: 'success',
+                theme: 'dark',
+                position: 'top-center',
+            });
+        }
+        setCheckListSetup({ ...newCheckListSetup });
+        handleCloseCheckListSetup();
     };
     const specialFields = ['customOperationMethod', 'operationMethod'];
     const handleOpenConfirm = (values: OperationInfoFormType) => {
@@ -104,6 +124,7 @@ function NewOperationInfoFormPage() {
                 msg: '입력되지 않은 항목이 있습니다.',
                 type: 'error',
                 theme: 'dark',
+                position: 'top-center',
             });
             return;
         } else {
@@ -129,8 +150,8 @@ function NewOperationInfoFormPage() {
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <form className="flex flex-col w-full gap-4 p-4 mx-auto bg-white" onSubmit={formik.handleSubmit}>
-                    <h1 className="w-full px-2 py-3 mx-auto mb-4 text-gray-600 border-b max-w-screen-mobile text-start">
+                <form className="mx-auto flex w-full flex-col gap-4 bg-white p-4" onSubmit={formik.handleSubmit}>
+                    <h1 className="mx-auto mb-4 w-full max-w-screen-mobile border-b px-2 py-3 text-start text-gray-600">
                         <span>환자명:&nbsp;{patientName}</span>
                     </h1>
 
@@ -182,11 +203,11 @@ function NewOperationInfoFormPage() {
                     />
                     <NumberInput unit="cc" label="수술 중 실혈량 (cc)" htmlFor="bloodLoss" formik={formik} />
 
-                    <div className="flex flex-col items-center w-full mt-4">
+                    <div className="mt-4 flex w-full flex-col items-center">
                         <button
                             type="button"
                             onClick={handleOpenCheckListSetup}
-                            className="w-full px-8 py-3 text-white bg-gray-400 rounded-md hover:bg-gray-500 mobile:max-w-screen-mobile"
+                            className="w-full rounded-md bg-gray-400 px-8 py-3 text-white hover:bg-gray-500 mobile:max-w-screen-mobile"
                         >
                             체크리스트 설정
                         </button>
@@ -205,7 +226,7 @@ function NewOperationInfoFormPage() {
             )}
             {isCheckListSetupModal && (
                 <PatientChecklistSetupModal
-                    handleChange={onChangeCheckListSetup}
+                    handleSubmit={onSubmitCheckListSetup}
                     onClose={handleCloseCheckListSetup}
                     values={checkListSetup}
                 />

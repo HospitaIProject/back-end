@@ -12,7 +12,7 @@ type ToastProps = {
 
 export const pushNotification = ({ msg, type, theme, position = 'bottom-center' }: ToastProps) => {
     toast[type](msg, {
-        duration: 2500,
+        duration: 3500,
         position: position,
 
         // Styling

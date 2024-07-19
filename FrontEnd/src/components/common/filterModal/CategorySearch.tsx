@@ -40,6 +40,9 @@ function CategorySearch() {
         const params = new URLSearchParams(searchParams.toString());
         params.delete('q');
         params.delete('page');
+        if (inputRef.current) {
+            inputRef.current.value = '';
+        }
         navigate(pathname + '?' + params.toString(), { replace: true });
     };
     useEffect(() => {

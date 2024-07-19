@@ -29,7 +29,7 @@ function RadioButton<T>({
                 {options.map((option, index) => (
                     <label
                         key={index}
-                        className={`flex w-[46px] items-center gap-1 rounded-full border px-1 py-[5px] ${isInput === option.value ? 'border-blue-400 bg-blue-400' : 'border-blue-400'} `}
+                        className={`flex w-[46px] cursor-pointer items-center gap-1 rounded-full border px-1 py-[6px] ${isInput === option.value ? 'border-blue-400 bg-blue-400' : 'border-gray-400'} `}
                     >
                         <input
                             type="radio"
@@ -37,14 +37,14 @@ function RadioButton<T>({
                             value={option.value}
                             checked={isInput === option.value}
                             onChange={handleChange}
-                            className="radio-button-class hidden" // 예시 클래스, 실제로는 적절한 CSS 클래스 사용
+                            className="hidden radio-button-class" // 예시 클래스, 실제로는 적절한 CSS 클래스 사용
                         />
                         <div
-                            className={`flex h-3 w-3 rounded-full border p-[2px] ${isInput === option.value ? 'border-white' : 'border-blue-400'}`}
+                            className={`flex h-3 w-3 rounded-full border p-[2px] ${isInput === option.value ? 'border-white' : 'border-gray-400'}`}
                         >
-                            <div className="h-full w-full rounded-full bg-white"> </div>
+                            <div className="w-full h-full bg-white rounded-full"> </div>
                         </div>
-                        <span className={`text-xs ${isInput === option.value ? 'text-white' : 'text-blue-400'}`}>
+                        <span className={`text-xs ${isInput === option.value ? 'text-white' : 'text-gray-400'}`}>
                             {option.label}
                         </span>
                     </label>
