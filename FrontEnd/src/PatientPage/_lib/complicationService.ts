@@ -4,7 +4,7 @@ import Axios from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { pushNotification } from '../../utils/pushNotification';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const postComplicationForm = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
     const response = await Axios.post(`api/complication/${operationId}`, data);
@@ -35,7 +35,7 @@ export const useComplicationMutation = () => {
         },
         onSuccess: () => {
             pushNotification({
-                msg: '제출되었습니다.',
+                msg: '등록되었습니다.',
                 type: 'success',
                 theme: 'dark',
             });
