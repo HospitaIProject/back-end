@@ -59,8 +59,12 @@ public class CheckListDuringService {
     }
 
     public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
-        CheckListDuringDTO checkListDuringDTO = findCheckListDuringByOperationId(operationId);
-        return checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
+        try {
+            CheckListDuringDTO checkListDuringDTO = findCheckListDuringByOperationId(operationId);
+            return checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
+        } catch (CheckListDuringNotFoundException e) {
+            return false;
+        }
     }
 
     boolean existsById(Long checkListDuringId) { return checkListDuringRepository.existsById(checkListDuringId);}
