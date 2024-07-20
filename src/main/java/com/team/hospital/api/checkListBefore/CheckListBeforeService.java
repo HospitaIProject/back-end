@@ -60,8 +60,12 @@ public class CheckListBeforeService {
     }
 
     public boolean checkIfCheckListBeforeCreatedToday(Long operationId) {
-        CheckListBeforeDTO checkListBeforeDTO = findCheckListBeforeByOperationId(operationId);
-        return checkListBeforeDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
+        try {
+            CheckListBeforeDTO checkListBeforeDTO = findCheckListBeforeByOperationId(operationId);
+            return checkListBeforeDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
+        } catch (CheckListBeforeNotFoundException e) {
+            return false;
+        }
     }
 
 }

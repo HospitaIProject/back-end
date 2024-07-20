@@ -2,6 +2,7 @@ package com.team.hospital.api.complication;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.complication.dto.WriteComplication;
+import com.team.hospital.api.complication.exception.ComplicationNotFoundException;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +45,11 @@ public class ComplicationService {
 
     public Complication findComplicationByOperationId(Long operationId) {
         Optional<Complication> complication = complicationRepository.findByOperationId(operationId);
-        if (complication.isEmpty()) throw new IllegalStateException();
+        if (complication.isEmpty()) throw new ComplicationNotFoundException("해당 operationId에 등록된 합병증이 존재하지 않습니다.");
         return complication.get();
+    }
+
+    public boolean existsByOperation(Operation operation) {
+        return complicationRepository.existsByOperation(operation);
     }
 }

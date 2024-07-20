@@ -3,7 +3,6 @@ package com.team.hospital.api.checkListBefore;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
-import com.team.hospital.api.operation.OperationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +54,7 @@ public class CheckListBeforeController {
         return SuccessResponse.createSuccess(CheckListBeforeResponse.toEntity(checkListBeforeDTO));
     }
 
-    @PutMapping("/api/{checkListBeforeId}")
+    @PutMapping("/api/checkListBefore/{checkListBeforeId}")
     @Operation(summary = "수술 전 체크리스트 수정")
     public SuccessResponse<?> modifyCheckList(@RequestBody WriteCheckListBefore writeCheckListBefore,
                                               @PathVariable Long checkListBeforeId) {
@@ -63,7 +62,7 @@ public class CheckListBeforeController {
         return SuccessResponse.createSuccess();
     }
 
-    @DeleteMapping("/api/{checkListBeforeId}")
+    @DeleteMapping("/api/checkListBefore/{checkListBeforeId}")
     @Operation(summary = "수술 전 체크리스트 삭제")
     public SuccessResponse<?> deleteCheckList(@PathVariable Long checkListBeforeId) {
         checkListBeforeService.delete(checkListBeforeId);

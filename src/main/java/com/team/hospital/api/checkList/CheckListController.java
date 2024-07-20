@@ -55,7 +55,7 @@ public class CheckListController {
         List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
 
-        boolean createdToday = checkIfAnyCheckListCreatedToday(operationId);
+        boolean createdToday = checkListService.checkIfAnyCheckListCreatedToday(operationId);
         Patient patient = operation.getPatient();
 
         CheckListBeforeDTO checkListBeforeDTO = getCheckListBeforeDTO(operationId);
@@ -72,7 +72,7 @@ public class CheckListController {
         return SuccessResponse.createSuccess(responseDTO);
     }
 
-    @GetMapping("/api/checkList")
+    @GetMapping("/api/checkLists")
     @Operation(summary = "수술 후 체크리스트 전체 조회")
     public SuccessResponse<List<CheckListDTO>> findAllCheckList() {
         List<CheckListDTO> list = checkListService.findAll().stream().map(CheckListDTO::toEntity).toList();
@@ -86,7 +86,7 @@ public class CheckListController {
         return SuccessResponse.createSuccess(CheckListResponse.toEntity(checkListDTO));
     }
 
-    @PutMapping("/api/{checkListId}")
+    @PutMapping("/api/checkList/{checkListId}")
     @Operation(summary = "체크리스트 수정")
     public SuccessResponse<?> modifyCheckList(@RequestBody WriteCheckList writeCheckList,
                                               @PathVariable Long checkListId) {
@@ -94,17 +94,11 @@ public class CheckListController {
         return SuccessResponse.createSuccess();
     }
 
-    @DeleteMapping("/api/{checkListId}")
+    @DeleteMapping("/api/checkList/{checkListId}")
     @Operation(summary = "체크리스트 삭제")
     public SuccessResponse<?> deleteCheckList(@PathVariable Long checkListId) {
         checkListService.delete(checkListId);
         return SuccessResponse.createSuccess();
-    }
-
-    private boolean checkIfAnyCheckListCreatedToday(Long operationId) {
-        return checkListService.checkIfCheckListCreatedToday(operationId) ||
-                checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
-                checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
 
     private CheckListBeforeDTO getCheckListBeforeDTO(Long operationId) {

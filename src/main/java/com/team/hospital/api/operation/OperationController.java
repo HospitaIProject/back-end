@@ -1,15 +1,14 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
+import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.RegisterOperation;
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,26 +16,27 @@ import java.util.stream.Collectors;
 public class OperationController {
 
     private final OperationService operationService;
+    private final ComplicationService complicationService;
 
     @PostMapping("/api/operation/{patientId}")
-    @Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록 후 Id 값 반환")
+    @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록 후 Id 값 반환")
     public SuccessResponse<Long> save(@RequestBody RegisterOperation registerOperation,
                                       @PathVariable Long patientId) {
         return SuccessResponse.createSuccess(operationService.save(registerOperation, patientId));
     }
 
     @GetMapping("/api/operations/{patientId}")
-    @Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
+    @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
-        List<com.team.hospital.api.operation.Operation> operations = operationService.findAllByPatient(patientId);
-        List<OperationDTO> operationDTOS = operations.stream()
-                .map(OperationDTO::toEntity)
-                .collect(Collectors.toList());
+        List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
+                .map(operation -> OperationDTO.toEntity(operation, complicationService.existsByOperation(operation)))
+                .toList();
+
         return SuccessResponse.createSuccess(operationDTOS);
     }
 
     @PutMapping("/api/operation/{operationId}")
-    @Operation(summary = "operation 수정")
+    @io.swagger.v3.oas.annotations.Operation(summary = "operation 수정")
     public SuccessResponse<?> modifyOperation(@RequestBody RegisterOperation registerOperation,
                                               @PathVariable Long operationId) {
         operationService.modify(registerOperation, operationId);
@@ -44,7 +44,7 @@ public class OperationController {
     }
 
     @DeleteMapping("/api/operation/{operationId}")
-    @Operation(summary = "operation 삭제")
+    @io.swagger.v3.oas.annotations.Operation(summary = "operation 삭제")
     public SuccessResponse<?> deleteOperation(@PathVariable Long operationId) {
         operationService.delete(operationId);
         return SuccessResponse.createSuccess();

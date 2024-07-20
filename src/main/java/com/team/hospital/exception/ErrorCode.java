@@ -23,6 +23,7 @@ public enum ErrorCode {
     CHECKLIST_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "E404004", "등록되지 않은 체크리스트 목록입니다."),
     CHECKLIST_BEFORE_NOT_FOUND(HttpStatus.NOT_FOUND, "E404005", "존재하지 않는 수술 전 체크리스트입니다."),
     CHECKLIST_DURING_NOT_FOUND(HttpStatus.NOT_FOUND, "E404006", "존재하지 않는 수술 중 체크리스트입니다."),
+    COMPLICATION_NOT_FOUND(HttpStatus.NOT_FOUND, "E404007", "존재하지 않는 합병증입니다."),
 
     // 409, Conflict
     PATIENT_CONFLICT(HttpStatus.CONFLICT, "E409001", "이미 등록된 환자 번호입니다."),

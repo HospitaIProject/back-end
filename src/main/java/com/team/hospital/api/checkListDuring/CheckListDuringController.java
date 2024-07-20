@@ -1,11 +1,8 @@
 package com.team.hospital.api.checkListDuring;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
-import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
-import com.team.hospital.api.checkListBefore.CheckListBeforeResponse;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
-import com.team.hospital.api.operation.OperationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -58,7 +55,7 @@ public class CheckListDuringController {
     }
 
 
-    @PutMapping("/api/{checkListDuringId}")
+    @PutMapping("/api/checkListDuringId/{checkListDuringId}")
     @Operation(summary = "수술 중 체크리스트 수정")
     public SuccessResponse<?> modifyCheckList(@RequestBody WriteCheckListDuring writeCheckListDuring,
                                               @PathVariable Long checkListDuringId) {
@@ -66,7 +63,7 @@ public class CheckListDuringController {
         return SuccessResponse.createSuccess();
     }
 
-    @DeleteMapping("/api/{checkListDuringId}")
+    @DeleteMapping("/api/checkListDuringId/{checkListDuringId}")
     @Operation(summary = "수술 중 체크리스트 삭제")
     public SuccessResponse<?> deleteCheckList(@PathVariable Long checkListDuringId) {
         checkListDuringService.delete(checkListDuringId);
