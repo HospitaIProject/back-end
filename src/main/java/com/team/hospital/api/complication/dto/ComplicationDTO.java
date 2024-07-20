@@ -58,6 +58,7 @@ public class ComplicationDTO {
 
     public static ComplicationDTO toEntity(Complication complication) {
         return ComplicationDTO.builder()
+                .complicationId(complication.getId())
 
                 // 문합부 관련
                 .anastomosisBleeding(complication.getAnastomosisBleeding())

@@ -9,7 +9,6 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -37,6 +36,8 @@ public class OperationDTO {
 
     private BooleanOption complicationStatus;        // 합병증 여부
 
+    private boolean complicationRegistered;
+
     public static OperationDTO toEntity(Operation operation){
         return OperationDTO.builder()
                 .operationId(operation.getId())
@@ -53,9 +54,23 @@ public class OperationDTO {
                 .build();
     }
 
-    public static List<OperationDTO> buildOperationDTOs(List<Operation> operations){
-        return operations.stream()
-                .map(OperationDTO::toEntity)
-                .collect(Collectors.toList());
+    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered){
+        return OperationDTO.builder()
+                .operationId(operation.getId())
+                .operationMethod(operation.getOperationMethod())
+                .customOperationMethod(operation.getCustomOperationMethod())
+                .operationApproach(operation.getOperationApproach())
+                .stomaFormation(operation.getStomaFormation())
+                .operationStartTime(operation.getOperationStartTime())
+                .operationEndTime(operation.getOperationEndTime())
+                .totalOperationTime(operation.getTotalOperationTime())
+                .totalFluidsAmount(operation.getTotalFluidsAmount())
+                .bloodLoss(operation.getBloodLoss())
+                .complicationStatus(operation.getComplicationStatus())
+
+                .complicationRegistered(complicationRegistered)
+
+                .build();
     }
+
 }
