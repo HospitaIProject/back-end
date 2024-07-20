@@ -43,12 +43,14 @@ export const COMPLICATION_ITEMS_NAME: ComplicationItems = {
     anastomosisLeakage: 'Anastomosis leakage',
     anstomosisStenosis: 'Anastomosis stenosis',
     organSpaceSsi: 'Organ/ Space SSI',
+
     ileus: 'Ileus',
     giBleeding: 'GI bleeding',
     bowelIschemia: 'Bowel ischemia',
     chyleAscites: 'Chyle ascites',
     additionalEnteritis: '그 외 enteritis',
     arrhythemia: 'Arrhythemia',
+
     coronaryIschemia: 'Coronary ischemia',
     dvt: 'DVT',
     pulmonaryEmbolism: 'Pulmonary embolism',

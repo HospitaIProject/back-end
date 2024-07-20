@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ComplicationFormType } from '../../models/ComplicationType';
 import Axios from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
@@ -19,10 +19,18 @@ const postComplicationStatus = async ({ operationId, status }: { operationId: nu
     const response = await Axios.post(`api/complication/status/${operationId}`, {}, { params });
     return response.data.data;
 };
+const getComplication = async (operationId: number): Promise<ComplicationFormType> => {
+    const response = await Axios.get(`api/complication/${operationId}`);
+    return response.data.data;
+};
+const putComplication = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
+    const response = await Axios.put(`api/complication/${operationId}`, data);
+    return response.data.data;
+};
 
 export const useComplicationMutation = () => {
     const navigate = useNavigate();
-
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: postComplicationForm,
         onError: (error: AxiosError<ErrorResponseType>) => {
@@ -33,7 +41,10 @@ export const useComplicationMutation = () => {
                 theme: 'dark',
             });
         },
-        onSuccess: () => {
+        onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['complication', variables.operationId],
+            });
             pushNotification({
                 msg: '등록되었습니다.',
                 type: 'success',
@@ -70,6 +81,44 @@ export const useComplicationStatusMutation = ({ patientId }: { patientId: number
                 type: 'success',
                 theme: 'dark',
             });
+        },
+    });
+
+    return mutation;
+};
+
+export const useComplicationQuery = ({ operationId }: { operationId: number }) => {
+    const query = useQuery<ComplicationFormType, AxiosError<ErrorResponseType>>({
+        queryKey: ['complication', operationId],
+        queryFn: () => getComplication(operationId),
+    });
+    return query;
+};
+
+export const useComplicationUpdateMutation = () => {
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation({
+        mutationFn: putComplication,
+        onError: (error: AxiosError<ErrorResponseType>) => {
+            console.log('error', error);
+            pushNotification({
+                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        },
+        onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['complication', variables.operationId],
+            });
+            pushNotification({
+                msg: '수정되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
+            navigate(-1);
         },
     });
 

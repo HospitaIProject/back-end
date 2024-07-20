@@ -10,6 +10,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { useCheckListsQuery } from '../_lib/checkListsService';
 import CheckListsEmptyCard from './components/CheckListsEmptyCard';
+import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 
 function CheckListsPage() {
     // const [searchParams] = useSearchParams();
@@ -24,11 +25,13 @@ function CheckListsPage() {
     const {
         data: checkListSetupData,
         isPending: isCheckListSetupPending,
+        isSuccess: isCheckListSetupSuccess,
         // error: checkListSetupError,
     } = checkListSetupQuery; //체크리스트 세팅 데이터
     const {
         data: checkListsData,
         isPending: isCheckListsPending,
+        isSuccess: isCheckListsSuccess,
         // error: checkListsError
     } = checkListsQuery; //체크리스트 목록 데이터
 
@@ -39,7 +42,12 @@ function CheckListsPage() {
         console.log(checkListsData);
     }, [checkListsData]);
 
-    // const isNoneData = patientListQuery.isSuccess && patientListData?.checkListDTOs.length === 0; // data가 없을때
+    const isNoneData =
+        isCheckListsSuccess &&
+        checkListsData.checkListDTOs &&
+        checkListsData.checkListDTOs.length === 0 &&
+        !checkListsData.checkListDuringDTO &&
+        !checkListsData.checkListBeforeDTO; // data가 없을때
     // const isNoneSeupData = checkListSetupQuery.isSuccess && !checkListSetupQuery.data; // setupData가 없을때
 
     const handleRouteCheckListForm = () => {
@@ -63,8 +71,8 @@ function CheckListsPage() {
 
     return (
         <>
-            <div className="flex w-full flex-col justify-center">
-                <div className="flex w-full flex-row items-center justify-between gap-3 px-4 py-3 mobile:col-span-2">
+            <div className="flex flex-col justify-center w-full">
+                <div className="flex flex-row items-center justify-between w-full gap-3 px-4 py-3 mobile:col-span-2">
                     <span className="text-gray-600">
                         환자명:&nbsp;<span className="">{patientName}</span>
                     </span>
@@ -74,7 +82,7 @@ function CheckListsPage() {
                             className={`flex flex-row items-center gap-2 rounded-md border bg-gray-50 p-2 shadow-sm ${checkListsData.checkListCreatedToday ? 'text-gray-400' : 'text-gray-600'}`}
                         >
                             <span className="text-sm font-semibold">체크리스트</span>
-                            <PlusIcon className="h-5 w-5 text-inherit" />
+                            <PlusIcon className="w-5 h-5 text-inherit" />
                         </button>
                         <span
                             className={`absolute -top-2 right-0 inline-block rounded-md px-1 text-sm ${
@@ -87,8 +95,8 @@ function CheckListsPage() {
                         </span>
                     </div>
                 </div>
-                {/* <DisplayEmptyData label="작성된 체크리스트가 없습니다." isRender={isNoneData} />
-                <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} /> */}
+                <DisplayEmptyData label="작성된 체크리스트가 없습니다." isRender={Boolean(isNoneData)} />
+                {/* <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} /> */}
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {checkListsData.checkListDTOs?.map((data) => (
                         <CheckListsSummaryCard
