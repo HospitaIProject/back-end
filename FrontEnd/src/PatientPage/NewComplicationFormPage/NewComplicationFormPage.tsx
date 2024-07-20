@@ -138,7 +138,7 @@ function NewComplicationFormPage() {
                         </>
                     ))}
                     <div className="my-3 border-t" />
-                    {formik.values.customComplications.map((customComplication, index) => (
+                    {formik.values.customComplications.map((_, index) => (
                         <CustomRadioButton
                             key={index}
                             htmlFor={`customComplications[${index}].cdClassification`}

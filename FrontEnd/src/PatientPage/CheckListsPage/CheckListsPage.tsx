@@ -25,7 +25,7 @@ function CheckListsPage() {
     const {
         data: checkListSetupData,
         isPending: isCheckListSetupPending,
-        isSuccess: isCheckListSetupSuccess,
+        // isSuccess: isCheckListSetupSuccess,
         // error: checkListSetupError,
     } = checkListSetupQuery; //체크리스트 세팅 데이터
     const {
