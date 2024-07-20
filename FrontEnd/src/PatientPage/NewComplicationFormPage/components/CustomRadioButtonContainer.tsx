@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DoubleCheckIcon from '../../../icons/DoubleCheckIcon';
 import { FormikProps } from 'formik';
 import InfoIcons from '../../../icons/InfoIcons';
@@ -15,6 +15,7 @@ type Props<T> = {
     index: number;
 
     etcComponent?: React.ReactNode;
+    isNameValid?: string;
 };
 
 function CustomRadioButtonContainer<T>({
@@ -22,7 +23,6 @@ function CustomRadioButtonContainer<T>({
     htmlFor,
     index,
     nameHtmlFor,
-
     children,
     isInput,
     formik,
@@ -31,20 +31,32 @@ function CustomRadioButtonContainer<T>({
     const [isInputOpen, setIsInputOpen] = useState(false);
     const customLabelValueRef = useRef<HTMLInputElement | null>(null);
     const customComplication = formik.getFieldProps(nameHtmlFor).value;
+
     const handleInputOpen = () => {
         setIsInputOpen(true);
-    };
+    }; //인풋창 열기
+
     const onSubmitCustomLabel = () => {
         formik?.setFieldValue(nameHtmlFor, customLabelValueRef.current?.value);
+        formik?.setFieldError(nameHtmlFor, '');
         setIsInputOpen(false);
-    };
+    }; // 커스텀 라벨 항목 저장
+
     const onRemoveCustomComplication = () => {
         formik?.setFieldValue(
             'customComplications',
             formik.getFieldProps('customComplications').value.filter((_: any, i: any) => i !== index),
         );
-    };
-    const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
+    }; // 커스텀 라벨 항목 삭제
+
+    useEffect(() => {
+        if (customLabelValueRef.current && isInputOpen) {
+            customLabelValueRef.current.focus();
+        }
+    }, [isInputOpen]); //인풋창이 열리면 포커스를 준다.
+
+    const isLabelValid = formik.getFieldMeta(nameHtmlFor).error;
+    const isValid = formik.getFieldMeta(nameHtmlFor).error || formik.getFieldMeta(htmlFor).error;
 
     return (
         <div
@@ -52,14 +64,14 @@ function CustomRadioButtonContainer<T>({
         >
             <div className="flex flex-col w-full gap-2 mb-2 mobile:flex-row">
                 <label
-                    className={`flex items-center pr-2 mobile:w-72 mobile:flex-shrink-0 ${isInput ? 'text-blue-500' : 'text-gray-700'}`}
+                    className={`flex items-center pr-2 text-sm font-medium mobile:w-72 mobile:flex-shrink-0 ${isInput ? 'text-blue-500' : 'text-gray-700'}`}
                     htmlFor={htmlFor}
                 >
                     {label && <span className="mr-1">{label}</span>}
 
                     <button
                         type="button"
-                        className={`${isInputOpen ? 'hidden' : ''} mr-2 flex flex-row items-center rounded-md p-1`}
+                        className={`${isInputOpen ? 'hidden' : ''} mr-2 ${isLabelValid ? 'rounded-md border-2 border-red-500' : ''} flex flex-row items-center rounded-md p-1`}
                         onClick={handleInputOpen}
                     >
                         {!isInputOpen && customComplication && <span className={`mr-2`}>{customComplication}</span>}
@@ -70,15 +82,17 @@ function CustomRadioButtonContainer<T>({
                         <PencilIcon className={`h-4 w-4 flex-shrink-0 text-gray-400`} />
                     </button>
                     <div className={` ${isInputOpen ? '' : 'hidden'} flex flex-row items-center gap-1`}>
-                        <input
-                            ref={customLabelValueRef}
-                            defaultValue={customComplication}
-                            className="p-1 text-sm text-gray-700 border border-gray-300 rounded-md outline-none"
-                        />
+                        <div className="border-b">
+                            <input
+                                ref={customLabelValueRef}
+                                defaultValue={customComplication}
+                                className="p-1 text-sm text-gray-700 rounded-md outline-none"
+                            />
+                        </div>
                         <button
                             type="button"
                             onClick={onSubmitCustomLabel}
-                            className="px-3 py-2 text-sm text-white bg-blue-300 border rounded-md"
+                            className="rounded-md border bg-gray-400 px-3 py-[6px] text-sm text-white"
                         >
                             저장
                         </button>
@@ -100,7 +114,7 @@ function CustomRadioButtonContainer<T>({
                     <div className="flex flex-col flex-grow gap-1 pr-2">
                         {children}
                         {isValid && (
-                            <div className="flex flex-row items-center gap-1 px-2 text-red-500">
+                            <div className="flex flex-row items-center gap-1 mt-1 text-red-500">
                                 <InfoIcons className="w-4 h-4 text-inherit" />
                                 <small className="text-xs text-inherit">{isValid}</small>
                             </div>

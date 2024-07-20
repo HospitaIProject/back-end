@@ -46,8 +46,8 @@ function CheckListsPage() {
         isCheckListsSuccess &&
         checkListsData.checkListDTOs &&
         checkListsData.checkListDTOs.length === 0 &&
-        checkListsData.checkListDuringDTO &&
-        checkListsData.checkListBeforeDTO; // data가 없을때
+        !checkListsData.checkListDuringDTO &&
+        !checkListsData.checkListBeforeDTO; // data가 없을때
     // const isNoneSeupData = checkListSetupQuery.isSuccess && !checkListSetupQuery.data; // setupData가 없을때
 
     const handleRouteCheckListForm = () => {

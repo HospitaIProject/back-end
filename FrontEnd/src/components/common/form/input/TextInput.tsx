@@ -31,6 +31,7 @@ function TextInput<T>({ label, htmlFor, formik, isRender }: Props<T>) {
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     onChange={handleChange}
+                    defaultValue={formik?.getFieldProps(htmlFor).value}
                     placeholder="텍스트를 입력 해주세요."
                     className={`h-12 w-full outline-none ${isFocused ? 'border-2 border-blue-400' : ''} rounded-lg border border-gray-300 px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
                 />

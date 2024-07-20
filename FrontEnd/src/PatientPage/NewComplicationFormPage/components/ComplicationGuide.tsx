@@ -6,9 +6,9 @@ function ComplicationGuide() {
     return (
         <div className="flex w-full p-2 border-2">
             <div className="mx-auto font-serif text-gray-600">
-                <div className="flex flex-row justify-between mb-2">
+                <div className="flex flex-row justify-between mb-2" onClick={() => setIsOpen(!isOpen)}>
                     <span className="text-sm">{`<Clavien-Dindo Classification>`}</span>
-                    <button type="button" onClick={() => setIsOpen(!isOpen)}>
+                    <button type="button">
                         <ArrowIcon
                             className={`h-5 w-5 transform text-gray-500 transition-all duration-500 ${isOpen ? '-rotate-90' : 'rotate-90'}`}
                         />

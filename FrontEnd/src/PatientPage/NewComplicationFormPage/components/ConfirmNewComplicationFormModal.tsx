@@ -8,9 +8,10 @@ type Props = {
     formValues?: ComplicationFormType;
     onSubmit: () => void;
     onClose: () => void;
+    submitLabel?: string;
 };
 
-function ConfirmNewComplicationFormModal({ formValues, onSubmit, onClose }: Props) {
+function ConfirmNewComplicationFormModal({ formValues, submitLabel, onSubmit, onClose }: Props) {
     let values = {
         ...formValues,
     };
@@ -57,7 +58,9 @@ function ConfirmNewComplicationFormModal({ formValues, onSubmit, onClose }: Prop
                     />
                 ))}
                 {values.remarks && <ViewInput label="비고" value={values.remarks} />}
-                {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="저장하기" />}
+                {Boolean(onSubmit) && (
+                    <FixedSubmitButton onClick={onSubmit} label={submitLabel ? submitLabel : '등록'} />
+                )}
             </div>
         </ModalFullScreenContainer>
     );

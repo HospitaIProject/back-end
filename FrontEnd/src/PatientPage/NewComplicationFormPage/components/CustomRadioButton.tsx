@@ -23,11 +23,14 @@ function CustomRadioButton<T>({
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         formik?.setFieldValue(htmlFor, e.target.value);
         formik?.setFieldError(htmlFor, '');
-    };
-    const inputValue = formik?.getFieldProps(htmlFor).value;
+    }; // 라디오 버튼 선택 시 formik 값 변경
+
+    const inputValue = formik?.getFieldProps(htmlFor).value; // formik의 값
+
     const isInput = formik?.getFieldProps(htmlFor).value && formik?.getFieldProps(nameHtmlFor).value;
-    // const isInput = false;
-    const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
+
+    const isValueValid = formik.getFieldMeta(htmlFor).error;
+    // formik의 에러 여부
 
     return (
         <CustomRadioButtonContainer<T>
@@ -39,7 +42,7 @@ function CustomRadioButton<T>({
             index={index}
             nameHtmlFor={nameHtmlFor}
         >
-            <div className={`flex flex-grow gap-[6px] ${isValid ? 'rounded-md border-b border-red-500' : ''}`}>
+            <div className={`flex flex-grow gap-[6px] ${isValueValid ? 'rounded-md border-b border-red-500' : ''}`}>
                 {options.map((option, index) => (
                     <label
                         key={index}

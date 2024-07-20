@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 
 import { pushNotification } from '../../utils/pushNotification';
-import { ComplicationFormType } from '../../models/ComplicationType';
 import { COMPLICATION_ITEMS_NAME } from '../../utils/mappingNames';
-import { useComplicationMutation } from '../_lib/complicationService';
+import { useComplicationMutation, useComplicationUpdateMutation } from '../_lib/complicationService';
 import RadioButton from '../../components/common/form/input/RadioButton';
 import CustomRadioButton from './components/CustomRadioButton';
 import TextInput from '../../components/common/form/input/TextInput';
 import ComplicationGuide from './components/ComplicationGuide';
-import ConfirmNewPatientFormModal from '../NewPatientFormPage/components/ConfirmNewPatientFormModal';
 import ConfirmNewComplicationFormModal from './components/ConfirmNewComplicationFormModal';
+import { useSearchParams } from 'react-router-dom';
+import { useComplicationInitialValues } from './utils/useComplicationInitialValues';
+import Loading from '../../components/common/Loading';
 
 const CD_CLASSIFICATION = [
     { value: 'I', name: 'I' },
@@ -24,77 +25,55 @@ const CD_CLASSIFICATION = [
 
 function NewComplicationFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
+    const [searchParams] = useSearchParams();
+    const operationId = searchParams.get('id');
     const complicationMutation = useComplicationMutation();
+    const complicationUpdateMutation = useComplicationUpdateMutation();
 
-    const initialValues: ComplicationFormType = {
-        // [문합부 관련]
-        anastomosisBleeding: '', // Anastomosis bleeding
-        anastomosisLeakage: '', // Anastomosis leakage
-        anstomosisStenosis: '', // Anastomosis stenosis
-        organSpaceSsi: '', // Organ/ Space SSI
-
-        // [소화기계]
-        ileus: '', // Ileus
-        giBleeding: '', // GI bleeding
-        bowelIschemia: '', // Bowel ischemia
-        chyleAscites: '', // Chyle ascites
-        additionalEnteritis: '', // 그 외 enteritis
-
-        // [심혈관계]
-        arrhythemia: '', // Arrhythemia
-        coronaryIschemia: '', // Coronary ischemia
-        dvt: '', // DVT
-        pulmonaryEmbolism: '', // Pulmonary embolism
-        phlebitis: '', // Phlebitis
-        dic: '', // DIC
-
-        // [호흡기계]
-        atelectasis: '', // Atelectasis
-        pneumothorax: '', // Pneumothorax
-        pneumonia: '', // Pneumonia
-        ards: '', // ARDS
-        pleuralEffusion: '', // Pleural effusion
-
-        // [비뇨생식기계]
-        urinaryDysfunctionRetension: '', // Urinary dysfunction/retension
-        arf: '', // ARF
-        bladderLeakage: '', // Bladder leakage
-
-        // [피부창상관련]
-        superficialDeepSsi: '', // Superficial/ Deep SSI
-        seroma: '', // Seroma
-        stomaCx: '', // Stoma CX
-        incisionalHernia: '', // Incisional hernia
-        customComplications: [
-            {
-                complicationName: '',
-                cdClassification: '',
-            },
-        ],
-        remarks: '',
-    };
+    const { initialValues, isPending, hasData } = useComplicationInitialValues();
     const formik = useFormik({
         initialValues, // 초기값
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
+        enableReinitialize: true, // 초기값이 변경되면 다시 렌더링
+
         onSubmit: (values) => {
             console.log('제출', values);
-            if (confirm('제출하시겠습니까?')) {
-                complicationMutation.mutate({ data: values, operationId: 1 });
-            } else {
-                return;
+
+            if (hasData) {
+                if (confirm('수정하시겠습니까?')) {
+                    complicationUpdateMutation.mutate({ data: values, operationId: Number(operationId) });
+                } else {
+                    return;
+                }
+            } else if (confirm('제출하시겠습니까?')) {
+                complicationMutation.mutate({ data: values, operationId: Number(operationId) });
             }
+
             console.log('제출', values);
         },
     });
-    const handleOpenConfirm = (values: ComplicationFormType) => {
+    const handleOpenConfirm = () => {
         let isError = false;
-        for (const key in values) {
-            if (values[key] === '') {
+        for (const key in formik.values) {
+            if (formik.values[key] === '' && key !== 'remarks') {
                 formik.setFieldError(key, '필수 입력 항목입니다.');
+
                 isError = true;
 
-                console.log('error', key, values[key]);
+                console.log('error', key, formik.values[key]);
             }
+        }
+        {
+            formik.values.customComplications.map((customComplication, index) => {
+                if (customComplication.complicationName === '') {
+                    formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
+                    isError = true;
+                }
+                if (customComplication.cdClassification === '') {
+                    formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
+                    isError = true;
+                }
+            });
         }
         if (isError) {
             pushNotification({
@@ -113,9 +92,18 @@ function NewComplicationFormPage() {
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     }; // 확인 모달 닫기
+    // useEffect(() => {
+    //     console.log('customComplications', formik.values['']);
+    // }, [formik.values.customComplications]);
     useEffect(() => {
-        console.log('customComplications', formik.values.customComplications);
-    }, [formik.values.customComplications]);
+        if (formik.errors.customComplications && formik.errors['customComplications[0]']) {
+            console.log('customComplications', formik.errors['customComplications[0]']);
+        }
+    }, [formik.errors]);
+
+    if (isPending) {
+        return <Loading />;
+    }
 
     return (
         <>
@@ -179,13 +167,15 @@ function NewComplicationFormPage() {
                     </div>
                     <TextInput label="비고" htmlFor="remarks" formik={formik} />
                 </form>
-                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
+                {hasData && <SubmitButton onClick={handleOpenConfirm} label="수정하기" />}
+                {!hasData && <SubmitButton onClick={handleOpenConfirm} label="등록하기" />}
             </div>
             {isConfirmPage && (
                 <ConfirmNewComplicationFormModal
                     formValues={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
+                    submitLabel={hasData ? '수정하기' : '제출하기'}
                 />
             )}
         </>
