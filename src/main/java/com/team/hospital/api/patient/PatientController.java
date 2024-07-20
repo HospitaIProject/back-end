@@ -96,7 +96,7 @@ public class PatientController {
                 .collect(Collectors.toList());
 
         Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
-        boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfCheckListCreatedToday(recentOperation.getId());
+        boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfAnyCheckListCreatedToday(recentOperation.getId());
 
         return PatientWithOperationDateDTO.toEntity(patient, operationDTOs, checkListCreatedToday);
     }
