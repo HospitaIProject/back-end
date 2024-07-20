@@ -2,6 +2,8 @@ package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
+import com.team.hospital.api.checkListBefore.CheckListBeforeService;
+import com.team.hospital.api.checkListDuring.CheckListDuringService;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import jakarta.transaction.Transactional;
@@ -19,6 +21,8 @@ public class CheckListService {
 
     private final CheckListRepository checkListRepository;
     private final CheckListItemService checkListItemService;
+    private final CheckListBeforeService checkListBeforeService;
+    private final CheckListDuringService checkListDuringService;
 
     @Transactional
     public void save(WriteCheckList write, Long checkListItemId) {
@@ -63,6 +67,12 @@ public class CheckListService {
     public boolean checkIfCheckListCreatedToday(Long operationId) {
         CheckList recentCheckList = findRecentCheckListByOperationId(operationId);
         return recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now());
+    }
+
+    public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
+        return checkIfCheckListCreatedToday(operationId) ||
+                checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
+                checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
 
 }
