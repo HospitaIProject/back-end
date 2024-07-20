@@ -26,7 +26,8 @@ function Layout() {
                     /* onReset prop에 reset 함수를 전달하여 에러가 발생했을 때 reset 함수를 실행합니다. */
                     /* FallbackComponent prop에 FallbackUI 컴포넌트를 전달하여 에러가 발생했을 때 보여줄 UI를 설정합니다. */
                     <ErrorBoundary onReset={reset} FallbackComponent={FallbackUI}>
-                        <div className={`h-dvh w-dvw overflow-y-auto ${bgColor} `}>
+                        <div className={` ${bgColor} `}>
+                            {/* h-dvh w-dvw overflow-y-auto */}
                             <div className="mx-auto w-full max-w-[1300px]">
                                 <Outlet />
                             </div>

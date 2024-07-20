@@ -23,7 +23,7 @@ const FILTER_ITEMS = [
     },
 ];
 
-function FilterHeader() {
+function FilterHeader({ isRender }: { isRender: boolean }) {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [searchParams] = useSearchParams();
     const { pathname } = useLocation();
@@ -56,8 +56,10 @@ function FilterHeader() {
     useEffect(() => {}, [sc]);
     return (
         <>
-            <div className="sticky top-0 z-10 flex h-fit w-full flex-col items-center gap-1 border-b border-blue-200 bg-white px-4 py-2">
-                <div className="mt-1 flex w-full flex-row items-center gap-2 overflow-x-auto">
+            <div
+                className={`sticky top-0 z-10 flex h-fit w-full flex-col items-center gap-1 border-b border-blue-200 bg-white px-4 py-2 ${isRender ? '' : 'hidden'} `}
+            >
+                <div className="flex flex-row items-center w-full gap-2 mt-1 overflow-x-auto">
                     {FILTER_ITEMS.map((item) => (
                         <button
                             key={item.value}
@@ -68,7 +70,7 @@ function FilterHeader() {
                         </button>
                     ))}
                 </div>
-                <div className="flex w-full flex-row gap-3 py-1">
+                <div className="flex flex-row w-full gap-3 py-1">
                     <CategorySearch />
                     <button onClick={openFilterModal} className="relative">
                         <FilterIcon className="h-[30px] w-[30px] text-gray-600" />
