@@ -51,6 +51,7 @@ export type OperationItemType = {
     operationEndTime: Date; //수술 종료 시간
     totalOperationTime: number; //전체 수술 시간 (분)
     totalFluidsAmount: number; //수술 중 총 들어간 수액 양 (cc)
-    bloodLoss: number; //수술 중 실혈량 (cc)
+    bloodLoss: number; //수술 중 실혈량 (cc)mvn clean install
     complicationStatus: 'YES' | 'NO'; //합병증 여부
+    complicationRegistered: boolean;
 };

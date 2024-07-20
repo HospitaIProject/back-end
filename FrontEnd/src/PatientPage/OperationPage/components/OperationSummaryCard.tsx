@@ -26,8 +26,11 @@ function OperationSummaryCard({ operationData }: Props) {
         customOperationMethod: operationData.customOperationMethod,
     }); //수술명(수술명+커스텀 수술명 합침 )
     const { operationId, totalOperationTime } = operationData;
+
     const [isModalOpen, setIsModalOpen] = useState(false);
+
     const isComplicationStatus = operationData.complicationStatus === 'YES' ? true : false;
+    const isComplicationRegistered = operationData.complicationRegistered;
 
     const handleCompliCationSetting = () => {
         navigate(`/patient/new/complication?id=${operationId}&name=${patientName}`);
@@ -106,9 +109,11 @@ function OperationSummaryCard({ operationData }: Props) {
                     <div className="flex flex-row gap-3">
                         <div className={`relative ${isComplicationStatus ? '' : 'hidden'}`}>
                             <button onClick={handleCompliCationSetting} className="p-2 text-sm border rounded-md">
-                                합병증 관리
+                                {isComplicationRegistered ? '합병증 관리' : '힙뱡증 등록'}
                             </button>
-                            <span className="absolute flex items-center justify-center flex-shrink-0 w-5 h-5 text-sm text-red-500 bg-yellow-200 rounded-full -right-2 -top-2">
+                            <span
+                                className={`absolute -right-2 -top-2 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-yellow-200 text-sm text-red-500 ${isComplicationRegistered ? 'hidden' : ''}`}
+                            >
                                 !
                             </span>
                         </div>
