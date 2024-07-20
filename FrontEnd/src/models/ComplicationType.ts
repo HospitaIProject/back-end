@@ -10,7 +10,7 @@ export type ComplicationFormType = {
     // [문합부 관련]
     anastomosisBleeding: CdClassType; // Anastomosis bleeding
     anastomosisLeakage: CdClassType; // Anastomosis leakage
-    anstomosisStenosis: CdClassType; // Anastomosis stenosis
+    anastomosisStenosis: CdClassType; // Anastomosis stenosis
     organSpaceSsi: CdClassType; // Organ/ Space SSI
 
     // [소화기계]
