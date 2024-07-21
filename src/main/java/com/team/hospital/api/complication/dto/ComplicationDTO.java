@@ -16,7 +16,7 @@ public class ComplicationDTO {
     // 문합부 관련
     private CDClassification anastomosisBleeding;
     private CDClassification anastomosisLeakage;
-    private CDClassification anstomosisStenosis;
+    private CDClassification anastomosisStenosis;
     private CDClassification organSpaceSsi;
 
     // 소화기계
@@ -56,6 +56,8 @@ public class ComplicationDTO {
 
     private String remarks;
 
+    private double score;
+
     public static ComplicationDTO toEntity(Complication complication) {
         return ComplicationDTO.builder()
                 .complicationId(complication.getId())
@@ -63,7 +65,7 @@ public class ComplicationDTO {
                 // 문합부 관련
                 .anastomosisBleeding(complication.getAnastomosisBleeding())
                 .anastomosisLeakage(complication.getAnastomosisLeakage())
-                .anstomosisStenosis(complication.getAnstomosisStenosis())
+                .anastomosisStenosis(complication.getAnastomosisStenosis())
                 .organSpaceSsi(complication.getOrganSpaceSsi())
 
                 // 소화기계
@@ -102,6 +104,8 @@ public class ComplicationDTO {
 
                 .customComplications(complication.getCustomComplications())
                 .remarks(complication.getRemarks())
+
+                .score(complication.getComplicationScore())
                 .build();
 
     }
