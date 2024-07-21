@@ -54,22 +54,22 @@ function NewComplicationFormPage() {
     });
     const handleOpenConfirm = () => {
         let isError = false;
-        for (const key in formik.values) {
-            if (formik.values[key] === '' && key !== 'remarks') {
-                formik.setFieldError(key, '필수 입력 항목입니다.');
+        // for (const key in formik.values) {
+        //     if (formik.values[key] === '' && key !== 'remarks') {
+        //         formik.setFieldError(key, '필수 입력 항목입니다.');
 
-                isError = true;
+        //         isError = true;
 
-                console.log('error', key, formik.values[key]);
-            }
-        }
+        //         console.log('error', key, formik.values[key]);
+        //     }
+        // }
         {
             formik.values.customComplications.map((customComplication, index) => {
-                if (customComplication.complicationName === '') {
+                if (customComplication.cdClassification !== '' && customComplication.complicationName === '') {
                     formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
                     isError = true;
                 }
-                if (customComplication.cdClassification === '') {
+                if (customComplication.complicationName !== '' && customComplication.cdClassification === '') {
                     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
                     isError = true;
                 }
