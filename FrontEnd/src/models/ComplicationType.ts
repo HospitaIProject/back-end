@@ -5,7 +5,7 @@ type CustomType = {
     //추가적으로 타입이 들어올수 있음.
 };
 export type ComplicationFormType = {
-    [key: string]: CdClassType | CustomType | CustomType[] | string;
+    [key: string]: CdClassType | CustomType | CustomType[] | string | undefined | number;
 
     // [문합부 관련]
     anastomosisBleeding: CdClassType; // Anastomosis bleeding
@@ -53,4 +53,5 @@ export type ComplicationFormType = {
 
     customComplications: CustomType[];
     remarks: string;
+    score?: number;
 };

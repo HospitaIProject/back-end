@@ -4,9 +4,9 @@ import ArrowIcon from '../../../icons/ArrowIcon';
 function ComplicationGuide() {
     const [isOpen, setIsOpen] = useState(false);
     return (
-        <div className="flex w-full p-2 border-2">
+        <div className="flex w-full p-2 mx-auto border-2 max-w-screen-mobile">
             <div className="mx-auto font-serif text-gray-600">
-                <div className="flex flex-row justify-between mb-2" onClick={() => setIsOpen(!isOpen)}>
+                <div className="flex flex-row justify-between mb-2 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                     <span className="text-sm">{`<Clavien-Dindo Classification>`}</span>
                     <button type="button">
                         <ArrowIcon

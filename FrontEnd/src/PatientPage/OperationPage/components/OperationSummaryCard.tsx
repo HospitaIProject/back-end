@@ -109,7 +109,7 @@ function OperationSummaryCard({ operationData }: Props) {
                     <div className="flex flex-row gap-3">
                         <div className={`relative ${isComplicationStatus ? '' : 'hidden'}`}>
                             <button onClick={handleCompliCationSetting} className="p-2 text-sm border rounded-md">
-                                {isComplicationRegistered ? '합병증 관리' : '힙뱡증 등록'}
+                                {isComplicationRegistered ? '합병증 관리' : '합병증 등록'}
                             </button>
                             <span
                                 className={`absolute -right-2 -top-2 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-yellow-200 text-sm text-red-500 ${isComplicationRegistered ? 'hidden' : ''}`}

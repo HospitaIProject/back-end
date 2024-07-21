@@ -71,10 +71,10 @@ function PatientSummaryCard({ userData }: Props) {
     return (
         <>
             <li
-                className="flex w-full cursor-pointer flex-col gap-3 border-y bg-white p-4"
+                className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
-                <div className="mb-1 flex flex-row flex-wrap items-center justify-between gap-4">
+                <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
                     <div className="flex flex-row items-center gap-1">
                         <span className="text-lg font-semibold text-blue-900">{userData.patientDTO.name} </span>
                     </div>
@@ -85,26 +85,26 @@ function PatientSummaryCard({ userData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex w-full flex-row items-center justify-between">
+                <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex flex-col gap-1">
-                        <span className="flex flex-wrap break-words text-sm text-gray-700">
+                        <span className="flex flex-wrap text-sm text-gray-700 break-words">
                             <span className="shrink-0">등록번호:&nbsp;</span>
                             <span className="font-medium text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
-                        <span className="inline-block break-words text-sm text-gray-700">
+                        <span className="inline-block text-sm text-gray-700 break-words">
                             <span className="shrink-0">수술일:&nbsp;</span>
                             <span className="font-medium text-gray-900">
                                 {formattedOperationDate ? formattedOperationDate : '내역없음'}
                             </span>
                         </span>
-                        <span className="inline-block break-words text-sm text-gray-600">
+                        <span className="inline-block text-sm text-gray-600 break-words">
                             <span className="shrink-0">수술명:&nbsp;</span>
                             <span className="font-medium text-gray-900">
                                 {operationMethodFormatted ? operationMethodFormatted : '내역없음'}
                             </span>
                         </span>
                     </div>
-                    <div className="flex flex-col justify-center gap-1">
+                    <div className="flex flex-col justify-center gap-1 shrink-0">
                         {isOperationData && (
                             <div className="relative">
                                 <button
@@ -152,7 +152,7 @@ function PatientSummaryCard({ userData }: Props) {
 
                 <div className="w-full border-t" />
 
-                <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
+                <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
                     {/* <button className="px-2 text-sm font-medium border rounded-md hover:bg-blue-50">체크리스트</button> */}
                     <span
                         className={`${dateComparison ? '' : 'border-none'} rounded-md border px-2 py-1 text-sm text-gray-400`}
@@ -162,7 +162,7 @@ function PatientSummaryCard({ userData }: Props) {
 
                     <Link
                         to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
-                        className="rounded-md border border-gray-500 p-2 px-2 text-sm font-medium text-gray-500 hover:bg-blue-50"
+                        className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
                     >
                         수술정보관리
                     </Link>
