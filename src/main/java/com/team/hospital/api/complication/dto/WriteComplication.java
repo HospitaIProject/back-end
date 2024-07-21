@@ -11,7 +11,7 @@ public class WriteComplication {
     // 문합부 관련
     private CDClassification anastomosisBleeding;
     private CDClassification anastomosisLeakage;
-    private CDClassification anstomosisStenosis;
+    private CDClassification anastomosisStenosis;
     private CDClassification organSpaceSsi;
 
     // 소화기계
