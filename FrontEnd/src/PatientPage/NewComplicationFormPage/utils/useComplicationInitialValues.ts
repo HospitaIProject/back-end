@@ -14,7 +14,7 @@ export const useComplicationInitialValues = () => {
         // [문합부 관련]
         anastomosisBleeding: '', // Anastomosis bleeding
         anastomosisLeakage: '', // Anastomosis leakage
-        anstomosisStenosis: '', // Anastomosis stenosis
+        anastomosisStenosis: '', // Anastomosis stenosis
         organSpaceSsi: '', // Organ/ Space SSI
 
         // [소화기계]

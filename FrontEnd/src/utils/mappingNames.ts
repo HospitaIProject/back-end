@@ -41,7 +41,7 @@ interface ComplicationItems {
 export const COMPLICATION_ITEMS_NAME: ComplicationItems = {
     anastomosisBleeding: 'Anastomosis bleeding',
     anastomosisLeakage: 'Anastomosis leakage',
-    anstomosisStenosis: 'Anastomosis stenosis',
+    anastomosisStenosis: 'Anastomosis stenosis',
     organSpaceSsi: 'Organ/ Space SSI',
 
     ileus: 'Ileus',

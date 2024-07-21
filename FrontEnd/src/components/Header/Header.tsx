@@ -5,12 +5,17 @@ import ArrowIcon from '../../icons/ArrowIcon';
 import PlusIcon from '../../icons/PlusIcon';
 import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
+// import { useEffect, useRef, useState } from 'react';
 import { useState } from 'react';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
+    // const [visible, setVisible] = useState(true);
+    // const prevScrollY = useRef(0);
+
     const { pathname } = useLocation();
+
     const navigate = useNavigate();
     const [toggleFilter, setToggleFilter] = useState<boolean>(false); // 토글 메뉴 상태
 
@@ -36,6 +41,30 @@ export default function Header() {
         label = '합병증 등록';
     }
 
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         const currentScrollY = window.scrollY;
+    //         const scrollThreshold = 150; // 스크롤 임계값 설정
+    //         const revealThreshold = 50; // 헤더를 다시 보이게 할 스크롤 위치
+
+    //         if (prevScrollY.current < currentScrollY && currentScrollY > scrollThreshold) {
+    //             // 스크롤이 아래로 내려가고 임계값을 초과하면 헤더를 숨깁니다
+    //             setVisible(false);
+    //         } else if (prevScrollY.current > currentScrollY && currentScrollY < prevScrollY.current - revealThreshold) {
+    //             // 스크롤이 위로 올라가고 이전 위치보다 특정 값 이상 올라가면 헤더를 다시 보이게 합니다
+    //             setVisible(true);
+    //         }
+
+    //         prevScrollY.current = currentScrollY;
+    //     };
+
+    //     window.addEventListener('scroll', handleScroll);
+
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
+
     if (pathname !== '/') {
         return (
             <header className="sticky top-0 z-10 min-w-full bg-white">
@@ -44,7 +73,7 @@ export default function Header() {
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
                     >
-                        <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
+                        <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
                 </nav>
@@ -57,7 +86,7 @@ export default function Header() {
             <header className="sticky top-0 z-10 min-w-full bg-white">
                 <nav className="flex h-[70px] items-center justify-between border-b px-4">
                     <button onClick={handleFilterToggle}>
-                        <SearchListIcon className="h-7 w-7 text-gray-700" />
+                        <SearchListIcon className="text-gray-700 h-7 w-7" />
                     </button>
                     <a href="/" className="logo">
                         {/* <img src="/logo.png" alt="Logo" /> */}
@@ -65,13 +94,13 @@ export default function Header() {
                     </a>
                     <Link
                         to="/patient/new/info"
-                        className="flex flex-row items-center gap-2 rounded-sm border bg-gray-100 px-4 py-2 shadow-sm"
+                        className="flex flex-row items-center gap-2 px-4 py-2 bg-gray-100 border rounded-sm shadow-sm"
                     >
                         <span className="font-semibold text-gray-600">환자 등록하기</span>
-                        <PlusIcon className="h-5 w-5 text-gray-600" />
+                        <PlusIcon className="w-5 h-5 text-gray-600" />
                     </Link>
                 </nav>
-                {toggleFilter && <FilterHeader />}
+                <FilterHeader isRender={toggleFilter} />
             </header>
         </>
     );

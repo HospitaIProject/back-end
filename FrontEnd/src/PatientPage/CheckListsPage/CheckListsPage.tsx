@@ -87,7 +87,7 @@ function CheckListsPage() {
                         <span
                             className={`absolute -top-2 right-0 inline-block rounded-md px-1 text-sm ${
                                 checkListsData.checkListCreatedToday
-                                    ? 'font-medium text-red-300'
+                                    ? 'font-medium text-green-500'
                                     : 'h-5 w-5 bg-yellow-200 text-center text-red-500'
                             }`}
                         >
