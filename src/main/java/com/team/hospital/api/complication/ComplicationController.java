@@ -20,6 +20,8 @@ public class ComplicationController {
     @Operation(summary = "operation에 대한 complication 조회", description = "입력한 operation의 ID값에 해당하는 operation의 complication 조회")
     public SuccessResponse<?> findByOperationId(@PathVariable Long operationId) {
         Complication complication = complicationService.findComplicationByOperationId(operationId);
+        double score = Math.sqrt(complicationService.calculateCDScore(complication)) / 2;
+        complicationService.updateComplicationScore(complication, score);
         return SuccessResponse.createSuccess(ComplicationDTO.toEntity(complication));
     }
 

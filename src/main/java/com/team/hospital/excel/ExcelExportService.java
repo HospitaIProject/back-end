@@ -147,7 +147,8 @@ public class ExcelExportService {
 
             // CheckList
             List<CheckList> checkLists = checkListService.findAllByOperationId(operation.getId());
-            CheckList checkList = checkLists.get(0);
+            CheckList checkList;
+            checkList = checkLists.get(0);
             // CheckList
 
             Row row = sheet.createRow(rowIndex++);

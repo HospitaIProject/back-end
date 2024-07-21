@@ -6,7 +6,6 @@ import com.team.hospital.api.operation.exception.OperationNotFoundException;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -77,17 +76,16 @@ public class OperationService {
     public Slice<Patient> findPatientsByOperationMethod(String operationMethod, Pageable pageable) {
         String lowerCaseOperationMethod = operationMethod.toLowerCase();
 
+        // 모든 Operation을 조회한 후 필터링합니다.
         List<Patient> patients = findAll().stream()
-                .filter(operation -> {
-                    String operationMethodsString = convertToDatabaseColumn(operation.getOperationMethod()).toLowerCase();
-                    return operationMethodsString.contains(lowerCaseOperationMethod);
-                })
-                .map(operation -> {
-                    Hibernate.initialize(operation.getPatient());
-                    return operation.getPatient();
-                })
-                .toList();
+                .filter(operation -> operation.getOperationMethod().stream()
+                        .map(OperationMethod::name)
+                        .map(String::toLowerCase)
+                        .anyMatch(methodName -> methodName.contains(lowerCaseOperationMethod)))
+                .map(Operation::getPatient)
+                .collect(Collectors.toList());
 
+        // 페이징 처리
         int pageSize = pageable.getPageSize();
         int currentPage = pageable.getPageNumber();
         int start = currentPage * pageSize;
@@ -97,15 +95,6 @@ public class OperationService {
         boolean hasNext = patients.size() > end;
 
         return new SliceImpl<>(pageContent, pageable, hasNext);
-    }
-
-    private static String convertToDatabaseColumn(List<OperationMethod> operationMethods) {
-        if (operationMethods == null || operationMethods.isEmpty()) {
-            return "";
-        }
-        return operationMethods.stream()
-                .map(Enum::name)
-                .collect(Collectors.joining(", "));
     }
 
 }
