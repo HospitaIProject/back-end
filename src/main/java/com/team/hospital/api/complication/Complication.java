@@ -29,7 +29,7 @@ public class Complication extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CDClassification anastomosisLeakage;
     @Enumerated(EnumType.STRING)
-    private CDClassification anstomosisStenosis;
+    private CDClassification anastomosisStenosis;
     @Enumerated(EnumType.STRING)
     private CDClassification organSpaceSsi;
 
@@ -95,6 +95,8 @@ public class Complication extends BaseEntity {
 
     private String remarks;
 
+    private double complicationScore;
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "operation_id")
     private Operation operation;
@@ -105,7 +107,7 @@ public class Complication extends BaseEntity {
                 // 문합부 관련
                 .anastomosisBleeding(write.getAnastomosisBleeding())
                 .anastomosisLeakage(write.getAnastomosisLeakage())
-                .anstomosisStenosis(write.getAnstomosisStenosis())
+                .anastomosisStenosis(write.getAnastomosisStenosis())
                 .organSpaceSsi(write.getOrganSpaceSsi())
 
                 // 소화기계
@@ -154,7 +156,7 @@ public class Complication extends BaseEntity {
         // 문합부 관련
         this.anastomosisBleeding = write.getAnastomosisBleeding();
         this.anastomosisLeakage = write.getAnastomosisLeakage();
-        this.anstomosisStenosis = write.getAnstomosisStenosis();
+        this.anastomosisStenosis = write.getAnastomosisStenosis();
         this.organSpaceSsi = write.getOrganSpaceSsi();
 
         // 소화기계
@@ -192,5 +194,9 @@ public class Complication extends BaseEntity {
 
         this.customComplications = write.getCustomComplications();
         this.remarks = write.getRemarks();
+    }
+
+    public void updateComplicationScore(double score) {
+        this.complicationScore = score;
     }
 }
