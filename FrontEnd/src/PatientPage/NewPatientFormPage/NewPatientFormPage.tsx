@@ -84,8 +84,8 @@ function NewPatientFormPage() {
                         htmlFor="sex"
                         formik={formik}
                         values={[
-                            { value: 'MALE', name: 'MALE' },
-                            { value: 'FEMALE', name: 'FEMALE' },
+                            { value: 'MALE', name: '남자' },
+                            { value: 'FEMALE', name: '여자' },
                         ]}
                     />
                     <NumberInput label="나이" htmlFor="age" formik={formik} />

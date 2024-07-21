@@ -65,5 +65,5 @@ export const useComplicationInitialValues = () => {
         initialValues = data;
     }
 
-    return { initialValues, isPending, hasData: Boolean(data) };
+    return { initialValues, isPending, hasData: Boolean(data), score: data?.score };
 };

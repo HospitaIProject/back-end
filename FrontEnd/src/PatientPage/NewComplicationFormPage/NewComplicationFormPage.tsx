@@ -30,7 +30,7 @@ function NewComplicationFormPage() {
     const complicationMutation = useComplicationMutation();
     const complicationUpdateMutation = useComplicationUpdateMutation();
 
-    const { initialValues, isPending, hasData } = useComplicationInitialValues();
+    const { initialValues, isPending, hasData, score } = useComplicationInitialValues();
     const formik = useFormik({
         initialValues, // 초기값
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
@@ -108,7 +108,16 @@ function NewComplicationFormPage() {
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-5 bg-white" onSubmit={formik.handleSubmit}>
+                <div
+                    className={`mx-auto mt-2 flex w-full max-w-screen-mobile flex-col items-center gap-1 ${hasData ? '' : 'hidden'}`}
+                >
+                    <div className="flex flex-row gap-2 px-1 font-serif text-gray-700 border-2">
+                        <span>CCI score:</span>
+                        <span>{score?.toFixed(2)}점</span>
+                    </div>
+                    <span className="text-xs text-yellow-600">* 해당 CCI score는 수정시 다시 반영 됩니다.</span>
+                </div>
+                <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-2 bg-white" onSubmit={formik.handleSubmit}>
                     <ComplicationGuide />
                     {Object.keys(COMPLICATION_ITEMS_NAME).map((key: string) => (
                         <>
@@ -165,7 +174,7 @@ function NewComplicationFormPage() {
                             <span className="text-gray-500">기타 추가 +</span>
                         </button>
                     </div>
-                    <TextInput label="비고" htmlFor="remarks" formik={formik} />
+                    <TextInput label="비고" type="textarea" htmlFor="remarks" formik={formik} />
                 </form>
                 {hasData && <SubmitButton onClick={handleOpenConfirm} label="수정하기" />}
                 {!hasData && <SubmitButton onClick={handleOpenConfirm} label="등록하기" />}
