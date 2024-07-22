@@ -20,10 +20,6 @@ function CustomRadioButton<T>({
     isRender?: boolean;
 }) {
     const options = values.map((value) => ({ value: value.value, label: value.name }));
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        formik?.setFieldValue(htmlFor, e.target.value);
-        formik?.setFieldError(htmlFor, '');
-    }; // 라디오 버튼 선택 시 formik 값 변경
 
     const inputValue = formik?.getFieldProps(htmlFor).value; // formik의 값
 
@@ -31,6 +27,15 @@ function CustomRadioButton<T>({
 
     const isValueValid = formik.getFieldMeta(htmlFor).error;
     // formik의 에러 여부
+    const handleClick = (value: string) => {
+        if (inputValue === value) {
+            formik?.setFieldValue(htmlFor, '');
+            formik?.setFieldValue(nameHtmlFor, '');
+            return;
+        }
+        formik?.setFieldValue(htmlFor, value);
+        formik?.setFieldError(htmlFor, '');
+    }; // 라디오 버튼 선택 시 formik 값 변경
 
     return (
         <CustomRadioButtonContainer<T>
@@ -53,7 +58,8 @@ function CustomRadioButton<T>({
                             name={htmlFor}
                             value={option.value}
                             checked={inputValue === option.value}
-                            onChange={handleChange}
+                            onChange={() => {}}
+                            onClick={() => handleClick(option.value)}
                             className="hidden radio-button-class" // 예시 클래스, 실제로는 적절한 CSS 클래스 사용
                         />
                         <div

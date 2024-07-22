@@ -73,6 +73,11 @@ function NewComplicationFormPage() {
                     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
                     isError = true;
                 }
+                if (customComplication.complicationName === '' && customComplication.cdClassification === '') {
+                    formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
+                    formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
+                    isError = true;
+                }
             });
         }
         if (isError) {
@@ -163,7 +168,7 @@ function NewComplicationFormPage() {
                     <div className="flex flex-row justify-center w-full mx-auto max-w-screen-mobile px-14">
                         <button
                             type="button"
-                            className="w-full py-2 border rounded-md"
+                            className="w-full py-2 border rounded-md bg-gray-50"
                             onClick={() =>
                                 formik.setFieldValue('customComplications', [
                                     ...formik.values.customComplications,
