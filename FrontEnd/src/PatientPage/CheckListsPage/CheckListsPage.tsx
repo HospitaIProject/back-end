@@ -26,13 +26,13 @@ function CheckListsPage() {
         data: checkListSetupData,
         isPending: isCheckListSetupPending,
         // isSuccess: isCheckListSetupSuccess,
-        // error: checkListSetupError,
+        error: checkListSetupError,
     } = checkListSetupQuery; //체크리스트 세팅 데이터
     const {
         data: checkListsData,
         isPending: isCheckListsPending,
         isSuccess: isCheckListsSuccess,
-        // error: checkListsError
+        error: checkListsError,
     } = checkListsQuery; //체크리스트 목록 데이터
 
     const { diffDay } = useOperationDayFormat(checkListsData?.operationDateDTO.operationDate || ''); //수술일로부터 몇일이 지났는지
@@ -48,7 +48,17 @@ function CheckListsPage() {
         checkListsData.checkListDTOs.length === 0 &&
         !checkListsData.checkListDuringDTO &&
         !checkListsData.checkListBeforeDTO; // data가 없을때
-    // const isNoneSeupData = checkListSetupQuery.isSuccess && !checkListSetupQuery.data; // setupData가 없을때
+    const isNoneSeupData = !checkListsData; // setupData가 없을때
+    useEffect(() => {
+        console.log(checkListsError);
+        if (checkListSetupError) {
+            pushNotification({
+                msg: checkListSetupError.response?.data.message || '체크리스트 목록을 불러오는 중 오류가 발생했습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
+        }
+    }, [checkListsError, checkListSetupError]);
 
     const handleRouteCheckListForm = () => {
         if (checkListsData?.checkListCreatedToday) {
@@ -96,7 +106,7 @@ function CheckListsPage() {
                     </div>
                 </div>
                 <DisplayEmptyData label="작성된 체크리스트가 없습니다." isRender={Boolean(isNoneData)} />
-                {/* <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} /> */}
+                <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {checkListsData.checkListDTOs?.map((data) => (
                         <CheckListsSummaryCard

@@ -141,7 +141,7 @@ const getCheckListSetup = async ({ operationId }: { operationId: number }): Prom
 }; //체크리스트 세팅 가져오기
 
 export const useCheckListSetupQuery = ({ operationId }: { operationId: number }) => {
-    const query = useQuery<CheckListSetupType>({
+    const query = useQuery<CheckListSetupType, AxiosError<ErrorResponseType>>({
         queryKey: ['checklist', 'setup', operationId],
         queryFn: () => getCheckListSetup({ operationId }),
     });
