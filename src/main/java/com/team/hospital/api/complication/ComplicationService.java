@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,56 +62,57 @@ public class ComplicationService {
 
     public double calculateCDScore(Complication complication) {
         double score = 0.0;
-        List<CustomComplication> customComplications = complication.getCustomComplications();
 
         // CustomComplications 점수 계산
-        for (CustomComplication customComplication : customComplications) {
-            score += calculateScoreForCDClassification(customComplication.getCdClassification());
+        for (CustomComplication customComplication : complication.getCustomComplications()) {
+            score += calculateScoreIfNotNull(customComplication.getCdClassification());
         }
 
         // 문합부 관련 점수 계산
-        score += calculateScoreForCDClassification(complication.getAnastomosisBleeding());
-        score += calculateScoreForCDClassification(complication.getAnastomosisLeakage());
-        score += calculateScoreForCDClassification(complication.getAnastomosisStenosis());
-        score += calculateScoreForCDClassification(complication.getOrganSpaceSsi());
+        score += calculateScoreIfNotNull(complication.getAnastomosisBleeding());
+        score += calculateScoreIfNotNull(complication.getAnastomosisLeakage());
+        score += calculateScoreIfNotNull(complication.getAnastomosisStenosis());
+        score += calculateScoreIfNotNull(complication.getOrganSpaceSsi());
 
         // 소화기계 점수 계산
-        score += calculateScoreForCDClassification(complication.getIleus());
-        score += calculateScoreForCDClassification(complication.getGiBleeding());
-        score += calculateScoreForCDClassification(complication.getBowelIschemia());
-        score += calculateScoreForCDClassification(complication.getChyleAscites());
-        score += calculateScoreForCDClassification(complication.getAdditionalEnteritis());
+        score += calculateScoreIfNotNull(complication.getIleus());
+        score += calculateScoreIfNotNull(complication.getGiBleeding());
+        score += calculateScoreIfNotNull(complication.getBowelIschemia());
+        score += calculateScoreIfNotNull(complication.getChyleAscites());
+        score += calculateScoreIfNotNull(complication.getAdditionalEnteritis());
 
         // 심혈관계 점수 계산
-        score += calculateScoreForCDClassification(complication.getArrhythemia());
-        score += calculateScoreForCDClassification(complication.getCoronaryIschemia());
-        score += calculateScoreForCDClassification(complication.getDvt());
-        score += calculateScoreForCDClassification(complication.getPulmonaryEmbolism());
-        score += calculateScoreForCDClassification(complication.getPhlebitis());
-        score += calculateScoreForCDClassification(complication.getDic());
+        score += calculateScoreIfNotNull(complication.getArrhythemia());
+        score += calculateScoreIfNotNull(complication.getCoronaryIschemia());
+        score += calculateScoreIfNotNull(complication.getDvt());
+        score += calculateScoreIfNotNull(complication.getPulmonaryEmbolism());
+        score += calculateScoreIfNotNull(complication.getPhlebitis());
+        score += calculateScoreIfNotNull(complication.getDic());
 
         // 호흡기계 점수 계산
-        score += calculateScoreForCDClassification(complication.getAtelectasis());
-        score += calculateScoreForCDClassification(complication.getPneumothorax());
-        score += calculateScoreForCDClassification(complication.getPneumonia());
-        score += calculateScoreForCDClassification(complication.getArds());
-        score += calculateScoreForCDClassification(complication.getPleuralEffusion());
+        score += calculateScoreIfNotNull(complication.getAtelectasis());
+        score += calculateScoreIfNotNull(complication.getPneumothorax());
+        score += calculateScoreIfNotNull(complication.getPneumonia());
+        score += calculateScoreIfNotNull(complication.getArds());
+        score += calculateScoreIfNotNull(complication.getPleuralEffusion());
 
         // 비뇨생식기계 점수 계산
-        score += calculateScoreForCDClassification(complication.getUrinaryDysfunctionRetension());
-        score += calculateScoreForCDClassification(complication.getArf());
-        score += calculateScoreForCDClassification(complication.getBladderLeakage());
+        score += calculateScoreIfNotNull(complication.getUrinaryDysfunctionRetension());
+        score += calculateScoreIfNotNull(complication.getArf());
+        score += calculateScoreIfNotNull(complication.getBladderLeakage());
 
         // 피부창상관련 점수 계산
-        score += calculateScoreForCDClassification(complication.getSuperficialDeepSsi());
-        score += calculateScoreForCDClassification(complication.getSeroma());
-        score += calculateScoreForCDClassification(complication.getStomaCx());
-        score += calculateScoreForCDClassification(complication.getIncisionalHernia());
+        score += calculateScoreIfNotNull(complication.getSuperficialDeepSsi());
+        score += calculateScoreIfNotNull(complication.getSeroma());
+        score += calculateScoreIfNotNull(complication.getStomaCx());
+        score += calculateScoreIfNotNull(complication.getIncisionalHernia());
 
         return score;
     }
 
-    private double calculateScoreForCDClassification(CDClassification classification) {
+    private double calculateScoreIfNotNull(CDClassification classification) {
+        if (classification == null) return 0.0;
+
         return switch (classification) {
             case I -> 300;
             case II -> 1750;

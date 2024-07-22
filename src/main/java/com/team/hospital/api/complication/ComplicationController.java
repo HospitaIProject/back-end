@@ -20,23 +20,21 @@ public class ComplicationController {
     @Operation(summary = "operation에 대한 complication 조회", description = "입력한 operation의 ID값에 해당하는 operation의 complication 조회")
     public SuccessResponse<?> findByOperationId(@PathVariable Long operationId) {
         Complication complication = complicationService.findComplicationByOperationId(operationId);
-        double score = Math.sqrt(complicationService.calculateCDScore(complication)) / 2;
+        double score = Math.min(100, Math.sqrt(complicationService.calculateCDScore(complication)) / 2); // 최대 점수 100점으로 제한
         complicationService.updateComplicationScore(complication, score);
         return SuccessResponse.createSuccess(ComplicationDTO.toEntity(complication));
     }
 
     @PostMapping("/api/complication/{operationId}")
     @Operation(summary = "operation에 대한 complication 세팅", description = "입력한 operation의 ID값에 해당하는 operation의 complication 등록")
-    public SuccessResponse<?> save(@RequestBody WriteComplication writeComplication,
-                                   @PathVariable Long operationId){
+    public SuccessResponse<?> save(@RequestBody WriteComplication writeComplication, @PathVariable Long operationId) {
         complicationService.save(writeComplication, operationId);
         return SuccessResponse.createSuccess();
     }
 
     @PutMapping("/api/complication/{operationId}")
     @Operation(summary = "operation에 대한 complication 변경", description = "입력한 operation의 ID값에 해당하는 operation의 complication 변경")
-    public SuccessResponse<?> updateComplication(@RequestBody WriteComplication writeComplication,
-                                                 @PathVariable Long operationId) {
+    public SuccessResponse<?> updateComplication(@RequestBody WriteComplication writeComplication, @PathVariable Long operationId) {
         complicationService.modify(writeComplication, operationId);
         return SuccessResponse.createSuccess();
     }

@@ -1,8 +1,11 @@
 package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.checkList.dto.WriteCheckList;
+import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
+import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
+import com.team.hospital.api.checkListDuring.CheckListDuring;
 import com.team.hospital.api.checkListDuring.CheckListDuringService;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
@@ -74,5 +77,79 @@ public class CheckListService {
                 checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
+
+    // compliance percentage calculate
+    private int countCheckListBefore(Long operationId) {
+        CheckListBeforeDTO checkListBefore = checkListBeforeService.findCheckListBeforeByOperationId(operationId);
+        int count = 0;
+
+        if (checkListBefore.getExplainedPreOp() == BooleanOption.YES) count++;
+        if (checkListBefore.getOnsPreOp2hr() == BooleanOption.YES) count++;
+        if (checkListBefore.getOnsPostBowelPrep() == BooleanOption.YES) count++;
+        if (checkListBefore.getDvtPrevention() == BooleanOption.YES) count++;
+        if (checkListBefore.getAntibioticPreIncision() == BooleanOption.YES) count++;
+        if (checkListBefore.getPainMedPreOp() == BooleanOption.YES) count++;
+
+        return count;
+    }
+
+    private int countCheckListDuring(Long operationId) {
+        CheckListDuring checkListDuring = checkListDuringService.findCheckListDuringById(operationId);
+        int count = 0;
+
+        if (checkListDuring.getMaintainTemp().getOption() == BooleanOption.YES) count++;
+        if (checkListDuring.getFluidRestriction().getOption() == BooleanOption.YES) count++;
+        if (checkListDuring.getAntiNausea().getOption() == BooleanOption.YES) count++;
+        if (checkListDuring.getPainControl().getOption() == BooleanOption.YES) count++;
+
+        return count;
+    }
+
+    private int countCheckList(Long operationId) {
+        List<CheckList> checkLists = findAllByOperationId(operationId);
+        CheckList checkList = checkLists.get(0);
+        int count = 0;
+
+        if (checkList.getGiStimulant().getOption() == BooleanOption.YES) count++;
+        if (checkList.getGumChewing().getOption() == BooleanOption.YES) count++;
+        if (checkList.getAntiNauseaPostOp().getOption() == BooleanOption.YES) count++;
+        if (checkList.getIvFluidRestrictionPostOp().getOption() == BooleanOption.YES) count++;
+        if (checkList.getNonOpioidPainControl().getOption() == BooleanOption.YES) count++;
+        if (checkList.getJpDrainRemoval().getOption() == BooleanOption.YES) count++;
+        if (checkList.getCatheterRemoval().getOption() == BooleanOption.YES) count++;
+        if (checkList.getIvLineRemoval().getOption() == BooleanOption.YES) count++;
+
+        return count;
+    }
+
+
+
+    private int countCheckedItems(CheckListItem checkListItem) {
+        int count = 0;
+
+        if (checkListItem.isExplainedPreOp()) count++;
+        if (checkListItem.isOnsPreOp2hr()) count++;
+        if (checkListItem.isOnsPostBowelPrep()) count++;
+        if (checkListItem.isDvtPrevention()) count++;
+        if (checkListItem.isAntibioticPreIncision()) count++;
+        if (checkListItem.isPainMedPreOp()) count++;
+        if (checkListItem.isMaintainTemp()) count++;
+        if (checkListItem.isFluidRestriction()) count++;
+        if (checkListItem.isAntiNausea()) count++;
+        if (checkListItem.isPainControl()) count++;
+        if (checkListItem.isGiStimulant()) count++;
+        if (checkListItem.isGumChewing()) count++;
+        if (checkListItem.isAntiNauseaPostOp()) count++;
+        if (checkListItem.isIvFluidRestrictionPostOp()) count++;
+        if (checkListItem.isNonOpioidPainControl()) count++;
+        if (checkListItem.isJpDrainRemoval()) count++;
+        if (checkListItem.isCatheterRemoval()) count++;
+        if (checkListItem.isIvLineRemoval()) count++;
+        if (checkListItem.isPodExercise()) count+=4;
+        if (checkListItem.isPodMeal()) count+=3;
+
+        return count;
+    }
+
 
 }

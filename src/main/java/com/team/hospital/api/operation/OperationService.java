@@ -76,14 +76,21 @@ public class OperationService {
     public Slice<Patient> findPatientsByOperationMethod(String operationMethod, Pageable pageable) {
         String lowerCaseOperationMethod = operationMethod.toLowerCase();
 
-        // 모든 Operation을 조회한 후 필터링합니다.
+        // 모든 Operation을 조회한 후 operationMethod와 customOperationMethod를 결합하여 필터링합니다.
         List<Patient> patients = findAll().stream()
-                .filter(operation -> operation.getOperationMethod().stream()
-                        .map(OperationMethod::name)
-                        .map(String::toLowerCase)
-                        .anyMatch(methodName -> methodName.contains(lowerCaseOperationMethod)))
+                .filter(operation -> {
+                    // operationMethod와 customOperationMethod를 하나의 리스트로 결합합니다.
+                    List<String> combinedMethods = operation.getOperationMethod().stream()
+                            .map(OperationMethod::name).collect(Collectors.toList());
+                    combinedMethods.addAll(operation.getCustomOperationMethod());
+
+                    // 결합된 리스트에서 검색어를 포함하는지 확인합니다.
+                    return combinedMethods.stream()
+                            .map(String::toLowerCase)
+                            .anyMatch(methodName -> methodName.contains(lowerCaseOperationMethod));
+                })
                 .map(Operation::getPatient)
-                .collect(Collectors.toList());
+                .toList();
 
         // 페이징 처리
         int pageSize = pageable.getPageSize();
