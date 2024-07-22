@@ -54,10 +54,11 @@ function FilterHeader({ isRender }: { isRender: boolean }) {
         navigate(pathname + '?' + params.toString(), { replace: true });
     };
     useEffect(() => {}, [sc]);
+
     return (
         <>
             <div
-                className={`sticky top-0 z-10 flex h-fit w-full flex-col items-center gap-1 border-b border-blue-200 bg-white px-4 py-2 ${isRender ? '' : 'hidden'} `}
+                className={`${isRender ? 'max-h-[999px] border-b border-blue-200 py-2' : 'max-h-0 overflow-hidden'} flex w-full flex-col items-center gap-1 bg-white px-4 transition-all duration-200`}
             >
                 <div className="flex flex-row items-center w-full gap-2 mt-1 overflow-x-auto">
                     {FILTER_ITEMS.map((item) => (
