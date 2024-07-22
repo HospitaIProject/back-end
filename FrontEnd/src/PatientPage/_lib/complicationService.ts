@@ -6,8 +6,35 @@ import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { pushNotification } from '../../utils/pushNotification';
 import { useNavigate } from 'react-router-dom';
 
+const transformObject = (data: ComplicationFormType) => {
+    let transformData = Object.keys(data).reduce(
+        (
+            acc: {
+                [key: string]: any;
+            },
+            key,
+        ) => {
+            // 값이 빈 문자열이면 null로 설정, 그렇지 않으면 원래 값을 유지
+            acc[key] = data[key] === '' ? null : data[key];
+            return acc;
+        },
+        {},
+    );
+    if (
+        transformData.customComplications &&
+        transformData.customComplications.length > 0 &&
+        (transformData.customComplications[0].cdClassification === '' ||
+            transformData.customComplications[0].complicationName === '')
+    ) {
+        transformData.customComplications = [];
+    }
+    return transformData;
+};
+
 const postComplicationForm = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
-    const response = await Axios.post(`api/complication/${operationId}`, data);
+    const transformData = transformObject(data);
+    console.log('transformData', transformData);
+    const response = await Axios.post(`api/complication/${operationId}`, transformData);
     return response.data.data;
 };
 
@@ -24,7 +51,8 @@ const getComplication = async (operationId: number): Promise<ComplicationFormTyp
     return response.data.data;
 };
 const putComplication = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
-    const response = await Axios.put(`api/complication/${operationId}`, data);
+    const transformData = transformObject(data);
+    const response = await Axios.put(`api/complication/${operationId}`, transformData);
     return response.data.data;
 };
 

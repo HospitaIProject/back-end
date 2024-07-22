@@ -63,6 +63,14 @@ export const useComplicationInitialValues = () => {
     if (data) {
         console.log('data', data);
         initialValues = data;
+        if (data.customComplications.length === 0) {
+            initialValues.customComplications = [
+                {
+                    complicationName: '',
+                    cdClassification: '',
+                },
+            ];
+        } // customComplications가 없을 경우 초기값 설정(신경계는 customComplications[0] 세팅 필요 )
     }
 
     return { initialValues, isPending, hasData: Boolean(data), score: data?.score };
