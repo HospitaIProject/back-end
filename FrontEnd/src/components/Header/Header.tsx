@@ -96,7 +96,7 @@ export default function Header() {
             <header
                 className={`sticky top-0 z-20 min-w-full transition-all duration-500 ease-in-out ${visible ? '' : 'opacity-30'}`}
             >
-                <nav className="z-10 flex h-[70px] items-center justify-between border-b bg-white px-4">
+                <nav className="relative z-10 flex h-[70px] items-center justify-between border-b bg-white px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-700 h-7 w-7" />
                     </button>
@@ -111,8 +111,8 @@ export default function Header() {
                         <span className="font-semibold text-gray-600">환자 등록하기</span>
                         <PlusIcon className="w-5 h-5 text-gray-600" />
                     </Link>
+                    <FilterHeader isRender={toggleFilter && visible} />
                 </nav>
-                <FilterHeader isRender={toggleFilter} />
             </header>
         </>
     );
