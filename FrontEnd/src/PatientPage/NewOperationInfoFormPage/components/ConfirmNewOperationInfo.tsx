@@ -34,7 +34,7 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
     }; // 체크리스트 설정 모달 닫기
     return (
         <>
-            <div className="grid grid-cols-1 flex-col gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
+            <div className="grid flex-col grid-cols-1 gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
                 <ViewInput label="수술방법" value={`${operationMethodFormatted}`} />
 
                 <ViewInput
@@ -52,12 +52,12 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
 
                 <NumberViewInput unit="cc" label="수술 중 실혈량 (cc)" value={values.bloodLoss} />
 
-                <div className="mt-4 flex w-full flex-col items-center tablet:col-span-2">
-                    <span className="mb-2 text-base text-yellow-600">*선택한 Checklist 확인 필수</span>
+                <div className="flex flex-col items-center w-full mt-4 tablet:col-span-2">
+                    <span className="mb-2 text-base text-red-500">*선택한 Checklist 확인 필수</span>
                     <button
                         type="button"
                         onClick={handleOpenCheckListSetup}
-                        className="w-full rounded-md border border-gray-200 bg-gray-100 px-8 py-3 text-gray-600 hover:bg-gray-300 mobile:max-w-screen-mobile"
+                        className="w-full px-8 py-3 text-gray-600 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-300 mobile:max-w-screen-mobile"
                     >
                         체크리스트 확인
                     </button>
