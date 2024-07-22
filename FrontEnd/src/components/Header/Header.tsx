@@ -106,7 +106,7 @@ export default function Header() {
                     </a>
                     <Link
                         to="/patient/new/info"
-                        className="flex flex-row items-center gap-2 px-2 py-2 text-blue-400 border border-blue-400 rounded-md shadow-sm"
+                        className="flex flex-row items-center gap-2 px-2 py-2 text-blue-500 border border-blue-500 rounded-md shadow-sm"
                     >
                         <span className="text-sm font-medium">환자 등록하기</span>
                         <PlusIcon className="w-5 h-5" />
