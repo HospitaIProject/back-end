@@ -5,14 +5,14 @@ import ArrowIcon from '../../icons/ArrowIcon';
 import PlusIcon from '../../icons/PlusIcon';
 import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
-// import { useEffect, useRef, useState } from 'react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { throttle } from 'lodash';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
-    // const [visible, setVisible] = useState(true);
-    // const prevScrollY = useRef(0);
+    const [visible, setVisible] = useState(true);
+    const prevScrollY = useRef(0);
 
     const { pathname } = useLocation();
 
@@ -41,29 +41,39 @@ export default function Header() {
         label = '합병증 등록';
     }
 
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         const currentScrollY = window.scrollY;
-    //         const scrollThreshold = 150; // 스크롤 임계값 설정
-    //         const revealThreshold = 50; // 헤더를 다시 보이게 할 스크롤 위치
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+            const headerScrollThreshold = 20; // 스크롤 임계값 설정
+            const headerRevealThreshold = 2; // 헤더를 다시 보이게 할 스크롤 위치
 
-    //         if (prevScrollY.current < currentScrollY && currentScrollY > scrollThreshold) {
-    //             // 스크롤이 아래로 내려가고 임계값을 초과하면 헤더를 숨깁니다
-    //             setVisible(false);
-    //         } else if (prevScrollY.current > currentScrollY && currentScrollY < prevScrollY.current - revealThreshold) {
-    //             // 스크롤이 위로 올라가고 이전 위치보다 특정 값 이상 올라가면 헤더를 다시 보이게 합니다
-    //             setVisible(true);
-    //         }
+            if (prevScrollY.current < currentScrollY && currentScrollY > headerScrollThreshold) {
+                // 스크롤이 아래로 내려가고 임계값을 초과하면 헤더를 숨깁니다
+                setVisible(false);
 
-    //         prevScrollY.current = currentScrollY;
-    //     };
+                // setToggleFilter(false);
+            } else if (
+                prevScrollY.current > currentScrollY &&
+                currentScrollY < prevScrollY.current - headerRevealThreshold
+            ) {
+                // 스크롤이 위로 올라가고 이전 위치보다 특정 값 이상 올라가면 헤더를 다시 보이게 합니다
+                setVisible(true);
+                // setToggleFilter(true);
+            }
 
-    //     window.addEventListener('scroll', handleScroll);
+            prevScrollY.current = currentScrollY;
+        };
+        const throttledHandleScroll = throttle(handleScroll, 100);
 
-    //     return () => {
-    //         window.removeEventListener('scroll', handleScroll);
-    //     };
-    // }, []);
+        window.addEventListener('scroll', throttledHandleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', throttledHandleScroll);
+        };
+    }, []);
+    useEffect(() => {
+        console.log('toggleFilter', toggleFilter);
+    }, [visible]);
 
     if (pathname !== '/') {
         return (
@@ -83,8 +93,10 @@ export default function Header() {
 
     return (
         <>
-            <header className="sticky top-0 z-10 min-w-full bg-white">
-                <nav className="flex h-[70px] items-center justify-between border-b px-4">
+            <header
+                className={`sticky top-0 z-20 min-w-full transition-all duration-500 ease-in-out ${visible ? '' : 'opacity-30'}`}
+            >
+                <nav className="z-10 flex h-[70px] items-center justify-between border-b bg-white px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-700 h-7 w-7" />
                     </button>
