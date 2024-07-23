@@ -8,6 +8,8 @@ import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Builder
 @Getter
@@ -145,6 +147,8 @@ public class CheckList extends BaseEntity {
     @Convert(converter = DailyPainScoreConverter.class)
     private DailyPainScore podThreePain; // POD 3day 운동
 
+    private LocalDate dayOfCheckList;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id")
     private CheckListItem checkListItem;
@@ -179,6 +183,8 @@ public class CheckList extends BaseEntity {
                 .podTwoPain(write.getPodTwoPain())
                 .podThreePain(write.getPodThreePain())
 
+                .dayOfCheckList(write.getDayOfCheckList())
+
                 // CheckListItem
                 .checkListItem(checkListItem)
                 .build();
@@ -207,5 +213,7 @@ public class CheckList extends BaseEntity {
         this.podOnePain = write.getPodOnePain();
         this.podTwoPain = write.getPodTwoPain();
         this.podThreePain = write.getPodThreePain();
+
+        this.dayOfCheckList = write.getDayOfCheckList();
     }
 }
