@@ -133,7 +133,7 @@ function CheckListsPage() {
                     )}
 
                     {checkListsData.checkListDTOs
-                        ?.slice(0, Math.abs(Number(diffDay)))
+                        ?.slice(0, Number(diffDay) > 0 ? 0 : Math.abs(Number(diffDay)))
                         .map((data, index) =>
                             data ? (
                                 <CheckListsSummaryCard
