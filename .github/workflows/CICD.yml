@@ -21,11 +21,11 @@ jobs:
           node-version: '22' # Node.js 22 버전으로 설정합니다.
 
       - name: Install dependencies
-        working-directory: /FrontEnd
+        working-directory: FrontEnd
         run: npm ci
 
       - name: Build React app
-        working-directory: /FrontEnd
+        working-directory: FrontEnd
         run: npm run build
         
       - name: Set up JDK 17
