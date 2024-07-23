@@ -46,10 +46,11 @@ public class WriteCheckList {
     private DailyPainScore podTwoPain;
     private DailyPainScore podThreePain;
 
+    // 몇 일차 체크리스트 작성
+    private LocalDate dayOfCheckList;
+
 
     // 비고 필드
-
-
     // 수술 후
     private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
     private String gumChewing_remarks;                    // 하루 3번 15분동안 껌씹기 여부
@@ -70,11 +71,5 @@ public class WriteCheckList {
     private String postMeal_remarks;
     private String podOneMeal_remarks;
     private String podTwoMeal_remarks;
-
-    // Pod Pain
-//    private String postPain_remarks;
-//    private String podOnePain_remarks;
-//    private String podTwoPain_remarks;
-//    private String podThreePain_remarks;
 
 }

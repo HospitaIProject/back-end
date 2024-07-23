@@ -3,6 +3,9 @@ package com.team.hospital.api.checkListDuring;
 import com.team.hospital.api.checkListDuring.exception.CheckListDuringNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
+import com.team.hospital.api.operation.Operation;
+import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.patient.Patient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,6 +22,7 @@ public class CheckListDuringService {
 
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListItemService checkListItemService;
+    private final OperationService operationService;
 
     @Transactional
     public void save(WriteCheckListDuring write, Long checkListItemId) {
@@ -58,10 +63,14 @@ public class CheckListDuringService {
         return checkListDuringRepository.findAll();
     }
 
+    @Transactional
     public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
         try {
+            Operation operation = operationService.findOperationById(operationId);
+            Patient patient = operation.getPatient();
+            LocalDate operationDate = patient.getOperationDate();
             CheckListDuringDTO checkListDuringDTO = findCheckListDuringByOperationId(operationId);
-            return checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
+            return Objects.equals(LocalDate.now(), operationDate) && checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
         } catch (CheckListDuringNotFoundException e) {
             return false;
         }

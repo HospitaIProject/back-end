@@ -52,7 +52,7 @@ public class CheckListController {
     @GetMapping("/api/checkLists/{operationId}")
     @Operation(summary = "operation에 해당하는 체크리스트 목록")
     public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
-        List<CheckList> checkLists = checkListService.findAllByOperationId(operationId);
+        List<CheckList> checkLists = checkListService.checks(operationId);
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
 
         boolean createdToday = checkListService.checkIfAnyCheckListCreatedToday(operationId);

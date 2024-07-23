@@ -9,14 +9,16 @@ import com.team.hospital.api.checkListDuring.CheckListDuring;
 import com.team.hospital.api.checkListDuring.CheckListDuringService;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
+import com.team.hospital.api.operation.Operation;
+import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.patient.Patient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class CheckListService {
     private final CheckListItemService checkListItemService;
     private final CheckListBeforeService checkListBeforeService;
     private final CheckListDuringService checkListDuringService;
+    private final OperationService operationService;
 
     @Transactional
     public void save(WriteCheckList write, Long checkListItemId) {
@@ -60,22 +63,46 @@ public class CheckListService {
         return checkList.get();
     }
 
-    public CheckList findRecentCheckListByOperationId(Long operationId) {
-        List<CheckList> checkLists = checkListRepository.findAllByOperationId(operationId);
-        checkLists.sort(Comparator.comparing(CheckList::getUpdatedAt).reversed());
-        if (!checkLists.isEmpty()) return checkLists.get(0);
-        return null;
-    }
-
+    @Transactional
     public boolean checkIfCheckListCreatedToday(Long operationId) {
-        CheckList recentCheckList = findRecentCheckListByOperationId(operationId);
-        return recentCheckList != null && recentCheckList.getCreatedAt().toLocalDate().equals(LocalDate.now());
+        Operation operation = operationService.findOperationById(operationId);
+        Patient patient = operation.getPatient();
+        List<CheckList> checks = checks(operationId);
+
+        // 오늘 날짜와 수술 날짜 간의 일 수 계산
+        int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), LocalDate.now());
+
+        // 체크리스트가 리스트의 범위 내에 있는지 확인
+        if (daysBetween >= 1 && daysBetween <= checks.size()) {
+            return checks.get(daysBetween - 1) != null; // -1을 통해 수술 다음 날을 인덱스 0으로 맞춤
+        }
+
+        // 범위를 초과한 경우 false 반환
+        return false;
     }
 
+    @Transactional
     public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
         return checkIfCheckListCreatedToday(operationId) ||
                 checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
+    }
+
+    @Transactional
+    public List<CheckList> checks(Long operationId) {
+        Operation operation = operationService.findOperationById(operationId);
+        Patient patient = operation.getPatient();
+
+        List<CheckList> checkLists = findAllByOperationId(operationId);
+        int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), patient.getDischargedDate());
+        List<CheckList> checks = new ArrayList<>(Collections.nCopies(daysBetween, null)); // 수술 다음 날 부터 퇴원일까지의 일 수만큼 null list로 초기화.
+
+        for (CheckList checkList : checkLists) {
+            LocalDate dayOfCheckList = checkList.getDayOfCheckList();
+            int betweenDay = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), dayOfCheckList);
+            checks.set(betweenDay - 1, checkList); // set 메서드로 변경
+        }
+        return checks;
     }
 
     // compliance percentage calculate
@@ -122,21 +149,24 @@ public class CheckListService {
         return count;
     }
 
-
-
     private int countCheckedItems(CheckListItem checkListItem) {
         int count = 0;
 
+        // pre op
         if (checkListItem.isExplainedPreOp()) count++;
         if (checkListItem.isOnsPreOp2hr()) count++;
         if (checkListItem.isOnsPostBowelPrep()) count++;
         if (checkListItem.isDvtPrevention()) count++;
         if (checkListItem.isAntibioticPreIncision()) count++;
         if (checkListItem.isPainMedPreOp()) count++;
+
+        // during op
         if (checkListItem.isMaintainTemp()) count++;
         if (checkListItem.isFluidRestriction()) count++;
         if (checkListItem.isAntiNausea()) count++;
         if (checkListItem.isPainControl()) count++;
+
+        // post op
         if (checkListItem.isGiStimulant()) count++;
         if (checkListItem.isGumChewing()) count++;
         if (checkListItem.isAntiNauseaPostOp()) count++;
@@ -145,6 +175,7 @@ public class CheckListService {
         if (checkListItem.isJpDrainRemoval()) count++;
         if (checkListItem.isCatheterRemoval()) count++;
         if (checkListItem.isIvLineRemoval()) count++;
+
         if (checkListItem.isPodExercise()) count+=4;
         if (checkListItem.isPodMeal()) count+=3;
 
