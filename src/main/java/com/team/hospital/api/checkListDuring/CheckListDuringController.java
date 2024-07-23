@@ -81,7 +81,7 @@ public class CheckListDuringController {
         double totalFluidsAmount = operation.getTotalFluidsAmount();
         float weight = operation.getPatient().getWeight();
         int totalOperationTime = operation.getTotalOperationTime();
-        double fluidRestriction = totalFluidsAmount / weight / totalOperationTime / 60;
+        double fluidRestriction = totalFluidsAmount / weight / ((double) totalOperationTime / 60);
         return SuccessResponse.createSuccess(fluidRestriction);
     }
 }
