@@ -45,4 +45,11 @@
 //            }
 //        }
 //    }
+//
+//    @Test
+//    @Transactional
+//    void temp() {
+//        boolean b = checkListService.checkCreatedToday(1L);
+//        System.out.println(b);
+//    }
 //}
