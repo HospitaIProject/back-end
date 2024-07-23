@@ -102,53 +102,108 @@ public class Complication extends BaseEntity {
     private Operation operation;
 
     public static Complication createComplication(WriteComplication write, Operation operation) {
-        return Complication.builder()
+        ComplicationBuilder builder = Complication.builder();
 
-                // 문합부 관련
-                .anastomosisBleeding(write.getAnastomosisBleeding())
-                .anastomosisLeakage(write.getAnastomosisLeakage())
-                .anastomosisStenosis(write.getAnastomosisStenosis())
-                .organSpaceSsi(write.getOrganSpaceSsi())
+        // 문합부 관련
+        if (write.getAnastomosisBleeding() != null) {
+            builder.anastomosisBleeding(write.getAnastomosisBleeding());
+        }
+        if (write.getAnastomosisLeakage() != null) {
+            builder.anastomosisLeakage(write.getAnastomosisLeakage());
+        }
+        if (write.getAnastomosisStenosis() != null) {
+            builder.anastomosisStenosis(write.getAnastomosisStenosis());
+        }
+        if (write.getOrganSpaceSsi() != null) {
+            builder.organSpaceSsi(write.getOrganSpaceSsi());
+        }
 
-                // 소화기계
-                .ileus(write.getIleus())
-                .giBleeding(write.getGiBleeding())
-                .bowelIschemia(write.getBowelIschemia())
-                .chyleAscites(write.getChyleAscites())
-                .additionalEnteritis(write.getAdditionalEnteritis())
+        // 소화기계
+        if (write.getIleus() != null) {
+            builder.ileus(write.getIleus());
+        }
+        if (write.getGiBleeding() != null) {
+            builder.giBleeding(write.getGiBleeding());
+        }
+        if (write.getBowelIschemia() != null) {
+            builder.bowelIschemia(write.getBowelIschemia());
+        }
+        if (write.getChyleAscites() != null) {
+            builder.chyleAscites(write.getChyleAscites());
+        }
+        if (write.getAdditionalEnteritis() != null) {
+            builder.additionalEnteritis(write.getAdditionalEnteritis());
+        }
 
-                // 심혈관계
-                .arrhythemia(write.getArrhythemia())
-                .coronaryIschemia(write.getCoronaryIschemia())
-                .dvt(write.getDvt())
-                .pulmonaryEmbolism(write.getPulmonaryEmbolism())
-                .phlebitis(write.getPhlebitis())
-                .dic(write.getDic())
+        // 심혈관계
+        if (write.getArrhythemia() != null) {
+            builder.arrhythemia(write.getArrhythemia());
+        }
+        if (write.getCoronaryIschemia() != null) {
+            builder.coronaryIschemia(write.getCoronaryIschemia());
+        }
+        if (write.getDvt() != null) {
+            builder.dvt(write.getDvt());
+        }
+        if (write.getPulmonaryEmbolism() != null) {
+            builder.pulmonaryEmbolism(write.getPulmonaryEmbolism());
+        }
+        if (write.getPhlebitis() != null) {
+            builder.phlebitis(write.getPhlebitis());
+        }
+        if (write.getDic() != null) {
+            builder.dic(write.getDic());
+        }
 
-                // 호흡기계
-                .atelectasis(write.getAtelectasis())
-                .pneumothorax(write.getPneumothorax())
-                .pneumonia(write.getPneumonia())
-                .ards(write.getArds())
-                .pleuralEffusion(write.getPleuralEffusion())
+        // 호흡기계
+        if (write.getAtelectasis() != null) {
+            builder.atelectasis(write.getAtelectasis());
+        }
+        if (write.getPneumothorax() != null) {
+            builder.pneumothorax(write.getPneumothorax());
+        }
+        if (write.getPneumonia() != null) {
+            builder.pneumonia(write.getPneumonia());
+        }
+        if (write.getArds() != null) {
+            builder.ards(write.getArds());
+        }
+        if (write.getPleuralEffusion() != null) {
+            builder.pleuralEffusion(write.getPleuralEffusion());
+        }
 
-                // 비뇨생식기계
-                .urinaryDysfunctionRetension(write.getUrinaryDysfunctionRetension())
-                .arf(write.getArf())
-                .bladderLeakage(write.getBladderLeakage())
+        // 비뇨생식기계
+        if (write.getUrinaryDysfunctionRetension() != null) {
+            builder.urinaryDysfunctionRetension(write.getUrinaryDysfunctionRetension());
+        }
+        if (write.getArf() != null) {
+            builder.arf(write.getArf());
+        }
+        if (write.getBladderLeakage() != null) {
+            builder.bladderLeakage(write.getBladderLeakage());
+        }
 
-                // 피부창상관련
-                .superficialDeepSsi(write.getSuperficialDeepSsi())
-                .seroma(write.getSeroma())
-                .stomaCx(write.getStomaCx())
-                .incisionalHernia(write.getIncisionalHernia())
+        // 피부창상관련
+        if (write.getSuperficialDeepSsi() != null) {
+            builder.superficialDeepSsi(write.getSuperficialDeepSsi());
+        }
+        if (write.getSeroma() != null) {
+            builder.seroma(write.getSeroma());
+        }
+        if (write.getStomaCx() != null) {
+            builder.stomaCx(write.getStomaCx());
+        }
+        if (write.getIncisionalHernia() != null) {
+            builder.incisionalHernia(write.getIncisionalHernia());
+        }
 
-                // 추가사항
+        // 추가사항
+        builder
                 .customComplications(write.getCustomComplications())
                 .remarks(write.getRemarks())
+                .operation(operation);
 
-                .operation(operation)
-                .build();
+        return builder.build();
     }
 
     public void updateComplication(WriteComplication write) {
