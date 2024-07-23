@@ -20,8 +20,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Change Directory to /back-end
+        run: cd back-end
+
       - name: Build with Gradle
-        working-directory: back-end
         run: |
           chmod +x ./gradlew
           ./gradlew build
