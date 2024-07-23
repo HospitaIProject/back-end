@@ -16,6 +16,7 @@ import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
 import { useFluidRestrictionQuery } from '../_lib/checkListsService';
+import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -37,6 +38,7 @@ function ComplianceFormPage() {
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
     const dayOfCheckList = searchParams.get('date') || String(new Date()).split('T')[0]; //서버에 전달할 작성일자
+    const { isVisible } = useScrollHeaderControl();
 
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
@@ -128,7 +130,9 @@ function ComplianceFormPage() {
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <div className="sticky top-[70px] z-10 flex flex-row border-b shadow-sm">
+                <div
+                    className={`sticky top-[70px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
+                >
                     {buttons.map(({ day, label }) => (
                         <button
                             key={day}
