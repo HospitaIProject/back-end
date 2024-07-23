@@ -28,7 +28,6 @@ public class CheckListDTO {
     private BooleanOption ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
     private BooleanOption nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
 
-    //
     private BooleanOption jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
     private LocalDate jpDrainRemovalDate;
 
@@ -38,7 +37,6 @@ public class CheckListDTO {
 
     private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
     private LocalDate ivLineRemovalDate;
-    //
 
     private BooleanOption postExercise;                  // 운동
     private BooleanOption podOneExercise;                // 식사
@@ -53,6 +51,8 @@ public class CheckListDTO {
     private DailyPainScore podOnePain;                    // 식사
     private DailyPainScore podTwoPain;                    // 통증
     private DailyPainScore podThreePain;                  // 통증
+
+    private LocalDate dayOfCheckList;                     // 몇 일차 체크리스트 작성
 
     // 수술 후
     private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
@@ -75,13 +75,9 @@ public class CheckListDTO {
     private String podOneMeal_remarks;
     private String podTwoMeal_remarks;
 
-    // Pod Pain
-//    private String postPain_remarks;
-//    private String podOnePain_remarks;
-//    private String podTwoPain_remarks;
-//    private String podThreePain_remarks;
-
     public static CheckListDTO toEntity(CheckList checkList) {
+        if (checkList == null) return null;
+
         CheckListDTOBuilder checkListDTO = CheckListDTO.builder()
                 .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
                 .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
@@ -166,6 +162,8 @@ public class CheckListDTO {
         if (checkList.getPodThreePain() != null) {
             checkListDTO.podThreePain(checkList.getPodThreePain());
         }
+
+        checkListDTO.dayOfCheckList(checkList.getDayOfCheckList());
         return checkListDTO.build();
     }
 
