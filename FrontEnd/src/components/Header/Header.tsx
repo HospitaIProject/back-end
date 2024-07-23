@@ -45,7 +45,7 @@ export default function Header() {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             const headerScrollThreshold = 20; // 스크롤 임계값 설정
-            const headerRevealThreshold = 2; // 헤더를 다시 보이게 할 스크롤 위치
+            const headerRevealThreshold = 10; // 헤더를 다시 보이게 할 스크롤 위치
 
             if (prevScrollY.current < currentScrollY && currentScrollY > headerScrollThreshold) {
                 // 스크롤이 아래로 내려가고 임계값을 초과하면 헤더를 숨깁니다
@@ -77,7 +77,7 @@ export default function Header() {
 
     if (pathname !== '/') {
         return (
-            <header className="sticky top-0 z-10 min-w-full bg-white">
+            <header className={`${visible ? '' : 'opacity-30'} sticky top-0 z-10 min-w-full bg-white`}>
                 <nav className="flex h-[70px] items-center border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
