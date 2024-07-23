@@ -1,6 +1,5 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
-import CloseIcon from '../../../../icons/CloseIcon';
 
 function RadioButton<T>({
     label,
