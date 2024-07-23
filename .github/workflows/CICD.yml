@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        working-directory: ./back-end
+        working-directory: back-end
         run: |
           chmod +x ./gradlew
           ./gradlew build
