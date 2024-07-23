@@ -5,6 +5,11 @@ import { CheckListSetupType } from '../../models/CheckListsType';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from 'react-router-dom';
 
+const getOperationDetail = async ({ patientId }: { patientId: number }) => {
+    const response = await Axios.get(`/api/operations/${patientId}`);
+    return response.data.data;
+};
+
 const getOperationList = async ({ patientId }: { patientId: number }): Promise<OperationItemType[]> => {
     const response = await Axios.get(`/api/operations/${patientId}`);
     return response.data.data;
@@ -30,3 +35,13 @@ export const useCheckListsSetupQeury = ({ operationId }: { operationId: number }
     });
     return query;
 }; //체크리스트 세팅 내역 가져오기 커스텀훅
+
+export const useOperationDetailQuery = ({ patientId, enabled = false }: { patientId: number; enabled: boolean }) => {
+    const query = useQuery<OperationItemType, AxiosError<ErrorResponse>>({
+        queryKey: ['operation', 'detail', patientId],
+        queryFn: () => getOperationDetail({ patientId }),
+        enabled: enabled,
+    });
+
+    return query;
+};
