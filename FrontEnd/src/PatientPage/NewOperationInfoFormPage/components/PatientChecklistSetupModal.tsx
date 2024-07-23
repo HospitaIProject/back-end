@@ -4,17 +4,15 @@ import { CheckListSetupType } from '../../../models/CheckListsType';
 import PatientCheckCard from './PatientCheckCard';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import { useEffect, useState } from 'react';
+import DropBoxCheckListSetupContainer from './DropBoxCheckListSetupContainer';
 type Props = {
     values: CheckListSetupType;
     handleSubmit?: (newCheckListSetup: CheckListSetupType) => void;
     onClose: () => void;
     title?: string;
 };
-const defaultHandleSubmit = () => {
-    console.warn('handleSubmit 함수가 정의되지 않았습니다.');
-};
 
-function PatientChecklistSetupModal({ handleSubmit = defaultHandleSubmit, values, onClose, title }: Props) {
+function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Props) {
     const [checkListSetup, setCheckListSetup] = useState<CheckListSetupType>({
         explainedPreOp: true, // EAS 수술전 설명
         onsPreOp2hr: true, // 수술 2시간 전 ONS 복용여부
@@ -57,56 +55,56 @@ function PatientChecklistSetupModal({ handleSubmit = defaultHandleSubmit, values
         `}
             onClose={onClose}
         >
-            <div className="mx-auto flex flex-1 flex-col px-6">
-                <div className="flex w-full justify-center rounded-md bg-gray-100 py-2 text-gray-700">-수술전-</div>
-
-                <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
-                    {Object.keys(checkListSetup)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
-                        .map((patientKey) => (
-                            <>
-                                <PatientCheckCard
-                                    patientKey={patientKey}
-                                    values={checkListSetup}
-                                    handleChange={onChangeCheckListSetup}
-                                    key={patientKey}
-                                />
-                            </>
-                        ))}
-                </div>
-                <div className="flex w-full justify-center rounded-md bg-gray-100 py-2 text-gray-700">-수술당일-</div>
-                <div className="mx-auto grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
-                    {Object.keys(checkListSetup)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
-                        .map((patientKey) => (
-                            <>
-                                <PatientCheckCard
-                                    patientKey={patientKey}
-                                    values={checkListSetup}
-                                    handleChange={onChangeCheckListSetup}
-                                    key={patientKey}
-                                />
-                            </>
-                        ))}
-                </div>
-                <div className="flex w-full justify-center rounded-md bg-gray-100 py-2 text-gray-700">-수술후-</div>
-                <div className="mx-auto grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
-                    {Object.keys(checkListSetup)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
-                        .map((patientKey) => (
-                            <>
-                                <PatientCheckCard
-                                    patientKey={patientKey}
-                                    values={checkListSetup}
-                                    handleChange={onChangeCheckListSetup}
-                                    key={patientKey}
-                                />
-                            </>
-                        ))}
-                </div>
-                {Boolean(handleSubmit) && (
-                    <FixedSubmitButton onClick={() => handleSubmit(checkListSetup)} label="저장하기" />
-                )}
+            <div className="flex flex-col flex-1 px-6 mx-auto">
+                <DropBoxCheckListSetupContainer label="수술전">
+                    <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
+                        {Object.keys(checkListSetup)
+                            .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
+                            .map((patientKey) => (
+                                <>
+                                    <PatientCheckCard
+                                        patientKey={patientKey}
+                                        values={checkListSetup}
+                                        handleChange={onChangeCheckListSetup}
+                                        key={patientKey}
+                                    />
+                                </>
+                            ))}
+                    </div>
+                </DropBoxCheckListSetupContainer>
+                <DropBoxCheckListSetupContainer label="수술중">
+                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                        {Object.keys(checkListSetup)
+                            .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
+                            .map((patientKey) => (
+                                <>
+                                    <PatientCheckCard
+                                        patientKey={patientKey}
+                                        values={checkListSetup}
+                                        handleChange={onChangeCheckListSetup}
+                                        key={patientKey}
+                                    />
+                                </>
+                            ))}
+                    </div>
+                </DropBoxCheckListSetupContainer>
+                <DropBoxCheckListSetupContainer label="수술후">
+                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                        {Object.keys(checkListSetup)
+                            .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
+                            .map((patientKey) => (
+                                <>
+                                    <PatientCheckCard
+                                        patientKey={patientKey}
+                                        values={checkListSetup}
+                                        handleChange={onChangeCheckListSetup}
+                                        key={patientKey}
+                                    />
+                                </>
+                            ))}
+                    </div>
+                </DropBoxCheckListSetupContainer>
+                {handleSubmit && <FixedSubmitButton onClick={() => handleSubmit(checkListSetup)} label="저장하기" />}
             </div>
         </ModalFullScreenContainer>
     );
