@@ -14,10 +14,12 @@ const postComplianceForm = async ({
     operationId,
     data,
     type,
+    dayOfCheckList,
 }: {
     operationId: number;
     data: checkListFormType;
     type: 'PREV' | 'TODAY' | 'POST';
+    dayOfCheckList: string;
 }) => {
     let url = '';
     if (type === 'PREV') {
@@ -98,6 +100,7 @@ const postComplianceForm = async ({
             postMeal_remarks: data.postMeal_remarks,
             podOneMeal_remarks: data.podOneMeal_remarks,
             podTwoMeal_remarks: data.podTwoMeal_remarks,
+            dayOfCheckList: dayOfCheckList, //체크리스트 작성일 dayOfCheckList
         };
     } //체크리스트 데이터 구조 변경
 

@@ -7,12 +7,18 @@ type Props = {
     onSubmit: () => void;
     onClose: () => void;
     existFields: CheckListSetupType;
+    fluidRestriction: number;
 };
 
-function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields }: Props) {
+function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields, fluidRestriction }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
-            <ConfirmComplianceForm formValues={values} onSubmit={onSubmit} existFields={existFields} />
+            <ConfirmComplianceForm
+                formValues={values}
+                fluidRestriction={fluidRestriction}
+                onSubmit={onSubmit}
+                existFields={existFields}
+            />
         </ModalFullScreenContainer>
     );
 }

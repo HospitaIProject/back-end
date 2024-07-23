@@ -9,10 +9,8 @@ import { CheckListSetupType } from '../../../models/CheckListsType';
 import CheckListsDetailModal from './CheckListsDetailModal';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
-import useOperationDayFormat from '../../../Hooks/useOperationDateFormatted';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import SparklingIcon from '../../../icons/SparklingIcon';
-// import { Link } from 'react-router-dom';
 
 type Props = {
     checkListData: CheckListsBeforeItemType | CheckListsDuringItemType | CheckListsAfterItemType;
@@ -29,6 +27,8 @@ type Props = {
     prevValues?: CheckListsBeforeItemType;
     todayValues?: CheckListsDuringItemType;
     postValues?: CheckListsAfterItemType;
+    order?: number;
+    day: number;
 };
 
 function CheckListsSummaryCard({
@@ -37,8 +37,9 @@ function CheckListsSummaryCard({
     postValues,
     checkListData,
     setupData,
-    operationDateDTO,
     type,
+    order,
+    day,
 }: Props) {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -51,15 +52,14 @@ function CheckListsSummaryCard({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { writeDiffDay } = useOperationDayFormat(operationDateDTO.operationDate, checkListData.createAt);
     let dateComparison = '';
-    if (typeof writeDiffDay === 'number') {
-        dateComparison = type === 'PREV' ? `수술전` : type === 'TODAY' ? '수술당일' : `D+${Math.abs(writeDiffDay)}`;
-    }
+
+    dateComparison = type === 'PREV' ? `수술전` : type === 'TODAY' ? '수술당일' : `D+${Math.abs(day)}`;
+
     const openModal = () => {
         const params = new URLSearchParams(searchParams.toString());
         params.set('dateStatus', type);
-        params.set('diffDay', writeDiffDay?.toString() || '');
+        params.set('diffDay', day.toString());
 
         navigate(pathname + '?' + params.toString(), { replace: true });
 
@@ -78,11 +78,12 @@ function CheckListsSummaryCard({
     return (
         <>
             <li
-                className="relative flex flex-row items-center w-full p-4 bg-white cursor-pointer border-y hover:bg-blue-50"
+                className={`relative flex w-full cursor-pointer flex-row items-center border-y bg-white p-4 hover:bg-blue-50`}
+                style={{ order: order }}
                 onClick={() => openModal()}
             >
                 <div className="flex flex-row items-center w-full gap-6">
-                    <span className="text-lg font-semibold text-sky-800">{dateComparison}</span>
+                    <span className="font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             작성일:&nbsp;
