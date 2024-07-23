@@ -12,6 +12,8 @@ import { CHECKLIST_ITEMS_NAME } from '../../../utils/mappingNames';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import CalendarIcon from '../../../icons/CalendarIcon';
 import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
+import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
+import Loading from '../../../components/common/Loading';
 
 type Props = {
     formValues?: checkListFormType;
@@ -21,10 +23,20 @@ type Props = {
 
     onSubmit?: () => void;
     existFields: CheckListSetupType;
+    fluidRestriction?: number;
 };
 
-function ConfirmComplianceForm({ formValues, prevValues, todayValues, postValues, onSubmit, existFields }: Props) {
+function ConfirmComplianceForm({
+    formValues,
+    prevValues,
+    todayValues,
+    postValues,
+    onSubmit,
+    existFields,
+    fluidRestriction,
+}: Props) {
     const [searchParams] = useSearchParams();
+    const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
     const isPostOp = diffDay === '0'; //수술 후인지 여부
@@ -32,6 +44,11 @@ function ConfirmComplianceForm({ formValues, prevValues, todayValues, postValues
     const isPod2 = diffDay === '-2'; //POD 2일차인지 여부
     const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
     const statusTitle = dateStatus === 'PREV' ? '수술 전' : dateStatus === 'POST' ? '수술 후' : '수술 당일';
+    const fluidRestrictionQuery = useFluidRestrictionQuery({
+        operationId: Number(operationId),
+        enabled: Boolean(!fluidRestriction),
+    });
+    const { data: fluidRestrictionData, isPending: isFluidRestrictionPending } = fluidRestrictionQuery;
 
     let values = {
         ...formValues,
@@ -43,6 +60,12 @@ function ConfirmComplianceForm({ formValues, prevValues, todayValues, postValues
     const { onlyDate: catheterRemovalDate } = useDateFormatted(values.catheterRemovalDate || '');
     const { onlyDate: ivLineRemovalDate } = useDateFormatted(values.ivLineRemovalDate || '');
 
+    if (isFluidRestrictionPending) {
+        return <Loading />;
+    }
+    if (!fluidRestrictionData && !fluidRestriction) {
+        return <div>fluidRestriction를 불러오는데 실패했습니다.</div>;
+    }
     return (
         <>
             <div className="flex flex-col w-full h-full gap-3 px-4">
@@ -102,7 +125,9 @@ function ConfirmComplianceForm({ formValues, prevValues, todayValues, postValues
                         remark={values.maintainTemp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.fluidRestriction}
+                        label={`
+                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : `${(fluidRestrictionData ?? 0).toFixed(2)}`} cc/kg/hr 으로 제한
+                            `}
                         isRender={existFields.fluidRestriction}
                         value={values.fluidRestriction}
                         remark={values.fluidRestriction_remarks}

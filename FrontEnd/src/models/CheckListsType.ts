@@ -1,5 +1,5 @@
 export type CheckListSetupType = {
-    [key: string]: string | number | undefined | boolean;
+    [key: string]: number | undefined | boolean;
     checkListItemId?: number;
 
     explainedPreOp: boolean; // EAS 수술전 설명
@@ -133,6 +133,8 @@ export type checkListFormType = {
     postMeal_remarks?: string;
     podOneMeal_remarks?: string;
     podTwoMeal_remarks?: string;
+
+    dayOfCheckList?: Date;
 }; // 체크리스트 폼
 
 export type CheckListsBeforeItemType = {

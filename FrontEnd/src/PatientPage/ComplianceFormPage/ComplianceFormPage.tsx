@@ -15,6 +15,8 @@ import MultiInput from '../../components/common/form/input/MultiInput';
 import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
+import { useFluidRestrictionQuery } from '../_lib/checkListsService';
+import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -35,10 +37,15 @@ function ComplianceFormPage() {
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
+    const dayOfCheckList = searchParams.get('date') || String(new Date()).split('T')[0]; //서버에 전달할 작성일자
+    const { isVisible } = useScrollHeaderControl();
+
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
+    const fluidRestrictionQuery = useFluidRestrictionQuery({ operationId: Number(operationId) }); //수술 중 수액 제한 정보 가져오기
     const { data: existFields, isPending: isExistFieldsPending } = checkListSetupQuery; //체크리스트 세팅 정보
+    const { data: fluidRestriction, isPending: isFluidRestrictionPending } = fluidRestrictionQuery; //수술 중 수액 제한 정보
     const { initialValues, isPending: isInitialValuesPending } = useInitialValues({
         existFields,
         toggleDateStatus: relativeDay,
@@ -61,7 +68,12 @@ function ComplianceFormPage() {
         onSubmit: (values) => {
             console.log('제출', values);
             if (confirm('제출하시겠습니까?')) {
-                complianceFormMutation.mutate({ operationId: Number(operationId), data: values, type: relativeDay });
+                complianceFormMutation.mutate({
+                    operationId: Number(operationId),
+                    data: values,
+                    type: relativeDay,
+                    dayOfCheckList: dayOfCheckList,
+                });
             } else {
                 return;
             }
@@ -110,15 +122,17 @@ function ComplianceFormPage() {
         }
     }, [formik.values.jpDrainRemoval, formik.values.catheterRemoval, formik.values.ivLineRemoval]);
 
-    if (isExistFieldsPending || isInitialValuesPending) {
+    if (isExistFieldsPending || isInitialValuesPending || isFluidRestrictionPending) {
         return <Loading />;
     }
-    if (!existFields) return;
+    if (!existFields || !fluidRestriction) return;
 
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <div className="sticky top-[70px] z-10 flex flex-row border-b shadow-sm">
+                <div
+                    className={`sticky top-[70px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
+                >
                     {buttons.map(({ day, label }) => (
                         <button
                             key={day}
@@ -134,9 +148,9 @@ function ComplianceFormPage() {
                 <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
                     <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
                     <div className="flex flex-col items-end w-24 gap-1">
-                        <span className="text-sm font-medium text-gray-700">{formattedOnlyDate}</span>
+                        <span className="text-sm text-gray-700 text-end">{formattedOnlyDate}</span>
 
-                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200">
+                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200 rounded-md">
                             {dateStatus === 'TODAY'
                                 ? 'D-Day'
                                 : dateStatus === 'PREV'
@@ -206,7 +220,9 @@ function ComplianceFormPage() {
                             isDisabled={dateStatus !== 'TODAY'}
                         />
                         <YesOrNoButton<checkListFormType>
-                            label={CHECKLIST_ITEMS_NAME.fluidRestriction}
+                            label={`
+                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : ''} cc/kg/hr 으로 제한
+                            `}
                             htmlFor="fluidRestriction"
                             formik={formik}
                             isRender={existFields.fluidRestriction}
@@ -424,6 +440,7 @@ function ComplianceFormPage() {
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
                     existFields={existFields}
+                    fluidRestriction={fluidRestriction}
                 />
             )}
         </>

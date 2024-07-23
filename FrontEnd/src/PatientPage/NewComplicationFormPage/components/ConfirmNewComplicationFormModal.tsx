@@ -57,7 +57,7 @@ function ConfirmNewComplicationFormModal({ formValues, submitLabel, onSubmit, on
                         value={customComplication.cdClassification}
                     />
                 ))}
-                {values.remarks && <ViewInput label="비고" value={values.remarks} />}
+                <ViewInput label="비고" value={values.remarks} />
                 {Boolean(onSubmit) && (
                     <FixedSubmitButton onClick={onSubmit} label={submitLabel ? submitLabel : '등록'} />
                 )}

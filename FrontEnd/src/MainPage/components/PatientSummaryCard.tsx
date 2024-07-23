@@ -10,6 +10,21 @@ import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
 import { useOperationMethodFormatted } from '../../Hooks/useOperationMethodFormatted';
 
+function addDaysToDate(operationDate: string, daysToAdd: number): string {
+    // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
+    const date = new Date(operationDate);
+
+    // 일수를 더함
+    date.setDate(date.getDate() + daysToAdd);
+
+    // 결과 날짜를 'YYYY-MM-DD' 형식의 문자열로 변환하여 반환
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
 type Props = {
     userData: PatientWithOperationDtoType;
 };
@@ -64,7 +79,10 @@ function PatientSummaryCard({ userData }: Props) {
             return;
         }
         navigation(
-            `patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
+            `patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&date=${addDaysToDate(
+                operationDate,
+                -Number(diffDay),
+            )}`,
         );
     };
 

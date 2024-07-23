@@ -15,13 +15,18 @@ function RadioButton<T>({
     isRender?: boolean;
 }) {
     const options = values.map((value) => ({ value: value.value, label: value.name }));
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        formik?.setFieldValue(htmlFor, e.target.value);
-        formik?.setFieldError(htmlFor, '');
-    };
 
     const isInput = formik?.getFieldProps(htmlFor).value;
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
+    const handleClick = (value: string) => {
+        console.log('handleChange', value);
+        if (isInput === value) {
+            formik?.setFieldValue(htmlFor, '');
+            return;
+        }
+        formik?.setFieldValue(htmlFor, value);
+        formik?.setFieldError(htmlFor, '');
+    };
 
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
@@ -36,7 +41,8 @@ function RadioButton<T>({
                             name={htmlFor}
                             value={option.value}
                             checked={isInput === option.value}
-                            onChange={handleChange}
+                            onChange={() => {}}
+                            onClick={() => handleClick(option.value)}
                             className="hidden radio-button-class" // 예시 클래스, 실제로는 적절한 CSS 클래스 사용
                         />
                         <div
@@ -49,6 +55,9 @@ function RadioButton<T>({
                         </span>
                     </label>
                 ))}
+                {/* <button className={`ml-auto text-red-500 ${isInput ? '' : 'hidden'}`} type="button">
+                    <CloseIcon className="w-4 h-4" />
+                </button> */}
             </div>
         </InputContainer>
     );

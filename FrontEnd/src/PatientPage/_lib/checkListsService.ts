@@ -23,6 +23,11 @@ const getCheckLists = async (operationId: number): Promise<ResponseCheckListsTyp
     return response.data.data;
 }; // 전체 체크리스트
 
+const getFluidRestriction = async (operationId: number): Promise<number> => {
+    const response = await Axios.get(`api/checkListDuring/${operationId}/fluid-restriction`);
+    return response.data.data;
+}; //수술 중 수액 용량 제한 조회
+
 //--------------------------------------------
 
 export const useCheckListBeforeQuery = ({
@@ -60,6 +65,21 @@ export const useCheckListsQuery = ({ operationId }: { operationId: number }) => 
     const query = useQuery<ResponseCheckListsType, AxiosError<ErrorResponseType>>({
         queryKey: ['getCheckListAfterOperation', operationId],
         queryFn: () => getCheckLists(operationId),
+    });
+    return query;
+};
+
+export const useFluidRestrictionQuery = ({
+    operationId,
+    enabled = true,
+}: {
+    operationId: number;
+    enabled?: boolean;
+}) => {
+    const query = useQuery<number, AxiosError<ErrorResponseType>>({
+        queryKey: ['fluidRestriction', operationId],
+        queryFn: () => getFluidRestriction(operationId),
+        enabled,
     });
     return query;
 };
