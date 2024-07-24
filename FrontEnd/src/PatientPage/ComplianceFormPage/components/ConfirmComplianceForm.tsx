@@ -43,7 +43,14 @@ function ConfirmComplianceForm({
     const isPod1 = diffDay === '-1'; //POD 1일차인지 여부
     const isPod2 = diffDay === '-2'; //POD 2일차인지 여부
     const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
-    const statusTitle = dateStatus === 'PREV' ? '수술 전' : dateStatus === 'POST' ? '수술 후' : '수술 당일';
+    // const statusTitle = dateStatus === 'PREV' ? '수술 전' : dateStatus === 'POST' ? '수술 후' : '수술 당일';
+    const dateComparison =
+        dateStatus === 'PREV'
+            ? '수술전'
+            : dateStatus === 'TODAY'
+              ? '수술당일'
+              : `수술후(D+${Math.abs(Number(diffDay))})`;
+
     const fluidRestrictionQuery = useFluidRestrictionQuery({
         operationId: Number(operationId),
         enabled: Boolean(!fluidRestriction),
@@ -69,7 +76,7 @@ function ConfirmComplianceForm({
     return (
         <>
             <div className="flex flex-col w-full h-full gap-3 px-4">
-                <span className="flex flex-row mx-auto text-lg font-bold text-center w-fit">{statusTitle}</span>
+                <span className="flex flex-row mx-auto text-lg font-bold text-center w-fit">{dateComparison}</span>
 
                 <div
                     className={`${dateStatus === 'PREV' ? 'grid' : 'hidden'} w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}
