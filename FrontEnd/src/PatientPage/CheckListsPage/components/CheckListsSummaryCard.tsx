@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import {
     CheckListsAfterItemType,
@@ -45,6 +45,8 @@ function CheckListsSummaryCard({
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const { createAt, updatedAt } = checkListData;
+    const openLatest = searchParams.get('openLatest'); // 최신 데이터 열기
+    const diffDay = searchParams.get('diffDay'); // 날짜 차이
 
     const { allDate: formattedCreateAt } = useDateFormatted(createAt || ''); //작성일
     const { allDate: formattedUpdatedAte } = useDateFormatted(updatedAt || ''); //수정일
@@ -66,6 +68,9 @@ function CheckListsSummaryCard({
         setIsModalOpen(true);
     };
     const closeModal = () => {
+        if (openLatest === 'true') {
+            return navigate(-1);
+        } // 뒤로가기
         const params = new URLSearchParams(searchParams.toString());
         params.delete('dateStatus');
         params.delete('diffDay');
@@ -74,6 +79,15 @@ function CheckListsSummaryCard({
 
         setIsModalOpen(false);
     };
+
+    useEffect(() => {
+        // console.log(openLatest, diffDay);
+        if (openLatest === 'true' && day === Number(diffDay)) {
+            console.log(day, Math.abs(Number(diffDay)));
+
+            setIsModalOpen(true);
+        }
+    }, [openLatest, diffDay]);
 
     return (
         <>

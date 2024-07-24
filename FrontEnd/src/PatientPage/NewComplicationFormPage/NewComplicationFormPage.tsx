@@ -73,11 +73,11 @@ function NewComplicationFormPage() {
                     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
                     isError = true;
                 }
-                if (customComplication.complicationName === '' && customComplication.cdClassification === '') {
-                    formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
-                    formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
-                    isError = true;
-                }
+                // if (customComplication.complicationName === '' && customComplication.cdClassification === '') {
+                //     formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
+                //     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
+                //     isError = true;
+                // }
             });
         }
         if (isError) {

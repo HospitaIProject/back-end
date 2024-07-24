@@ -55,12 +55,11 @@ function OperationDetail({ operationData }: Props) {
             <NumberViewInput unit="cc" label="수술 중 총 들어간 수액 양 (cc)" value={operationData.totalFluidsAmount} />
 
             <NumberViewInput unit="cc" label="수술 중 실혈량 (cc)" value={operationData.bloodLoss} />
-            <div className="mt-4 flex w-full flex-col items-center tablet:col-span-2">
-                <span className="mb-2 text-base text-yellow-600">*선택한 Checklist 확인 필수</span>
+            <div className="flex flex-col items-center w-full mt-4 tablet:col-span-2">
                 <button
                     type="button"
                     onClick={() => setIsModalOpen(true)}
-                    className="w-full rounded-md border border-gray-200 bg-gray-100 px-8 py-3 text-gray-600 hover:bg-gray-300 mobile:max-w-screen-mobile"
+                    className="w-full px-8 py-3 text-gray-600 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-300 mobile:max-w-screen-mobile"
                 >
                     설정된 체크리스트
                 </button>

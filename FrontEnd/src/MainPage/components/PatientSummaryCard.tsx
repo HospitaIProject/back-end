@@ -71,19 +71,17 @@ function PatientSummaryCard({ userData }: Props) {
 
     const handleRouteCheckList = () => {
         if (userData.checkListCreatedToday) {
-            pushNotification({
-                msg: '오늘 작성된 체크리스트가 있습니다.',
-                type: 'error',
-                theme: 'light',
-            });
-            return;
+            navigation(
+                `/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&openLatest=true`,
+            );
+        } else {
+            navigation(
+                `/patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&date=${addDaysToDate(
+                    operationDate,
+                    -Number(diffDay),
+                )}`,
+            );
         }
-        navigation(
-            `patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&date=${addDaysToDate(
-                operationDate,
-                -Number(diffDay),
-            )}`,
-        );
     };
 
     return (
@@ -127,10 +125,9 @@ function PatientSummaryCard({ userData }: Props) {
                             <div className="relative">
                                 <button
                                     onClick={handleRouteCheckList}
-                                    disabled={userData.checkListCreatedToday}
                                     className={` ${
-                                        userData.checkListCreatedToday ? '' : ''
-                                    } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-100 p-2 text-blue-700 shadow-sm disabled:cursor-not-allowed disabled:opacity-50`}
+                                        userData.checkListCreatedToday ? 'opacity-50' : ''
+                                    } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-100 p-2 text-blue-700 shadow-sm`}
                                 >
                                     <CheckListIcon className={`h-5 w-5 text-inherit`} />
                                     <span className="text-sm font-semibold">

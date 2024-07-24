@@ -4,7 +4,13 @@ import { Toaster } from 'react-hot-toast';
 import { Outlet, useLocation } from 'react-router-dom';
 import FallbackUI from '../components/common/FallbackUI';
 
-const WHITE_BG_PAGES = ['/login', '/patient/new/info', '/patient/new/operation', '/patient/form/compliance'];
+const WHITE_BG_PAGES = [
+    '/login',
+    '/patient/new/info',
+    '/patient/new/operation',
+    '/patient/form/compliance',
+    '/patient/checkLists/preview',
+];
 
 function Layout() {
     const { pathname } = useLocation();
