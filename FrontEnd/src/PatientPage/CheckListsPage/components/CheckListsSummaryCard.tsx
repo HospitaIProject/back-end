@@ -96,7 +96,7 @@ function CheckListsSummaryCard({
                 style={{ order: order }}
                 onClick={() => openModal()}
             >
-                <div className="flex flex-row items-center w-full gap-6">
+                <div className="flex flex-row items-center w-full gap-6 font-sm">
                     <span className="font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">

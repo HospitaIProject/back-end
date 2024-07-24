@@ -8,7 +8,7 @@ import { CHECKLIST_ITEMS_NAME } from '../../../utils/mappingNames';
 import DropContainer from '../../ComplianceFormPage/components/DropContainer';
 import { useSearchParams } from 'react-router-dom';
 import Loading from '../../../components/common/Loading';
-import MultiInput from '../../../components/common/form/input/MultiInput';
+import PainSelector from '../../../components/common/form/input/PainSelector';
 import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
@@ -373,7 +373,7 @@ function CheckListViewPage() {
                             isRender={existFields.podMeal}
                         />
                         {/* ------Day 통증 ------ */}
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="postPain"
                             label={CHECKLIST_ITEMS_NAME.postPain}
@@ -385,7 +385,7 @@ function CheckListViewPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podOnePain"
                             label={CHECKLIST_ITEMS_NAME.podOnePain}
@@ -397,7 +397,7 @@ function CheckListViewPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podTwoPain"
                             label={CHECKLIST_ITEMS_NAME.podTwoPain}
@@ -409,7 +409,7 @@ function CheckListViewPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podThreePain"
                             label={CHECKLIST_ITEMS_NAME.podThreePain}
