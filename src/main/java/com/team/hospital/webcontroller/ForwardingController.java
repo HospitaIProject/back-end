@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ForwardingController {
 
+    // 리다이렉트 메소드
     @RequestMapping(value = "/**/{path:[^\\.]*}")
     public String redirect(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
