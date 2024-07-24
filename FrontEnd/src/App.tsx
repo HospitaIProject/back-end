@@ -10,6 +10,7 @@ import NewPatientFormPage from './PatientPage/NewPatientFormPage/NewPatientFormP
 import OperationListPage from './PatientPage/OperationPage/OperationListPage';
 import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
 import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
+import CheckListViewPage from './PatientPage/CheckListsPage/components/CheckListViewPage';
 
 function App() {
     return (
@@ -26,7 +27,10 @@ function App() {
                             {/* 수술정보 리스트 페이지 */}
                             <Route path="/patient/operation/list" element={<OperationListPage />} />
 
+                            {/* 체크리스트목록 페이지 */}
                             <Route path="/patient/checkLists" element={<CheckListsPage />} />
+                            {/* 체크리스트 항목 페이지 */}
+                            <Route path="/patient/checkLists/preview" element={<CheckListViewPage />} />
 
                             {/* 환자 정보 등록 페이지 */}
                             <Route path="/patient/new/info" element={<NewPatientFormPage />} />
@@ -34,6 +38,8 @@ function App() {
                             <Route path="/patient/new/operation" element={<NewOperationInfoFormPage />} />
                             {/* compilance 체크리스트 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
+
+                            {/* 합병증 등록 페이지 */}
                             <Route path="/patient/new/complication" element={<NewComplicationFormPage />} />
                         </Route>
                         <Route path="/login" element={<LoginPage />} />

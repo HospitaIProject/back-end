@@ -33,10 +33,12 @@ export default function Header() {
         label = '환자 수술이력';
     } else if (pathname.startsWith('/patient/new/operation')) {
         label = '수술정보등록';
-    } else if (pathname.startsWith('/patient/checkLists')) {
-        label = '체크리스트 목록';
     } else if (pathname.startsWith('/patient/new/complication')) {
         label = '합병증 등록';
+    } else if (pathname.startsWith('/patient/checkLists/preview')) {
+        label = '체크리스트 항목';
+    } else if (pathname.startsWith('/patient/checkLists')) {
+        label = '체크리스트 목록';
     }
 
     if (pathname !== '/') {

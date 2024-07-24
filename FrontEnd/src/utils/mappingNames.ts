@@ -1,4 +1,6 @@
-export const CHECKLIST_ITEMS_NAME = {
+export const CHECKLIST_ITEMS_NAME: {
+    [key: string]: string;
+} = {
     explainedPreOp: 'EAS 수술전 설명',
     onsPreOp2hr: '수술 2시간 전 ONS 복용여부',
     onsPostBowelPrep: 'Bowel preparation 후 경장영양액 복용여부',

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Loading from '../../components/common/Loading';
 import ResponsivePagination from '../../components/common/ResponsivePagination';
 import CheckListsSummaryCard from './components/CheckListsSummaryCard';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useCheckListSetupQuery } from '../_lib/complianceFormSevice';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import { pushNotification } from '../../utils/pushNotification';
@@ -102,24 +102,13 @@ function CheckListsPage() {
                     <span className="text-gray-600">
                         환자명:&nbsp;<span className="">{patientName}</span>
                     </span>
-                    {/* <div className="relative">₩
-                        <button
-                            onClick={handleRouteCheckListForm}
-                            className={`flex flex-row items-center gap-2 rounded-md border bg-gray-50 p-2 shadow-sm ${checkListsData.checkListCreatedToday ? 'text-gray-400' : 'text-gray-600'}`}
-                        >
-                            <span className="text-sm font-semibold">체크리스트</span>
-                            <PlusIcon className="w-5 h-5 text-inherit" />
-                        </button>
-                        <span
-                            className={`absolute -top-2 right-0 inline-block rounded-md px-1 text-sm ${
-                                checkListsData.checkListCreatedToday
-                                    ? 'font-medium text-green-500'
-                                    : 'h-5 w-5 bg-yellow-200 text-center text-red-500'
-                            }`}
-                        >
-                            {checkListsData.checkListCreatedToday ? '작성완료 ✔' : '!'}
-                        </span>
-                    </div> */}
+
+                    <Link
+                        to={`/patient/checkLists/preview?id=${operationId}&name=${patientName}`}
+                        className={`flex flex-row items-center gap-2 rounded-md border border-blue-400 px-2 py-1 text-blue-400`}
+                    >
+                        <span className="text-sm font-medium">항목 미리보기</span>
+                    </Link>
                 </div>
 
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
