@@ -26,7 +26,8 @@ const transformObject = (data: ComplicationFormType) => {
         (transformData.customComplications[0].cdClassification === '' ||
             transformData.customComplications[0].complicationName === '')
     ) {
-        transformData.customComplications = [];
+        transformData.customComplications[0].cdClassification = null;
+        transformData.customComplications[0].complicationName = null;
     }
     return transformData;
 };
