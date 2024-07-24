@@ -27,9 +27,7 @@ function CheckListsEmptyCard({ type, id, name }: Props) {
                     <span className="flex-shrink-0 w-12 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-row items-center justify-center">
                         <span className="inline-block text-sm text-gray-400 break-words">
-                            {type === 'PREV'
-                                ? '수술 전 체크리스트를 작성해주세요.'
-                                : '수술 당일 체크리스트를 작성해주세요.'}
+                            {type === 'PREV' ? '체크리스트 작성가능' : '체크리스트 작성가능'}
                         </span>
                     </div>
                 </div>

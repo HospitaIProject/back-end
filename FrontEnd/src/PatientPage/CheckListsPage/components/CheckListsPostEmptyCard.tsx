@@ -32,7 +32,7 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                 <div className="flex flex-row items-center w-full gap-3">
                     <span className="flex-shrink-0 w-12 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-row items-center">
-                        <span className="inline-block text-sm text-gray-400 break-words">{`체크리스트 작성 가능합니다.`}</span>
+                        <span className="inline-block text-sm text-gray-400 break-words">{`체크리스트 작성 가능`}</span>
                     </div>
                 </div>
                 <Link

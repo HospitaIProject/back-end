@@ -11,7 +11,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import Loading from '../../components/common/Loading';
 import { useInitialValues } from './utils/useInitialValues';
-import MultiInput from '../../components/common/form/input/MultiInput';
+import PainSelector from '../../components/common/form/input/PainSelector';
 import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
@@ -121,6 +121,9 @@ function ComplianceFormPage() {
             formik.setFieldValue('ivLineRemovalDate', '');
         }
     }, [formik.values.jpDrainRemoval, formik.values.catheterRemoval, formik.values.ivLineRemoval]);
+    useEffect(() => {
+        console.log('podOnePain', formik.values.podOnePain);
+    }, [formik.values.podOnePain]);
 
     if (isExistFieldsPending || isInitialValuesPending || isFluidRestrictionPending) {
         return <Loading />;
@@ -378,7 +381,7 @@ function ComplianceFormPage() {
                             isRender={existFields.podMeal && isPod2}
                         />
                         {/* ------Day 통증 ------ */}
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="postPain"
                             label={CHECKLIST_ITEMS_NAME.postPain}
@@ -390,7 +393,7 @@ function ComplianceFormPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podOnePain"
                             label={CHECKLIST_ITEMS_NAME.podOnePain}
@@ -402,7 +405,7 @@ function ComplianceFormPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podTwoPain"
                             label={CHECKLIST_ITEMS_NAME.podTwoPain}
@@ -414,7 +417,7 @@ function ComplianceFormPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <MultiInput<checkListFormType>
+                        <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podThreePain"
                             label={CHECKLIST_ITEMS_NAME.podThreePain}
