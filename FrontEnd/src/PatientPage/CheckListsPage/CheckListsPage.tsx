@@ -10,6 +10,7 @@ import { useCheckListsQuery } from '../_lib/checkListsService';
 import CheckListsEmptyCard from './components/CheckListsEmptyCard';
 import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import CheckListsPostEmptyCard from './components/CheckListsPostEmptyCard';
+import { useDateFormatted } from '../../Hooks/useDateFormatted';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
@@ -50,7 +51,7 @@ function CheckListsPage() {
     } = checkListsQuery; //체크리스트 목록 데이터
 
     const { diffDay } = useOperationDayFormat(checkListsData?.operationDateDTO.operationDate || ''); //수술일로부터 몇일이 지났는지
-    // const { dateComparison } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || ''); //수술일과 현재날짜 비교
+    const { dateComparison } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || ''); //수술일과 현재날짜 비교
 
     useEffect(() => {
         console.log(checkListsData);
@@ -113,7 +114,7 @@ function CheckListsPage() {
 
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
-                    {checkListsData.checkListDTOs?.length === 0 && (
+                    {dateComparison !== 'POST' && (
                         <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술후 체크리스트는 수술일 다음날부터 작성가능합니다.
@@ -150,6 +151,13 @@ function CheckListsPage() {
                 </ul>
 
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
+                    {dateComparison === 'PREV' && (
+                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                            <span className="text-sm text-gray-700">
+                                수술중 체크리스트는 수술일 당일부터 작성 가능합다.
+                            </span>
+                        </div>
+                    )}
                     {checkListsData.checkListDuringDTO && (
                         <CheckListsSummaryCard
                             operationDateDTO={checkListsData.operationDateDTO}
@@ -160,7 +168,7 @@ function CheckListsPage() {
                             day={0}
                         />
                     )}
-                    {!checkListsData.checkListDuringDTO && (
+                    {!checkListsData.checkListDuringDTO && dateComparison !== 'PREV' && (
                         <CheckListsEmptyCard type="TODAY" id={Number(operationId)} name={patientName ?? '알수없음'} />
                     )}
 

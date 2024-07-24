@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import CheckListIcon from '../../icons/CheckListIcon';
 import ConfirmNewPatientFormModal from './PatientDetailModal';
 import { useState } from 'react';
-import { pushNotification } from '../../utils/pushNotification';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
 import { useOperationMethodFormatted } from '../../Hooks/useOperationMethodFormatted';
