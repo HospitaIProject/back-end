@@ -57,10 +57,9 @@ function PainSelector<T>({
                             <Select
                                 components={animatedComponents}
                                 options={options}
-                                defaultValue={{
-                                    value: formik.getFieldProps(`${htmlFor}.${item.value}`).value,
-                                    label: formik.getFieldProps(`${htmlFor}.${item.value}`).value,
-                                }}
+                                value={options.find(
+                                    (option) => option.value === formik.getFieldProps(`${htmlFor}.${item.value}`).value,
+                                )}
                                 isSearchable={false}
                                 onChange={(newValue) =>
                                     handleChange({
