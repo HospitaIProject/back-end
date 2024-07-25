@@ -141,35 +141,35 @@ export const useInitialValues = ({
         postPain:
             existFields?.podPain && isPostOp
                 ? {
-                      day: '',
-                      evening: '',
-                      night: '',
+                      day: 0,
+                      evening: 0,
+                      night: 0,
                   }
                 : undefined,
         //수술 후 통증
         podOnePain:
             existFields?.podPain && isPod1
                 ? {
-                      day: '',
-                      evening: '',
-                      night: '',
+                      day: 0,
+                      evening: 0,
+                      night: 0,
                   }
                 : undefined, //POD 1day 통증
         podTwoPain:
             existFields?.podPain && isPod2
                 ? {
-                      day: '',
-                      evening: '',
-                      night: '',
+                      day: 0,
+                      evening: 0,
+                      night: 0,
                   }
                 : undefined, //POD 2day 통증
 
         podThreePain:
             existFields?.podPain && isPod3
                 ? {
-                      day: '',
-                      evening: '',
-                      night: '',
+                      day: 0,
+                      evening: 0,
+                      night: 0,
                   }
                 : undefined, //POD 3day 통증
 
