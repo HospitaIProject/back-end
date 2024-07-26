@@ -52,6 +52,10 @@ public class ComplicationDTO {
     private CDClassification stomaCx;
     private CDClassification incisionalHernia;
 
+    // 신경계
+    private CustomComplication nervousSystem;
+
+    // 기타 합병증
     private List<CustomComplication> customComplications;
 
     private String remarks;
@@ -101,8 +105,13 @@ public class ComplicationDTO {
                 .stomaCx(complication.getStomaCx())
                 .incisionalHernia(complication.getIncisionalHernia())
 
+                // 신경계
+                .nervousSystem(complication.getNervousSystem())
 
+                // 기타 합병증
                 .customComplications(complication.getCustomComplications())
+
+                // 비고
                 .remarks(complication.getRemarks())
 
                 .score(complication.getComplicationScore())

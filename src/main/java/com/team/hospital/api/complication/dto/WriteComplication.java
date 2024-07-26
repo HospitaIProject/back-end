@@ -47,6 +47,9 @@ public class WriteComplication {
     private CDClassification stomaCx;
     private CDClassification incisionalHernia;
 
+    // 신경계
+    private CustomComplication nervousSystem;
+
     private List<CustomComplication> customComplications;
 
     private String remarks;

@@ -3,7 +3,7 @@ package com.team.hospital.api.checkList;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
-import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
+import com.team.hospital.api.checkListBefore.dto.CheckListBeforeDTO;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
 import com.team.hospital.api.checkListDuring.CheckListDuring;
 import com.team.hospital.api.checkListDuring.CheckListDuringService;
@@ -132,23 +132,6 @@ public class CheckListService {
         return count;
     }
 
-    private int countCheckList(Long operationId) {
-        List<CheckList> checkLists = findAllByOperationId(operationId);
-        CheckList checkList = checkLists.get(0);
-        int count = 0;
-
-        if (checkList.getGiStimulant().getOption() == BooleanOption.YES) count++;
-        if (checkList.getGumChewing().getOption() == BooleanOption.YES) count++;
-        if (checkList.getAntiNauseaPostOp().getOption() == BooleanOption.YES) count++;
-        if (checkList.getIvFluidRestrictionPostOp().getOption() == BooleanOption.YES) count++;
-        if (checkList.getNonOpioidPainControl().getOption() == BooleanOption.YES) count++;
-        if (checkList.getJpDrainRemoval().getOption() == BooleanOption.YES) count++;
-        if (checkList.getCatheterRemoval().getOption() == BooleanOption.YES) count++;
-        if (checkList.getIvLineRemoval().getOption() == BooleanOption.YES) count++;
-
-        return count;
-    }
-
     private int countCheckedItems(CheckListItem checkListItem) {
         int count = 0;
 
@@ -181,6 +164,5 @@ public class CheckListService {
 
         return count;
     }
-
 
 }

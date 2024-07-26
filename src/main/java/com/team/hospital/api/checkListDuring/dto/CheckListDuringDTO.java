@@ -1,6 +1,7 @@
-package com.team.hospital.api.checkListDuring;
+package com.team.hospital.api.checkListDuring.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.checkListDuring.CheckListDuring;
 import lombok.Builder;
 import lombok.Getter;
 

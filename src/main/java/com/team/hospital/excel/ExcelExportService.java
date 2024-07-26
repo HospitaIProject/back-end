@@ -2,8 +2,11 @@ package com.team.hospital.excel;
 
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.CheckListService;
-import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
+import com.team.hospital.api.checkListAfter.CheckListAfterService;
+import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
+import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
+import com.team.hospital.api.checkListBefore.dto.CheckListBeforeDTO;
 import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
@@ -31,6 +34,7 @@ public class ExcelExportService {
     private final PatientService patientService;
     private final OperationService operationService;
     private final CheckListBeforeService checkListBeforeService;
+    private final CheckListAfterService checkListAfterService;
     private final CheckListService checkListService;
 
     public ByteArrayInputStream exportToExcel() throws IOException {
@@ -145,6 +149,15 @@ public class ExcelExportService {
             }
             // CheckListBefore
 
+            // CheckListBefore
+            CheckListAfterDTO checkListAfterDTO;
+            try {
+                checkListAfterDTO = checkListAfterService.findCheckListAfterByOperationId(operation.getId());
+            } catch (CheckListAfterNotFoundException e) {
+                continue;
+            }
+            // CheckListBefore
+
             // CheckList
             List<CheckList> checkLists = checkListService.findAllByOperationId(operation.getId());
             CheckList checkList;
@@ -248,7 +261,7 @@ public class ExcelExportService {
 
             // 14th Col
             Cell jpDateCell = row.createCell(14);
-            LocalDate jpRemovalDate = checkList.getJpDrainRemoval().getRemovedDate();
+            LocalDate jpRemovalDate = checkListAfterDTO.getJpDrainRemovalDate();
             jpDateCell.setCellValue(convertDateToString(jpRemovalDate));
             jpDateCell.setCellStyle(cellStyle);
             // 14th Col
@@ -261,7 +274,7 @@ public class ExcelExportService {
 
             // 16th Col
             Cell urinCathCell = row.createCell(16);
-            urinCathCell.setCellValue(checkList.getCatheterRemoval().getOption().name());
+            urinCathCell.setCellValue(checkListAfterDTO.getCatheterRemoval().name());
             urinCathCell.setCellStyle(cellStyle);
             // 16th Col
 
@@ -273,13 +286,13 @@ public class ExcelExportService {
 
             // 18th Col
             Cell fluidCell = row.createCell(18);
-            fluidCell.setCellValue(checkList.getIvFluidRestrictionPostOp().getOption().name());
+            fluidCell.setCellValue(checkListAfterDTO.getIvFluidRestrictionPostOp().name());
             fluidCell.setCellStyle(cellStyle);
             // 18th Col
 
             // 19th Col
             Cell ivRmvDateCell = row.createCell(19);
-            LocalDate ivRmvDate = checkList.getIvLineRemoval().getRemovedDate();
+            LocalDate ivRmvDate = checkListAfterDTO.getIvLineRemovalDate();
             ivRmvDateCell.setCellValue(convertDateToString(ivRmvDate));
             ivRmvDateCell.setCellStyle(cellStyle);
             // 19th Col

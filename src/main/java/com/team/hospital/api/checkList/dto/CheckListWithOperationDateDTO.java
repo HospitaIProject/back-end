@@ -1,8 +1,8 @@
 package com.team.hospital.api.checkList.dto;
 
 import com.team.hospital.api.checkList.CheckList;
-import com.team.hospital.api.checkListBefore.CheckListBeforeDTO;
-import com.team.hospital.api.checkListDuring.CheckListDuringDTO;
+import com.team.hospital.api.checkListBefore.dto.CheckListBeforeDTO;
+import com.team.hospital.api.checkListDuring.dto.CheckListDuringDTO;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.OperationDateDTO;
 import com.team.hospital.api.patient.Patient;
