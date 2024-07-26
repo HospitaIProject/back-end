@@ -67,6 +67,12 @@ export const useComplicationInitialValues = () => {
     if (data) {
         console.log('data', data);
         initialValues = data;
+        if (!data.nervousSystem) {
+            initialValues.nervousSystem = {
+                complicationName: '',
+                cdClassification: '',
+            };
+        }
         if (data.customComplications.length === 0) {
             initialValues.customComplications = [
                 {

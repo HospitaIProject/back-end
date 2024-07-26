@@ -31,7 +31,9 @@ function CheckListViewGuide({ patientName, existFields }: { patientName: string;
                     {Object.keys(existFields)
                         .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
                         .map((patientKey) => (
-                            <span>{existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}</span>
+                            <span key={patientKey}>
+                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
+                            </span>
                         ))}
                 </div>
                 <div className="flex flex-col items-center text-sm">
@@ -39,7 +41,9 @@ function CheckListViewGuide({ patientName, existFields }: { patientName: string;
                     {Object.keys(existFields)
                         .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
                         .map((patientKey) => (
-                            <span>{existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}</span>
+                            <span key={patientKey}>
+                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
+                            </span>
                         ))}
                 </div>
                 <div className="flex flex-col items-center text-sm">
@@ -47,7 +51,9 @@ function CheckListViewGuide({ patientName, existFields }: { patientName: string;
                     {Object.keys(existFields)
                         .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
                         .map((patientKey) => (
-                            <span>{existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}</span>
+                            <span key={patientKey}>
+                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
+                            </span>
                         ))}
                 </div>
             </div>
