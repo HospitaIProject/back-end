@@ -73,12 +73,22 @@ function NewComplicationFormPage() {
                     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
                     isError = true;
                 }
-                // if (customComplication.complicationName === '' && customComplication.cdClassification === '') {
-                //     formik.setFieldError(`customComplications[${index}].complicationName`, '필수 입력 항목입니다.');
-                //     formik.setFieldError(`customComplications[${index}].cdClassification`, '필수 입력 항목입니다.');
-                //     isError = true;
-                // }
             });
+            if (
+                formik.values.nervousSystem.cdClassification === '' &&
+                formik.values.nervousSystem.complicationName !== ''
+            ) {
+                formik.setFieldError('nervousSystem.cdClassification', '필수 입력 항목입니다.');
+
+                isError = true;
+            } else if (
+                formik.values.nervousSystem.complicationName === '' &&
+                formik.values.nervousSystem.cdClassification !== ''
+            ) {
+                formik.setFieldError('nervousSystem.complicationName', '필수 입력 항목입니다.');
+
+                isError = true;
+            }
         }
         if (isError) {
             pushNotification({
@@ -152,6 +162,15 @@ function NewComplicationFormPage() {
                         </>
                     ))}
                     <div className="my-3 border-t" />
+                    <CustomRadioButton
+                        htmlFor="nervousSystem.cdClassification"
+                        nameHtmlFor="nervousSystem.complicationName"
+                        formik={formik}
+                        values={CD_CLASSIFICATION}
+                        label="[신경계]"
+                        isRender={true}
+                        index={0}
+                    />
                     {formik.values.customComplications.map((_, index) => (
                         <CustomRadioButton
                             key={index}
@@ -160,7 +179,7 @@ function NewComplicationFormPage() {
                             formik={formik}
                             values={CD_CLASSIFICATION}
                             index={index}
-                            label={index === 0 ? '[신경계]' : '[기타]'}
+                            label={'[기타]'}
                             isRender={true}
                         />
                     ))}

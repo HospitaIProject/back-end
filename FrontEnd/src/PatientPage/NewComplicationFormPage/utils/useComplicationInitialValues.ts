@@ -49,6 +49,10 @@ export const useComplicationInitialValues = () => {
         seroma: '', // Seroma
         stomaCx: '', // Stoma CX
         incisionalHernia: '', // Incisional hernia
+        nervousSystem: {
+            complicationName: '',
+            cdClassification: '',
+        },
         customComplications: [
             {
                 complicationName: '',
