@@ -89,6 +89,14 @@ public class Complication extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CDClassification incisionalHernia;
 
+    // 신경계
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "complicationName", column = @Column(name = "nervousSystem_complicationName")),
+            @AttributeOverride(name = "cdClassification", column = @Column(name = "nervousSystem_cdClassification"))
+    })
+    private CustomComplication nervousSystem;
+
     @ElementCollection
     @CollectionTable(name = "custom_complications", joinColumns = @JoinColumn(name = "complication_id"))
     private List<CustomComplication> customComplications;
@@ -197,6 +205,11 @@ public class Complication extends BaseEntity {
             builder.incisionalHernia(write.getIncisionalHernia());
         }
 
+        // 신경계
+        if (write.getNervousSystem() != null) {
+            builder.nervousSystem(write.getNervousSystem());
+        }
+
         // 추가사항
         builder
                 .customComplications(write.getCustomComplications())
@@ -246,6 +259,9 @@ public class Complication extends BaseEntity {
         this.seroma = write.getSeroma();
         this.stomaCx = write.getStomaCx();
         this.incisionalHernia = write.getIncisionalHernia();
+
+        // 신경계
+        this.nervousSystem = write.getNervousSystem();
 
         this.customComplications = write.getCustomComplications();
         this.remarks = write.getRemarks();
