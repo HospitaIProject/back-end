@@ -1,4 +1,4 @@
-package com.team.hospital.api.checkListBefore;
+package com.team.hospital.api.checkListBefore.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import lombok.Getter;

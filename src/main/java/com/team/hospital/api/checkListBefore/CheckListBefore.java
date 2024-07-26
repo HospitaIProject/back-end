@@ -2,6 +2,7 @@ package com.team.hospital.api.checkListBefore;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
+import com.team.hospital.api.checkListBefore.dto.WriteCheckListBefore;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
 import lombok.*;
