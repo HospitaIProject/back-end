@@ -2,8 +2,8 @@ package com.team.hospital.api.checkListAfter;
 
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
+import com.team.hospital.api.checkListAfter.exception.CheckListAfterAlreadyExistsException;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
-import com.team.hospital.api.checkListBefore.exception.CheckListBeforeAlreadyExistsException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import jakarta.transaction.Transactional;
@@ -28,7 +28,7 @@ public class CheckListAfterService {
             CheckListAfter checkListAfter = CheckListAfter.toEntity(write, checkListItem);
             checkListAfterRepository.save(checkListAfter);
         } catch (DataIntegrityViolationException e) {
-            throw new CheckListBeforeAlreadyExistsException();
+            throw new CheckListAfterAlreadyExistsException();
         }
     }
 
