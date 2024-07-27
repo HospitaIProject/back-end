@@ -28,7 +28,7 @@ public class CheckListAfterController {
         return SuccessResponse.createSuccess();
     }
 
-    @PostMapping("/api/checkListAfter/operation/{oprationId}")
+    @PostMapping("/api/checkListAfter/operation/{operationId}")
     @Operation(summary = "operationId를 통해 세팅한 수술 후 체크리스트에 대하여 수술 전 체크리스트 등록")
     public SuccessResponse<?> saveWithOperationId(@RequestBody WriteCheckListAfter write, @PathVariable Long operationId) {
         CheckListItem checkListItem = checkListItemService.findCheckListItemByOperation(operationId);
