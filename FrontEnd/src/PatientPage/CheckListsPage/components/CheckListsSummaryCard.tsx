@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
     CheckListsAfterItemType,
     CheckListsBeforeItemType,
+    CheckListsDailyItemType,
     CheckListsDuringItemType,
 } from '../../../models/CheckListsType';
 import { CheckListSetupType } from '../../../models/CheckListsType';
@@ -11,9 +12,14 @@ import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import ArrowIcon from '../../../icons/ArrowIcon';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import SparklingIcon from '../../../icons/SparklingIcon';
+import CheckListsDailyDetailModal from './CheckListsDailyDetailModal';
 
 type Props = {
-    checkListData: CheckListsBeforeItemType | CheckListsDuringItemType | CheckListsAfterItemType;
+    checkListData:
+        | CheckListsBeforeItemType
+        | CheckListsDuringItemType
+        | CheckListsAfterItemType
+        | CheckListsDailyItemType;
     setupData: CheckListSetupType;
     operationDateDTO: {
         operationId: number;
@@ -23,10 +29,11 @@ type Props = {
         hospitalizedDate: string;
         dischargedDate: string;
     };
-    type: 'PREV' | 'TODAY' | 'POST';
+    type: 'PREV' | 'TODAY' | 'POST' | 'DAILY';
     prevValues?: CheckListsBeforeItemType;
     todayValues?: CheckListsDuringItemType;
     postValues?: CheckListsAfterItemType;
+    dailyValues?: CheckListsDailyItemType;
     order?: number;
     day: number;
 };
@@ -35,6 +42,8 @@ function CheckListsSummaryCard({
     prevValues,
     todayValues,
     postValues,
+    dailyValues,
+
     checkListData,
     setupData,
     type,
@@ -53,31 +62,52 @@ function CheckListsSummaryCard({
     const { dateComparison: createAtComparison } = useDateFormatted(createAt);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDailyModalOpen, setIsDailyModalOpen] = useState(false);
 
     let dateComparison = '';
 
-    dateComparison = type === 'PREV' ? `수술전` : type === 'TODAY' ? '수술당일' : `D+${Math.abs(day)}`;
+    if (type === 'PREV') {
+        dateComparison = `수술 전`;
+    } else if (type === 'TODAY') {
+        dateComparison = '수술 중';
+    } else if (type === 'POST') {
+        dateComparison = '수술 후';
+    } else {
+        dateComparison = `D+${Math.abs(day)}`;
+    }
 
     const openModal = () => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('dateStatus', type);
-        params.set('diffDay', day.toString());
+        if (type === 'DAILY') {
+            params.set('dateStatus', type);
+            params.set('diffDay', String(day));
+            navigate(pathname + '?' + params.toString(), { replace: true });
+            setIsDailyModalOpen(true);
+            return;
+        } else {
+            params.set('dateStatus', type);
 
-        navigate(pathname + '?' + params.toString(), { replace: true });
+            navigate(pathname + '?' + params.toString(), { replace: true });
 
-        setIsModalOpen(true);
+            setIsModalOpen(true);
+        }
     };
+
     const closeModal = () => {
         if (openLatest === 'true') {
             return navigate(-1);
         } // 뒤로가기
+
         const params = new URLSearchParams(searchParams.toString());
         params.delete('dateStatus');
         params.delete('diffDay');
 
         navigate(pathname + '?' + params.toString(), { replace: true });
-
-        setIsModalOpen(false);
+        if (type === 'DAILY') {
+            setIsDailyModalOpen(false);
+        } else {
+            setIsModalOpen(false);
+        }
     };
 
     useEffect(() => {
@@ -97,7 +127,7 @@ function CheckListsSummaryCard({
                 onClick={() => openModal()}
             >
                 <div className="flex flex-row items-center w-full gap-6 font-sm">
-                    <span className="font-semibold text-sky-800">{dateComparison}</span>
+                    <span className="w-12 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             작성일:&nbsp;
@@ -127,9 +157,11 @@ function CheckListsSummaryCard({
                     todayValues={todayValues}
                     postValues={postValues}
                     setupData={setupData}
-                    values={checkListData}
                     onClose={() => closeModal()}
                 />
+            )}
+            {isDailyModalOpen && dailyValues && (
+                <CheckListsDailyDetailModal values={dailyValues} onClose={closeModal} existFields={setupData} />
             )}
         </>
     );

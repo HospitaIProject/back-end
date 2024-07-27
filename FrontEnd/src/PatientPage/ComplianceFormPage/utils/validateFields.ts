@@ -29,18 +29,6 @@ const validationRules = {
         // 'catheterReInsertion', //별도
         'ivLineRemoval',
         // 'ivLineRemovalDate', //별도
-        'postExercise',
-        'podOneExercise',
-        'podTwoExercise',
-        'podThreeExercise',
-        'postMeal',
-        'podOneMeal',
-        'podTwoMeal',
-
-        // 'postPain', //별도
-        'podOnePain',
-        'podTwoPain',
-        'podThreePain',
     ],
 };
 
@@ -74,34 +62,6 @@ export const validateFields = ({ formik, type, values }: Props) => {
         }
         if (values['ivLineRemoval'] === 'YES' && values['ivLineRemovalDate'] === '') {
             formik.setFieldError('ivLineRemovalDate', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (values['postPain']?.day === '' || values['postPain']?.evening === '' || values['postPain']?.night === '') {
-            formik.setFieldError('postPain', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (
-            values['podOnePain']?.day === '' ||
-            values['podOnePain']?.evening === '' ||
-            values['podOnePain']?.night === ''
-        ) {
-            formik.setFieldError('podOnePain', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (
-            values['podTwoPain']?.day === '' ||
-            values['podTwoPain']?.evening === '' ||
-            values['podTwoPain']?.night === ''
-        ) {
-            formik.setFieldError('podTwoPain', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (
-            values['podThreePain']?.day === '' ||
-            values['podThreePain']?.evening === '' ||
-            values['podThreePain']?.night === ''
-        ) {
-            formik.setFieldError('podThreePain', '필수 입력 항목입니다.');
             isError = true;
         }
     }

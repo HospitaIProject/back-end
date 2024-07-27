@@ -127,12 +127,12 @@ function CheckListsPage() {
                         .map((data, index) =>
                             data ? (
                                 <CheckListsSummaryCard
-                                    key={data.checkListId}
+                                    key={index}
                                     operationDateDTO={checkListsData.operationDateDTO}
                                     checkListData={data}
                                     setupData={checkListSetupData}
-                                    type="POST"
-                                    postValues={data}
+                                    type="DAILY"
+                                    dailyValues={data}
                                     order={totalLength - index - 1}
                                     day={-(index + 1)}
                                 />
@@ -158,6 +158,20 @@ function CheckListsPage() {
                             </span>
                         </div>
                     )}
+                    {checkListsData.checkListAfterDTO && (
+                        <CheckListsSummaryCard
+                            operationDateDTO={checkListsData.operationDateDTO}
+                            checkListData={checkListsData.checkListAfterDTO}
+                            setupData={checkListSetupData}
+                            type="POST"
+                            postValues={checkListsData.checkListAfterDTO}
+                            day={-1}
+                        />
+                    )}
+                    {!checkListsData.checkListAfterDTO && dateComparison === 'POST' && (
+                        <CheckListsEmptyCard type="POST" id={Number(operationId)} name={patientName ?? '알수없음'} />
+                    )}
+
                     {checkListsData.checkListDuringDTO && (
                         <CheckListsSummaryCard
                             operationDateDTO={checkListsData.operationDateDTO}

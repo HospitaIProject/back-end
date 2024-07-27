@@ -29,14 +29,14 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                 }}
                 onClick={handleRouteCheckListForm}
             >
-                <div className="flex flex-row items-center w-full gap-3">
+                <div className="flex flex-row items-center w-full gap-6">
                     <span className="flex-shrink-0 w-12 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-row items-center">
                         <span className="inline-block text-sm text-gray-400 break-words">{`체크리스트 작성 가능`}</span>
                     </div>
                 </div>
                 <Link
-                    to={`/patient/form/compliance?id=${id}&name=${name}&dateStatus=POST&diffDay=${-day}&date=${queryDate}`}
+                    to={`/patient/form/compliance/daily?id=${id}&name=${name}&diffDay=${-day}&date=${queryDate}`}
                     className={`relative mx-1 flex flex-shrink-0 flex-row items-center justify-center gap-1 rounded-lg border p-2 text-gray-400 shadow-sm`}
                 >
                     <span className="text-sm">작성하기</span>
