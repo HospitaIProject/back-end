@@ -5,11 +5,14 @@ import com.team.hospital.api.checkList.dto.CheckListDTO;
 import com.team.hospital.api.checkList.dto.CheckListResponse;
 import com.team.hospital.api.checkList.dto.CheckListWithOperationDateDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
-import com.team.hospital.api.checkListBefore.dto.CheckListBeforeDTO;
+import com.team.hospital.api.checkListAfter.CheckListAfterService;
+import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
+import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
+import com.team.hospital.api.checkListBefore.dto.CheckListBeforeDTO;
 import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
-import com.team.hospital.api.checkListDuring.dto.CheckListDuringDTO;
 import com.team.hospital.api.checkListDuring.CheckListDuringService;
+import com.team.hospital.api.checkListDuring.dto.CheckListDuringDTO;
 import com.team.hospital.api.checkListDuring.exception.CheckListDuringNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
@@ -32,6 +35,7 @@ public class CheckListController {
     private final CheckListService checkListService;
     private final CheckListBeforeService checkListBeforeService;
     private final CheckListDuringService checkListDuringService;
+    private final CheckListAfterService checkListAfterService;
     private final OperationService operationService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
@@ -60,12 +64,14 @@ public class CheckListController {
 
         CheckListBeforeDTO checkListBeforeDTO = getCheckListBeforeDTO(operationId);
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
+        CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
 
         CheckListWithOperationDateDTO responseDTO = CheckListWithOperationDateDTO.toEntity(
                 checkLists,
                 OperationDTO.toEntity(operation),
                 checkListBeforeDTO,
                 checkListDuringDTO,
+                checkListAfterDTO,
                 patient,
                 createdToday);
 
@@ -113,6 +119,14 @@ public class CheckListController {
         try {
             return checkListDuringService.findCheckListDuringByOperationId(operationId);
         } catch (CheckListDuringNotFoundException e) {
+            return null;
+        }
+    }
+
+    private CheckListAfterDTO getCheckListAfterDTO(Long operationId) {
+        try {
+            return checkListAfterService.findCheckListAfterByOperationId(operationId);
+        } catch (CheckListAfterNotFoundException e) {
             return null;
         }
     }
