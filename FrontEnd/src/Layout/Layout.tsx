@@ -10,6 +10,7 @@ const WHITE_BG_PAGES = [
     '/patient/new/operation',
     '/patient/form/compliance',
     '/patient/checkLists/preview',
+    '/patient/form/compliance/daily',
 ];
 
 function Layout() {
