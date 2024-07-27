@@ -8,10 +8,10 @@ import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.patient.Patient;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,7 +65,6 @@ public class CheckListDuringService {
         return checkListDuringRepository.findAll();
     }
 
-    @Transactional
     public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
         try {
             Operation operation = operationService.findOperationById(operationId);

@@ -9,10 +9,10 @@ import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.patient.Patient;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -65,7 +65,6 @@ public class CheckListBeforeService {
         return checkListBeforeRepository.findAll();
     }
 
-    @Transactional
     public boolean checkIfCheckListBeforeCreatedToday(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();

@@ -50,6 +50,10 @@ public class CheckListAfterService {
         return checkListAfter.get();
     }
 
+    public Optional<CheckListAfter> findCheckListAfterByOpId(Long operationId) {
+        return checkListAfterRepository.findByOperationId(operationId);
+    }
+
     public CheckListAfterDTO findCheckListAfterByOperationId(Long operationId) {
         Optional<CheckListAfter> checkListAfter = checkListAfterRepository.findByOperationId(operationId);
         if (checkListAfter.isEmpty()) throw new CheckListAfterNotFoundException();
@@ -59,4 +63,5 @@ public class CheckListAfterService {
     public List<CheckListAfter> findAll() {
         return checkListAfterRepository.findAll();
     }
+
 }
