@@ -54,9 +54,9 @@ export const CHECKLIST_SECTION_KEYS = {
     ],
 };
 type PostPainType = {
-    day: number;
-    evening: number;
-    night: number;
+    day: number | '';
+    evening: number | '';
+    night: number | '';
 };
 export type checkListFormType = {
     [key: string]: 'YES' | 'NO' | '' | number | string | Date | undefined | PostPainType;
