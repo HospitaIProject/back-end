@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { checkListFormType } from '../../models/CheckListsType';
+import { DailyCheckListFormType, checkListFormType } from '../../models/CheckListsType';
 import { CheckListSetupType } from '../../models/CheckListsType';
 import Axios from '../../utils/axiosInstance';
 // import { AxiosError } from 'axios';
@@ -14,12 +14,10 @@ const postComplianceForm = async ({
     operationId,
     data,
     type,
-    dayOfCheckList,
 }: {
     operationId: number;
     data: checkListFormType;
     type: 'PREV' | 'TODAY' | 'POST';
-    dayOfCheckList: string;
 }) => {
     let url = '';
     if (type === 'PREV') {
@@ -27,7 +25,7 @@ const postComplianceForm = async ({
     } else if (type === 'TODAY') {
         url = 'api/checkListDuring/operation/';
     } else {
-        url = 'api/checkList/operation/';
+        url = 'api/checkListAfter/operation/';
     } //체크리스트 제출 url(수술전, 당일, 후)
 
     let processedChecklistData;
@@ -73,17 +71,6 @@ const postComplianceForm = async ({
             catheterReInsertion: data.catheterRemoval === 'YES' ? data.catheterReInsertion : undefined, //Foley cath 재삽입 여부 yes일때만
             ivLineRemoval: data.ivLineRemoval,
             ivLineRemovalDate: data.ivLineRemoval === 'YES' ? data.ivLineRemovalDate : undefined, //제거한날 기입 yes일때만
-            postExercise: data.postExercise,
-            podOneExercise: data.podOneExercise,
-            podTwoExercise: data.podTwoExercise,
-            podThreeExercise: data.podThreeExercise,
-            postMeal: data.postMeal,
-            podOneMeal: data.podOneMeal,
-            podTwoMeal: data.podTwoMeal,
-            postPain: data.postPain,
-            podOnePain: data.podOnePain,
-            podTwoPain: data.podTwoPain,
-            podThreePain: data.podThreePain,
 
             giStimulant_remarks: data.giStimulant_remarks,
             gumChewing_remarks: data.gumChewing_remarks,
@@ -93,14 +80,6 @@ const postComplianceForm = async ({
             jpDrainRemoval_remarks: data.jpDrainRemoval_remarks,
             catheterRemoval_remarks: data.catheterRemoval_remarks,
             ivLineRemoval_remarks: data.ivLineRemoval_remarks,
-            postExercise_remarks: data.postExercise_remarks,
-            podOneExercise_remarks: data.podOneExercise_remarks,
-            podTwoExercise_remarks: data.podTwoExercise_remarks,
-            podThreeExercise_remarks: data.podThreeExercise_remarks,
-            postMeal_remarks: data.postMeal_remarks,
-            podOneMeal_remarks: data.podOneMeal_remarks,
-            podTwoMeal_remarks: data.podTwoMeal_remarks,
-            dayOfCheckList: dayOfCheckList, //체크리스트 작성일 dayOfCheckList
         };
     } //체크리스트 데이터 구조 변경
 
@@ -109,6 +88,25 @@ const postComplianceForm = async ({
     const response = await Axios.post(`${url}${operationId}`, processedChecklistData);
     return response;
 }; //Compliance Form 서비스(체크리스트 제출)
+
+const postDailyComplianceForm = async ({
+    data,
+    operationId,
+    dayOfCheckList,
+}: {
+    data: DailyCheckListFormType;
+    operationId: number;
+    dayOfCheckList: string;
+}) => {
+    let processedChecklistData;
+    processedChecklistData = {
+        ...data,
+        dayOfCheckList: dayOfCheckList,
+    };
+    console.log('processedChecklistData', processedChecklistData);
+    const response = await Axios.post(`api/checkList/operation/${operationId}`, processedChecklistData);
+    return response;
+};
 
 export const useComplianceFormMutation = () => {
     const navigate = useNavigate();
@@ -137,6 +135,33 @@ export const useComplianceFormMutation = () => {
     });
     return mutation;
 }; //Compliance Form 서비스
+export const useDailyComplianceFormMutation = () => {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const operationId = Number(searchParams.get('id'));
+    const name = searchParams.get('name');
+    const mutation = useMutation({
+        mutationFn: postDailyComplianceForm,
+
+        onError: (error: AxiosError<ErrorResponseType>) => {
+            console.log(error);
+            pushNotification({
+                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        },
+        onSuccess: () => {
+            pushNotification({
+                msg: '제출되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
+            navigate(`/patient/checkLists?id=${operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전 form페이지는 스택에서 제거
+        },
+    });
+    return mutation;
+};
 
 const getCheckListSetup = async ({ operationId }: { operationId: number }): Promise<CheckListSetupType> => {
     const response = await Axios.get(`/api/checkListItem/${operationId}`);

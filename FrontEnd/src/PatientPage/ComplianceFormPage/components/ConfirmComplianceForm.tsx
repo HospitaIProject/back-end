@@ -11,7 +11,6 @@ import { useSearchParams } from 'react-router-dom';
 import { CHECKLIST_ITEMS_NAME } from '../../../utils/mappingNames';
 import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import CalendarIcon from '../../../icons/CalendarIcon';
-import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import Loading from '../../../components/common/Loading';
 
@@ -38,18 +37,9 @@ function ConfirmComplianceForm({
     const [searchParams] = useSearchParams();
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const diffDay = searchParams.get('diffDay'); //몇일차인지
-    const isPostOp = diffDay === '0'; //수술 후인지 여부
-    const isPod1 = diffDay === '-1'; //POD 1일차인지 여부
-    const isPod2 = diffDay === '-2'; //POD 2일차인지 여부
-    const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
+
     // const statusTitle = dateStatus === 'PREV' ? '수술 전' : dateStatus === 'POST' ? '수술 후' : '수술 당일';
-    const dateComparison =
-        dateStatus === 'PREV'
-            ? '수술전'
-            : dateStatus === 'TODAY'
-              ? '수술당일'
-              : `수술후(D+${Math.abs(Number(diffDay))})`;
+    const dateComparison = dateStatus === 'PREV' ? '수술전' : dateStatus === 'TODAY' ? '수술중' : `수술후`;
 
     const fluidRestrictionQuery = useFluidRestrictionQuery({
         operationId: Number(operationId),
@@ -245,88 +235,6 @@ function ConfirmComplianceForm({
                                 제거한날: {ivLineRemovalDate}
                             </span>
                         }
-                    />
-                    {/* ------Day 운동  ------ */}
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.postExercise}
-                        value={values.postExercise}
-                        remark={values.postExercise_remarks}
-                        isRender={existFields.podExercise && isPostOp}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.podOneExercise}
-                        value={values.podOneExercise}
-                        remark={values.podOneExercise_remarks}
-                        isRender={existFields.podExercise && isPod1}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.podTwoExercise}
-                        value={values.podTwoExercise}
-                        remark={values.podTwoExercise_remarks}
-                        isRender={existFields.podExercise && isPod2}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.podThreeExercise}
-                        value={values.podThreeExercise}
-                        remark={values.podThreeExercise_remarks}
-                        isRender={existFields.podExercise && isPod3}
-                    />
-                    {/* ------Day 식사 ------ */}
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.postMeal}
-                        value={values.postMeal}
-                        remark={values.postMeal_remarks}
-                        isRender={existFields.podMeal && isPostOp}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.podOneMeal}
-                        value={values.podOneMeal}
-                        remark={values.podOneMeal_remarks}
-                        isRender={existFields.podMeal && isPod1}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.podTwoMeal}
-                        value={values.podTwoMeal}
-                        remark={values.podTwoMeal_remarks}
-                        isRender={existFields.podMeal && isPod2}
-                    />
-
-                    {/* ------Day 통증 ------ */}
-                    <MultiViewInput
-                        label={CHECKLIST_ITEMS_NAME.postPain}
-                        isRender={existFields.podPain && isPostOp}
-                        values={[
-                            { value: values.postPain?.day, label: 'Day' },
-                            { value: values.postPain?.evening, label: 'Evening' },
-                            { value: values.postPain?.night, label: 'Night' },
-                        ]}
-                    />
-                    <MultiViewInput
-                        label={CHECKLIST_ITEMS_NAME.podOnePain}
-                        isRender={existFields.podPain && isPod1}
-                        values={[
-                            { value: values.podOnePain?.day, label: 'Day' },
-                            { value: values.podOnePain?.evening, label: 'Evening' },
-                            { value: values.podOnePain?.night, label: 'Night' },
-                        ]}
-                    />
-                    <MultiViewInput
-                        label={CHECKLIST_ITEMS_NAME.podTwoPain}
-                        isRender={existFields.podPain && isPod2}
-                        values={[
-                            { value: values.podTwoPain?.day, label: 'Day' },
-                            { value: values.podTwoPain?.evening, label: 'Evening' },
-                            { value: values.podTwoPain?.night, label: 'Night' },
-                        ]}
-                    />
-                    <MultiViewInput
-                        label={CHECKLIST_ITEMS_NAME.podThreePain}
-                        isRender={existFields.podPain && isPod3}
-                        values={[
-                            { value: values.podThreePain?.day, label: 'Day' },
-                            { value: values.podThreePain?.evening, label: 'Evening' },
-                            { value: values.podThreePain?.night, label: 'Night' },
-                        ]}
                     />
                 </div>
                 {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="제출하기" />}

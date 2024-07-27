@@ -45,15 +45,15 @@ function ConfirmNewComplicationFormModal({ formValues, submitLabel, onSubmit, on
                     </>
                 ))}
                 <div className="my-3" />
+                <ViewInput
+                    label={`[신경계] ${values.nervousSystem?.complicationName}`}
+                    value={values.nervousSystem?.cdClassification}
+                />
 
                 {values.customComplications?.map((customComplication, index) => (
                     <ViewInput
                         key={index}
-                        label={
-                            index === 0
-                                ? `[신경계] ${customComplication.complicationName}`
-                                : `[기타] ${customComplication.complicationName}`
-                        }
+                        label={`[기타] ${customComplication.complicationName}`}
                         value={customComplication.cdClassification}
                     />
                 ))}

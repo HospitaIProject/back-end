@@ -59,13 +59,7 @@ type PostPainType = {
     night: number | '';
 };
 export type checkListFormType = {
-    [key: string]: 'YES' | 'NO' | '' | number | string | PostPainType | Date | undefined;
-    patientId?: number;
-    patientName?: string;
-    patientNumber?: number;
-    checkListId?: number;
-    createAt?: string;
-    updatedAt?: string;
+    [key: string]: 'YES' | 'NO' | '' | number | string | Date | undefined | PostPainType;
 
     explainedPreOp?: 'YES' | 'NO' | ''; // EAS 수술전 설명
     onsPreOp2hr?: 'YES' | 'NO' | ''; // 수술 2시간 전 ONS 복용여부
@@ -93,17 +87,6 @@ export type checkListFormType = {
     catheterReInsertion?: 'YES' | 'NO' | ''; //Foley cath 재삽입 여부
     ivLineRemoval?: 'YES' | 'NO' | ''; //수술 후 3일이내 IV line 제거 여부
     ivLineRemovalDate?: Date | ''; //제거한날 기입
-    postExercise?: 'YES' | 'NO' | ''; //Post OP day 운동
-    podOneExercise?: 'YES' | 'NO' | ''; //POD 1day 운동
-    podTwoExercise?: 'YES' | 'NO' | ''; //POD 2day 운동
-    podThreeExercise?: 'YES' | 'NO' | ''; //POD 3day 운동
-    postMeal?: 'YES' | 'NO' | ''; //Post OP day 식사
-    podOneMeal?: 'YES' | 'NO' | ''; //POD 1day 식사
-    podTwoMeal?: 'YES' | 'NO' | ''; //POD 2day 식사
-    postPain?: PostPainType; //수술 후 통증
-    podOnePain?: PostPainType; //POD 1day 통증
-    podTwoPain?: PostPainType; //POD 2day 통증
-    podThreePain?: PostPainType; //POD 3day 통증
 
     //-----------------비고
     explainedPreOp_remarks?: string;
@@ -126,6 +109,22 @@ export type checkListFormType = {
     jpDrainRemoval_remarks?: string;
     catheterRemoval_remarks?: string;
     ivLineRemoval_remarks?: string;
+}; // 체크리스트 폼
+
+export type DailyCheckListFormType = {
+    [key: string]: 'YES' | 'NO' | '' | number | string | PostPainType | Date | undefined;
+    postExercise?: 'YES' | 'NO' | ''; //Post OP day 운동
+    podOneExercise?: 'YES' | 'NO' | ''; //POD 1day 운동
+    podTwoExercise?: 'YES' | 'NO' | ''; //POD 2day 운동
+    podThreeExercise?: 'YES' | 'NO' | ''; //POD 3day 운동
+    postMeal?: 'YES' | 'NO' | ''; //Post OP day 식사
+    podOneMeal?: 'YES' | 'NO' | ''; //POD 1day 식사
+    podTwoMeal?: 'YES' | 'NO' | ''; //POD 2day 식사
+    postPain?: PostPainType; //수술 후 통증
+    podOnePain?: PostPainType; //POD 1day 통증
+    podTwoPain?: PostPainType; //POD 2day 통증
+    podThreePain?: PostPainType; //POD 3day 통증
+
     postExercise_remarks?: string;
     podOneExercise_remarks?: string;
     podTwoExercise_remarks?: string;
@@ -135,7 +134,7 @@ export type checkListFormType = {
     podTwoMeal_remarks?: string;
 
     dayOfCheckList?: Date;
-}; // 체크리스트 폼
+}; //데일리 체크리스트 폼
 
 export type CheckListsBeforeItemType = {
     patientId: number;
@@ -185,7 +184,7 @@ export type CheckListsAfterItemType = {
     patientId: number;
     patientName: string;
     patientNumber: number;
-    checkListId: number;
+    checkListAfterId: number;
     createAt: string;
     updatedAt: string;
 
@@ -201,6 +200,24 @@ export type CheckListsAfterItemType = {
     catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
     ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
     ivLineRemovalDate?: Date; //제거한날 기입
+
+    giStimulant_remarks?: string;
+    gumChewing_remarks?: string;
+    antiNauseaPostOp_remarks?: string;
+    ivFluidRestrictionPostOp_remarks?: string;
+    nonOpioidPainControl_remarks?: string;
+    jpDrainRemoval_remarks?: string;
+    catheterRemoval_remarks?: string;
+    ivLineRemoval_remarks?: string;
+};
+export type CheckListsDailyItemType = {
+    patientId: number;
+    patientName: string;
+    patientNumber: number;
+    checkListId: number;
+    createAt: string;
+    updatedAt: string;
+
     postExercise?: 'YES' | 'NO'; //Post OP day 운동
     podOneExercise?: 'YES' | 'NO'; //POD 1day 운동
     podTwoExercise?: 'YES' | 'NO'; //POD 2day 운동
@@ -213,14 +230,6 @@ export type CheckListsAfterItemType = {
     podTwoPain?: PostPainType; //POD 2day 통증
     podThreePain?: PostPainType; //POD 3day 통증
 
-    giStimulant_remarks?: string;
-    gumChewing_remarks?: string;
-    antiNauseaPostOp_remarks?: string;
-    ivFluidRestrictionPostOp_remarks?: string;
-    nonOpioidPainControl_remarks?: string;
-    jpDrainRemoval_remarks?: string;
-    catheterRemoval_remarks?: string;
-    ivLineRemoval_remarks?: string;
     postExercise_remarks?: string;
     podOneExercise_remarks?: string;
     podTwoExercise_remarks?: string;
@@ -233,7 +242,8 @@ export type CheckListsAfterItemType = {
 export type ResponseCheckListsType = {
     checkListBeforeDTO?: CheckListsBeforeItemType;
     checkListDuringDTO?: CheckListsDuringItemType;
-    checkListDTOs?: CheckListsAfterItemType[];
+    checkListAfterDTO?: CheckListsAfterItemType;
+    checkListDTOs?: CheckListsDailyItemType[];
     checkListCreatedToday: boolean;
     operationDateDTO: {
         operationId: number;

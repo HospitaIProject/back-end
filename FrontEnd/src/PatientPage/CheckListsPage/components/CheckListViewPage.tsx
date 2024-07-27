@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import YesOrNoButton from '../../../components/common/form/input/YesOrNoButton';
-import { checkListFormType } from '../../../models/CheckListsType';
+import { DailyCheckListFormType, checkListFormType } from '../../../models/CheckListsType';
 import { useEffect, useState } from 'react';
 
 import { useCheckListSetupQuery } from '../../_lib/complianceFormSevice';
@@ -13,8 +13,9 @@ import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
 import CheckListViewGuide from './CheckListViewGuide';
+type CombinedType = checkListFormType & DailyCheckListFormType;
 
-const initialValues: checkListFormType = {
+const initialValues: CombinedType = {
     explainedPreOp: '', // EAS 수술전 설명
     onsPreOp2hr: '', // 수술 2시간 전 ONS 복용여부
     onsPostBowelPrep: '', // Bowel preparation 후 ONS 경장영양액 복용여부
@@ -62,25 +63,25 @@ const initialValues: checkListFormType = {
     podOneMeal: '', //POD 1day 식사
     podTwoMeal: '', //POD 2day 식사
     postPain: {
-        day: '',
-        evening: '',
-        night: '',
+        day: 0,
+        evening: 0,
+        night: 0,
     },
     //수술 후 통증
     podOnePain: {
-        day: '',
-        evening: '',
-        night: '',
+        day: 0,
+        evening: 0,
+        night: 0,
     }, //POD 1day 통증
     podTwoPain: {
-        day: '',
-        evening: '',
-        night: '',
+        day: 0,
+        evening: 0,
+        night: 0,
     }, //POD 2day 통증
     podThreePain: {
-        day: '',
-        evening: '',
-        night: '',
+        day: 0,
+        evening: 0,
+        night: 0,
     }, //POD 3day 통증
     giStimulant_remarks: '',
     gumChewing_remarks: '',
@@ -100,7 +101,7 @@ const initialValues: checkListFormType = {
 };
 
 type Button = {
-    day: 'PREV' | 'TODAY' | 'POST';
+    day: 'PREV' | 'TODAY' | 'POST' | 'DAILY';
     label: string;
 };
 
@@ -108,10 +109,11 @@ const buttons: Button[] = [
     { day: 'PREV', label: '수술 전' },
     { day: 'TODAY', label: '수술 당일' },
     { day: 'POST', label: '수술 후' },
+    { day: 'DAILY', label: 'Daily' },
 ];
 
 function CheckListViewPage() {
-    const [relativeDay, setRelativeDay] = useState<'PREV' | 'TODAY' | 'POST'>('PREV');
+    const [relativeDay, setRelativeDay] = useState<Button['day']>('PREV');
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
@@ -131,7 +133,7 @@ function CheckListViewPage() {
         onSubmit: () => {}, // 제출시 실행할 함수
     });
 
-    const handleToggleField = (day: 'PREV' | 'TODAY' | 'POST') => {
+    const handleToggleField = (day: Button['day']) => {
         setRelativeDay(day);
     }; //수술전, 당일, 후 버튼 클릭시 해당하는 필드만 보여주기
 
@@ -173,7 +175,7 @@ function CheckListViewPage() {
                 <CheckListViewGuide patientName={patientName || ''} existFields={existFields} />
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* 수술전 */}
-                    <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
+                    <DropContainer isOpen={relativeDay.includes('PREV')}>
                         <YesOrNoButton<checkListFormType>
                             htmlFor="explainedPreOp"
                             label={CHECKLIST_ITEMS_NAME.explainedPreOp}
@@ -213,7 +215,7 @@ function CheckListViewPage() {
                     </DropContainer>
 
                     {/* 수술당일 */}
-                    <DropContainer isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}>
+                    <DropContainer isOpen={relativeDay.includes('TODAY')}>
                         <YesOrNoButton<checkListFormType>
                             htmlFor="maintainTemp"
                             label={CHECKLIST_ITEMS_NAME.maintainTemp}
@@ -243,7 +245,7 @@ function CheckListViewPage() {
                     </DropContainer>
 
                     {/* 수술후 */}
-                    <DropContainer isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}>
+                    <DropContainer isOpen={relativeDay.includes('POST')}>
                         <YesOrNoButton<checkListFormType>
                             htmlFor="giStimulant"
                             label={CHECKLIST_ITEMS_NAME.giStimulant}
@@ -327,7 +329,8 @@ function CheckListViewPage() {
                                 />
                             }
                         />
-
+                    </DropContainer>
+                    <DropContainer isOpen={relativeDay.includes('DAILY')}>
                         {/* ------Day 운동  ------ */}
                         <YesOrNoButton<checkListFormType>
                             htmlFor="postExercise"

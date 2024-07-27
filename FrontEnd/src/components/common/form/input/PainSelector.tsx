@@ -50,9 +50,9 @@ function PainSelector<T>({
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div className={`$ grid grid-rows-3 gap-2`}>
-                {values.map((item, index) => {
+                {values.map((item) => {
                     return (
-                        <label key={index} className={`flex h-10 flex-row items-center justify-between gap-4`}>
+                        <label key={item.value} className={`flex h-10 flex-row items-center justify-between gap-4`}>
                             <span className="w-20 text-sm text-gray-600">{item.label}:</span>
                             <Select
                                 components={animatedComponents}

@@ -50,6 +50,7 @@ export type ComplicationFormType = {
     //     cdClassification: CdClassType;
     //     //추가적으로 타입이 들어올수 있음.
     // };
+    nervousSystem: CustomType;
 
     customComplications: CustomType[];
     remarks: string;

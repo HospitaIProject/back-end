@@ -7,6 +7,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { useNavigate } from 'react-router-dom';
 
 const transformObject = (data: ComplicationFormType) => {
+    console.log('dataxxxx', data);
     let transformData = Object.keys(data).reduce(
         (
             acc: {
@@ -29,6 +30,11 @@ const transformObject = (data: ComplicationFormType) => {
         transformData.customComplications[0].cdClassification = null;
         transformData.customComplications[0].complicationName = null;
     }
+    if (transformData.nervousSystem.cdClassification === '' || transformData.nervousSystem.complicationName === '') {
+        transformData.nervousSystem.cdClassification = null;
+        transformData.nervousSystem.complicationName = null;
+    }
+
     return transformData;
 };
 
@@ -47,6 +53,11 @@ const postComplicationStatus = async ({ operationId, status }: { operationId: nu
     const response = await Axios.post(`api/complication/status/${operationId}`, {}, { params });
     return response.data.data;
 };
+const deleteComplication = async (operationId: number) => {
+    const response = await Axios.delete(`api/complication/${operationId}`);
+    return response.data.data;
+};
+
 const getComplication = async (operationId: number): Promise<ComplicationFormType> => {
     const response = await Axios.get(`api/complication/${operationId}`);
     return response.data.data;
@@ -88,6 +99,7 @@ export const useComplicationMutation = () => {
 
 export const useComplicationStatusMutation = ({ patientId }: { patientId: number }) => {
     const queryClient = useQueryClient();
+    const complicationDeleteMutation = useComplicationDeleteMutation();
 
     const mutation = useMutation({
         mutationFn: postComplicationStatus,
@@ -101,6 +113,19 @@ export const useComplicationStatusMutation = ({ patientId }: { patientId: number
         },
         onSuccess: (_, parameter) => {
             const statusMsg = parameter.status === 'YES' ? 'YES로 변경되었습니다.' : 'NO로 변경되었습니다.';
+            if (parameter.status === 'NO') {
+                complicationDeleteMutation.mutate(parameter.operationId);
+                if (complicationDeleteMutation.isError) {
+                    pushNotification({
+                        msg:
+                            complicationDeleteMutation.error?.response?.data.message ||
+                            '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                        type: 'error',
+                        theme: 'dark',
+                    });
+                    return;
+                }
+            }
 
             queryClient.invalidateQueries({
                 queryKey: ['operation', 'list', patientId],
@@ -148,6 +173,22 @@ export const useComplicationUpdateMutation = () => {
                 theme: 'dark',
             });
             navigate(-1);
+        },
+    });
+
+    return mutation;
+};
+export const useComplicationDeleteMutation = () => {
+    const queryClient = useQueryClient();
+    const mutation = useMutation({
+        mutationFn: deleteComplication,
+        onError: (error: AxiosError<ErrorResponseType>) => {
+            return error;
+        },
+        onSuccess: (_, operationId) => {
+            queryClient.removeQueries({
+                queryKey: ['complication', operationId],
+            });
         },
     });
 

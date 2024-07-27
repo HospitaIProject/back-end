@@ -8,8 +8,6 @@ import {
 } from '../../../models/CheckListsType';
 import ConfirmComplianceForm from '../../ComplianceFormPage/components/ConfirmComplianceForm';
 type Props = {
-    values: CheckListsBeforeItemType | CheckListsDuringItemType | CheckListsAfterItemType;
-
     onSubmit?: () => void;
     onClose: () => void;
     setupData: CheckListSetupType;

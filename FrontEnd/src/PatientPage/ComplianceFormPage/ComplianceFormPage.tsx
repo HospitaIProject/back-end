@@ -11,7 +11,6 @@ import { useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import Loading from '../../components/common/Loading';
 import { useInitialValues } from './utils/useInitialValues';
-import PainSelector from '../../components/common/form/input/PainSelector';
 import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
@@ -36,8 +35,6 @@ function ComplianceFormPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const diffDay = searchParams.get('diffDay'); //몇일차인지
-    const dayOfCheckList = searchParams.get('date') || String(new Date()).split('T')[0]; //서버에 전달할 작성일자
     const { isVisible } = useScrollHeaderControl();
 
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
@@ -51,10 +48,6 @@ function ComplianceFormPage() {
         toggleDateStatus: relativeDay,
     }); //초기값 가져오기
 
-    const isPostOp = diffDay === '0'; //수술 후인지 여부
-    const isPod1 = diffDay === '-1'; //POD 1일차인지 여부
-    const isPod2 = diffDay === '-2'; //POD 2일차인지 여부
-    const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
     const isConfirmButton =
         (dateStatus === 'POST' && relativeDay.includes('POST')) ||
         (dateStatus === 'TODAY' && relativeDay.includes('TODAY')) ||
@@ -72,7 +65,6 @@ function ComplianceFormPage() {
                     operationId: Number(operationId),
                     data: values,
                     type: relativeDay,
-                    dayOfCheckList: dayOfCheckList,
                 });
             } else {
                 return;
@@ -154,11 +146,7 @@ function ComplianceFormPage() {
                         <span className="text-sm text-gray-700 text-end">{formattedOnlyDate}</span>
 
                         <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200 rounded-md">
-                            {dateStatus === 'TODAY'
-                                ? 'D-Day'
-                                : dateStatus === 'PREV'
-                                  ? `D-${diffDay}`
-                                  : `D+${Math.abs(Number(diffDay))}`}
+                            {dateStatus === 'TODAY' ? '수술중' : dateStatus === 'PREV' ? `수술전` : `수술후`}
                         </span>
                     </div>
                 </div>
@@ -334,100 +322,6 @@ function ComplianceFormPage() {
                                     isRender={formik.values.ivLineRemoval === 'YES'}
                                 />
                             }
-                        />
-
-                        {/* ------Day 운동  ------ */}
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="postExercise"
-                            label={CHECKLIST_ITEMS_NAME.postExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise && isPostOp}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podOneExercise"
-                            label={CHECKLIST_ITEMS_NAME.podOneExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise && isPod1}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podTwoExercise"
-                            label={CHECKLIST_ITEMS_NAME.podTwoExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise && isPod2}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podThreeExercise"
-                            label={CHECKLIST_ITEMS_NAME.podThreeExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise && isPod3}
-                        />
-                        {/* ------Day 식사 ------ */}
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="postMeal"
-                            label={CHECKLIST_ITEMS_NAME.postMeal}
-                            formik={formik}
-                            isRender={existFields.podMeal && isPostOp}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podOneMeal"
-                            label={CHECKLIST_ITEMS_NAME.podOneMeal}
-                            formik={formik}
-                            isRender={existFields.podMeal && isPod1}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podTwoMeal"
-                            label={CHECKLIST_ITEMS_NAME.podTwoMeal}
-                            formik={formik}
-                            isRender={existFields.podMeal && isPod2}
-                        />
-                        {/* ------Day 통증 ------ */}
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="postPain"
-                            label={CHECKLIST_ITEMS_NAME.postPain}
-                            formik={formik}
-                            isRender={existFields.podPain && isPostOp}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
-                        />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="podOnePain"
-                            label={CHECKLIST_ITEMS_NAME.podOnePain}
-                            formik={formik}
-                            isRender={existFields.podPain && isPod1}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
-                        />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="podTwoPain"
-                            label={CHECKLIST_ITEMS_NAME.podTwoPain}
-                            isRender={existFields.podPain && isPod2}
-                            formik={formik}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
-                        />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="podThreePain"
-                            label={CHECKLIST_ITEMS_NAME.podThreePain}
-                            formik={formik}
-                            isRender={existFields.podPain && isPod3}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
                         />
                     </DropContainer>
                 </form>

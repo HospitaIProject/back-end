@@ -70,16 +70,42 @@ function PatientSummaryCard({ userData }: Props) {
 
     const handleRouteCheckList = () => {
         if (userData.checkListCreatedToday) {
-            navigation(
-                `/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&openLatest=true`,
-            );
+            if (dateComparison === 'POST') {
+                if (Math.abs(Number(diffDay)) === 1) {
+                    alert('작성된 Daily 체크리스트가 2건이므로 체크리스트 목록 페이지로 이동됩니다.');
+                    navigation(`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`);
+                } else {
+                    navigation(
+                        `/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison === 'POST' ? 'DAILY' : dateComparison}&diffDay=${diffDay}&openLatest=true`,
+                    );
+                }
+            } else {
+                navigation(
+                    `/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&openLatest=true`,
+                );
+            }
+            // 체크리스트가 이미 작성된 경우 체크리스트 목록 이동후 최신 체크리스트 열기
         } else {
-            navigation(
-                `/patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}&date=${addDaysToDate(
-                    operationDate,
-                    -Number(diffDay),
-                )}`,
-            );
+            if (dateComparison === 'POST') {
+                if (Math.abs(Number(diffDay)) === 1) {
+                    alert('작성 가능한 Daily 체크리스트가 2건이므로 체크리스트 목록 페이지로 이동됩니다.');
+                    navigation(`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`);
+                    return;
+                    // 체크리스트 작성 가능한 날짜가 1일차인 경우 체크리스트 목록 페이지로 이동
+                } else {
+                    navigation(
+                        `/patient/form/compliance/daily?id=${operationId}&name=${userData.patientDTO.name}&diffDay=${diffDay}&date=${addDaysToDate(
+                            operationDate,
+                            -Number(diffDay),
+                        )}`,
+                    );
+                    return;
+                }
+            } else {
+                navigation(
+                    `/patient/form/compliance?id=${operationId}&name=${userData.patientDTO.name}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
+                );
+            }
         }
     };
 

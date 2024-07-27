@@ -11,6 +11,7 @@ import OperationListPage from './PatientPage/OperationPage/OperationListPage';
 import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
 import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
 import CheckListViewPage from './PatientPage/CheckListsPage/components/CheckListViewPage';
+import DailyCompliancePage from './PatientPage/ComplianceFormPage/DailyCompliancePage';
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
                             <Route path="/patient/new/operation" element={<NewOperationInfoFormPage />} />
                             {/* compilance 체크리스트 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
+                            <Route path="/patient/form/compliance/daily" element={<DailyCompliancePage />} />
 
                             {/* 합병증 등록 페이지 */}
                             <Route path="/patient/new/complication" element={<NewComplicationFormPage />} />
