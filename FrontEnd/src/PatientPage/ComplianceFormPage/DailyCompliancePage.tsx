@@ -9,7 +9,6 @@ import { CHECKLIST_ITEMS_NAME } from '../../utils/mappingNames';
 import ConfirmDailyComplianceFormModal from './components/ConfirmDailyComplianceFormModal';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
-import { validateFields } from './utils/validateFields';
 import { dailyValidateFields } from './utils/dailyValidateFields';
 import { pushNotification } from '../../utils/pushNotification';
 

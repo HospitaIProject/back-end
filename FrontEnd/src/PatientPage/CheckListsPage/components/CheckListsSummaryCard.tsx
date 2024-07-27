@@ -13,7 +13,6 @@ import ArrowIcon from '../../../icons/ArrowIcon';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import SparklingIcon from '../../../icons/SparklingIcon';
 import CheckListsDailyDetailModal from './CheckListsDailyDetailModal';
-import { set } from 'lodash';
 
 type Props = {
     checkListData:
