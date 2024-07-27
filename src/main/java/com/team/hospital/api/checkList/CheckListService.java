@@ -2,6 +2,7 @@ package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
+import com.team.hospital.api.checkListAfter.CheckListAfter;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
@@ -13,9 +14,9 @@ import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.patient.Patient;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -70,7 +71,7 @@ public class CheckListService {
         return checkList.get();
     }
 
-    @Transactional
+    // D+2부터 적용되도록 수정
     public boolean checkIfCheckListCreatedToday(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
@@ -80,7 +81,7 @@ public class CheckListService {
         int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), LocalDate.now());
 
         // 체크리스트가 리스트의 범위 내에 있는지 확인
-        if (daysBetween >= 1 && daysBetween <= checks.size()) {
+        if (daysBetween > 1 && daysBetween <= checks.size()) {
             return checks.get(daysBetween - 1) != null; // -1을 통해 수술 다음 날을 인덱스 0으로 맞춤
         }
 
@@ -88,14 +89,20 @@ public class CheckListService {
         return false;
     }
 
-    @Transactional
+    // 수술 D+1 일 때 수술후 체크리스트 작성 + D+1 체크리스트 작성 완료 되었을 시 true 반환.
+    public boolean checkIfCheckListAfterCreatedToday(Long operationId) {
+        List<CheckList> checks = checks(operationId);
+        Optional<CheckListAfter> checkListAfter = checkListAfterService.findCheckListAfterByOpId(operationId);
+        return checks.get(0) != null && checkListAfter.isPresent();
+    }
+
     public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
         return checkIfCheckListCreatedToday(operationId) ||
+                checkIfCheckListAfterCreatedToday(operationId) ||
                 checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
 
-    @Transactional
     public List<CheckList> checks(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
@@ -156,7 +163,6 @@ public class CheckListService {
     }
     /// count checkListItem YES
 
-    @Transactional
     public int countCheckList(Long operationId) {
         List<CheckList> checks = checks(operationId);
         int count = 0;
