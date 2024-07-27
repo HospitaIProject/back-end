@@ -13,6 +13,7 @@ import ArrowIcon from '../../../icons/ArrowIcon';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import SparklingIcon from '../../../icons/SparklingIcon';
 import CheckListsDailyDetailModal from './CheckListsDailyDetailModal';
+import { set } from 'lodash';
 
 type Props = {
     checkListData:
@@ -56,6 +57,7 @@ function CheckListsSummaryCard({
     const { createAt, updatedAt } = checkListData;
     const openLatest = searchParams.get('openLatest'); // 최신 데이터 열기
     const diffDay = searchParams.get('diffDay'); // 날짜 차이
+    const dateStatus = searchParams.get('dateStatus'); // 날짜 상태
 
     const { allDate: formattedCreateAt } = useDateFormatted(createAt || ''); //작성일
     const { allDate: formattedUpdatedAte } = useDateFormatted(updatedAt || ''); //수정일
@@ -112,10 +114,13 @@ function CheckListsSummaryCard({
 
     useEffect(() => {
         // console.log(openLatest, diffDay);
-        if (openLatest === 'true' && day === Number(diffDay)) {
-            console.log(day, Math.abs(Number(diffDay)));
-
-            setIsModalOpen(true);
+        if (openLatest === 'true' && type === dateStatus) {
+            if (type === 'DAILY' && day === Number(diffDay)) {
+                setIsDailyModalOpen(true);
+            }
+            if (type !== 'DAILY') {
+                setIsModalOpen(true);
+            }
         }
     }, [openLatest, diffDay]);
 

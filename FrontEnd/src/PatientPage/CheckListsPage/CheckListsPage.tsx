@@ -117,7 +117,7 @@ function CheckListsPage() {
                     {dateComparison !== 'POST' && (
                         <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
                             <span className="text-sm text-gray-700">
-                                수술후 체크리스트는 수술일 다음날부터 작성가능합니다.
+                                수술 후 체크리스트는 수술일 다음 날부터 작성 가능합니다.
                             </span>
                         </div>
                     )}
@@ -154,7 +154,7 @@ function CheckListsPage() {
                     {dateComparison === 'PREV' && (
                         <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
                             <span className="text-sm text-gray-700">
-                                수술중 체크리스트는 수술일 당일부터 작성 가능합다.
+                                수술 중 체크리스트는 수술일 당일부터 작성 가능합니다.
                             </span>
                         </div>
                     )}

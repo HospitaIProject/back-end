@@ -15,7 +15,7 @@ export const useOperationMethodFormatted = ({
                       type: 'operation',
                   }),
               )
-              .join(', ')
+              .join(',')
         : '';
     const combinedString2 = Array.isArray(customOperationMethod)
         ? customOperationMethod
