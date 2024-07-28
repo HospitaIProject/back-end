@@ -17,19 +17,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException e) {
-        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
+        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage());
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(ErrorResponse.createError(e.getErrorCode()));
     }
 
     @ExceptionHandler(ConflictException.class)
     protected ResponseEntity<ErrorResponse> handleConflictException(ConflictException e) {
-        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
+        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage());
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(ErrorResponse.createError(e.getErrorCode()));
     }
 
     @ExceptionHandler(BaseException.class)
     protected ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
-        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage(), e);
+        log.error("Exception Code: {}, Message: {}", e.getErrorCode(), e.getMessage());
         return ResponseEntity.status(e.getErrorCode().getHttpStatus()).body(ErrorResponse.createError(e.getErrorCode()));
     }
 
