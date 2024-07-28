@@ -37,7 +37,7 @@ function OperationSummaryCard({ operationData }: Props) {
     }; //합병증 작성페이지로 이동
     const handleComplicationStatus = () => {
         if (isComplicationStatus) {
-            if (confirm('합병증 여부를 No로 변경하시겠습니까?')) {
+            if (confirm('합병증 여부를 No로 변경하시겠습니까?\n‼️ 변경 시 등록된 합병증 정보가 삭제됩니다.')) {
                 complicationStatusMutation.mutate({ operationId, status: 'NO' });
             }
         } else {
