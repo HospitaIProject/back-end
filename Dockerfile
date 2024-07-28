@@ -10,3 +10,5 @@ COPY ${JAR_FILE} hospital-0.0.1-SNAPSHOT.jar
 
 # 애플리케이션 실행을 위한 명령어 설정
 ENTRYPOINT ["java", "-Dspring.profiles.active=${PROFILES}", "-Dserver.env=${ENV}", "-jar","hospital-0.0.1-SNAPSHOT.jar"]
+# java -Dspring.profiles.active=blue -Dserver.env=blue -jar hospital-0.0.1-SNAPSHOT.jar
+# nohup java -jar hospital-0.0.1-SNAPSHOT.jar > hospital.log 2>&1 &
