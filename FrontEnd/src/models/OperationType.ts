@@ -54,4 +54,5 @@ export type OperationItemType = {
     bloodLoss: number; //수술 중 실혈량 (cc)mvn clean install
     complicationStatus: 'YES' | 'NO'; //합병증 여부
     complicationRegistered: boolean;
+    complicationScore: number;
 };
