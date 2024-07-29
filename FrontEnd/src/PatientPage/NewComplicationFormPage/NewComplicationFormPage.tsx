@@ -205,7 +205,7 @@ function NewComplicationFormPage() {
             </div>
             {isConfirmPage && (
                 <ConfirmNewComplicationFormModal
-                    formValues={formik.values}
+                    values={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
                     submitLabel={hasData ? '수정하기' : '제출하기'}
