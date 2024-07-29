@@ -1,6 +1,7 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
+import com.team.hospital.api.complication.Complication;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.RegisterOperation;
@@ -36,7 +37,15 @@ public class OperationController {
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
-                .map(operation -> OperationDTO.toEntity(operation, complicationService.existsByOperation(operation)))
+                .map(operation -> {
+                    // 각 Operation에 대한 Complication 및 Score 계산
+                    Complication complication = complicationService.findComplicationByOperationId(operation.getId());
+                    double score = complicationService.calculateCDScore(complication);
+                    complicationService.updateComplicationScore(complication, score);
+
+                    // OperationDTO에 설정
+                    return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score);
+                })
                 .toList();
 
         return SuccessResponse.createSuccess(operationDTOS);

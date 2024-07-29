@@ -20,7 +20,7 @@ public class ComplicationController {
     @Operation(summary = "operation에 대한 complication 조회", description = "입력한 operation의 ID값에 해당하는 operation의 complication 조회")
     public SuccessResponse<?> findByOperationId(@PathVariable Long operationId) {
         Complication complication = complicationService.findComplicationByOperationId(operationId);
-        double score = Math.min(100, Math.sqrt(complicationService.calculateCDScore(complication)) / 2); // 최대 점수 100점으로 제한
+        double score = complicationService.calculateCDScore(complication);// 최대 점수 100점으로 제한
         complicationService.updateComplicationScore(complication, score);
         return SuccessResponse.createSuccess(ComplicationDTO.toEntity(complication));
     }

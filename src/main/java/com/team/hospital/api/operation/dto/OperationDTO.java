@@ -38,6 +38,8 @@ public class OperationDTO {
 
     private boolean complicationRegistered;
 
+    private double complicationScore;
+
     public static OperationDTO toEntity(Operation operation){
         return OperationDTO.builder()
                 .operationId(operation.getId())
@@ -54,7 +56,7 @@ public class OperationDTO {
                 .build();
     }
 
-    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered){
+    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore){
         return OperationDTO.builder()
                 .operationId(operation.getId())
                 .operationMethod(operation.getOperationMethod())
@@ -69,6 +71,7 @@ public class OperationDTO {
                 .complicationStatus(operation.getComplicationStatus())
 
                 .complicationRegistered(complicationRegistered)
+                .complicationScore(complicationScore)
 
                 .build();
     }
