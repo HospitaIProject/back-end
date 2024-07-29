@@ -107,6 +107,9 @@ public class ComplicationService {
         score += calculateScoreIfNotNull(complication.getStomaCx());
         score += calculateScoreIfNotNull(complication.getIncisionalHernia());
 
+
+        score = Math.min(100, Math.sqrt(score) / 2);
+
         return score;
     }
 
