@@ -15,11 +15,14 @@ function OperationSummaryCard({ operationData }: Props) {
     const navigate = useNavigate();
     const patientName = searchParams.get('name');
     const patientId = searchParams.get('id');
+    const operationDate = searchParams.get('od');
     const complicationStatusMutation = useComplicationStatusMutation({
         patientId: Number(patientId),
     });
     const { onlyTime: operationStartTime } = useDateFormatted(operationData.operationStartTime); //수술시작시간
     const { onlyTime: operationEndTime } = useDateFormatted(operationData.operationEndTime); //수술종료시간
+    const { dateComparison } = useDateFormatted(operationDate || ''); //수술날짜 비교
+    const { onlyDate: todayDate } = useDateFormatted(new Date()); //오늘 날짜
 
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: operationData.operationMethod,
@@ -41,6 +44,12 @@ function OperationSummaryCard({ operationData }: Props) {
                 complicationStatusMutation.mutate({ operationId, status: 'NO' });
             }
         } else {
+            if (dateComparison !== 'POST') {
+                alert(
+                    `수술 날짜 이후부터 합병증 여부를 변경할 수 있습니다.\n오늘 날짜: ${todayDate}\n수술 날짜: ${operationDate}`,
+                );
+                return;
+            }
             if (confirm('합병증 여부를 Yes로 변경하시겠습니까?')) {
                 complicationStatusMutation.mutate({ operationId, status: 'YES' });
             }
