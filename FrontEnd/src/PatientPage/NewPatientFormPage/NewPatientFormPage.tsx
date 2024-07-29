@@ -6,7 +6,7 @@ import { PatientFormType } from '../../models/PatientType';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal';
-import { useNewPatientFormMutation } from '../_lib/patientNewFormService';
+import { useNewPatientFormMutation } from '../_lib/patientService';
 import { pushNotification } from '../../utils/pushNotification';
 import BMIinput from '../../components/common/form/input/BMIinput';
 import HospitalDateInput from '../../components/common/form/input/HospitalDateInput';
