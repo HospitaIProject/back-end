@@ -34,6 +34,7 @@ function NumberInput<T>({ label, htmlFor, formik, unit, isRender }: Props<T>) {
                     onChange={handleChange}
                     onFocus={handleFocus} // focus 이벤트 추가
                     onBlur={handleBlur} // blur 이벤트 추가
+                    defaultValue={formik?.getFieldProps(htmlFor).value}
                     placeholder="숫자를 입력해주세요."
                     className="w-full outline-none"
                     onKeyDown={(e) => {

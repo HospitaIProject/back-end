@@ -38,6 +38,7 @@ function SingleSelector<T>({
                     onChange={handleChange}
                     classNamePrefix="select"
                     placeholder="선택"
+                    value={options.find((option) => option.value === formik?.getFieldProps(htmlFor).value)}
                     styles={{
                         control: (baseStyles, state) => ({
                             ...baseStyles,
