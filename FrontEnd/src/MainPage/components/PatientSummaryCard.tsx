@@ -201,7 +201,7 @@ function PatientSummaryCard({ userData }: Props) {
                     </span>
 
                     <Link
-                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
+                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
                         className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
                     >
                         수술정보관리
