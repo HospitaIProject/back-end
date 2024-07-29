@@ -27,6 +27,8 @@ export default function Header() {
     let label;
     if (pathname.startsWith('/patient/form/compliance')) {
         label = 'Daily 체크리스트';
+    } else if (pathname.startsWith('/patient/new/info/')) {
+        label = '환자 정보수정';
     } else if (pathname.startsWith('/patient/new/info')) {
         label = '환자 정보등록';
     } else if (pathname.startsWith('/patient/operation/list')) {
