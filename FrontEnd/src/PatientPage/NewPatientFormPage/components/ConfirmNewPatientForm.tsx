@@ -31,7 +31,7 @@ function ConfirmNewPatientForm({ values, onSubmit }: Props) {
             <ViewInput label="퇴원일" value={dischargedDate} />
             <NumberViewInput label="총 재원 일수" value={values.totalHospitalizedDays} />
 
-            {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="저장하기" />}
+            {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="확인" />}
         </div>
     );
 }

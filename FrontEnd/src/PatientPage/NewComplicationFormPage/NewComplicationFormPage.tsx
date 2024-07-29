@@ -1,5 +1,6 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useFormik } from 'formik';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 
 import { pushNotification } from '../../utils/pushNotification';
@@ -135,7 +136,7 @@ function NewComplicationFormPage() {
                 <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-2 bg-white" onSubmit={formik.handleSubmit}>
                     <ComplicationGuide />
                     {Object.keys(COMPLICATION_ITEMS_NAME).map((key: string) => (
-                        <>
+                        <React.Fragment key={uuidv4()}>
                             {key === 'anastomosisBleeding' && (
                                 <span className="mx-auto font-semibold text-gray-600">[문합부 관련]</span>
                             )}
@@ -153,13 +154,12 @@ function NewComplicationFormPage() {
                                 <span className="mx-auto font-semibold text-gray-600">[피부창상관련]</span>
                             )}
                             <RadioButton
-                                key={key} // 고유한 key 속성 제공
                                 label={COMPLICATION_ITEMS_NAME[key]}
                                 htmlFor={key}
                                 formik={formik}
                                 values={CD_CLASSIFICATION}
                             />
-                        </>
+                        </React.Fragment>
                     ))}
                     <div className="my-3 border-t" />
                     <CustomRadioButton
@@ -173,7 +173,7 @@ function NewComplicationFormPage() {
                     />
                     {formik.values.customComplications.map((_, index) => (
                         <CustomRadioButton
-                            key={index}
+                            key={uuidv4()}
                             htmlFor={`customComplications[${index}].cdClassification`}
                             nameHtmlFor={`customComplications[${index}].complicationName`}
                             formik={formik}
@@ -205,7 +205,7 @@ function NewComplicationFormPage() {
             </div>
             {isConfirmPage && (
                 <ConfirmNewComplicationFormModal
-                    formValues={formik.values}
+                    values={formik.values}
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
                     submitLabel={hasData ? '수정하기' : '제출하기'}

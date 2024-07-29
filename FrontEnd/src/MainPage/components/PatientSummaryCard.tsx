@@ -3,7 +3,7 @@ import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { PatientWithOperationDtoType } from '../../models/PatientType';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckListIcon from '../../icons/CheckListIcon';
-import ConfirmNewPatientFormModal from './PatientDetailModal';
+import PatientDetailModal from './PatientDetailModal';
 import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
@@ -201,14 +201,14 @@ function PatientSummaryCard({ userData }: Props) {
                     </span>
 
                     <Link
-                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
+                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
                         className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
                     >
                         수술정보관리
                     </Link>
                 </div>
             </li>
-            {isModalOpen && <ConfirmNewPatientFormModal values={userData} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <PatientDetailModal values={userData} onClose={() => setIsModalOpen(false)} />}
         </>
     );
 }

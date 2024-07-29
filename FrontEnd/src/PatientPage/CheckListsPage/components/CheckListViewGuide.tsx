@@ -26,33 +26,33 @@ function CheckListViewGuide({ patientName, existFields }: { patientName: string;
                     isOpen ? 'max-h-[999px] py-2 opacity-100' : 'max-h-0 overflow-hidden opacity-0'
                 }`}
             >
-                <div className="flex flex-col items-center text-sm text-gray-600">
-                    <span className="px-1 font-semibold bg-yellow-100">수술전</span>
+                <div className="flex flex-col items-center text-sm text-gray-700">
+                    <span className="px-1 mb-1 font-semibold bg-yellow-100">수술전</span>
                     {Object.keys(existFields)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
-                        .map((patientKey) => (
-                            <span key={patientKey}>
-                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
-                            </span>
+                        .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key) && !existFields[key])
+                        .map((patientKey, index, array) => (
+                            <span
+                                key={patientKey}
+                            >{`${CHECKLIST_ITEMS_NAME[patientKey]}${index === array.length - 1 ? '' : ', '} `}</span>
                         ))}
                 </div>
-                <div className="flex flex-col items-center text-sm">
-                    <span className="px-1 font-semibold bg-yellow-100">수술당일</span>
+                <div className="flex flex-col items-center text-sm text-gray-700">
+                    <span className="px-1 mb-1 font-semibold bg-yellow-100">수술당일</span>
                     {Object.keys(existFields)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
-                        .map((patientKey) => (
-                            <span key={patientKey}>
-                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
-                            </span>
+                        .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key) && !existFields[key])
+                        .map((patientKey, index, array) => (
+                            <span
+                                key={patientKey}
+                            >{`${CHECKLIST_ITEMS_NAME[patientKey]}${index === array.length - 1 ? '' : ', '} `}</span>
                         ))}
                 </div>
-                <div className="flex flex-col items-center text-sm">
-                    <span className="px-1 font-semibold bg-yellow-100">수술후</span>
+                <div className="flex flex-col items-center text-sm text-gray-700">
+                    <span className="px-1 mb-1 font-semibold bg-yellow-100">수술후</span>
                     {Object.keys(existFields)
-                        .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
-                        .map((patientKey) => (
+                        .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key) && !existFields[key])
+                        .map((patientKey, index, array) => (
                             <span key={patientKey}>
-                                {existFields[patientKey] ? '' : `${CHECKLIST_ITEMS_NAME[patientKey]}, `}
+                                {`${CHECKLIST_ITEMS_NAME[patientKey]}${index === array.length - 1 ? '' : ', '} `}
                             </span>
                         ))}
                 </div>
