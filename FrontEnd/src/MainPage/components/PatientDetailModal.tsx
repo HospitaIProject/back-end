@@ -4,21 +4,34 @@ import NumberViewInput from '../../components/common/form/viewInput/NumberViewIn
 import ViewInput from '../../components/common/form/viewInput/ViewInput';
 import { PatientWithOperationDtoType } from '../../models/PatientType';
 import DetailViewContainer from '../../components/common/detail/DetailViewContainer';
+import { useDeletePatientFormMutation } from '../../PatientPage/_lib/patientService';
+import { useNavigate } from 'react-router-dom';
 type Props = {
     values: PatientWithOperationDtoType;
     onClose: () => void;
 };
 
-function ConfirmNewPatientFormModal({ values, onClose }: Props) {
+function PatientDetailModal({ values, onClose }: Props) {
+    const navigate = useNavigate();
     const { patientDTO } = values;
 
     const { onlyDate: hospitalizedDate } = useDateFormatted(patientDTO.hospitalizedDate);
     const { onlyDate: dischargedDate } = useDateFormatted(patientDTO.dischargedDate);
     const { onlyDate: operationDate } = useDateFormatted(patientDTO.operationDate);
+    const deletePatientFormMutation = useDeletePatientFormMutation();
+
+    const deleteHandler = () => {
+        if (confirm('환자 정보를 삭제하시겠습니까?')) {
+            deletePatientFormMutation.mutate({ patientId: patientDTO.patientId });
+        }
+    };
+    const updateHandler = () => {
+        navigate(`/patient/new/info/${patientDTO.patientId}`);
+    };
 
     return (
         <ModalFullScreenContainer title="환자 상세정보" onClose={onClose}>
-            <DetailViewContainer>
+            <DetailViewContainer deleteHandler={deleteHandler} updateHandler={updateHandler}>
                 <ViewInput label="환자이름" value={patientDTO.name} />
                 <NumberViewInput label="등록번호" value={patientDTO.patientNumber} />
                 <ViewInput label="성별" value={patientDTO.sex} />
@@ -38,4 +51,4 @@ function ConfirmNewPatientFormModal({ values, onClose }: Props) {
     );
 }
 
-export default ConfirmNewPatientFormModal;
+export default PatientDetailModal;

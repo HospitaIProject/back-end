@@ -6,43 +6,43 @@ import { PatientFormType } from '../../models/PatientType';
 import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import ConfirmNewPatientFormModal from './components/ConfirmNewPatientFormModal';
-import { useNewPatientFormMutation } from '../_lib/patientService';
+import { useNewPatientFormMutation, usePutPatientFormMutation } from '../_lib/patientService';
 import { pushNotification } from '../../utils/pushNotification';
 import BMIinput from '../../components/common/form/input/BMIinput';
 import HospitalDateInput from '../../components/common/form/input/HospitalDateInput';
 import TotalHospitalizedInput from '../../components/common/form/input/TotalHospitalizedInput';
+import { usePatientInitialValues } from './utils/usePatientInitialValues';
+import Loading from '../../components/common/Loading';
+import { useParams } from 'react-router-dom';
 
 function NewPatientFormPage() {
+    const { patientId } = useParams();
+    const isEdit = Boolean(patientId);
+
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewPatientFormMutation();
+    const patientPutFormMutation = usePutPatientFormMutation();
 
-    const initialValues: PatientFormType = {
-        patientNumber: '', //등록번호
-        name: '', //환자이름
-        sex: '', //성별
-        age: '', //나이
-        height: '', //키(cm)
-        weight: '', //몸무게(kg)
-        bmi: '', //BMI(kg/cm^2)
-        asaScore: '', //ASA score
-        location: '', //위치            //enum
-        diagnosis: '', //진단명          //enum
-        operationDate: '', //수술일
-        hospitalizedDate: '', //입원일
-        dischargedDate: '', //퇴원일
-        totalHospitalizedDays: '', //총 재원 일수(일)
-    };
+    const { initialValues, isPending } = usePatientInitialValues();
     const formik = useFormik({
         initialValues, // 초기값
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
+        enableReinitialize: true,
         onSubmit: (values) => {
-            console.log('제출', values);
-            if (confirm('제출하시겠습니까?')) {
-                patientNewFormMutation.mutate({ data: values });
+            if (isEdit) {
+                if (confirm('수정하시겠습니까?')) {
+                    patientPutFormMutation.mutate({ data: values, patientId: Number(patientId) });
+                } else {
+                    return;
+                }
             } else {
-                return;
+                if (confirm('등록하시겠습니까?')) {
+                    patientNewFormMutation.mutate({ data: values });
+                } else {
+                    return;
+                }
             }
-            console.log('제출', values);
+            console.log('환자 정보 제출', values);
         },
     });
     const handleOpenConfirm = (values: PatientFormType) => {
@@ -72,6 +72,7 @@ function NewPatientFormPage() {
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     }; // 확인 모달 닫기
+    if (isPending) return <Loading />;
 
     return (
         <>
@@ -139,7 +140,10 @@ function NewPatientFormPage() {
                     <HospitalDateInput label="퇴원일" htmlFor="dischargedDate" formik={formik} />
                     <TotalHospitalizedInput label="총 재원 일수" htmlFor="totalHospitalizedDays" formik={formik} />
                 </form>
-                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="등록하기" />
+                <SubmitButton
+                    onClick={() => handleOpenConfirm(formik.values)}
+                    label={isEdit ? '수정하기' : '등록하기'}
+                />
             </div>
             {isConfirmPage && (
                 <ConfirmNewPatientFormModal

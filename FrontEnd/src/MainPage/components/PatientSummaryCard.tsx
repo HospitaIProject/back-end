@@ -3,7 +3,7 @@ import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import { PatientWithOperationDtoType } from '../../models/PatientType';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckListIcon from '../../icons/CheckListIcon';
-import ConfirmNewPatientFormModal from './PatientDetailModal';
+import PatientDetailModal from './PatientDetailModal';
 import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
@@ -208,7 +208,7 @@ function PatientSummaryCard({ userData }: Props) {
                     </Link>
                 </div>
             </li>
-            {isModalOpen && <ConfirmNewPatientFormModal values={userData} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && <PatientDetailModal values={userData} onClose={() => setIsModalOpen(false)} />}
         </>
     );
 }
