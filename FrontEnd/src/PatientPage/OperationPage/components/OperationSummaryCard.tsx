@@ -80,7 +80,7 @@ function OperationSummaryCard({ operationData }: Props) {
                     </button>
                 </div>
                 <div className="flex flex-row items-center justify-between w-full">
-                    <div className="flex flex-col w-full gap-1">
+                    <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             수술 시작 시간:&nbsp;
                             <span className="font-medium text-gray-900">
@@ -95,19 +95,15 @@ function OperationSummaryCard({ operationData }: Props) {
                             전체 수술 시간:&nbsp;
                             <span className="font-medium text-gray-900">{totalOperationTime}분</span>
                         </span>
-                        <div className="flex flex-row justify-end w-full">
-                            <span
-                                className={`${isComplicationStatus ? '' : 'hidden'} inline-block break-words rounded-sm border p-1 text-sm text-gray-700`}
-                            >
-                                CCI score:&nbsp;
-                                <span className="font-medium text-gray-900">
-                                    {isComplicationRegistered
-                                        ? `${operationData.complicationScore.toFixed(2)}점`
-                                        : '없음'}
-                                </span>
-                            </span>
-                        </div>
                     </div>
+                    <span
+                        className={`${isComplicationStatus ? '' : 'hidden'} rounded-sm border bg-gray-50 p-1 text-sm text-gray-700`}
+                    >
+                        CCI score:&nbsp;
+                        <span className="font-medium text-gray-900">
+                            {isComplicationRegistered ? `${operationData.complicationScore.toFixed(2)}점` : '없음'}
+                        </span>
+                    </span>
                 </div>
 
                 <div className="w-full my-1 border-t" />
