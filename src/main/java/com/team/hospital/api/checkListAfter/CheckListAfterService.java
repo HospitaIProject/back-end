@@ -70,4 +70,8 @@ public class CheckListAfterService {
         return checkListAfterRepository.findAll();
     }
 
+    public boolean existsByCheckListItemId(Long checkListItemId) {
+        return checkListAfterRepository.existsByCheckListItemId(checkListItemId);
+    }
+
 }
