@@ -49,7 +49,7 @@ public class CheckListDuring extends BaseEntity {
     private CheckListFirst painControl; // 수술 중 통증 조절을 위한 처치 여부
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check_list_item_id")
+    @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
 
     public static CheckListDuring toEntity(WriteCheckListDuring write, CheckListItem checkListItem) {
