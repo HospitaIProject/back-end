@@ -33,8 +33,8 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
         setIsCheckListSetupModal(false);
     }; // 체크리스트 설정 모달 닫기
     return (
-        <>
-            <div className="grid flex-col grid-cols-1 gap-3 px-4 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
+        <div className="flex flex-col h-full px-4">
+            <div className="grid flex-col grid-cols-1 gap-3 pt-4 tablet:grid-cols-2 tablet:gap-x-20">
                 <ViewInput label="수술방법" value={`${operationMethodFormatted}`} />
 
                 <ViewInput
@@ -62,8 +62,8 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
                         체크리스트 확인
                     </button>
                 </div>
-                <FixedSubmitButton className="tablet:col-span-2" onClick={onSubmit} label="저장하기" />
             </div>
+            <FixedSubmitButton className="tablet:col-span-2" onClick={onSubmit} label="확인" />
             {isCheckListSetupModal && (
                 <PatientChecklistSetupModal
                     onClose={handleCloseCheckListSetup}
@@ -71,7 +71,7 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
                     title="체크리스트 확인"
                 />
             )}
-        </>
+        </div>
     );
 }
 

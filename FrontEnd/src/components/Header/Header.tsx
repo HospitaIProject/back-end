@@ -7,6 +7,7 @@ import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
 import { useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
+// import Sidebar from '../Sidebar/Sidebar';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
@@ -33,10 +34,12 @@ export default function Header() {
         label = '환자 정보등록';
     } else if (pathname.startsWith('/patient/operation/list')) {
         label = '환자 수술이력';
+    } else if (pathname.startsWith('/patient/new/operation/')) {
+        label = '환자 수술정보수정';
     } else if (pathname.startsWith('/patient/new/operation')) {
-        label = '수술정보등록';
+        label = '환자 수술정보등록';
     } else if (pathname.startsWith('/patient/new/complication')) {
-        label = '합병증 등록';
+        label = '환자 합병증등록';
     } else if (pathname.startsWith('/patient/checkLists/preview')) {
         label = '체크리스트 항목';
     } else if (pathname.startsWith('/patient/checkLists')) {
@@ -72,6 +75,9 @@ export default function Header() {
                         {/* <img src="/logo.png" alt="Logo" /> */}
                         {/* <span>logo</span> */}
                     </a>
+                    <Link to="/operation-checkList/default-setting" className="text-sm text-blue-500 underline">
+                        체크리스트 기본값 설정
+                    </Link>
                     <Link
                         to="/patient/new/info"
                         className="flex flex-row items-center gap-2 px-2 py-2 text-blue-500 border border-blue-500 rounded-md shadow-sm"
@@ -82,6 +88,7 @@ export default function Header() {
                     <FilterHeader isRender={toggleFilter && isVisible} />
                 </nav>
             </header>
+            {/* {toggleFilter && <Sidebar  onClose={() => setToggleFilter(false)} />} */}
         </>
     );
 }
