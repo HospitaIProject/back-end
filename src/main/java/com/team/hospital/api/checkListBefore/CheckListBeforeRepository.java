@@ -10,4 +10,6 @@ public interface CheckListBeforeRepository extends JpaRepository<CheckListBefore
 
     @Query("SELECT cb From CheckListBefore cb where cb.checkListItem.operation.id = :operationId")
     Optional<CheckListBefore> findByOperationId(@Param("operationId") Long operationId);
+
+    boolean existsByCheckListItemId(Long checkListItemId);
 }
