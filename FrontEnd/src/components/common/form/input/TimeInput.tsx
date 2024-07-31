@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const convertToDateTime = (timeString: string) => {
     const hours = parseInt(timeString.substring(0, 2), 10);
@@ -57,6 +57,18 @@ function TimeInput<T>({ label, htmlFor, formik, isRender }: Props<T>) {
             setDisplayValue(value); // 비정상적인 값이 들어올 경우를 대비한 처리
         }
     };
+    useEffect(() => {
+        if (displayValue === '' && formik?.getFieldProps(htmlFor).value) {
+            console.log('xx');
+
+            const date = formik?.getFieldProps(htmlFor).value as Date;
+
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const formattedValue = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+            setDisplayValue(formattedValue);
+        }
+    }, [formik?.getFieldProps(htmlFor).value]);
 
     const isInput = formik?.getFieldProps(htmlFor).value;
     const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부

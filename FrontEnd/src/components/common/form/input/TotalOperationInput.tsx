@@ -27,7 +27,7 @@ function TotalOperationInput<T>({ label, htmlFor, formik }: Props<T>) {
 
             // 수정된 endTime과 startTime의 차이를 계산합니다.
             const differenceInMilliseconds = endTime.getTime() - startTime.getTime();
-            const differenceInMinutes = differenceInMilliseconds / (1000 * 60);
+            const differenceInMinutes = Math.round(differenceInMilliseconds / (1000 * 60)); // 소수점을 반올림하여 정수로 만듦
 
             formik?.setFieldValue('totalOperationTime', differenceInMinutes);
             formik?.setFieldError('totalOperationTime', '');
