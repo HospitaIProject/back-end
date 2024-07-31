@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface CheckListItemRepository extends JpaRepository<CheckListItem, Long> {
     Optional<CheckListItem> findCheckListItemByOperationId(Long operationId);
+
+    CheckListItem findByOperationId(Long operationId);
 }
