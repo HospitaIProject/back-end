@@ -6,6 +6,7 @@ import { PatientWithOperationDtoType } from '../../models/PatientType';
 import DetailViewContainer from '../../components/common/detail/DetailViewContainer';
 import { useDeletePatientFormMutation } from '../../PatientPage/_lib/patientService';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 type Props = {
     values: PatientWithOperationDtoType;
     onClose: () => void;
@@ -28,6 +29,11 @@ function PatientDetailModal({ values, onClose }: Props) {
     const updateHandler = () => {
         navigate(`/patient/new/info/${patientDTO.patientId}`);
     };
+    useEffect(() => {
+        if (deletePatientFormMutation.isSuccess) {
+            onClose();
+        }
+    }, [deletePatientFormMutation.isSuccess]);
 
     return (
         <ModalFullScreenContainer title="환자 상세정보" onClose={onClose}>

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { PatientFormType } from '../../models/PatientType';
@@ -110,6 +110,7 @@ export const usePutPatientFormMutation = () => {
 
 export const useDeletePatientFormMutation = () => {
     // const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: deletePatientForm,
 
@@ -122,6 +123,9 @@ export const useDeletePatientFormMutation = () => {
             console.log(error);
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['patient', 'list'],
+            });
             pushNotification({
                 msg: '삭제되었습니다.',
                 type: 'success',
