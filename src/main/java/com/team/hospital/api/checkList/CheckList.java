@@ -89,7 +89,7 @@ public class CheckList extends BaseEntity {
     private LocalDate dayOfCheckList;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check_list_item_id")
+    @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
 
     public static CheckList createCheckList(WriteCheckList write, CheckListItem checkListItem) {
