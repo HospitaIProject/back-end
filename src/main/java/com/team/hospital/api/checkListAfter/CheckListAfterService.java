@@ -33,8 +33,14 @@ public class CheckListAfterService {
     }
 
     @Transactional
-    public void delete(Long operationId) {
+    public void deleteByOperationId(Long operationId) {
         CheckListAfter checkListAfter = findCheckListAfterById(operationId);
+        checkListAfterRepository.delete(checkListAfter);
+    }
+
+    @Transactional
+    public void delete(Long checkListAfterId) {
+        CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
         checkListAfterRepository.delete(checkListAfter);
     }
 
