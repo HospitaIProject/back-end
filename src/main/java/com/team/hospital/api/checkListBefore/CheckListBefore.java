@@ -63,7 +63,7 @@ public class CheckListBefore extends BaseEntity {
     private CheckListFirst painMedPreOp; // 수술전 통증 조절약 복용 여부
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check_list_item_id")
+    @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
 
     public static CheckListBefore toEntity(WriteCheckListBefore write, CheckListItem checkListItem) {
