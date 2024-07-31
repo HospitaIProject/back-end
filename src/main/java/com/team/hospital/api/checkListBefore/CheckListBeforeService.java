@@ -37,12 +37,6 @@ public class CheckListBeforeService {
         }
     }
 
-//    @Transactional
-//    public void deleteByOperationId(Long operationId) {
-//        CheckListBefore checkListBefore = findCheckListBeforeById(operationId);
-//        checkListBeforeRepository.delete(checkListBefore);
-//    }
-
     @Transactional
     public void delete(Long checkListBeforeId) {
         CheckListBefore checkListBefore = findCheckListBeforeById(checkListBeforeId);
@@ -87,5 +81,11 @@ public class CheckListBeforeService {
         Optional<CheckListBefore> checkListBefore = checkListBeforeRepository.findByOperationId(operationId);
         return checkListBefore.isPresent();
     }
+
+    //
+    public boolean existsByCheckListItemId(Long checkListItemId) {
+        return checkListBeforeRepository.existsByCheckListItemId(checkListItemId);
+    }
+
 
 }
