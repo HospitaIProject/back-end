@@ -50,6 +50,18 @@ public class ComplicationService {
         complication.updateComplicationScore(score);
     }
 
+    @Transactional
+    public double calculateAndUpdateComplicationScore(Long operationId) {
+        try {
+            Complication complication = findComplicationByOperationId(operationId);
+            double score = calculateCDScore(complication);
+            updateComplicationScore(complication, score);
+            return score;
+        } catch (ComplicationNotFoundException e) {
+            return 0.0;
+        }
+    }
+
     public Complication findComplicationByOperationId(Long operationId) {
         Optional<Complication> complication = complicationRepository.findByOperationId(operationId);
         if (complication.isEmpty()) throw new ComplicationNotFoundException("해당 operationId에 등록된 합병증이 존재하지 않습니다.");
@@ -125,4 +137,5 @@ public class ComplicationService {
             case IVb -> 8550;
         };
     }
+
 }
