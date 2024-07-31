@@ -79,7 +79,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row items-center justify-between w-full">
+                <div className="flex flex-row items-end justify-between w-full">
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             수술 시작 시간:&nbsp;
@@ -97,7 +97,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         </span>
                     </div>
                     <span
-                        className={`${isComplicationStatus ? '' : 'hidden'} rounded-sm border bg-gray-50 p-1 text-sm text-gray-700`}
+                        className={`${isComplicationStatus ? '' : 'hidden'} rounded-md border bg-gray-50 p-1 text-sm text-gray-700`}
                     >
                         CCI score:&nbsp;
                         <span className="font-medium text-gray-900">

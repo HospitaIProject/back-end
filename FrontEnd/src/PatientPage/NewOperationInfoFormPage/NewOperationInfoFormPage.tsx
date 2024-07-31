@@ -17,10 +17,22 @@ import TotalOperationInput from '../../components/common/form/input/TotalOperati
 import { validateCheckListSetup } from './components/utils/validateCheckListSetup';
 import { useOperationInfoInitialValues } from './utils/useOperationInfoInitialValues';
 import Loading from '../../components/common/Loading';
+import { useDefaultCheckListSettingQuery } from '../../DefaultCheckListSettingPage/_lib/defaultCheckListSettingService';
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
+    const [selectFirstOperationMethod, setSelectFirstOperationMethod] = useState<string>('');
     const newOperationInfoFormMutation = useNewOperationInfoFormMutation();
     const updateOperationInfoFormMutation = useUpdateOperationInfoFormMutation();
+    const defaultCheckListSettingQuery = useDefaultCheckListSettingQuery({
+        enabled: selectFirstOperationMethod !== '',
+        operationMethod: selectFirstOperationMethod,
+    }); //체크리스트 셋업
+    const {
+        data: checkListDefaultItems,
+        error: checkListDefaultItemsError,
+        isSuccess: isCheckListDefaultItemsSuccess,
+    } = defaultCheckListSettingQuery;
+
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name');
     const patientId = searchParams.get('id');
@@ -29,7 +41,8 @@ function NewOperationInfoFormPage() {
     const isEditPage = Boolean(operationId); //수정페이지 인지 여부
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);
 
-    const { initialValues, checkListSetup, setCheckListSetup, isPending } = useOperationInfoInitialValues();
+    const { initialValues, checkListSetup, setCheckListSetup, resetCheckListSetup, isPending } =
+        useOperationInfoInitialValues();
 
     const formik = useFormik({
         initialValues, // 초기값
@@ -131,9 +144,41 @@ function NewOperationInfoFormPage() {
     }; // 체크리스트 설정 모달 닫기
 
     useEffect(() => {
-        console.log('operationStartTime', formik.values.operationStartTime);
-        console.log('operationEndTime', formik.values.operationEndTime);
-    }, [formik.values.operationStartTime, formik.values.operationEndTime]);
+        console.log('formik.values.operationMethod', formik.values.operationMethod);
+        if (formik.values.operationMethod === '') {
+            setSelectFirstOperationMethod('');
+            resetCheckListSetup();
+            return;
+        }
+        if (formik.values.operationMethod.length > 0) {
+            setSelectFirstOperationMethod(formik.values.operationMethod[0]);
+        }
+    }, [formik.values.operationMethod]);
+
+    useEffect(() => {
+        if (checkListDefaultItems && isCheckListDefaultItemsSuccess) {
+            setCheckListSetup(checkListDefaultItems);
+            pushNotification({
+                msg: `${checkListDefaultItems.operationMethod}의 체크리스트 설정을 불러왔습니다.`,
+                type: 'success',
+                theme: 'dark',
+                position: 'top-center',
+            });
+        }
+    }, [checkListDefaultItems]);
+    useEffect(() => {
+        if (checkListDefaultItemsError) {
+            pushNotification({
+                msg:
+                    checkListDefaultItemsError.response?.data.message ||
+                    '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+                position: 'top-center',
+            });
+        }
+    }, [checkListDefaultItemsError]);
+
     if (isPending) return <Loading />;
     return (
         <>
@@ -197,9 +242,15 @@ function NewOperationInfoFormPage() {
                             onClick={handleOpenCheckListSetup}
                             className="w-full px-8 py-3 text-white bg-gray-400 rounded-md hover:bg-gray-500 mobile:max-w-screen-mobile"
                         >
-                            체크리스트 설정
+                            <span>체크리스트 설정</span>
                         </button>
-                        <span className="mt-2 text-sm text-green-600">*CheckList의 기본값은 True입니다.</span>
+                        <span className="mt-2 text-sm text-green-600">
+                            *첫 번째 수술 방법의 체크리스트 설정을 가져옵니다.
+                        </span>
+
+                        <span className="mt-2 text-sm text-green-600">
+                            *직접 입력한 수술 방법의 기본값은 모두 True입니다.
+                        </span>
                     </div>
                 </form>
                 <SubmitButton
