@@ -83,7 +83,7 @@ public class CheckListAfter extends BaseEntity {
     private CheckListSecond ivLineRemoval; // 수술 후 3일이내 IV line 제거 여부
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "check_list_item_id")
+    @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
 
     public static CheckListAfter toEntity(WriteCheckListAfter write, CheckListItem checkListItem) {
