@@ -37,8 +37,12 @@ function App() {
                             <Route path="/patient/new/info" element={<NewPatientFormPage />} />
                             {/* 환자 정보 수정 페이지 */}
                             <Route path="/patient/new/info/:patientId" element={<NewPatientFormPage />} />
+
                             {/* 환자 수술정보 등록 페이지 */}
                             <Route path="/patient/new/operation" element={<NewOperationInfoFormPage />} />
+                            {/* 환자 수술정보 수정 페이지 */}
+                            <Route path="/patient/new/operation/:operationId" element={<NewOperationInfoFormPage />} />
+
                             {/* compilance 체크리스트 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
                             <Route path="/patient/form/compliance/daily" element={<DailyCompliancePage />} />
