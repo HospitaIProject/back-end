@@ -52,8 +52,8 @@ public class CheckListService {
     }
 
     @Transactional
-    public void delete(Long operationId) {
-        CheckList checkList = findCheckListById(operationId);
+    public void delete(Long checkListId) {
+        CheckList checkList = findCheckListById(checkListId);
         checkListRepository.delete(checkList);
     }
 
