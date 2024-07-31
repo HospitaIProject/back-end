@@ -12,6 +12,7 @@ import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
 import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
 import CheckListViewPage from './PatientPage/CheckListsPage/components/CheckListViewPage';
 import DailyCompliancePage from './PatientPage/ComplianceFormPage/DailyCompliancePage';
+import DefaultCheckListSettingPage from './DefaultCheckListSettingPage/DefaultCheckListSettingPage';
 
 function App() {
     return (
@@ -24,7 +25,13 @@ function App() {
                         <Route element={<HeaderLayout />}>
                             {/* 메인 페이지 */}
                             <Route path="/" element={<MainPage />} />
-                            {/* 뒤로가기 */}
+
+                            {/* 수술명에 따른  체크리스트아이템 기본 세팅 */}
+                            <Route
+                                path="/operation-checkList/default-setting"
+                                element={<DefaultCheckListSettingPage />}
+                            />
+
                             {/* 수술정보 리스트 페이지 */}
                             <Route path="/patient/operation/list" element={<OperationListPage />} />
 

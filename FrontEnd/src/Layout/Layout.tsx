@@ -11,6 +11,7 @@ const WHITE_BG_PAGES = [
     '/patient/form/compliance',
     '/patient/checkLists/preview',
     '/patient/form/compliance/daily',
+    '/operation-checkList/default-setting',
 ];
 
 function Layout() {

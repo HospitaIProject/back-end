@@ -1,6 +1,7 @@
 export type CheckListSetupType = {
-    [key: string]: number | undefined | boolean;
+    [key: string]: number | undefined | boolean | string;
     checkListItemId?: number;
+    operationMethod?: string;
 
     explainedPreOp: boolean; // EAS 수술전 설명
     onsPreOp2hr: boolean; // 수술 2시간 전 ONS 복용여부
