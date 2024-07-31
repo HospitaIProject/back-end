@@ -44,8 +44,14 @@ public class CheckListDuringService {
     }
 
     @Transactional
-    public void delete(Long operationId) {
+    public void deleteByOperationId(Long operationId) {
         CheckListDuring checkListDuring = findCheckListDuringById(operationId);
+        checkListDuringRepository.delete(checkListDuring);
+    }
+
+    @Transactional
+    public void delete(Long checkListDuringId) {
+        CheckListDuring checkListDuring = findCheckListDuringById(checkListDuringId);
         checkListDuringRepository.delete(checkListDuring);
     }
 
