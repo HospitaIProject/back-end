@@ -31,18 +31,18 @@ public class CheckListItemController {
         return SuccessResponse.createSuccess(CheckListItemResponse.toEntity(checkListItemDTO));
     }
 
-    @PutMapping("/api/checkListItem/{checkListItemId}")
+    @PutMapping("/api/checkListItem/{operationId}")
     @Operation(summary = "세팅된 checkListItem 수정")
     public SuccessResponse<?> modifyCheckListItem(@RequestBody WriteCheckListItem writeCheckListItem,
-                                                  @PathVariable Long checkListItemId){
-        checkListItemService.modify(writeCheckListItem, checkListItemId);
+                                                  @PathVariable Long operationId){
+        checkListItemService.modify(writeCheckListItem, operationId);
         return SuccessResponse.createSuccess();
     }
 
-    @DeleteMapping("/api/checkListItem/{checkListItemId}")
+    @DeleteMapping("/api/checkListItem/{operationId}")
     @Operation(summary = "세팅된 checkListItem 세팅 삭제")
-    public SuccessResponse<?> deleteCheckListItem(@PathVariable Long checkListItemId){
-        checkListItemService.delete(checkListItemId);
+    public SuccessResponse<?> deleteCheckListItem(@PathVariable Long operationId){
+        checkListItemService.delete(operationId);
         return SuccessResponse.createSuccess();
     }
 
