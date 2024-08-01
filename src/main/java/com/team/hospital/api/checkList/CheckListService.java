@@ -129,97 +129,102 @@ public class CheckListService {
         return checks;
     }
 
-    // compliance percentage calculate
-    private int countCheckListBefore(Long operationId) {
-        CheckListBeforeDTO checkListBefore = checkListBeforeService.findCheckListBeforeByOperationId(operationId);
-        int count = 0;
+    // compilance
+    public double test(Long operationId) {
+        Long checkListItemId = checkListItemService.findByOperationId(operationId).getId();
+        boolean existsBefore = checkListBeforeService.existsByCheckListItemId(checkListItemId);
+        boolean existsDuring = checkListDuringService.existsByCheckListItemId(checkListItemId);
+        boolean existsAfter = checkListAfterService.existsByCheckListItemId(checkListItemId);
 
-        if (checkListBefore.getExplainedPreOp() == YES) count++;
-        if (checkListBefore.getOnsPreOp2hr() == YES) count++;
-        if (checkListBefore.getOnsPostBowelPrep() == YES) count++;
-        if (checkListBefore.getDvtPrevention() == YES) count++;
-        if (checkListBefore.getAntibioticPreIncision() == YES) count++;
-        if (checkListBefore.getPainMedPreOp() == YES) count++;
+        int totalCheckListCount = 0;
+        int totalCheckListCompleted = 0;
 
-        return count;
+        if (existsBefore) {
+            totalCheckListCount += countCheckListItems(operationId, "before");
+            totalCheckListCompleted += checkListCompletedCount(operationId, "before");
+        }
+        if (existsDuring) {
+            totalCheckListCount += countCheckListItems(operationId, "during");
+            totalCheckListCompleted += checkListCompletedCount(operationId, "during");
+        }
+        if (existsAfter) {
+            totalCheckListCount += countCheckListItems(operationId, "after");
+            totalCheckListCompleted += checkListCompletedCount(operationId, "after");
+        }
+
+        if (totalCheckListCount > 0) {
+            return ((double) totalCheckListCompleted / totalCheckListCount) * 100;
+        }
+
+        return 0.0;
     }
 
-    private int countCheckListDuring(Long operationId) {
-        CheckListDuringDTO checkListDuringDTO = checkListDuringService.findCheckListDuringByOperationId(operationId);
+    private int countCheckListItems(Long operationId, String stage) {
+        CheckListItem checkListItem = checkListItemService.findCheckListItemByOperation(operationId);
         int count = 0;
 
-        if (checkListDuringDTO.getMaintainTemp() == YES) count++;
-        if (checkListDuringDTO.getFluidRestriction()== YES) count++;
-        if (checkListDuringDTO.getAntiNausea() == YES) count++;
-        if (checkListDuringDTO.getPainControl() == YES) count++;
-
-        return count;
-    }
-
-    private int countCheckListAfter(Long operationId) {
-        CheckListAfterDTO checkListAfterDTO = checkListAfterService.findCheckListAfterByOperationId(operationId);
-        int count = 0;
-
-        if (checkListAfterDTO.getGiStimulant() == YES) count++;
-        if (checkListAfterDTO.getGumChewing() == YES) count++;
-        if (checkListAfterDTO.getAntiNauseaPostOp() == YES) count++;
-        if (checkListAfterDTO.getIvFluidRestrictionPostOp() == YES) count++;
-        if (checkListAfterDTO.getNonOpioidPainControl() == YES) count++;
-        if (checkListAfterDTO.getJpDrainRemoval() == YES) count++;
-        if (checkListAfterDTO.getCatheterRemoval() == YES) count++;
-        if (checkListAfterDTO.getIvLineRemoval() == YES) count++;
-
-        return count;
-    }
-    /// count checkListItem YES
-
-    public int countCheckList(Long operationId) {
-        List<CheckList> checks = checks(operationId);
-        int count = 0;
-
-        if (checks.get(0) != null && checks.get(1) != null && checks.get(2) != null && checks.get(3) != null) {
-            if (checks.get(0).getPostExercise().getOption() == YES) count++;
-            if (checks.get(0).getPostMeal().getOption() == YES) count++;
-            if (checks.get(1).getPodOneExercise().getOption() == YES) count++;
-            if (checks.get(1).getPodOneMeal().getOption() == YES) count++;
-            if (checks.get(2).getPodTwoExercise().getOption() == YES) count++;
-            if (checks.get(2).getPodTwoMeal().getOption() == YES) count++;
-            if (checks.get(3).getPodThreeExercise().getOption() == YES) count++;
+        switch (stage) {
+            case "before":
+                if (checkListItem.isExplainedPreOp()) count++;
+                if (checkListItem.isOnsPreOp2hr()) count++;
+                if (checkListItem.isOnsPostBowelPrep()) count++;
+                if (checkListItem.isDvtPrevention()) count++;
+                if (checkListItem.isAntibioticPreIncision()) count++;
+                if (checkListItem.isPainMedPreOp()) count++;
+                break;
+            case "during":
+                if (checkListItem.isMaintainTemp()) count++;
+                if (checkListItem.isFluidRestriction()) count++;
+                if (checkListItem.isAntiNausea()) count++;
+                if (checkListItem.isPainControl()) count++;
+                break;
+            case "after":
+                if (checkListItem.isGiStimulant()) count++;
+                if (checkListItem.isGumChewing()) count++;
+                if (checkListItem.isAntiNauseaPostOp()) count++;
+                if (checkListItem.isIvFluidRestrictionPostOp()) count++;
+                if (checkListItem.isNonOpioidPainControl()) count++;
+                if (checkListItem.isJpDrainRemoval()) count++;
+                if (checkListItem.isCatheterRemoval()) count++;
+                if (checkListItem.isIvLineRemoval()) count++;
+                break;
         }
 
         return count;
     }
 
-    // maximum return 25.
-    private int countCheckedItems(CheckListItem checkListItem) {
+    private int checkListCompletedCount(Long operationId, String stage) {
         int count = 0;
 
-        // pre op
-        if (checkListItem.isExplainedPreOp()) count++;
-        if (checkListItem.isOnsPreOp2hr()) count++;
-        if (checkListItem.isOnsPostBowelPrep()) count++;
-        if (checkListItem.isDvtPrevention()) count++;
-        if (checkListItem.isAntibioticPreIncision()) count++;
-        if (checkListItem.isPainMedPreOp()) count++;
-
-        // during op
-        if (checkListItem.isMaintainTemp()) count++;
-        if (checkListItem.isFluidRestriction()) count++;
-        if (checkListItem.isAntiNausea()) count++;
-        if (checkListItem.isPainControl()) count++;
-
-        // post op
-        if (checkListItem.isGiStimulant()) count++;
-        if (checkListItem.isGumChewing()) count++;
-        if (checkListItem.isAntiNauseaPostOp()) count++;
-        if (checkListItem.isIvFluidRestrictionPostOp()) count++;
-        if (checkListItem.isNonOpioidPainControl()) count++;
-        if (checkListItem.isJpDrainRemoval()) count++;
-        if (checkListItem.isCatheterRemoval()) count++;
-        if (checkListItem.isIvLineRemoval()) count++;
-
-        if (checkListItem.isPodExercise()) count+=4;
-        if (checkListItem.isPodMeal()) count+=3;
+        switch (stage) {
+            case "before":
+                CheckListBeforeDTO checkListBefore = checkListBeforeService.findCheckListBeforeByOperationId(operationId);
+                if (checkListBefore.getExplainedPreOp() == YES) count++;
+                if (checkListBefore.getOnsPreOp2hr() == YES) count++;
+                if (checkListBefore.getOnsPostBowelPrep() == YES) count++;
+                if (checkListBefore.getDvtPrevention() == YES) count++;
+                if (checkListBefore.getAntibioticPreIncision() == YES) count++;
+                if (checkListBefore.getPainMedPreOp() == YES) count++;
+                break;
+            case "during":
+                CheckListDuringDTO checkListDuring = checkListDuringService.findCheckListDuringByOperationId(operationId);
+                if (checkListDuring.getMaintainTemp() == YES) count++;
+                if (checkListDuring.getFluidRestriction() == YES) count++;
+                if (checkListDuring.getAntiNausea() == YES) count++;
+                if (checkListDuring.getPainControl() == YES) count++;
+                break;
+            case "after":
+                CheckListAfterDTO checkListAfter = checkListAfterService.findCheckListAfterByOperationId(operationId);
+                if (checkListAfter.getGiStimulant() == YES) count++;
+                if (checkListAfter.getGumChewing() == YES) count++;
+                if (checkListAfter.getAntiNauseaPostOp() == YES) count++;
+                if (checkListAfter.getIvFluidRestrictionPostOp() == YES) count++;
+                if (checkListAfter.getNonOpioidPainControl() == YES) count++;
+                if (checkListAfter.getJpDrainRemoval() == YES) count++;
+                if (checkListAfter.getCatheterRemoval() == YES) count++;
+                if (checkListAfter.getIvLineRemoval() == YES) count++;
+                break;
+        }
 
         return count;
     }

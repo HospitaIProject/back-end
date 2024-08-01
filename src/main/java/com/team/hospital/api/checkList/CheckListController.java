@@ -66,6 +66,8 @@ public class CheckListController {
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
         CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
 
+        double test = checkListService.test(operationId);
+
         CheckListWithOperationDateDTO responseDTO = CheckListWithOperationDateDTO.toEntity(
                 checkLists,
                 OperationDTO.toEntity(operation),
@@ -73,7 +75,8 @@ public class CheckListController {
                 checkListDuringDTO,
                 checkListAfterDTO,
                 patient,
-                createdToday);
+                createdToday,
+                test);
 
         return SuccessResponse.createSuccess(responseDTO);
     }

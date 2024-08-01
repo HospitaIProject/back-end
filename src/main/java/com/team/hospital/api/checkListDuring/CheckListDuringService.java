@@ -83,4 +83,8 @@ public class CheckListDuringService {
         }
     }
 
+    public boolean existsByCheckListItemId(Long checkListItemId) {
+        return checkListDuringRepository.existsByCheckListItemId(checkListItemId);
+    }
+
 }
