@@ -1,6 +1,5 @@
 package com.team.hospital.api.checkListItemDefault.dto;
 
-import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
 import com.team.hospital.api.operation.enumType.OperationMethod;
 import lombok.Builder;
@@ -12,60 +11,68 @@ public class CheckListItemDefaultResponse {
 
     private OperationMethod operationMethod;
 
-    private BooleanOption giStimulantDefault;
-    private BooleanOption gumChewingDefault;
-    private BooleanOption antiNauseaPostOpDefault;
-    private BooleanOption ivFluidRestrictionPostOpDefault;
-    private BooleanOption nonOpioidPainControlDefault;
-    private BooleanOption jpDrainRemovalDefault;
-    private BooleanOption catheterRemovalDefault;
-    private BooleanOption ivLineRemovalDefault;
+    private boolean giStimulant;
+    private boolean gumChewing;
+    private boolean antiNauseaPostOp;
+    private boolean ivFluidRestrictionPostOp;
+    private boolean nonOpioidPainControl;
+    private boolean jpDrainRemoval;
+    private boolean catheterRemoval;
+    private boolean ivLineRemoval;
 
     // 수술 전
-    private BooleanOption explainedPreOpDefault;
-    private BooleanOption onsPreOp2hrDefault;
-    private BooleanOption onsPostBowelPrepDefault;
-    private BooleanOption dvtPreventionDefault;
-    private BooleanOption antibioticPreIncisionDefault;
-    private BooleanOption painMedPreOpDefault;
+    private boolean explainedPreOp;
+    private boolean onsPreOp2hr;
+    private boolean onsPostBowelPrep;
+    private boolean dvtPrevention;
+    private boolean antibioticPreIncision;
+    private boolean painMedPreOp;
 
     // 수술 중
-    private BooleanOption maintainTempDefault;
-    private BooleanOption fluidRestrictionDefault;
-    private BooleanOption antiNauseaDefault;
-    private BooleanOption painControlDefault;
+    private boolean maintainTemp;
+    private boolean fluidRestriction;
+    private boolean antiNausea;
+    private boolean painControl;
 
     // POD
-    private BooleanOption podExerciseDefault;
-    private BooleanOption podMealDefault;
-    private BooleanOption podPainDefault;
+    private boolean podExercise;
+    private boolean podMeal;
+    private boolean podPain;
 
     public static CheckListItemDefaultResponse toEntity(CheckListItemDefault checkListItemDefault) {
         if (checkListItemDefault == null) return null; // Null safety check
 
         return CheckListItemDefaultResponse.builder()
                 .operationMethod(checkListItemDefault.getOperationMethod())
-                .giStimulantDefault(checkListItemDefault.getGiStimulantDefault())
-                .gumChewingDefault(checkListItemDefault.getGumChewingDefault())
-                .antiNauseaPostOpDefault(checkListItemDefault.getAntiNauseaPostOpDefault())
-                .ivFluidRestrictionPostOpDefault(checkListItemDefault.getIvFluidRestrictionPostOpDefault())
-                .nonOpioidPainControlDefault(checkListItemDefault.getNonOpioidPainControlDefault())
-                .jpDrainRemovalDefault(checkListItemDefault.getJpDrainRemovalDefault())
-                .catheterRemovalDefault(checkListItemDefault.getCatheterRemovalDefault())
-                .ivLineRemovalDefault(checkListItemDefault.getIvLineRemovalDefault())
-                .explainedPreOpDefault(checkListItemDefault.getExplainedPreOpDefault())
-                .onsPreOp2hrDefault(checkListItemDefault.getOnsPreOp2hrDefault())
-                .onsPostBowelPrepDefault(checkListItemDefault.getOnsPostBowelPrepDefault())
-                .dvtPreventionDefault(checkListItemDefault.getDvtPreventionDefault())
-                .antibioticPreIncisionDefault(checkListItemDefault.getAntibioticPreIncisionDefault())
-                .painMedPreOpDefault(checkListItemDefault.getPainMedPreOpDefault())
-                .maintainTempDefault(checkListItemDefault.getMaintainTempDefault())
-                .fluidRestrictionDefault(checkListItemDefault.getFluidRestrictionDefault())
-                .antiNauseaDefault(checkListItemDefault.getAntiNauseaDefault())
-                .painControlDefault(checkListItemDefault.getPainControlDefault())
-                .podExerciseDefault(checkListItemDefault.getPodExerciseDefault())
-                .podMealDefault(checkListItemDefault.getPodMealDefault())
-                .podPainDefault(checkListItemDefault.getPodPainDefault())
+
+                // 수술 전
+                .explainedPreOp(checkListItemDefault.isExplainedPreOp())
+                .onsPreOp2hr(checkListItemDefault.isOnsPreOp2hr())
+                .onsPostBowelPrep(checkListItemDefault.isOnsPostBowelPrep())
+                .dvtPrevention(checkListItemDefault.isDvtPrevention())
+                .antibioticPreIncision(checkListItemDefault.isAntibioticPreIncision())
+                .painMedPreOp(checkListItemDefault.isPainMedPreOp())
+
+                // 수술 중
+                .maintainTemp(checkListItemDefault.isMaintainTemp())
+                .fluidRestriction(checkListItemDefault.isFluidRestriction())
+                .antiNausea(checkListItemDefault.isAntiNausea())
+                .painControl(checkListItemDefault.isPainControl())
+
+                // 수술 후
+                .giStimulant(checkListItemDefault.isGiStimulant())
+                .gumChewing(checkListItemDefault.isGumChewing())
+                .antiNauseaPostOp(checkListItemDefault.isAntiNauseaPostOp())
+                .ivFluidRestrictionPostOp(checkListItemDefault.isIvFluidRestrictionPostOp())
+                .nonOpioidPainControl(checkListItemDefault.isNonOpioidPainControl())
+                .jpDrainRemoval(checkListItemDefault.isJpDrainRemoval())
+                .catheterRemoval(checkListItemDefault.isCatheterRemoval())
+                .ivLineRemoval(checkListItemDefault.isIvLineRemoval())
+
+                .podExercise(checkListItemDefault.isPodExercise())
+                .podMeal(checkListItemDefault.isPodMeal())
+                .podPain(checkListItemDefault.isPodPain())
+
                 .build();
     }
 }
