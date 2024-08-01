@@ -1,7 +1,6 @@
 package com.team.hospital.api.checkListItemDefault;
 
 import com.team.hospital.api.base.BaseEntity;
-import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkListItemDefault.dto.WriteCheckListItemDefault;
 import com.team.hospital.api.operation.enumType.OperationMethod;
 import jakarta.persistence.*;
@@ -26,92 +25,98 @@ public class CheckListItemDefault extends BaseEntity {
     private OperationMethod operationMethod;
 
     // 수술 전
-    @Enumerated(EnumType.STRING)
-    private BooleanOption explainedPreOpDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption onsPreOp2hrDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption onsPostBowelPrepDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption dvtPreventionDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption antibioticPreIncisionDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption painMedPreOpDefault;
+    private boolean explainedPreOp;
+    private boolean onsPreOp2hr;
+    private boolean onsPostBowelPrep;
+    private boolean dvtPrevention;
+    private boolean antibioticPreIncision;
+    private boolean painMedPreOp;
 
     // 수술 중
-    @Enumerated(EnumType.STRING)
-    private BooleanOption maintainTempDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption fluidRestrictionDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption antiNauseaDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption painControlDefault;
+    private boolean maintainTemp;
+    private boolean fluidRestriction;
+    private boolean antiNausea;
+    private boolean painControl;
 
     // 수술 후
-    @Enumerated(EnumType.STRING)
-    private BooleanOption giStimulantDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption gumChewingDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption antiNauseaPostOpDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption ivFluidRestrictionPostOpDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption nonOpioidPainControlDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption jpDrainRemovalDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption catheterRemovalDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption ivLineRemovalDefault;
+    private boolean giStimulant;
+    private boolean gumChewing;
+    private boolean antiNauseaPostOp;
+    private boolean ivFluidRestrictionPostOp;
+    private boolean nonOpioidPainControl;
+    private boolean jpDrainRemoval;
+    private boolean catheterRemoval;
+    private boolean ivLineRemoval;
 
     // POD
-    @Enumerated(EnumType.STRING)
-    private BooleanOption podExerciseDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption podMealDefault;
-    @Enumerated(EnumType.STRING)
-    private BooleanOption podPainDefault;
+    private boolean podExercise;
+    private boolean podMeal;
+    private boolean podPain;
 
     public static CheckListItemDefault toEntity(WriteCheckListItemDefault write) {
         return CheckListItemDefault.builder()
                 .operationMethod(write.getOperationMethod())
 
                 // 수술 전
-                .explainedPreOpDefault(write.getExplainedPreOpDefault())
-                .onsPreOp2hrDefault(write.getOnsPreOp2hrDefault())
-                .onsPostBowelPrepDefault(write.getOnsPostBowelPrepDefault())
-                .dvtPreventionDefault(write.getDvtPreventionDefault())
-                .antibioticPreIncisionDefault(write.getAntibioticPreIncisionDefault())
-                .painMedPreOpDefault(write.getPainMedPreOpDefault())
+                .explainedPreOp(write.isExplainedPreOp())
+                .onsPreOp2hr(write.isOnsPreOp2hr())
+                .onsPostBowelPrep(write.isOnsPostBowelPrep())
+                .dvtPrevention(write.isDvtPrevention())
+                .antibioticPreIncision(write.isAntibioticPreIncision())
+                .painMedPreOp(write.isPainMedPreOp())
 
                 // 수술 중
-                .maintainTempDefault(write.getMaintainTempDefault())
-                .fluidRestrictionDefault(write.getFluidRestrictionDefault())
-                .antiNauseaDefault(write.getAntiNauseaDefault())
-                .painControlDefault(write.getPainControlDefault())
+                .maintainTemp(write.isMaintainTemp())
+                .fluidRestriction(write.isFluidRestriction())
+                .antiNausea(write.isAntiNausea())
+                .painControl(write.isPainControl())
 
                 // 수술 후
-                .giStimulantDefault(write.getGiStimulantDefault())
-                .gumChewingDefault(write.getGumChewingDefault())
-                .antiNauseaPostOpDefault(write.getAntiNauseaPostOpDefault())
-                .ivFluidRestrictionPostOpDefault(write.getIvFluidRestrictionPostOpDefault())
-                .nonOpioidPainControlDefault(write.getNonOpioidPainControlDefault())
-                .jpDrainRemovalDefault(write.getJpDrainRemovalDefault())
-                .catheterRemovalDefault(write.getCatheterRemovalDefault())
-                .ivLineRemovalDefault(write.getIvLineRemovalDefault())
+                .giStimulant(write.isGiStimulant())
+                .gumChewing(write.isGumChewing())
+                .antiNauseaPostOp(write.isAntiNauseaPostOp())
+                .ivFluidRestrictionPostOp(write.isIvFluidRestrictionPostOp())
+                .nonOpioidPainControl(write.isNonOpioidPainControl())
+                .jpDrainRemoval(write.isJpDrainRemoval())
+                .catheterRemoval(write.isCatheterRemoval())
+                .ivLineRemoval(write.isIvLineRemoval())
 
                 // POD
-                .podExerciseDefault(write.getPodExerciseDefault())
-                .podMealDefault(write.getPodMealDefault())
-                .podPainDefault(write.getPodPainDefault())
+                .podExercise(write.isPodExercise())
+                .podMeal(write.isPodMeal())
+                .podPain(write.isPodPain())
 
                 .build();
     }
 
     public void update(WriteCheckListItemDefault write) {
-        this.explainedPreOpDefault = write.getExplainedPreOpDefault();
+        // 수술 전
+        this.explainedPreOp = write.isExplainedPreOp();
+        this.onsPreOp2hr = write.isOnsPreOp2hr();
+        this.onsPostBowelPrep = write.isOnsPostBowelPrep();
+        this.dvtPrevention = write.isDvtPrevention();
+        this.antibioticPreIncision = write.isAntibioticPreIncision();
+        this.painMedPreOp = write.isPainMedPreOp();
+
+        // 수술 중
+        this.maintainTemp = write.isMaintainTemp();
+        this.fluidRestriction = write.isFluidRestriction();
+        this.antiNausea = write.isAntiNausea();
+        this.painControl = write.isPainControl();
+
+        // 수술 후
+        this.giStimulant = write.isGiStimulant();
+        this.gumChewing = write.isGumChewing();
+        this.antiNauseaPostOp = write.isAntiNauseaPostOp();
+        this.ivFluidRestrictionPostOp = write.isIvFluidRestrictionPostOp();
+        this.nonOpioidPainControl = write.isNonOpioidPainControl();
+        this.jpDrainRemoval = write.isJpDrainRemoval();
+        this.catheterRemoval = write.isCatheterRemoval();
+        this.ivLineRemoval = write.isIvLineRemoval();
+
+        // POD
+        this.podExercise = write.isPodExercise();
+        this.podMeal = write.isPodMeal();
+        this.podPain = write.isPodPain();
     }
 }
