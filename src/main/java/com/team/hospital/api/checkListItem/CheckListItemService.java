@@ -33,14 +33,14 @@ public class CheckListItemService {
     }
 
     @Transactional
-    public void modify(WriteCheckListItem write, Long checkListItemId) {
-        CheckListItem checkListItem = findCheckListItemById(checkListItemId);
+    public void update(WriteCheckListItem write, Long operationId) {
+        CheckListItem checkListItem = findCheckListItemByOperation(operationId);
         checkListItem.updateCheckListItem(write);
     }
 
     @Transactional
-    public void delete(Long checkListItemId) {
-        CheckListItem checkListItem = findCheckListItemById(checkListItemId);
+    public void delete(Long operationId) {
+        CheckListItem checkListItem = findCheckListItemByOperation(operationId);
         checkListItemRepository.delete(checkListItem);
     }
 
@@ -55,6 +55,10 @@ public class CheckListItemService {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findById(checkListItemId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
         return checkListItem.get();
+    }
+
+    public CheckListItem findByOperationId(Long operationId) {
+        return checkListItemRepository.findByOperationId(operationId);
     }
 
 }
