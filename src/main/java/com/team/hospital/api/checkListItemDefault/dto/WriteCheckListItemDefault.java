@@ -1,7 +1,5 @@
 package com.team.hospital.api.checkListItemDefault.dto;
 
-
-import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.enumType.OperationMethod;
 import lombok.Getter;
 
@@ -10,31 +8,31 @@ public class WriteCheckListItemDefault {
 
     private OperationMethod operationMethod;
 
-    private BooleanOption giStimulantDefault;
-    private BooleanOption gumChewingDefault;
-    private BooleanOption antiNauseaPostOpDefault;
-    private BooleanOption ivFluidRestrictionPostOpDefault;
-    private BooleanOption nonOpioidPainControlDefault;
-    private BooleanOption jpDrainRemovalDefault;
-    private BooleanOption catheterRemovalDefault;
-    private BooleanOption ivLineRemovalDefault;
+    private boolean giStimulant;
+    private boolean gumChewing;
+    private boolean antiNauseaPostOp;
+    private boolean ivFluidRestrictionPostOp;
+    private boolean nonOpioidPainControl;
+    private boolean jpDrainRemoval;
+    private boolean catheterRemoval;
+    private boolean ivLineRemoval;
 
     // 수술 전
-    private BooleanOption explainedPreOpDefault;
-    private BooleanOption onsPreOp2hrDefault;
-    private BooleanOption onsPostBowelPrepDefault;
-    private BooleanOption dvtPreventionDefault;
-    private BooleanOption antibioticPreIncisionDefault;
-    private BooleanOption painMedPreOpDefault;
+    private boolean explainedPreOp;
+    private boolean onsPreOp2hr;
+    private boolean onsPostBowelPrep;
+    private boolean dvtPrevention;
+    private boolean antibioticPreIncision;
+    private boolean painMedPreOp;
 
     // 수술 중
-    private BooleanOption maintainTempDefault;
-    private BooleanOption fluidRestrictionDefault;
-    private BooleanOption antiNauseaDefault;
-    private BooleanOption painControlDefault;
+    private boolean maintainTemp;
+    private boolean fluidRestriction;
+    private boolean antiNausea;
+    private boolean painControl;
 
     // POD
-    private BooleanOption podExerciseDefault;
-    private BooleanOption podMealDefault;
-    private BooleanOption podPainDefault;
+    private boolean podExercise;
+    private boolean podMeal;
+    private boolean podPain;
 }
