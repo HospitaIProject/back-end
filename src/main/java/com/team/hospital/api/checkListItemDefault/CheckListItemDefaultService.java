@@ -26,8 +26,8 @@ public class CheckListItemDefaultService {
     }
 
     @Transactional
-    public void update(OperationMethod operationMethod, WriteCheckListItemDefault write) {
-        CheckListItemDefault checkListItemDefault = findByOperationMethod(operationMethod);
+    public void update(WriteCheckListItemDefault write) {
+        CheckListItemDefault checkListItemDefault = findByOperationMethod(write.getOperationMethod());
         checkListItemDefault.update(write);
     }
 
