@@ -33,9 +33,9 @@ public class CheckListItemController {
 
     @PutMapping("/api/checkListItem/{operationId}")
     @Operation(summary = "세팅된 checkListItem 수정")
-    public SuccessResponse<?> modifyCheckListItem(@RequestBody WriteCheckListItem writeCheckListItem,
+    public SuccessResponse<?> updateCheckListItem(@RequestBody WriteCheckListItem writeCheckListItem,
                                                   @PathVariable Long operationId){
-        checkListItemService.modify(writeCheckListItem, operationId);
+        checkListItemService.update(writeCheckListItem, operationId);
         return SuccessResponse.createSuccess();
     }
 
