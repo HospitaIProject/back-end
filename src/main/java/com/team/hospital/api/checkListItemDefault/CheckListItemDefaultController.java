@@ -32,8 +32,8 @@ public class CheckListItemDefaultController {
 
     @PutMapping("/api/checkListItemDefault")
     @Operation(summary = "지정된 수술 방법에 따라 CheckListItemDefault 엔티티를 업데이트합니다.")
-    public SuccessResponse<?> update(@RequestParam OperationMethod operationMethod, @RequestBody WriteCheckListItemDefault write) {
-        checkListItemDefaultService.update(operationMethod, write);
+    public SuccessResponse<?> update(@RequestBody WriteCheckListItemDefault write) {
+        checkListItemDefaultService.update(write);
         return SuccessResponse.createSuccess();
     }
 }
