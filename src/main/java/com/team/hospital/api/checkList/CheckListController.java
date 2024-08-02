@@ -68,15 +68,28 @@ public class CheckListController {
 
         double test = checkListService.test(operationId);
 
-        CheckListWithOperationDateDTO responseDTO = CheckListWithOperationDateDTO.toEntity(
-                checkLists,
-                OperationDTO.toEntity(operation),
-                checkListBeforeDTO,
-                checkListDuringDTO,
-                checkListAfterDTO,
-                patient,
-                createdToday,
-                test);
+        CheckListWithOperationDateDTO responseDTO;
+
+        if (checkLists == null) {
+            responseDTO = CheckListWithOperationDateDTO.toEntity(
+                    OperationDTO.toEntity(operation),
+                    checkListBeforeDTO,
+                    checkListDuringDTO,
+                    checkListAfterDTO,
+                    patient,
+                    createdToday,
+                    test);
+        } else {
+            responseDTO = CheckListWithOperationDateDTO.toEntity(
+                    checkLists,
+                    OperationDTO.toEntity(operation),
+                    checkListBeforeDTO,
+                    checkListDuringDTO,
+                    checkListAfterDTO,
+                    patient,
+                    createdToday,
+                    test);
+        }
 
         return SuccessResponse.createSuccess(responseDTO);
     }
