@@ -29,6 +29,9 @@ const validationRules = {
         // 'catheterReInsertion', //별도
         'ivLineRemoval',
         // 'ivLineRemovalDate', //별도
+        'postExercise',
+        'postMeal',
+        // 'postPain', //별도
     ],
 };
 
@@ -62,6 +65,10 @@ export const validateFields = ({ formik, type, values }: Props) => {
         }
         if (values['ivLineRemoval'] === 'YES' && values['ivLineRemovalDate'] === '') {
             formik.setFieldError('ivLineRemovalDate', '필수 입력 항목입니다.');
+            isError = true;
+        }
+        if (values['postPain']?.day === '' || values['postPain']?.evening === '' || values['postPain']?.night === '') {
+            formik.setFieldError('postPain', '필수 입력 항목입니다.');
             isError = true;
         }
     }

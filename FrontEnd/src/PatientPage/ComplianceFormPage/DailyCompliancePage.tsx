@@ -88,12 +88,7 @@ function DailyCompliancePage() {
                 </div>
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* ------Day 운동  ------ */}
-                    <YesOrNoButton
-                        htmlFor="postExercise"
-                        label={CHECKLIST_ITEMS_NAME.postExercise}
-                        formik={formik}
-                        isRender={existFields.podExercise && isPod1}
-                    />
+
                     <YesOrNoButton
                         htmlFor="podOneExercise"
                         label={CHECKLIST_ITEMS_NAME.podOneExercise}
@@ -113,12 +108,7 @@ function DailyCompliancePage() {
                         isRender={existFields.podExercise && isPod3}
                     />
                     {/* ------Day 식사 ------ */}
-                    <YesOrNoButton
-                        htmlFor="postMeal"
-                        label={CHECKLIST_ITEMS_NAME.postMeal}
-                        formik={formik}
-                        isRender={existFields.podMeal && isPod1}
-                    />
+
                     <YesOrNoButton
                         htmlFor="podOneMeal"
                         label={CHECKLIST_ITEMS_NAME.podOneMeal}
@@ -132,18 +122,7 @@ function DailyCompliancePage() {
                         isRender={existFields.podMeal && isPod2}
                     />
                     {/* ------Day 통증 ------ */}
-                    <PainSelector
-                        type="number"
-                        htmlFor="postPain"
-                        label={CHECKLIST_ITEMS_NAME.postPain}
-                        formik={formik}
-                        isRender={existFields.podPain && isPod1}
-                        values={[
-                            { value: 'day', label: 'Day' },
-                            { value: 'evening', label: 'Evening' },
-                            { value: 'night', label: 'Night' },
-                        ]}
-                    />
+
                     <PainSelector
                         type="number"
                         htmlFor="podOnePain"

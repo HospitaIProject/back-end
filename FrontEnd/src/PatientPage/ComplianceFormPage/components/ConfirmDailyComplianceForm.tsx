@@ -28,12 +28,6 @@ function ConfirmDailyComplianceForm({
                 <span className="flex flex-row mx-auto text-lg font-bold text-center w-fit">{`D+${diffDay}`}</span>
                 <div className={`grid w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}>
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.postExercise}
-                        value={values.postExercise}
-                        remark={values.postExercise_remarks}
-                        isRender={existFields.podExercise && isPod1}
-                    />
-                    <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.podOneExercise}
                         value={values.podOneExercise}
                         remark={values.podOneExercise_remarks}
@@ -52,12 +46,7 @@ function ConfirmDailyComplianceForm({
                         isRender={existFields.podExercise && isPod3}
                     />
                     {/* ------Day 식사 ------ */}
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.postMeal}
-                        value={values.postMeal}
-                        remark={values.postMeal_remarks}
-                        isRender={existFields.podMeal && isPod1}
-                    />
+
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.podOneMeal}
                         value={values.podOneMeal}
@@ -72,15 +61,7 @@ function ConfirmDailyComplianceForm({
                     />
 
                     {/* ------Day 통증 ------ */}
-                    <MultiViewInput
-                        label={CHECKLIST_ITEMS_NAME.postPain}
-                        isRender={existFields.podPain && isPod1}
-                        values={[
-                            { value: values.postPain?.day, label: 'Day' },
-                            { value: values.postPain?.evening, label: 'Evening' },
-                            { value: values.postPain?.night, label: 'Night' },
-                        ]}
-                    />
+
                     <MultiViewInput
                         label={CHECKLIST_ITEMS_NAME.podOnePain}
                         isRender={existFields.podPain && isPod1}

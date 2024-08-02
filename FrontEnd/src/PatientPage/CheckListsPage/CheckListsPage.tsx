@@ -11,6 +11,7 @@ import CheckListsEmptyCard from './components/CheckListsEmptyCard';
 import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import CheckListsPostEmptyCard from './components/CheckListsPostEmptyCard';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
+import HorizontalProgressBar from '../../components/common/progress/HorizontalProgressBar';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
@@ -99,17 +100,22 @@ function CheckListsPage() {
     return (
         <>
             <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-row items-center justify-between w-full gap-3 px-4 py-3 mobile:col-span-2">
-                    <span className="text-gray-600">
-                        환자명:&nbsp;<span className="">{patientName}</span>
-                    </span>
+                <div className="flex flex-col items-center w-full gap-3 px-4 py-3 mobile:col-span-2">
+                    <div className="flex flex-row justify-between w-full gap-3">
+                        <span className="text-gray-600">
+                            환자명:&nbsp;<span className="">{patientName}</span>
+                        </span>
 
-                    <Link
-                        to={`/patient/checkLists/preview?id=${operationId}&name=${patientName}`}
-                        className={`flex flex-row items-center gap-2 rounded-md border border-blue-400 px-2 py-1 text-blue-400`}
-                    >
-                        <span className="text-sm font-medium">항목 미리보기</span>
-                    </Link>
+                        <Link
+                            to={`/patient/checkLists/preview?id=${operationId}&name=${patientName}`}
+                            className={`flex flex-row items-center gap-2 rounded-md border border-blue-400 px-2 py-1 text-blue-400`}
+                        >
+                            <span className="text-sm font-medium">항목 미리보기</span>
+                        </Link>
+                    </div>
+                    <div className="w-full">
+                        <HorizontalProgressBar percent={Number(checkListsData.compliancePercentage.toFixed(1))} />
+                    </div>
                 </div>
 
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
@@ -118,6 +124,13 @@ function CheckListsPage() {
                         <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술 후 체크리스트는 수술일 다음 날부터 작성 가능합니다.
+                            </span>
+                        </div>
+                    )}
+                    {checkListsData.checkListDTOs === null && (
+                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                            <span className="text-sm text-gray-700">
+                                일일 체크리스트는 퇴원일이 입력된 후에 표시됩니다.
                             </span>
                         </div>
                     )}

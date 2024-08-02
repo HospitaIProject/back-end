@@ -15,8 +15,11 @@ const postPatientNewForm = async ({ data }: { data: PatientFormType }) => {
         ...data,
         operationDate: operationDate,
         hospitalizedDate: hospitalizedDate,
-        dischargedDate: dischargedDate,
+        dischargedDate: dischargedDate === '' ? null : dischargedDate, //퇴원일이 없을 경우 null로 처리
+        totalHospitalizedDays: data.totalHospitalizedDays === '' ? null : data.totalHospitalizedDays, //입원일이 없을 경우 null로 처리
+        // dischargedDate: dischargedDate,
     };
+
     console.log('operationDataTransformed', operationDataTransformed);
 
     const response = await Axios.post(`api/patient`, operationDataTransformed);
@@ -36,7 +39,8 @@ const putPatientForm = async ({ data, patientId }: { data: PatientFormType; pati
         ...data,
         operationDate: operationDate,
         hospitalizedDate: hospitalizedDate,
-        dischargedDate: dischargedDate,
+        dischargedDate: dischargedDate === '' ? null : dischargedDate, //퇴원일이 없을 경우 null로 처리
+        totalHospitalizedDays: data.totalHospitalizedDays === '' ? null : data.totalHospitalizedDays, //입원일이 없을 경우 null로 처리
     };
     console.log('operationDataTransformed', operationDataTransformed);
 

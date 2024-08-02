@@ -5,6 +5,7 @@ import OperationDetailModal from './OperationDetailModal';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useOperationMethodFormatted } from '../../../Hooks/useOperationMethodFormatted';
 import { useComplicationStatusMutation } from '../../_lib/complicationService';
+import DonutProgressbar from '../../../components/common/progress/DonutProgressbar';
 
 type Props = {
     operationData: OperationItemType;
@@ -79,7 +80,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row items-end justify-between w-full">
+                <div className="flex flex-row w-full">
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             수술 시작 시간:&nbsp;
@@ -96,17 +97,36 @@ function OperationSummaryCard({ operationData }: Props) {
                             <span className="font-medium text-gray-900">{totalOperationTime}분</span>
                         </span>
                     </div>
-                    <span
-                        className={`${isComplicationStatus ? '' : 'hidden'} rounded-md border bg-gray-50 p-1 text-sm text-gray-700`}
-                    >
-                        CCI score:&nbsp;
-                        <span className="font-medium text-gray-900">
-                            {isComplicationRegistered ? `${operationData.complicationScore.toFixed(2)}점` : '없음'}
-                        </span>
-                    </span>
+
+                    <div className={`flex flex-grow flex-row items-end justify-end gap-2`}>
+                        <div
+                            className={`flex translate-y-1 flex-col items-center gap-1 ${
+                                operationData.complicationStatus === 'YES' ? '' : 'hidden'
+                            }`}
+                        >
+                            <DonutProgressbar
+                                className="h-[45px] w-[45px]"
+                                percent={Number(operationData.complicationScore.toFixed(1))}
+                                unit="점"
+                                color="Sixth"
+                                textClassName="text-[0.65rem]"
+                            />
+                            <span className="text-[0.65rem] text-red-500">CCI Score</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1 translate-y-1">
+                            <DonutProgressbar
+                                className="h-[45px] w-[45px]"
+                                percent={Number(operationData.compilancePercentage.toFixed(1))}
+                                unit="%"
+                                color="Third"
+                                textClassName="text-[0.65rem]"
+                            />
+                            <span className="text-[0.65rem] text-blue-500">Compliance</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="w-full my-1 border-t" />
+                <div className="w-full border-t" />
 
                 <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
                     <div className="flex flex-row items-center gap-2">

@@ -35,7 +35,7 @@ export const usePatientInitialValues = () => {
         initialValues = data;
         initialValues.operationDate = new Date(data.operationDate);
         initialValues.hospitalizedDate = new Date(data.hospitalizedDate);
-        initialValues.dischargedDate = new Date(data.dischargedDate);
+        initialValues.dischargedDate = data.dischargedDate ? new Date(data.dischargedDate) : '';
     }
 
     useEffect(() => {
