@@ -10,7 +10,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Builder
@@ -64,10 +63,10 @@ public class Patient extends BaseEntity {
     @Column(nullable = false)
     private LocalDate hospitalizedDate;              // 입원일
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDate dischargedDate;                // 퇴원일
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private int totalHospitalizedDays;          // 총 재원 일수
 
     public static Patient createPatient(RegisterPatient registerPatient) {

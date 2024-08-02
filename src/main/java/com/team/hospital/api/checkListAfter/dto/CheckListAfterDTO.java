@@ -1,6 +1,7 @@
 package com.team.hospital.api.checkListAfter.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import com.team.hospital.api.checkListAfter.CheckListAfter;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,11 @@ public class CheckListAfterDTO {
     private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
     private LocalDate ivLineRemovalDate;
 
+    // Post
+    private BooleanOption postExercise;                  // 운동
+    private BooleanOption postMeal;                      // 운동
+    private DailyPainScore postPain;                     // 운동
+
     // 수술 후
     private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
     private String gumChewing_remarks;                    // 하루 3번 15분동안 껌씹기 여부
@@ -46,6 +52,9 @@ public class CheckListAfterDTO {
     private String jpDrainRemoval_remarks;                // 수술 후 3일이내 JP drain 제거 여부
     private String catheterRemoval_remarks;               // 수술 후 수술장에서 소변줄 제거 여부
     private String ivLineRemoval_remarks;                 // 수술 후 3일이내 IV line 제거 여부
+
+    private String postExercise_remarks;
+    private String postMeal_remarks;
 
     public static CheckListAfterDTO toEntity(CheckListAfter checkListAfter) {
         CheckListAfterDTOBuilder checkListAfterDTO = CheckListAfterDTO.builder()
@@ -91,6 +100,17 @@ public class CheckListAfterDTO {
             checkListAfterDTO.ivLineRemoval(checkListAfter.getIvLineRemoval().getOption());
             checkListAfterDTO.ivLineRemovalDate(checkListAfter.getIvLineRemoval().getRemovedDate());
             checkListAfterDTO.ivLineRemoval_remarks(checkListAfter.getIvLineRemoval().getRemarks());
+        }
+        if (checkListAfter.getPostExercise() != null) {
+            checkListAfterDTO.postExercise(checkListAfter.getPostExercise().getOption());
+            checkListAfterDTO.postExercise_remarks(checkListAfter.getPostExercise().getRemarks());
+        }
+        if (checkListAfter.getPostMeal() != null) {
+            checkListAfterDTO.postMeal(checkListAfter.getPostMeal().getOption());
+            checkListAfterDTO.postMeal_remarks(checkListAfter.getPostMeal().getRemarks());
+        }
+        if (checkListAfter.getPostPain() != null) {
+            checkListAfterDTO.postPain(checkListAfter.getPostPain());
         }
 
         return checkListAfterDTO.build();

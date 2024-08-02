@@ -1,9 +1,11 @@
 package com.team.hospital.api.checkListAfter;
 
 import com.team.hospital.api.base.BaseEntity;
+import com.team.hospital.api.checkList.converter.DailyPainScoreConverter;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
 import com.team.hospital.api.checkList.enumType.CheckListSecond;
 import com.team.hospital.api.checkList.enumType.CheckListThird;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
@@ -82,6 +84,23 @@ public class CheckListAfter extends BaseEntity {
     })
     private CheckListSecond ivLineRemoval; // 수술 후 3일이내 IV line 제거 여부
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "post_exercise")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "post_exercise_remarks"))
+    })
+    private CheckListFirst postExercise; // Post OP day 운동
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "post_meal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "post_meal_remarks"))
+    })
+    private CheckListFirst postMeal; // Post OP day 운동
+
+    @Convert(converter = DailyPainScoreConverter.class)
+    private DailyPainScore postPain; // Post OP day 운동
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
@@ -99,6 +118,10 @@ public class CheckListAfter extends BaseEntity {
                 .catheterRemoval(CheckListThird.of(write.getCatheterRemoval(), write.getCatheterRemoval_remarks(), write.getCatheterRemovalDate(), write.getCatheterReInsertion()))
                 .ivLineRemoval(CheckListSecond.of(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate()))
 
+                .postExercise(CheckListFirst.of(write.getPostExercise(), write.getPostExercise_remarks()))
+                .postMeal(CheckListFirst.of(write.getPostMeal(), write.getPostMeal_remarks()))
+                .postPain(write.getPostPain())
+
                 .checkListItem(checkListItem)
                 .build();
     }
@@ -112,5 +135,9 @@ public class CheckListAfter extends BaseEntity {
         this.jpDrainRemoval.update(write.getJpDrainRemoval(), write.getJpDrainRemoval_remarks(), write.getJpDrainRemovalDate());
         this.catheterRemoval.update(write.getCatheterRemoval(), write.getCatheterRemoval_remarks(), write.getCatheterRemovalDate(), write.getCatheterReInsertion());
         this.ivLineRemoval.update(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate());
+
+        this.postExercise.update(write.getPostExercise(), write.getPostExercise_remarks());
+        this.postMeal.update(write.getPostMeal(), write.getPostMeal_remarks());
+        this.postPain = write.getPostPain();
     }
 }

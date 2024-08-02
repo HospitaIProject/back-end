@@ -10,18 +10,15 @@ import java.time.LocalDate;
 public class WriteCheckList {
 
     // Pod Exercise
-    private BooleanOption postExercise;
     private BooleanOption podOneExercise;
     private BooleanOption podTwoExercise;
     private BooleanOption podThreeExercise;
 
     // Pod Meal
-    private BooleanOption postMeal;
     private BooleanOption podOneMeal;
     private BooleanOption podTwoMeal;
 
     // Pod Pain
-    private DailyPainScore postPain;
     private DailyPainScore podOnePain;
     private DailyPainScore podTwoPain;
     private DailyPainScore podThreePain;
@@ -30,15 +27,12 @@ public class WriteCheckList {
     private LocalDate dayOfCheckList;
 
     // 비고 필드
-
     // Pod Exercise
-    private String postExercise_remarks;
     private String podOneExercise_remarks;
     private String podTwoExercise_remarks;
     private String podThreeExercise_remarks;
 
     // Pod Meal
-    private String postMeal_remarks;
     private String podOneMeal_remarks;
     private String podTwoMeal_remarks;
 
