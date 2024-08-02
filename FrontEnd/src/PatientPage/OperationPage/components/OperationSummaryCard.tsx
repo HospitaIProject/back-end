@@ -116,7 +116,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         <div className="flex flex-col items-center gap-1 translate-y-1">
                             <DonutProgressbar
                                 className="h-[45px] w-[45px]"
-                                percent={Number(operationData.compilancePercentage.toFixed(1))}
+                                percent={Number(operationData.compliancePercentage.toFixed(1))}
                                 unit="%"
                                 color="Third"
                                 textClassName="text-[0.65rem]"
