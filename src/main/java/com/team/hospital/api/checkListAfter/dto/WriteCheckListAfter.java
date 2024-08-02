@@ -1,6 +1,7 @@
 package com.team.hospital.api.checkListAfter.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -25,6 +26,10 @@ public class WriteCheckListAfter {
     private BooleanOption ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
     private LocalDate ivLineRemovalDate;
 
+    private BooleanOption postExercise;
+    private BooleanOption postMeal;
+    private DailyPainScore postPain;
+
     // 비고 필드
     // 수술 후
     private String giStimulant_remarks;                   // 위장관 촉진 약 복용 여부
@@ -35,4 +40,7 @@ public class WriteCheckListAfter {
     private String jpDrainRemoval_remarks;                // 수술 후 3일이내 JP drain 제거 여부
     private String catheterRemoval_remarks;               // 수술 후 수술장에서 소변줄 제거 여부
     private String ivLineRemoval_remarks;                 // 수술 후 3일이내 IV line 제거 여부
+
+    private String postExercise_remarks;
+    private String postMeal_remarks;
 }
