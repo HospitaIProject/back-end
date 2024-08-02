@@ -71,6 +71,9 @@ const postComplianceForm = async ({
             catheterReInsertion: data.catheterRemoval === 'YES' ? data.catheterReInsertion : undefined, //Foley cath 재삽입 여부 yes일때만
             ivLineRemoval: data.ivLineRemoval,
             ivLineRemovalDate: data.ivLineRemoval === 'YES' ? data.ivLineRemovalDate : undefined, //제거한날 기입 yes일때만
+            postExercise: data.postExercise,
+            postMeal: data.postMeal,
+            postPain: data.postPain,
 
             giStimulant_remarks: data.giStimulant_remarks,
             gumChewing_remarks: data.gumChewing_remarks,
@@ -80,6 +83,8 @@ const postComplianceForm = async ({
             jpDrainRemoval_remarks: data.jpDrainRemoval_remarks,
             catheterRemoval_remarks: data.catheterRemoval_remarks,
             ivLineRemoval_remarks: data.ivLineRemoval_remarks,
+            postExercise_remarks: data.postExercise_remarks,
+            postMeal_remarks: data.postMeal_remarks,
         };
     } //체크리스트 데이터 구조 변경
 

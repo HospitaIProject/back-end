@@ -88,6 +88,9 @@ export type checkListFormType = {
     catheterReInsertion?: 'YES' | 'NO' | ''; //Foley cath 재삽입 여부
     ivLineRemoval?: 'YES' | 'NO' | ''; //수술 후 3일이내 IV line 제거 여부
     ivLineRemovalDate?: Date | ''; //제거한날 기입
+    postExercise?: 'YES' | 'NO' | ''; //Post OP day 운동
+    postMeal?: 'YES' | 'NO' | ''; //Post OP day 식사
+    postPain?: PostPainType; //수술 후 통증
 
     //-----------------비고
     explainedPreOp_remarks?: string;
@@ -110,27 +113,24 @@ export type checkListFormType = {
     jpDrainRemoval_remarks?: string;
     catheterRemoval_remarks?: string;
     ivLineRemoval_remarks?: string;
+    postExercise_remarks?: string;
+    postMeal_remarks?: string;
 }; // 체크리스트 폼
 
 export type DailyCheckListFormType = {
     [key: string]: 'YES' | 'NO' | '' | number | string | PostPainType | Date | undefined;
-    postExercise?: 'YES' | 'NO' | ''; //Post OP day 운동
     podOneExercise?: 'YES' | 'NO' | ''; //POD 1day 운동
     podTwoExercise?: 'YES' | 'NO' | ''; //POD 2day 운동
     podThreeExercise?: 'YES' | 'NO' | ''; //POD 3day 운동
-    postMeal?: 'YES' | 'NO' | ''; //Post OP day 식사
     podOneMeal?: 'YES' | 'NO' | ''; //POD 1day 식사
     podTwoMeal?: 'YES' | 'NO' | ''; //POD 2day 식사
-    postPain?: PostPainType; //수술 후 통증
     podOnePain?: PostPainType; //POD 1day 통증
     podTwoPain?: PostPainType; //POD 2day 통증
     podThreePain?: PostPainType; //POD 3day 통증
 
-    postExercise_remarks?: string;
     podOneExercise_remarks?: string;
     podTwoExercise_remarks?: string;
     podThreeExercise_remarks?: string;
-    postMeal_remarks?: string;
     podOneMeal_remarks?: string;
     podTwoMeal_remarks?: string;
 

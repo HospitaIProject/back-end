@@ -13,6 +13,7 @@ import { useDateFormatted } from '../../../Hooks/useDateFormatted';
 import CalendarIcon from '../../../icons/CalendarIcon';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import Loading from '../../../components/common/Loading';
+import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
 
 type Props = {
     formValues?: checkListFormType;
@@ -235,6 +236,27 @@ function ConfirmComplianceForm({
                                 제거한날: {ivLineRemovalDate}
                             </span>
                         }
+                    />
+                    <YesOrNoViewButton
+                        label={CHECKLIST_ITEMS_NAME.postExercise}
+                        value={values.postExercise}
+                        remark={values.postExercise_remarks}
+                        isRender={existFields.podExercise}
+                    />
+                    <YesOrNoViewButton
+                        label={CHECKLIST_ITEMS_NAME.postMeal}
+                        value={values.postMeal}
+                        remark={values.postMeal_remarks}
+                        isRender={existFields.podMeal}
+                    />
+                    <MultiViewInput
+                        label={CHECKLIST_ITEMS_NAME.postPain}
+                        isRender={existFields.podPain}
+                        values={[
+                            { value: values.postPain?.day, label: 'Day' },
+                            { value: values.postPain?.evening, label: 'Evening' },
+                            { value: values.postPain?.night, label: 'Night' },
+                        ]}
                     />
                 </div>
                 {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="제출하기" />}

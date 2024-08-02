@@ -12,22 +12,12 @@ export const useDailyInitialValues = ({ existFields }: { existFields?: CheckList
     const isPod3 = diffDay === '-3'; //POD 3일차인지 여부
 
     const initialValues: DailyCheckListFormType = {
-        postExercise: existFields?.podExercise && isPod1 ? '' : undefined, //Post OP day 운동
         podOneExercise: existFields?.podExercise && isPod1 ? '' : undefined, //POD 1day 운동
         podTwoExercise: existFields?.podExercise && isPod2 ? '' : undefined, //POD 2day 운동
         podThreeExercise: existFields?.podExercise && isPod3 ? '' : undefined, //POD 3day 운동
-        postMeal: existFields?.podMeal && isPod1 ? '' : undefined, //Post OP day 식사
         podOneMeal: existFields?.podMeal && isPod1 ? '' : undefined, //POD 1day 식사
         podTwoMeal: existFields?.podMeal && isPod2 ? '' : undefined, //POD 2day 식사
-        postPain:
-            existFields?.podPain && isPod1
-                ? {
-                      day: 0,
-                      evening: 0,
-                      night: 0,
-                  }
-                : undefined,
-        //수술 후 통증
+
         podOnePain:
             existFields?.podPain && isPod1
                 ? {
@@ -54,11 +44,9 @@ export const useDailyInitialValues = ({ existFields }: { existFields?: CheckList
                   }
                 : undefined, //POD 3day 통증
 
-        postExercise_remarks: isPod1 && existFields?.podExercise ? '' : undefined,
         podOneExercise_remarks: isPod1 && existFields?.podExercise ? '' : undefined,
         podTwoExercise_remarks: isPod2 && existFields?.podExercise ? '' : undefined,
         podThreeExercise_remarks: isPod3 && existFields?.podExercise ? '' : undefined,
-        postMeal_remarks: isPod1 && existFields?.podMeal ? '' : undefined,
         podOneMeal_remarks: isPod1 && existFields?.podMeal ? '' : undefined,
         podTwoMeal_remarks: isPod2 && existFields?.podMeal ? '' : undefined,
     };

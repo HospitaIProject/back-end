@@ -16,6 +16,7 @@ import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
 import { useFluidRestrictionQuery } from '../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
+import PainSelector from '../../components/common/form/input/PainSelector';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -323,7 +324,31 @@ function ComplianceFormPage() {
                                 />
                             }
                         />
+                        <YesOrNoButton
+                            htmlFor="postExercise"
+                            label={CHECKLIST_ITEMS_NAME.postExercise}
+                            formik={formik}
+                            isRender={existFields.podExercise}
+                        />
                     </DropContainer>
+                    <YesOrNoButton
+                        htmlFor="postMeal"
+                        label={CHECKLIST_ITEMS_NAME.postMeal}
+                        formik={formik}
+                        isRender={existFields.podMeal}
+                    />
+                    <PainSelector
+                        type="number"
+                        htmlFor="postPain"
+                        label={CHECKLIST_ITEMS_NAME.postPain}
+                        formik={formik}
+                        isRender={existFields.podPain}
+                        values={[
+                            { value: 'day', label: 'Day' },
+                            { value: 'evening', label: 'Evening' },
+                            { value: 'night', label: 'Night' },
+                        ]}
+                    />
                 </form>
                 <div className={`mt-auto ${isConfirmButton ? 'block' : 'hidden'}`}>
                     <SubmitButton onClick={handleOpenConfirm} label="확인하기" />

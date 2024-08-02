@@ -126,6 +126,16 @@ export const useInitialValues = ({
         catheterReInsertion: existFields?.catheterRemoval ? '' : undefined, //Foley cath 재삽입 여부
         ivLineRemoval: existFields?.ivLineRemoval ? '' : undefined, //수술 후 3일이내 IV line 제거 여부
         ivLineRemovalDate: existFields?.ivLineRemoval ? '' : undefined, //제거한날 기입
+        postExercise: existFields?.podExercise ? '' : undefined, //Post OP day 운동
+        postMeal: existFields?.podMeal ? '' : undefined, //Post OP day 식사
+        postPain: existFields?.podPain
+            ? {
+                  day: 0,
+                  evening: 0,
+                  night: 0,
+              }
+            : undefined,
+        //수술 후 통증
 
         giStimulant_remarks: existFields?.giStimulant ? '' : undefined,
         gumChewing_remarks: existFields?.gumChewing ? '' : undefined,
@@ -135,6 +145,8 @@ export const useInitialValues = ({
         jpDrainRemoval_remarks: existFields?.jpDrainRemoval ? '' : undefined,
         catheterRemoval_remarks: existFields?.catheterRemoval ? '' : undefined,
         ivLineRemoval_remarks: existFields?.ivLineRemoval ? '' : undefined,
+        postExercise_remarks: existFields?.podExercise ? '' : undefined,
+        postMeal_remarks: existFields?.podMeal ? '' : undefined,
     };
 
     if (checkListBeforeData) {
