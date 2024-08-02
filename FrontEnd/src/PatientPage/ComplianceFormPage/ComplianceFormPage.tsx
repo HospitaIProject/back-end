@@ -330,25 +330,25 @@ function ComplianceFormPage() {
                             formik={formik}
                             isRender={existFields.podExercise}
                         />
+                        <YesOrNoButton
+                            htmlFor="postMeal"
+                            label={CHECKLIST_ITEMS_NAME.postMeal}
+                            formik={formik}
+                            isRender={existFields.podMeal}
+                        />
+                        <PainSelector
+                            type="number"
+                            htmlFor="postPain"
+                            label={CHECKLIST_ITEMS_NAME.postPain}
+                            formik={formik}
+                            isRender={existFields.podPain}
+                            values={[
+                                { value: 'day', label: 'Day' },
+                                { value: 'evening', label: 'Evening' },
+                                { value: 'night', label: 'Night' },
+                            ]}
+                        />
                     </DropContainer>
-                    <YesOrNoButton
-                        htmlFor="postMeal"
-                        label={CHECKLIST_ITEMS_NAME.postMeal}
-                        formik={formik}
-                        isRender={existFields.podMeal}
-                    />
-                    <PainSelector
-                        type="number"
-                        htmlFor="postPain"
-                        label={CHECKLIST_ITEMS_NAME.postPain}
-                        formik={formik}
-                        isRender={existFields.podPain}
-                        values={[
-                            { value: 'day', label: 'Day' },
-                            { value: 'evening', label: 'Evening' },
-                            { value: 'night', label: 'Night' },
-                        ]}
-                    />
                 </form>
                 <div className={`mt-auto ${isConfirmButton ? 'block' : 'hidden'}`}>
                     <SubmitButton onClick={handleOpenConfirm} label="확인하기" />
