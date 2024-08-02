@@ -48,7 +48,7 @@ function NewPatientFormPage() {
     const handleOpenConfirm = (values: PatientFormType) => {
         let isError = false;
         for (const key in values) {
-            if (values[key] === '') {
+            if (values[key] === '' && key !== 'dischargedDate' && key !== 'totalHospitalizedDays') {
                 formik.setFieldError(key, '필수 입력 항목입니다.');
                 isError = true;
 

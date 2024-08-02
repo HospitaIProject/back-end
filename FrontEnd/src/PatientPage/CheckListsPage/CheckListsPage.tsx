@@ -127,6 +127,13 @@ function CheckListsPage() {
                             </span>
                         </div>
                     )}
+                    {checkListsData.checkListDTOs === null && (
+                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                            <span className="text-sm text-gray-700">
+                                일일 체크리스트는 퇴원일이 입력된 후에 표시됩니다.
+                            </span>
+                        </div>
+                    )}
 
                     {checkListsData.checkListDTOs
                         ?.slice(0, Number(diffDay) > 0 ? 0 : Math.abs(Number(diffDay)))
