@@ -25,13 +25,21 @@ public class OperationDateDTO {
     private LocalDate dischargedDate;    // 퇴원일
 
     public static OperationDateDTO toEntity(OperationDTO operationDTO, PatientDTO patientDTO) {
-        return OperationDateDTO.builder()
+        OperationDateDTOBuilder builder = OperationDateDTO.builder();
+
+        builder
                 .operationId(operationDTO.getOperationId())
                 .operationMethod(operationDTO.getOperationMethod())
                 .customOperationMethod(operationDTO.getCustomOperationMethod())
-                .operationDate(patientDTO.getOperationDate())
-                .hospitalizedDate(patientDTO.getHospitalizedDate())
-                .dischargedDate(patientDTO.getDischargedDate())
-                .build();
+                .operationDate(patientDTO.getOperationDate());
+
+        if (patientDTO.getOperationDate() != null) {
+            builder.hospitalizedDate(patientDTO.getHospitalizedDate());
+        }
+        if (patientDTO.getDischargedDate() != null) {
+            builder.hospitalizedDate(patientDTO.getDischargedDate());
+        }
+
+        return builder.build();
     }
 }

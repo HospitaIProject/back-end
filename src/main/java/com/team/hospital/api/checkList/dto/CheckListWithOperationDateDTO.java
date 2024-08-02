@@ -25,17 +25,20 @@ public class CheckListWithOperationDateDTO {
     private boolean checkListCreatedToday;
     private double compliancePercentage;
 
-    public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, Patient patient, boolean checkListCreatedToday) {
-        return CheckListWithOperationDateDTO.builder()
-                .checkListDTOs(checkLists.stream().map(CheckListDTO::toEntity).toList())
-                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
-                .checkListCreatedToday(checkListCreatedToday)
-                .build();
-    }
-
     public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
         return CheckListWithOperationDateDTO.builder()
                 .checkListDTOs(checkLists.stream().map(CheckListDTO::toEntity).toList())
+                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
+                .checkListBeforeDTO(checkListBeforeDTO)
+                .checkListDuringDTO(checkListDuringDTO)
+                .checkListAfterDTO(checkListAfterDTO)
+                .checkListCreatedToday(checkListCreatedToday)
+                .compliancePercentage(compilancePercentage)
+                .build();
+    }
+
+    public static CheckListWithOperationDateDTO toEntity(OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
+        return CheckListWithOperationDateDTO.builder()
                 .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
                 .checkListBeforeDTO(checkListBeforeDTO)
                 .checkListDuringDTO(checkListDuringDTO)
