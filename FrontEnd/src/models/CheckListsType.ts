@@ -246,6 +246,7 @@ export type ResponseCheckListsType = {
     checkListAfterDTO?: CheckListsAfterItemType;
     checkListDTOs?: CheckListsDailyItemType[];
     checkListCreatedToday: boolean;
+    compliancePercentage: number;
     operationDateDTO: {
         operationId: number;
         operationMethod: string[];

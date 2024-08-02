@@ -5,6 +5,7 @@ import OperationDetailModal from './OperationDetailModal';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useOperationMethodFormatted } from '../../../Hooks/useOperationMethodFormatted';
 import { useComplicationStatusMutation } from '../../_lib/complicationService';
+import DonutProgressbar from '../../../components/common/progress/DonutProgressbar';
 
 type Props = {
     operationData: OperationItemType;
@@ -79,7 +80,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row items-end justify-between w-full">
+                <div className="flex flex-row w-full">
                     <div className="flex flex-col gap-1">
                         <span className="inline-block text-sm text-gray-700 break-words">
                             수술 시작 시간:&nbsp;
@@ -96,14 +97,15 @@ function OperationSummaryCard({ operationData }: Props) {
                             <span className="font-medium text-gray-900">{totalOperationTime}분</span>
                         </span>
                     </div>
-                    <span
-                        className={`${isComplicationStatus ? '' : 'hidden'} rounded-md border bg-gray-50 p-1 text-sm text-gray-700`}
-                    >
-                        CCI score:&nbsp;
-                        <span className="font-medium text-gray-900">
-                            {isComplicationRegistered ? `${operationData.complicationScore.toFixed(2)}점` : '없음'}
-                        </span>
-                    </span>
+
+                    <div className="flex flex-row items-end justify-end flex-grow text-green-700">
+                        <span className="text-xs">ACC Score</span>
+                        <DonutProgressbar
+                            className="h-[60px] w-[60px]"
+                            percent={Number(operationData.complicationScore.toFixed(1))}
+                            unit="점"
+                        />
+                    </div>
                 </div>
 
                 <div className="w-full my-1 border-t" />

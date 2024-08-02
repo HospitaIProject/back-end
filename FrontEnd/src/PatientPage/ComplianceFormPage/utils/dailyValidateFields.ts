@@ -6,15 +6,11 @@ interface Props {
     values: DailyCheckListFormType;
 }
 const validationRules = [
-    'postExercise',
     'podOneExercise',
     'podTwoExercise',
     'podThreeExercise',
-    'postMeal',
     'podOneMeal',
     'podTwoMeal',
-
-    // 'postPain', //별도
     'podOnePain',
     'podTwoPain',
     'podThreePain',
@@ -34,10 +30,7 @@ export const dailyValidateFields = ({ formik, values }: Props) => {
             isError = true;
         }
     });
-    if (values['postPain']?.day === '' || values['postPain']?.evening === '' || values['postPain']?.night === '') {
-        formik.setFieldError('postPain', '필수 입력 항목입니다.');
-        isError = true;
-    }
+
     if (
         values['podOnePain']?.day === '' ||
         values['podOnePain']?.evening === '' ||
