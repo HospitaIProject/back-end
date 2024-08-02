@@ -55,5 +55,5 @@ export type OperationItemType = {
     complicationStatus: 'YES' | 'NO'; //합병증 여부
     complicationRegistered: boolean;
     complicationScore: number;
-    compilancePercentage: number;
+    compliancePercentage: number;
 };
