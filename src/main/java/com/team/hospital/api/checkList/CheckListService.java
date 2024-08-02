@@ -75,6 +75,8 @@ public class CheckListService {
     public boolean checkIfCheckListCreatedToday(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
+        if (checks(operationId) == null) return false;
+
         List<CheckList> checks = checks(operationId);
 
         // 오늘 날짜와 수술 날짜 간의 일 수 계산
@@ -116,6 +118,10 @@ public class CheckListService {
     public List<CheckList> checks(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
+
+        if (patient.getDischargedDate() == null) return null;
+
+        // patient.getTotalHospitalizedDays();
 
         List<CheckList> checkLists = findAllByOperationId(operationId);
         int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), patient.getDischargedDate());
