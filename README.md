@@ -53,4 +53,5 @@ etc:
 - <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 ---
 ## Architecture
-![img_1.png](img_1.png)
+![image](https://github.com/user-attachments/assets/37f8ac0a-17dd-4139-8c6d-20f8f4702e1f)
+
