@@ -127,7 +127,7 @@ function ComplianceFormPage() {
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
                 <div
-                    className={`sticky top-[70px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
+                    className={`sticky top-[65px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
                 >
                     {buttons.map(({ day, label }) => (
                         <button

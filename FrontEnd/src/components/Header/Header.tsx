@@ -49,7 +49,7 @@ export default function Header() {
     if (pathname !== '/') {
         return (
             <header className={`${isVisible ? '' : 'opacity-30'} sticky top-0 z-10 min-w-full bg-white`}>
-                <nav className="flex h-[70px] items-center border-b px-4">
+                <nav className="flex h-[65px] items-center border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
@@ -67,9 +67,9 @@ export default function Header() {
             <header
                 className={`sticky top-0 z-20 min-w-full transition-all duration-500 ease-in-out ${isVisible ? '' : 'opacity-30'}`}
             >
-                <nav className="relative z-10 flex h-[70px] items-center justify-between border-b bg-white px-4">
+                <nav className="relative z-10 flex h-[65px] items-center justify-between border-b bg-white px-4">
                     <button onClick={handleFilterToggle}>
-                        <SearchListIcon className="text-gray-700 h-7 w-7" />
+                        <SearchListIcon className="text-gray-600 h-7 w-7" />
                     </button>
                     <a href="/" className="logo">
                         {/* <img src="/logo.png" alt="Logo" /> */}
