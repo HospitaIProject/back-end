@@ -1,6 +1,6 @@
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { CheckListSetupType, checkListFormType } from '../../../models/CheckListsType';
-import { useCheckListBeforeQuery, useCheckListDuringQuery } from '../../_lib/checkListsService';
+import { useCheckListAfterQuery, useCheckListBeforeQuery, useCheckListDuringQuery } from '../../_lib/checkListsService';
 import { useEffect } from 'react';
 import { pushNotification } from '../../../utils/pushNotification';
 import { useQueryClient } from '@tanstack/react-query';
@@ -20,8 +20,16 @@ export const useInitialValues = ({
     const diffDay = searchParams.get('diffDay'); //몇일차인지
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
 
+    const { checkListId } = useParams(); //체크리스트 아이디(존재한다면 수정모드)
+    const isEditPage = Boolean(checkListId); //수정 페이지인지 여부
+
     const isPrevEnabled = dateStatus !== 'PREV';
     const isTodayEnabled = dateStatus !== 'PREV' && dateStatus !== 'TODAY';
+
+    const isEditPrevEnabled = isEditPage && dateStatus === 'PREV'; //수술전 체크리스트 수정 가능 여부
+    const isEditTodayEnabled = isEditPage && dateStatus === 'TODAY'; //수술당일 체크리스트 수정 가능 여부
+    const isEditPostEnabled = isEditPage && dateStatus === 'POST'; //수술후 체크리스트 수정 가능 여부
+
     console.log('diffDay:', diffDay);
     console.log('dateStatus:', dateStatus);
     console.log('isPrevEnabled:', isPrevEnabled);
@@ -29,12 +37,16 @@ export const useInitialValues = ({
 
     const checkListBeforeQuery = useCheckListBeforeQuery({
         operationId: Number(operationId),
-        enabled: isPrevEnabled,
+        enabled: isPrevEnabled || isEditPrevEnabled,
     });
     console.log('dateStatus', dateStatus);
     const checkListDuringQuery = useCheckListDuringQuery({
         operationId: Number(operationId),
-        enabled: isTodayEnabled,
+        enabled: isTodayEnabled || isEditTodayEnabled,
+    });
+    const checkListAfterQuery = useCheckListAfterQuery({
+        operationId: Number(operationId),
+        enabled: isEditPostEnabled,
     });
     const {
         data: checkListBeforeData,
@@ -46,10 +58,15 @@ export const useInitialValues = ({
         isPending: isCheckListDuringPending,
         error: checkListDuringError,
     } = checkListDuringQuery;
+    const {
+        data: checkListAfterData,
+        // isPending: isCheckListAfterPending,
+        // error: checkListAfterError,
+    } = checkListAfterQuery;
 
     useEffect(() => {
         if (checkListBeforeError && toggleDateStatus === 'PREV') {
-            console.log('xxxxx');
+            console.log('checkListBeforeError:', checkListBeforeError);
             pushNotification({
                 msg: checkListBeforeError.response?.data.message || '수술 전 체크리스트를 불러오는데 실패했습니다.',
                 type: 'error',
@@ -58,6 +75,7 @@ export const useInitialValues = ({
             });
         }
         if (checkListDuringError && toggleDateStatus == 'TODAY') {
+            console.log('checkListDuringError:', checkListDuringError);
             pushNotification({
                 msg: checkListDuringError.response?.data.message || '수술 중 체크리스트를 불러오는데 실패했습니다.',
                 type: 'error',
@@ -76,12 +94,12 @@ export const useInitialValues = ({
         return () => {
             // checkListBeforeOperation 쿼리 캐시 삭제
             queryClient.removeQueries({
-                queryKey: ['checklistBeforeOperation', Number(operationId)],
+                queryKey: ['checklistBefore', Number(operationId)],
             });
 
             // checkListDuringOperation 쿼리 캐시 삭제
             queryClient.removeQueries({
-                queryKey: ['checkListDuringOperation', Number(operationId)],
+                queryKey: ['checkListDuring', Number(operationId)],
             });
         };
     }, [operationId, queryClient]);
@@ -177,6 +195,41 @@ export const useInitialValues = ({
         initialValues.fluidRestriction_remarks = checkListDuring?.fluidRestriction_remarks;
         initialValues.antiNausea_remarks = checkListDuring?.antiNausea_remarks;
         initialValues.painControl_remarks = checkListDuring?.painControl_remarks;
+    }
+    if (checkListAfterData) {
+        const checkListAfter = checkListAfterData;
+        initialValues.giStimulant = checkListAfter?.giStimulant;
+        initialValues.gumChewing = checkListAfter?.gumChewing;
+        initialValues.antiNauseaPostOp = checkListAfter?.antiNauseaPostOp;
+        initialValues.ivFluidRestrictionPostOp = checkListAfter?.ivFluidRestrictionPostOp;
+        initialValues.nonOpioidPainControl = checkListAfter?.nonOpioidPainControl;
+        initialValues.jpDrainRemoval = checkListAfter?.jpDrainRemoval;
+        initialValues.jpDrainRemovalDate = checkListAfter.jpDrainRemovalDate
+            ? new Date(checkListAfter?.jpDrainRemovalDate ?? '')
+            : '';
+        initialValues.catheterRemoval = checkListAfter?.catheterRemoval;
+        initialValues.catheterRemovalDate = checkListAfter.catheterRemovalDate
+            ? new Date(checkListAfter?.catheterRemovalDate ?? '')
+            : '';
+        initialValues.catheterReInsertion = checkListAfter?.catheterReInsertion;
+        initialValues.ivLineRemoval = checkListAfter?.ivLineRemoval;
+        initialValues.ivLineRemovalDate = checkListAfter.ivLineRemovalDate
+            ? new Date(checkListAfter.ivLineRemovalDate ?? '')
+            : '';
+        initialValues.postExercise = checkListAfter?.postExercise;
+        initialValues.postMeal = checkListAfter?.postMeal;
+        initialValues.postPain = checkListAfter?.postPain;
+
+        initialValues.giStimulant_remarks = checkListAfter?.giStimulant_remarks;
+        initialValues.gumChewing_remarks = checkListAfter?.gumChewing_remarks;
+        initialValues.antiNauseaPostOp_remarks = checkListAfter?.antiNauseaPostOp_remarks;
+        initialValues.ivFluidRestrictionPostOp_remarks = checkListAfter?.ivFluidRestrictionPostOp_remarks;
+        initialValues.nonOpioidPainControl_remarks = checkListAfter?.nonOpioidPainControl_remarks;
+        initialValues.jpDrainRemoval_remarks = checkListAfter?.jpDrainRemoval_remarks;
+        initialValues.catheterRemoval_remarks = checkListAfter?.catheterRemoval_remarks;
+        initialValues.ivLineRemoval_remarks = checkListAfter?.ivLineRemoval_remarks;
+        initialValues.postExercise_remarks = checkListAfter?.postExercise_remarks;
+        initialValues.postMeal_remarks = checkListAfter?.postMeal_remarks;
     }
     return {
         initialValues,
