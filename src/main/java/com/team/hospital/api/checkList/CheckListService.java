@@ -115,6 +115,7 @@ public class CheckListService {
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
 
+    // 에러 뜬다 고쳐야댐, 시간 차 공격 때문에 오류 발생. 한국, 미국 같은 날짜일 때 다시 테스트.
     public List<CheckList> checks(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
@@ -124,13 +125,14 @@ public class CheckListService {
         // patient.getTotalHospitalizedDays();
 
         List<CheckList> checkLists = findAllByOperationId(operationId);
-        int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), patient.getDischargedDate());
-        List<CheckList> checks = new ArrayList<>(Collections.nCopies(daysBetween, null)); // 수술 다음 날 부터 퇴원일까지의 일 수만큼 null list로 초기화.
+        int checkListCount = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), patient.getDischargedDate());
+        List<CheckList> checks = new ArrayList<>(Collections.nCopies(checkListCount, null)); // 수술 다음 날 부터 퇴원일까지의 일 수만큼 null list로 초기화.
 
         for (CheckList checkList : checkLists) {
             LocalDate dayOfCheckList = checkList.getDayOfCheckList();
             int betweenDay = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), dayOfCheckList);
-            checks.set(betweenDay - 1, checkList); // set 메서드로 변경
+            System.out.println("betweenDay = " + betweenDay);
+            checks.set(betweenDay, checkList); // set 메서드로 변경
         }
         return checks;
     }
@@ -157,6 +159,9 @@ public class CheckListService {
             totalCheckListCount += countCheckListItems(operationId, "after");
             totalCheckListCompleted += checkListCompletedCount(operationId, "after");
         }
+
+        totalCheckListCompleted += top(operationId);
+        totalCheckListCount += bottom(operationId);
 
         if (totalCheckListCount > 0) {
             return ((double) totalCheckListCompleted / totalCheckListCount) * 100;
@@ -193,6 +198,8 @@ public class CheckListService {
                 if (checkListItem.isJpDrainRemoval()) count++;
                 if (checkListItem.isCatheterRemoval()) count++;
                 if (checkListItem.isIvLineRemoval()) count++;
+                if (checkListItem.isPodExercise()) count++;
+                if (checkListItem.isPodMeal()) count++;
                 break;
         }
 
@@ -229,10 +236,50 @@ public class CheckListService {
                 if (checkListAfter.getJpDrainRemoval() == YES) count++;
                 if (checkListAfter.getCatheterRemoval() == YES) count++;
                 if (checkListAfter.getIvLineRemoval() == YES) count++;
+                if (checkListAfter.getPostExercise() == YES) count++;
+                if (checkListAfter.getPostMeal() == YES) count++;
                 break;
         }
 
         return count;
+    }
+
+    private int bottom(Long operationId) {
+        List<CheckList> checks = checks(operationId);
+        CheckListItem checkListItem = checkListItemService.findCheckListItemByOperation(operationId);
+
+        int bottom = 0;
+
+        if (checks.get(0) != null) {
+            if (checkListItem.isPodExercise()) bottom++;
+            if (checkListItem.isPodMeal()) bottom++;
+        }
+        if (checks.get(1) != null) {
+            if (checkListItem.isPodExercise()) bottom++;
+            if (checkListItem.isPodMeal()) bottom++;
+        }
+        if (checks.get(2) != null) {
+            if (checkListItem.isPodExercise()) bottom++;
+        }
+        return bottom;
+    }
+
+    private int top(Long operationId) {
+        List<CheckList> checks = checks(operationId);
+        int top = 0;
+
+        if (checks.get(0) != null) {
+            if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES) top++;
+            if (checks.get(0).getPodOneMeal() != null && checks.get(0).getPodOneMeal().getOption() == YES) top++;
+        }
+        if (checks.get(1) != null) {
+            if (checks.get(1).getPodTwoExercise() != null && checks.get(1).getPodTwoExercise().getOption() == YES) top++;
+            if (checks.get(1).getPodTwoMeal() != null && checks.get(1).getPodTwoMeal().getOption() == YES) top++;
+        }
+        if (checks.get(2) != null) {
+            if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES) top++;
+        }
+        return top;
     }
 
 }
