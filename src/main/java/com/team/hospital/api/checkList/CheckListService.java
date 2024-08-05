@@ -132,7 +132,11 @@ public class CheckListService {
             LocalDate dayOfCheckList = checkList.getDayOfCheckList();
             int betweenDay = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), dayOfCheckList);
             System.out.println("betweenDay = " + betweenDay);
-            checks.set(betweenDay, checkList); // set 메서드로 변경
+            if (betweenDay == 0) {
+                checks.set(betweenDay, checkList);
+            } else {
+                checks.set(betweenDay - 1, checkList); // set 메서드로 변경
+            }
         }
         return checks;
     }
