@@ -159,7 +159,7 @@ function CheckListViewPage() {
         <>
             <div className={`flex w-full flex-col`}>
                 <div
-                    className={`sticky top-[70px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
+                    className={`sticky top-[65px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
                 >
                     {buttons.map(({ day, label }) => (
                         <button
@@ -341,6 +341,18 @@ function CheckListViewPage() {
                             formik={formik}
                             isRender={existFields.podMeal}
                         />
+                        <PainSelector<checkListFormType>
+                            type="number"
+                            htmlFor="postPain"
+                            label={CHECKLIST_ITEMS_NAME.postPain}
+                            formik={formik}
+                            isRender={existFields.podPain}
+                            values={[
+                                { value: 'day', label: 'Day' },
+                                { value: 'evening', label: 'Evening' },
+                                { value: 'night', label: 'Night' },
+                            ]}
+                        />
                     </DropContainer>
                     <DropContainer isOpen={relativeDay.includes('DAILY')}>
                         {/* ------Day 운동  ------ */}
@@ -363,18 +375,7 @@ function CheckListViewPage() {
                             formik={formik}
                             isRender={existFields.podExercise}
                         />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="postPain"
-                            label={CHECKLIST_ITEMS_NAME.postPain}
-                            formik={formik}
-                            isRender={existFields.podPain}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
-                        />
+
                         {/* ------Day 식사 ------ */}
 
                         <YesOrNoButton<checkListFormType>

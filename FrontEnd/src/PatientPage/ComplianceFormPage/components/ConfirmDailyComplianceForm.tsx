@@ -90,7 +90,7 @@ function ConfirmDailyComplianceForm({
                         ]}
                     />
                 </div>
-                {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="제출하기" />}
+                {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="확인" />}
             </div>
         </>
     );

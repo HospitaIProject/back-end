@@ -58,7 +58,7 @@ function FilterHeader({ isRender }: { isRender: boolean }) {
     return (
         <>
             <div
-                className={`${isRender ? 'max-h-[999px] border-b border-blue-200 py-2' : 'max-h-0 overflow-hidden'} absolute left-0 top-[70px] flex w-full flex-col items-center gap-1 bg-white px-4 transition-all duration-200`}
+                className={`${isRender ? 'max-h-[999px] border-b border-blue-200 py-2' : 'max-h-0 overflow-hidden'} absolute left-0 top-[65px] flex w-full flex-col items-center gap-1 bg-white px-4 transition-all duration-200`}
             >
                 <div className="flex flex-row items-center w-full gap-2 mt-1 overflow-x-auto">
                     {FILTER_ITEMS.map((item) => (

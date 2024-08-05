@@ -50,9 +50,15 @@ function App() {
                             {/* 환자 수술정보 수정 페이지 */}
                             <Route path="/patient/new/operation/:operationId" element={<NewOperationInfoFormPage />} />
 
-                            {/* compilance 체크리스트 페이지 */}
+                            {/* compilance 체크리스트 등록 페이지 */}
                             <Route path="/patient/form/compliance" element={<ComplianceFormPage />} />
                             <Route path="/patient/form/compliance/daily" element={<DailyCompliancePage />} />
+                            {/* compilance 체크리스트 수정 페이지 */}
+                            <Route path="/patient/form/compliance/edit/:checkListId" element={<ComplianceFormPage />} />
+                            <Route
+                                path="/patient/form/compliance/daily/edit/:checkListId"
+                                element={<DailyCompliancePage />}
+                            />
 
                             {/* 합병증 등록 페이지 */}
                             <Route path="/patient/new/complication" element={<NewComplicationFormPage />} />

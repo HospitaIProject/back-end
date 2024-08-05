@@ -8,22 +8,19 @@ const WHITE_BG_PAGES = [
     '/login',
     '/patient/new/info',
     '/patient/new/operation',
+    '/patient/form/compliance/edit',
     '/patient/form/compliance',
     '/patient/checkLists/preview',
+    '/patient/form/compliance/daily/edit',
     '/patient/form/compliance/daily',
     '/operation-checkList/default-setting',
 ];
 
 function Layout() {
     const { pathname } = useLocation();
+    console.log('pathname', pathname);
 
-    let bgColor;
-
-    if (WHITE_BG_PAGES.includes(pathname)) {
-        bgColor = 'bg-white';
-    } else {
-        bgColor = 'bg-gray-100';
-    }
+    let bgColor = WHITE_BG_PAGES.some((pagePath) => pathname.startsWith(pagePath)) ? 'bg-white' : 'bg-gray-100';
 
     return (
         <>

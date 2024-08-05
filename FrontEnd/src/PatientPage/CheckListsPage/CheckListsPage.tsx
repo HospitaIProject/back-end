@@ -65,6 +65,7 @@ function CheckListsPage() {
         !checkListsData.checkListDuringDTO &&
         !checkListsData.checkListBeforeDTO; // data가 없을때
     const isNoneSeupData = !checkListsData; // setupData가 없을때
+
     useEffect(() => {
         console.log(checkListsError);
         if (checkListSetupError) {
@@ -76,19 +77,6 @@ function CheckListsPage() {
         }
     }, [checkListsError, checkListSetupError]);
 
-    // const handleRouteCheckListForm = () => {
-    //     if (checkListsData?.checkListCreatedToday) {
-    //         pushNotification({
-    //             msg: '오늘 이미 작성된 체크리스트가 있습니다.',
-    //             type: 'error',
-    //             theme: 'dark',
-    //         });
-    //         return;
-    //     }
-    //     navigation(
-    //         `/patient/form/compliance?id=${operationId}&name=${patientName}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
-    //     );
-    // };
     console.log(checkListsData);
     const totalLength = checkListsData?.checkListDTOs?.length || 0;
     if (isCheckListsPending || isCheckListSetupPending) return <Loading />;
