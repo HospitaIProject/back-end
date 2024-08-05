@@ -6,11 +6,11 @@ interface HorizontalProgressBarProps {
 
 const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({ percent }) => {
     return (
-        <div className="w-full h-5 overflow-hidden bg-gray-200 rounded-full">
+        <div className="w-full h-5 overflow-hidden bg-blue-200 rounded-full">
             {percent !== 0 && (
                 <div
                     style={{ width: `${percent}%` }}
-                    className="flex items-center justify-end h-full pr-2 text-xs font-medium text-center text-blue-100 bg-blue-500 rounded-full"
+                    className="flex items-center justify-end h-full pr-3 text-xs font-medium text-center text-blue-100 bg-blue-500 rounded-full"
                 >
                     {percent}%
                 </div>
