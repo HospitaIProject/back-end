@@ -10,22 +10,26 @@ import { pushNotification } from '../../utils/pushNotification';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 
-const postComplianceForm = async ({
+const postOrPutComplianceForm = async ({
     operationId,
+    checkListId,
     data,
     type,
+    submitType,
 }: {
-    operationId: number;
+    operationId?: number;
+    checkListId?: number;
     data: checkListFormType;
     type: 'PREV' | 'TODAY' | 'POST';
+    submitType: 'post' | 'put';
 }) => {
     let url = '';
     if (type === 'PREV') {
-        url = 'api/checkListBefore/operation/';
+        submitType === 'post' ? (url = 'api/checkListBefore/operation/') : (url = 'api/checkListBefore/');
     } else if (type === 'TODAY') {
-        url = 'api/checkListDuring/operation/';
+        submitType === 'post' ? (url = 'api/checkListDuring/operation/') : (url = 'api/checkListDuring/');
     } else {
-        url = 'api/checkListAfter/operation/';
+        submitType === 'post' ? (url = 'api/checkListAfter/operation/') : (url = 'api/checkListAfter/');
     } //체크리스트 제출 url(수술전, 당일, 후)
 
     let processedChecklistData;
@@ -90,36 +94,90 @@ const postComplianceForm = async ({
 
     console.log('processedChecklistData', processedChecklistData);
     console.log('url', url);
-    const response = await Axios.post(`${url}${operationId}`, processedChecklistData);
-    return response;
-}; //Compliance Form 서비스(체크리스트 제출)
+    if (submitType === 'post') {
+        const response = await Axios.post(`${url}${operationId}`, processedChecklistData);
+        return response;
+    } else {
+        const response = await Axios.put(`${url}${checkListId}`, processedChecklistData);
+        return response;
+    }
+}; //Compliance Form 서비스(체크리스트 제출,수정)
 
 const postDailyComplianceForm = async ({
     data,
     operationId,
     dayOfCheckList,
+    submitType,
+    checkListId,
 }: {
     data: DailyCheckListFormType;
-    operationId: number;
-    dayOfCheckList: string;
+    operationId?: number;
+    dayOfCheckList?: string;
+    submitType: 'post' | 'put';
+    checkListId?: number;
 }) => {
     let processedChecklistData;
     processedChecklistData = {
         ...data,
-        dayOfCheckList: dayOfCheckList,
+        dayOfCheckList: submitType === 'post' ? dayOfCheckList : undefined,
     };
     console.log('processedChecklistData', processedChecklistData);
-    const response = await Axios.post(`api/checkList/operation/${operationId}`, processedChecklistData);
-    return response;
+
+    if (submitType === 'post') {
+        const response = await Axios.post(`api/checkList/operation/${operationId}`, processedChecklistData);
+        return response;
+    } else {
+        const response = await Axios.put(`api/checkList/${checkListId}`, processedChecklistData);
+        return response;
+    }
 };
 
 export const useComplianceFormMutation = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const operationId = Number(searchParams.get('id'));
     const name = searchParams.get('name');
     const mutation = useMutation({
-        mutationFn: postComplianceForm,
+        mutationFn: (parameter: { operationId: number; data: checkListFormType; type: 'PREV' | 'TODAY' | 'POST' }) =>
+            postOrPutComplianceForm({
+                operationId: parameter.operationId,
+                data: parameter.data,
+                type: parameter.type,
+                submitType: 'post',
+            }),
+
+        onError: (error: AxiosError<ErrorResponseType>) => {
+            console.log(error);
+            pushNotification({
+                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        },
+        onSuccess: (_, parameter) => {
+            pushNotification({
+                msg: '제출되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
+            navigate(`/patient/checkLists?id=${parameter.operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전 form페이지는 스택에서 제거
+        },
+    });
+    return mutation;
+}; //Compliance Form 서비스
+
+export const useComplianceFormUpdateMutation = () => {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const name = searchParams.get('name');
+    const operationId = Number(searchParams.get('id'));
+    const mutation = useMutation({
+        mutationFn: (parameter: { checkListId: number; data: checkListFormType; type: 'PREV' | 'TODAY' | 'POST' }) =>
+            postOrPutComplianceForm({
+                checkListId: parameter.checkListId,
+                data: parameter.data,
+                type: parameter.type,
+                submitType: 'put',
+            }),
 
         onError: (error: AxiosError<ErrorResponseType>) => {
             console.log(error);
@@ -131,7 +189,7 @@ export const useComplianceFormMutation = () => {
         },
         onSuccess: () => {
             pushNotification({
-                msg: '제출되었습니다.',
+                msg: '수정되었습니다.',
                 type: 'success',
                 theme: 'dark',
             });
@@ -139,14 +197,53 @@ export const useComplianceFormMutation = () => {
         },
     });
     return mutation;
-}; //Compliance Form 서비스
+}; //Compliance Form 수정 서비스
+
 export const useDailyComplianceFormMutation = () => {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const name = searchParams.get('name');
+    const mutation = useMutation({
+        mutationFn: (parameter: { data: DailyCheckListFormType; operationId: number; dayOfCheckList: string }) =>
+            postDailyComplianceForm({
+                data: parameter.data,
+                operationId: parameter.operationId,
+                dayOfCheckList: parameter.dayOfCheckList,
+                submitType: 'post',
+            }),
+
+        onError: (error: AxiosError<ErrorResponseType>) => {
+            console.log(error);
+            pushNotification({
+                msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        },
+        onSuccess: (_, parameter) => {
+            pushNotification({
+                msg: '제출되었습니다.',
+                type: 'success',
+                theme: 'dark',
+            });
+            navigate(`/patient/checkLists?id=${parameter.operationId}&name=${name}`, { replace: true }); //체크리스트 페이지로 이동하되 이전 form페이지는 스택에서 제거
+        },
+    });
+    return mutation;
+}; //Daily Compliance Form 서비스
+
+export const useDailyComplianceFormUpdateMutation = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const operationId = Number(searchParams.get('id'));
     const name = searchParams.get('name');
     const mutation = useMutation({
-        mutationFn: postDailyComplianceForm,
+        mutationFn: (parameter: { data: DailyCheckListFormType; checkListId: number }) =>
+            postDailyComplianceForm({
+                data: parameter.data,
+                submitType: 'put',
+                checkListId: parameter.checkListId,
+            }),
 
         onError: (error: AxiosError<ErrorResponseType>) => {
             console.log(error);
@@ -158,7 +255,7 @@ export const useDailyComplianceFormMutation = () => {
         },
         onSuccess: () => {
             pushNotification({
-                msg: '제출되었습니다.',
+                msg: '수정되었습니다.',
                 type: 'success',
                 theme: 'dark',
             });
@@ -166,7 +263,7 @@ export const useDailyComplianceFormMutation = () => {
         },
     });
     return mutation;
-};
+}; //Daily Compliance Form 수정 서비스
 
 const getCheckListSetup = async ({ operationId }: { operationId: number }): Promise<CheckListSetupType> => {
     const response = await Axios.get(`/api/checkListItem/${operationId}`);

@@ -1,7 +1,11 @@
 import { useFormik } from 'formik';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useDailyInitialValues } from './utils/useDailyInitialValues';
-import { useCheckListSetupQuery, useDailyComplianceFormMutation } from '../_lib/complianceFormSevice';
+import {
+    useCheckListSetupQuery,
+    useDailyComplianceFormMutation,
+    useDailyComplianceFormUpdateMutation,
+} from '../_lib/complianceFormSevice';
 import Loading from '../../components/common/Loading';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
 import PainSelector from '../../components/common/form/input/PainSelector';
@@ -18,14 +22,17 @@ function DailyCompliancePage() {
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
-    // const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
     const diffDay = searchParams.get('diffDay'); //몇일차인지
+
+    const { checkListId } = useParams(); //체크리스트 id *수정 페이지일때만 존재
+    const isEditPage = Boolean(checkListId); //수정 페이지인지 여부
     const dayOfCheckList = searchParams.get('date') || String(new Date()).split('T')[0]; //서버에 전달할 작성일자
 
     const dailyComplianceFormMutation = useDailyComplianceFormMutation();
+    const dailyComplianceFormUpdateMutation = useDailyComplianceFormUpdateMutation();
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
     const { data: existFields, isPending: isExistFieldsPending } = checkListSetupQuery; //체크리스트 세팅 정보
-    const initialValues = useDailyInitialValues({
+    const { initialValues, isPending: isCheckListDailyPending } = useDailyInitialValues({
         existFields,
     }); //초기값
 
@@ -40,14 +47,25 @@ function DailyCompliancePage() {
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
         onSubmit: (values) => {
             console.log('제출', values);
-            if (confirm('제출하시겠습니까?')) {
-                dailyComplianceFormMutation.mutate({
-                    operationId: Number(operationId),
-                    data: values,
-                    dayOfCheckList: dayOfCheckList,
-                });
+            if (isEditPage) {
+                if (confirm('수정하시겠습니까?')) {
+                    dailyComplianceFormUpdateMutation.mutate({
+                        checkListId: Number(checkListId),
+                        data: values,
+                    });
+                } else {
+                    return;
+                }
             } else {
-                return;
+                if (confirm('제출하시겠습니까?')) {
+                    dailyComplianceFormMutation.mutate({
+                        operationId: Number(operationId),
+                        data: values,
+                        dayOfCheckList: dayOfCheckList,
+                    });
+                } else {
+                    return;
+                }
             }
         },
     });
@@ -72,7 +90,7 @@ function DailyCompliancePage() {
         setIsConfirmPage(false);
     };
 
-    if (isExistFieldsPending) return <Loading />;
+    if (isExistFieldsPending || isCheckListDailyPending) return <Loading />;
     if (!existFields) return;
 
     return (
@@ -161,7 +179,7 @@ function DailyCompliancePage() {
                     />
                 </form>
                 <div className={`mt-auto`}>
-                    <SubmitButton onClick={handleOpenConfirm} label="확인하기" />
+                    <SubmitButton onClick={handleOpenConfirm} label={isEditPage ? '수정하기' : '제출하기'} />
                 </div>
             </div>
             {isConfirmPage && (

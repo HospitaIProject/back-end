@@ -341,6 +341,18 @@ function CheckListViewPage() {
                             formik={formik}
                             isRender={existFields.podMeal}
                         />
+                        <PainSelector<checkListFormType>
+                            type="number"
+                            htmlFor="postPain"
+                            label={CHECKLIST_ITEMS_NAME.postPain}
+                            formik={formik}
+                            isRender={existFields.podPain}
+                            values={[
+                                { value: 'day', label: 'Day' },
+                                { value: 'evening', label: 'Evening' },
+                                { value: 'night', label: 'Night' },
+                            ]}
+                        />
                     </DropContainer>
                     <DropContainer isOpen={relativeDay.includes('DAILY')}>
                         {/* ------Day 운동  ------ */}
@@ -363,18 +375,7 @@ function CheckListViewPage() {
                             formik={formik}
                             isRender={existFields.podExercise}
                         />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="postPain"
-                            label={CHECKLIST_ITEMS_NAME.postPain}
-                            formik={formik}
-                            isRender={existFields.podPain}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
-                        />
+
                         {/* ------Day 식사 ------ */}
 
                         <YesOrNoButton<checkListFormType>

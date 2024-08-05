@@ -3,11 +3,15 @@ import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
 import { checkListFormType } from '../../models/CheckListsType';
 import { useEffect, useState } from 'react';
 import ComfirmComplianceFormModal from './components/ComfirmComplianceFormModal';
-import { useCheckListSetupQuery, useComplianceFormMutation } from '../_lib/complianceFormSevice';
+import {
+    useCheckListSetupQuery,
+    useComplianceFormMutation,
+    useComplianceFormUpdateMutation,
+} from '../_lib/complianceFormSevice';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import { CHECKLIST_ITEMS_NAME } from '../../utils/mappingNames';
 import DropContainer from './components/DropContainer';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import Loading from '../../components/common/Loading';
 import { useInitialValues } from './utils/useInitialValues';
@@ -33,13 +37,16 @@ function ComplianceFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [relativeDay, setRelativeDay] = useState<'PREV' | 'TODAY' | 'POST'>('POST');
     const [searchParams] = useSearchParams();
+    const { checkListId } = useParams(); //체크리스트 아이디(존재한다면 수정모드)
+    const isEditPage = Boolean(checkListId); //수정페이지인지 여부
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const { isVisible } = useScrollHeaderControl();
+    const { isVisible } = useScrollHeaderControl(); //스크롤시 헤더 보이기 여부
 
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
+    const complianceFormUpdateMutation = useComplianceFormUpdateMutation(); //체크리스트 수정
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
     const fluidRestrictionQuery = useFluidRestrictionQuery({ operationId: Number(operationId) }); //수술 중 수액 제한 정보 가져오기
     const { data: existFields, isPending: isExistFieldsPending } = checkListSetupQuery; //체크리스트 세팅 정보
@@ -61,14 +68,26 @@ function ComplianceFormPage() {
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
         onSubmit: (values) => {
             console.log('제출', values);
-            if (confirm('제출하시겠습니까?')) {
-                complianceFormMutation.mutate({
-                    operationId: Number(operationId),
-                    data: values,
-                    type: relativeDay,
-                });
+            if (isEditPage) {
+                if (confirm('수정하시겠습니까?')) {
+                    complianceFormUpdateMutation.mutate({
+                        checkListId: Number(checkListId),
+                        data: values,
+                        type: relativeDay,
+                    });
+                } else {
+                    return;
+                }
             } else {
-                return;
+                if (confirm('제출하시겠습니까?')) {
+                    complianceFormMutation.mutate({
+                        operationId: Number(operationId),
+                        data: values,
+                        type: relativeDay,
+                    });
+                } else {
+                    return;
+                }
             }
         },
     });
@@ -114,6 +133,7 @@ function ComplianceFormPage() {
             formik.setFieldValue('ivLineRemovalDate', '');
         }
     }, [formik.values.jpDrainRemoval, formik.values.catheterRemoval, formik.values.ivLineRemoval]);
+
     useEffect(() => {
         console.log('podOnePain', formik.values.podOnePain);
     }, [formik.values.podOnePain]);
@@ -351,7 +371,12 @@ function ComplianceFormPage() {
                     </DropContainer>
                 </form>
                 <div className={`mt-auto ${isConfirmButton ? 'block' : 'hidden'}`}>
-                    <SubmitButton onClick={handleOpenConfirm} label="확인하기" />
+                    <SubmitButton
+                        onClick={handleOpenConfirm}
+                        label={`
+                        ${isEditPage ? '수정' : '제출'}하기
+                    `}
+                    />
                 </div>
             </div>
 
