@@ -7,6 +7,7 @@ import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
 import { useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
+import SettingIcon from '../../icons/SettingIcon';
 // import Sidebar from '../Sidebar/Sidebar';
 
 export type ItemName = 'patient' | 'services' | 'contact';
@@ -26,7 +27,11 @@ export default function Header() {
         setToggleFilter(!toggleFilter);
     }; // 토글 메뉴를 열고 닫는 함수
     let label;
-    if (pathname.startsWith('/patient/form/compliance')) {
+    if (pathname.startsWith('/patient/form/compliance/edit')) {
+        label = 'Daily 체크리스트 수정';
+    } else if (pathname.startsWith('/patient/form/compliance/daily/edit')) {
+        label = 'Daily 체크리스트 수정';
+    } else if (pathname.startsWith('/patient/form/compliance')) {
         label = 'Daily 체크리스트';
     } else if (pathname.startsWith('/patient/new/info/')) {
         label = '환자 정보수정';
@@ -44,6 +49,8 @@ export default function Header() {
         label = '체크리스트 항목';
     } else if (pathname.startsWith('/patient/checkLists')) {
         label = '체크리스트 목록';
+    } else if (pathname.startsWith('/operation-checkList/default-setting')) {
+        label = '수술별 체크리스트 기본설정';
     }
 
     if (pathname !== '/') {
@@ -67,24 +74,23 @@ export default function Header() {
             <header
                 className={`sticky top-0 z-20 min-w-full transition-all duration-500 ease-in-out ${isVisible ? '' : 'opacity-30'}`}
             >
-                <nav className="relative z-10 flex h-[65px] items-center justify-between border-b bg-white px-4">
+                <nav className="relative z-10 flex h-[65px] items-center border-b bg-white px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-600 h-7 w-7" />
                     </button>
-                    <a href="/" className="logo">
-                        {/* <img src="/logo.png" alt="Logo" /> */}
-                        {/* <span>logo</span> */}
-                    </a>
-                    <Link to="/operation-checkList/default-setting" className="text-sm text-blue-500 underline">
-                        체크리스트 기본값 설정
-                    </Link>
-                    <Link
-                        to="/patient/new/info"
-                        className="flex flex-row items-center gap-2 px-2 py-2 text-blue-500 border border-blue-500 rounded-md shadow-sm"
-                    >
-                        <span className="text-sm font-medium">환자 등록하기</span>
-                        <PlusIcon className="w-5 h-5" />
-                    </Link>
+                    <div className="flex flex-row items-center justify-end flex-grow gap-2">
+                        <Link
+                            to="/patient/new/info"
+                            className="flex flex-row items-center gap-2 px-2 py-2 mr-1 text-blue-500 border border-blue-500 rounded-md shadow-sm"
+                        >
+                            <span className="text-sm font-medium">환자 등록하기</span>
+                            <PlusIcon className="w-5 h-5" />
+                        </Link>
+                        <div className="h-6 border-l border-gray-300" />
+                        <Link to="/operation-checkList/default-setting" className="text-sm underline">
+                            <SettingIcon className="text-gray-600 h-7 w-7" />
+                        </Link>
+                    </div>
                     <FilterHeader isRender={toggleFilter && isVisible} />
                 </nav>
             </header>
