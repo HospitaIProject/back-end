@@ -42,7 +42,11 @@ function OperationSummaryCard({ operationData }: Props) {
     const handleComplicationStatus = () => {
         if (isComplicationStatus) {
             if (confirm('합병증 여부를 No로 변경하시겠습니까?\n‼️ 변경 시 등록된 합병증 정보가 삭제됩니다.')) {
-                complicationStatusMutation.mutate({ operationId, status: 'NO' });
+                complicationStatusMutation.mutate({
+                    operationId,
+                    status: 'NO',
+                    isComplicationRegistered: isComplicationRegistered,
+                });
             }
         } else {
             if (dateComparison !== 'POST') {
