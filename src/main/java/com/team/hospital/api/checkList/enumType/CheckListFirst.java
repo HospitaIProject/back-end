@@ -28,4 +28,12 @@ public class CheckListFirst {
         this.option = option;
         this.remarks = remarks;
     }
+
+    public void update(BooleanOption option){
+        this.option = option;
+    }
+
+    public void update(String remarks){
+        this.remarks = remarks;
+    }
 }

@@ -44,7 +44,7 @@ public class CheckListItemService {
         checkListItemRepository.delete(checkListItem);
     }
 
-    @Transactional
+//    @Transactional
     public CheckListItem findCheckListItemByOperation(Long operationId) {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperationId(operationId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException("해당 수술에 체크리스트 목록이 등록되지 않았습니다.");

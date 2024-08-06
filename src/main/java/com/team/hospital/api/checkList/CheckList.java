@@ -102,17 +102,27 @@ public class CheckList extends BaseEntity {
     }
 
     public void updateCheckList(WriteCheckList write) {
-        this.podOneExercise.update(write.getPodOneExercise(), write.getPodOneExercise_remarks());
-        this.podTwoExercise.update(write.getPodTwoExercise(), write.getPodTwoExercise_remarks());
-        this.podThreeExercise.update(write.getPodThreeExercise(), write.getPodThreeExercise_remarks());
+        if (write.getPodOneExercise() != null) this.podOneExercise.update(write.getPodOneExercise());
+        if (write.getPodOneExercise_remarks() != null) this.podOneExercise.update(write.getPodOneExercise_remarks());
 
-        this.podOneMeal.update(write.getPodOneMeal(), write.getPodOneMeal_remarks());
-        this.podTwoMeal.update(write.getPodTwoMeal(), write.getPodTwoMeal_remarks());
+        if (write.getPodTwoExercise() != null) this.podTwoExercise.update(write.getPodTwoExercise());
+        if (write.getPodTwoExercise_remarks() != null) this.podTwoExercise.update(write.getPodTwoExercise_remarks());
 
-        this.podOnePain = write.getPodOnePain();
-        this.podTwoPain = write.getPodTwoPain();
-        this.podThreePain = write.getPodThreePain();
 
-        this.dayOfCheckList = write.getDayOfCheckList();
+        if (write.getPodThreeExercise() != null) this.podThreeExercise.update(write.getPodThreeExercise());
+        if (write.getPodThreeExercise_remarks() != null) this.podThreeExercise.update(write.getPodThreeExercise_remarks());
+
+
+        if (write.getPodOneMeal() != null) this.podOneMeal.update(write.getPodOneMeal());
+        if (write.getPodOneMeal_remarks() != null) this.podOneMeal.update(write.getPodOneMeal_remarks());
+
+
+        if (write.getPodTwoMeal() != null) this.podTwoMeal.update(write.getPodTwoMeal());
+        if (write.getPodTwoMeal_remarks() != null) this.podTwoMeal.update(write.getPodTwoMeal_remarks());
+
+
+        if (write.getPodOnePain() != null) this.podOnePain = write.getPodOnePain();
+        if (write.getPodTwoPain() != null) this.podTwoPain = write.getPodTwoPain();
+        if (write.getPodThreePain() != null) this.podThreePain = write.getPodThreePain();
     }
 }
