@@ -13,10 +13,8 @@ function MultiViewInput({ label, values, remark, isRender }: Props) {
             <div className="flex flex-col flex-grow gap-1">
                 {values?.map((value, index) => {
                     return (
-                        <div className="flex flex-row items-center gap-2 text-sm">
-                            <span key={index} className="text-gray-700">
-                                {value.label}
-                            </span>
+                        <div key={index} className="flex flex-row items-center gap-2 text-sm">
+                            <span className="text-gray-700">{value.label}</span>
                             <span className="font-medium text-blue-700">{value.value}</span>
                         </div>
                     );
