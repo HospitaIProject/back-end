@@ -1,31 +1,52 @@
-// import { useState } from 'react';
 // import Navbar from './Navbar';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../icons/ArrowIcon';
 import PlusIcon from '../../icons/PlusIcon';
 import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import SettingIcon from '../../icons/SettingIcon';
-// import Sidebar from '../Sidebar/Sidebar';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
-    const { isVisible } = useScrollHeaderControl();
+    const [isPaddingFilter, setIsPaddingFilter] = useState<boolean>(false); // 토글 메뉴 상태
+    const [absFilter, setAbsFilter] = useState<boolean>(false); // 토글 메뉴 상태
+    const { isVisible } = useScrollHeaderControl({
+        visibleItemHeight: 180,
+    });
     const { pathname } = useLocation();
 
     const navigate = useNavigate();
-    const [toggleFilter, setToggleFilter] = useState<boolean>(false); // 토글 메뉴 상태
 
     const handleBack = () => {
         navigate(-1);
     }; // 뒤로가기 함수
 
     const handleFilterToggle = () => {
-        setToggleFilter(!toggleFilter);
+        setAbsFilter(!absFilter);
+
+        if (absFilter) {
+            setIsPaddingFilter(false);
+        } else {
+            window.scrollTo(0, 0);
+            setIsPaddingFilter(true);
+        }
     }; // 토글 메뉴를 열고 닫는 함수
+
+    useEffect(() => {
+        if (!isVisible) {
+            if (isPaddingFilter) {
+                setAbsFilter(false);
+            }
+        } else {
+            if (isPaddingFilter) {
+                setAbsFilter(true);
+            }
+        }
+    }, [isVisible]); // 헤더가 보이거나 숨겨질 때 토글 메뉴 상태를 변경(헤더가 보이면 토글 메뉴를 닫고, 헤더가 숨겨지면 토글 메뉴를 열어줌) *해당 동작은 스크롤의 높이를 컨트롤 하지 않기때문에 무한루프가 발생 방지
+
     let label;
     if (pathname.startsWith('/patient/form/compliance/edit')) {
         label = 'Daily 체크리스트 수정';
@@ -55,7 +76,7 @@ export default function Header() {
 
     if (pathname !== '/') {
         return (
-            <header className={`${isVisible ? '' : 'opacity-30'} sticky top-0 z-10 min-w-full bg-white`}>
+            <header className={`${isVisible ? '' : 'opacity-20'} sticky top-0 z-10 min-w-full bg-white`}>
                 <nav className="flex h-[65px] items-center border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
@@ -72,8 +93,9 @@ export default function Header() {
     return (
         <>
             <header
-                className={`sticky top-0 z-20 min-w-full transition-all duration-500 ease-in-out ${isVisible ? '' : 'opacity-30'}`}
+                className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-30'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
+                {/* ${isVisible ? '' : 'opacity-30'} */}
                 <nav className="relative z-10 flex h-[65px] items-center border-b bg-white px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-600 h-7 w-7" />
@@ -91,10 +113,12 @@ export default function Header() {
                             <SettingIcon className="text-gray-600 h-7 w-7" />
                         </Link>
                     </div>
-                    <FilterHeader isRender={toggleFilter && isVisible} />
+
+                    <FilterHeader isRender={absFilter} />
                 </nav>
             </header>
-            {/* {toggleFilter && <Sidebar  onClose={() => setToggleFilter(false)} />} */}
+
+            {/* {toggleFilter && <Sidebar onClose={() => setToggleFilter(false)} />} */}
         </>
     );
 }
