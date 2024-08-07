@@ -43,7 +43,7 @@ function ComplianceFormPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const { isVisible } = useScrollHeaderControl(); //스크롤시 헤더 보이기 여부
+    const { isVisible } = useScrollHeaderControl({}); //스크롤시 헤더 보이기 여부
 
     const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); //오늘 날짜
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출

@@ -118,7 +118,7 @@ function CheckListViewPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
 
-    const { isVisible } = useScrollHeaderControl();
+    const { isVisible } = useScrollHeaderControl({});
 
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
     const fluidRestrictionQuery = useFluidRestrictionQuery({ operationId: Number(operationId) }); //수술 중 수액 제한 정보 가져오기
