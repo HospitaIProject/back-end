@@ -35,6 +35,11 @@ export const CHECKLIST_ITEMS_NAME: {
     podTwoPain: 'POD 2day 수술 후  통증',
     podThreePain: 'POD 3day 수술 후 통증',
     //-------------------------수술후
+
+    podExercise: 'Post day 운동',
+    podMeal: 'Post day 식사',
+    podPain: '수술 후 통증',
+    //*별도(모든 일일체크리스트를 통틀어)
 };
 interface ComplicationItems {
     [key: string]: string;

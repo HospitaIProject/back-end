@@ -21,6 +21,7 @@ import { pushNotification } from '../../utils/pushNotification';
 import { useFluidRestrictionQuery } from '../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import PainSelector from '../../components/common/form/input/PainSelector';
+import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -42,9 +43,9 @@ function ComplianceFormPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const { isVisible } = useScrollHeaderControl(); //스크롤시 헤더 보이기 여부
+    const { isVisible } = useScrollHeaderControl({}); //스크롤시 헤더 보이기 여부
 
-    const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
+    const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); //오늘 날짜
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const complianceFormUpdateMutation = useComplianceFormUpdateMutation(); //체크리스트 수정
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
@@ -160,17 +161,12 @@ function ComplianceFormPage() {
                         </button>
                     ))}
                 </div>
-
-                <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
-                    <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
-                    <div className="flex flex-col items-end w-24 gap-1">
-                        <span className="text-sm text-gray-700 text-end">{formattedOnlyDate}</span>
-
-                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200 rounded-md">
-                            {dateStatus === 'TODAY' ? '수술중' : dateStatus === 'PREV' ? `수술전` : `수술후`}
-                        </span>
-                    </div>
-                </div>
+                <CheckListViewGuide
+                    dateStatus={dateStatus === 'TODAY' ? '수술중' : dateStatus === 'PREV' ? `수술전` : `수술후`}
+                    date={formattedOnlyDate}
+                    patientName={patientName || ''}
+                    existFields={existFields}
+                />
 
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* 수술전 */}

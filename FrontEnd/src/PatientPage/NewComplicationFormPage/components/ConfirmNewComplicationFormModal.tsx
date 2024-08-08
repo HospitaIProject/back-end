@@ -65,9 +65,9 @@ function ConfirmNewComplicationFormModal({ values, submitLabel, onSubmit, onClos
                     )}
                 />
 
-                {values.customComplications?.map((customComplication, index) => (
+                {values.customComplications?.map((customComplication) => (
                     <ViewInput
-                        key={index}
+                        key={customComplication.complicationName}
                         label={`[기타] ${customComplication.complicationName}`}
                         value={customComplication.cdClassification}
                         isRender={Boolean(

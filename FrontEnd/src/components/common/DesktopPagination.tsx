@@ -2,11 +2,10 @@ import ArrowIcon from '../../icons/ArrowIcon';
 import ReactPaginate from 'react-paginate';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
-function DesktopPagination() {
+function DesktopPagination({ pageSize }: { pageSize: number }) {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const [searchParams] = useSearchParams();
-    const pageSize = 1;
 
     const handleRouter = ({ selected }: { selected: number }) => {
         const page = selected + 1;

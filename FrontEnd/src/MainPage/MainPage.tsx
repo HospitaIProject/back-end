@@ -38,7 +38,7 @@ function MainPage() {
                         ))}
                 </ul>
 
-                <ResponsivePagination />
+                <ResponsivePagination pageSize={1} />
             </div>
         </>
     );

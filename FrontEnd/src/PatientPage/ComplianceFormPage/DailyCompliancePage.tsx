@@ -15,6 +15,7 @@ import { useState } from 'react';
 import SubmitButton from '../../components/common/form/SubmitButton';
 import { dailyValidateFields } from './utils/dailyValidateFields';
 import { pushNotification } from '../../utils/pushNotification';
+import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
 
 function DailyCompliancePage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
@@ -96,14 +97,11 @@ function DailyCompliancePage() {
     return (
         <>
             <div className={`flex w-full flex-col`}>
-                <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
-                    <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
-                    <div className="flex flex-col items-end w-24 gap-1">
-                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200 rounded-md">
-                            {`D+${Math.abs(Number(diffDay))}`}
-                        </span>
-                    </div>
-                </div>
+                <CheckListViewGuide
+                    dateStatus={`D+${Math.abs(Number(diffDay))}`}
+                    patientName={patientName || ''}
+                    existFields={existFields}
+                />
                 <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* ------Day 운동  ------ */}
 

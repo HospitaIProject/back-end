@@ -45,17 +45,33 @@ const postComplicationForm = async ({ data, operationId }: { data: ComplicationF
     return response.data.data;
 };
 
-const postComplicationStatus = async ({ operationId, status }: { operationId: number; status: 'YES' | 'NO' }) => {
+const postComplicationStatus = async ({
+    operationId,
+    status,
+    isComplicationRegistered,
+}: {
+    operationId: number;
+    status: 'YES' | 'NO';
+    isComplicationRegistered?: boolean;
+}) => {
     const params = {
         booleanOption: status,
     };
     console.log('params', params);
-    const response = await Axios.post(`api/complication/status/${operationId}`, {}, { params });
-    return response.data.data;
-};
-const deleteComplication = async (operationId: number) => {
-    const response = await Axios.delete(`api/complication/${operationId}`);
-    return response.data.data;
+    if (isComplicationRegistered) {
+        // 합병증 등록 여부가 true일 경우
+        const results = await Promise.all([
+            Axios.post(`api/complication/status/${operationId}`, {}, { params }),
+            Axios.delete(`api/complication/${operationId}`),
+        ]);
+        return {
+            postResult: results[0].data.data, // 첫 번째 요청(post)의 결과
+            deleteResult: results[1].data.data, // 두 번째 요청(delete)의 결과
+        };
+    } else {
+        const response = await Axios.post(`api/complication/status/${operationId}`, {}, { params });
+        return response.data;
+    }
 };
 
 const getComplication = async (operationId: number): Promise<ComplicationFormType> => {
@@ -99,7 +115,6 @@ export const useComplicationMutation = () => {
 
 export const useComplicationStatusMutation = ({ patientId }: { patientId: number }) => {
     const queryClient = useQueryClient();
-    const complicationDeleteMutation = useComplicationDeleteMutation();
 
     const mutation = useMutation({
         mutationFn: postComplicationStatus,
@@ -113,19 +128,6 @@ export const useComplicationStatusMutation = ({ patientId }: { patientId: number
         },
         onSuccess: (_, parameter) => {
             const statusMsg = parameter.status === 'YES' ? 'YES로 변경되었습니다.' : 'NO로 변경되었습니다.';
-            if (parameter.status === 'NO') {
-                complicationDeleteMutation.mutate(parameter.operationId);
-                if (complicationDeleteMutation.isError) {
-                    pushNotification({
-                        msg:
-                            complicationDeleteMutation.error?.response?.data.message ||
-                            '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
-                        type: 'error',
-                        theme: 'dark',
-                    });
-                    return;
-                }
-            }
 
             queryClient.invalidateQueries({
                 queryKey: ['operation', 'list', patientId],
@@ -135,6 +137,16 @@ export const useComplicationStatusMutation = ({ patientId }: { patientId: number
                 type: 'success',
                 theme: 'dark',
             });
+            if (parameter.status === 'NO' && parameter.isComplicationRegistered) {
+                queryClient.removeQueries({
+                    queryKey: ['complication', parameter.operationId],
+                });
+                pushNotification({
+                    msg: '등록된 합병증 정보가 삭제되었습니다.',
+                    type: 'success',
+                    theme: 'dark',
+                });
+            }
         },
     });
 
@@ -173,22 +185,6 @@ export const useComplicationUpdateMutation = () => {
                 theme: 'dark',
             });
             navigate(-1);
-        },
-    });
-
-    return mutation;
-};
-export const useComplicationDeleteMutation = () => {
-    const queryClient = useQueryClient();
-    const mutation = useMutation({
-        mutationFn: deleteComplication,
-        onError: (error: AxiosError<ErrorResponseType>) => {
-            return error;
-        },
-        onSuccess: (_, operationId) => {
-            queryClient.removeQueries({
-                queryKey: ['complication', operationId],
-            });
         },
     });
 
