@@ -35,18 +35,17 @@ function PatientSummaryCard({ userData }: Props) {
 
     let operationMethod: string[] = [];
     let customOperationMethod: string[] = [];
-    let operationDate = '';
     let operationId = 0;
 
     if (isOperationData) {
         operationMethod = userData.operationDateDTOs[0].operationMethod;
         customOperationMethod = userData.operationDateDTOs[0].customOperationMethod;
-        operationDate = userData.operationDateDTOs[0].operationDate;
+
         operationId = userData.operationDateDTOs[0].operationId;
     }
 
-    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(operationDate); // 수술일자 포맷팅
-    const { diffDay } = useOperationDayFormat(operationDate); // 수술일자 차이 계산
+    const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(userData.patientDTO.operationDate); // 수술일자 포맷팅
+    const { diffDay } = useOperationDayFormat(userData.patientDTO.operationDate); // 수술일자 차이 계산
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: operationMethod,
         customOperationMethod: customOperationMethod,
@@ -95,7 +94,7 @@ function PatientSummaryCard({ userData }: Props) {
                 } else {
                     navigation(
                         `/patient/form/compliance/daily?id=${operationId}&name=${userData.patientDTO.name}&diffDay=${diffDay}&date=${addDaysToDate(
-                            operationDate,
+                            userData.patientDTO.operationDate,
                             -Number(diffDay),
                         )}`,
                     );
