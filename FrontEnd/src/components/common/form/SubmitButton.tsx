@@ -5,7 +5,7 @@ type Props = {
 
 function SubmitButton({ onClick, label }: Props) {
     return (
-        <div className="flex w-full p-3 my-auto">
+        <div className="flex w-full p-3 mt-auto">
             <button
                 type="button"
                 onClick={onClick}
