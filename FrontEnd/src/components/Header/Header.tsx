@@ -93,7 +93,7 @@ export default function Header() {
     return (
         <>
             <header
-                className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-30'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
+                className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-20'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
                 {/* ${isVisible ? '' : 'opacity-30'} */}
                 <nav className="relative z-10 flex h-[65px] items-center border-b bg-white px-4">
