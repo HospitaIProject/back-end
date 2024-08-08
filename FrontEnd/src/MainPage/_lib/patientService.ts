@@ -11,8 +11,19 @@ const SC_MATCH_ITEMS: { [key: string]: string | undefined } = {
 
     patientNumber: 'PATIENT_NUMBER',
     operationMethod: 'OPERATION_METHOD',
+};
+const OP_DATE_MATCH_ITEMS: { [key: string]: string | undefined } = {
+    default: 'DEFAULT',
+    newest: 'NEWER',
+    oldest: 'OLDER',
     // '': undefined,
 };
+const CHECKLIST_STATUS_MATCH_ITEMS: { [key: string]: string | undefined } = {
+    all: 'ALL',
+    done: 'WRITTEN',
+    notDone: 'NOT_WRITTEN',
+};
+
 const getPatientDetail = async ({ patientId }: { patientId: number }) => {
     const response = await Axios.get(`/api/patient/${patientId}`);
     return response.data.data;
@@ -22,11 +33,28 @@ const deletePatient = async ({ patientId }: { patientId: number }) => {
     return response.data.data;
 }; //환자 삭제
 
-const getPatientList = async ({ q, sc }: { q: string; sc: string }): Promise<PatientWithOperationDtoType[]> => {
+const getPatientList = async ({
+    q,
+    sc,
+    page,
+    size,
+    opDate,
+    checkListStatus,
+}: {
+    q: string;
+    sc: string;
+    page: number;
+    size: number;
+    opDate: string;
+    checkListStatus: string;
+}): Promise<PatientWithOperationDtoType[]> => {
     const params = {
         filterType: SC_MATCH_ITEMS[sc],
         query: q,
-        size: 20,
+        size: size,
+        page: page,
+        opDate: OP_DATE_MATCH_ITEMS[opDate],
+        checkListStatus: CHECKLIST_STATUS_MATCH_ITEMS[checkListStatus],
     };
     console.log('params', params);
 
@@ -35,17 +63,25 @@ const getPatientList = async ({ q, sc }: { q: string; sc: string }): Promise<Pat
 };
 export const usePatientListQuery = (searchParams: URLSearchParams) => {
     // const page = Number(searchParams.get('page')) || 1;
-    const q = searchParams.get('q') || '';
-    const sc = searchParams.get('sc') || '';
+    const q = searchParams.get('q') || ''; //검색 키워드
+    const sc = searchParams.get('sc') || ''; //검색 카테고리
+    const page = Number(searchParams.get('page')) || 1; //페이지
+    const size = Number(searchParams.get('size')) || 30; //페이지 사이즈
+    const opDate = searchParams.get('sort') || 'default'; //수술일 기준 최신,오래된 (boolean)
+    const checkListStatus = searchParams.get('checklist') || 'all'; //체크리스트 작성여부
 
     // const sort = searchParams.get('sort') || '';
 
     const query = useQuery<PatientWithOperationDtoType[], AxiosError<ErrorResponseType>>({
-        queryKey: ['patient', 'list', q, sc],
+        queryKey: ['patient', 'list', q, sc, page, size, opDate, checkListStatus],
         queryFn: () =>
             getPatientList({
                 q,
                 sc,
+                page,
+                size,
+                opDate: opDate,
+                checkListStatus,
             }),
     });
 
