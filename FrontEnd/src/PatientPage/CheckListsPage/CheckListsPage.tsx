@@ -53,6 +53,7 @@ function CheckListsPage() {
 
     const { diffDay } = useOperationDayFormat(checkListsData?.operationDateDTO.operationDate || ''); //수술일로부터 몇일이 지났는지
     const { dateComparison } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || ''); //수술일과 현재날짜 비교
+    const { onlyDate: operationDate } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || '');
 
     useEffect(() => {
         console.log(checkListsData);
@@ -170,7 +171,12 @@ function CheckListsPage() {
                         />
                     )}
                     {!checkListsData.checkListAfterDTO && dateComparison === 'POST' && (
-                        <CheckListsEmptyCard type="POST" id={Number(operationId)} name={patientName ?? '알수없음'} />
+                        <CheckListsEmptyCard
+                            type="POST"
+                            id={Number(operationId)}
+                            name={patientName ?? '알수없음'}
+                            operationDate={operationDate}
+                        />
                     )}
 
                     {checkListsData.checkListDuringDTO && (
@@ -184,7 +190,12 @@ function CheckListsPage() {
                         />
                     )}
                     {!checkListsData.checkListDuringDTO && dateComparison !== 'PREV' && (
-                        <CheckListsEmptyCard type="TODAY" id={Number(operationId)} name={patientName ?? '알수없음'} />
+                        <CheckListsEmptyCard
+                            type="TODAY"
+                            id={Number(operationId)}
+                            name={patientName ?? '알수없음'}
+                            operationDate={operationDate}
+                        />
                     )}
 
                     {checkListsData.checkListBeforeDTO && (
@@ -198,7 +209,12 @@ function CheckListsPage() {
                         />
                     )}
                     {!checkListsData.checkListBeforeDTO && (
-                        <CheckListsEmptyCard type="PREV" id={Number(operationId)} name={patientName ?? '알수없음'} />
+                        <CheckListsEmptyCard
+                            type="PREV"
+                            id={Number(operationId)}
+                            name={patientName ?? '알수없음'}
+                            operationDate={operationDate}
+                        />
                     )}
                     <DisplayEmptyData label="작성된 체크리스트 0건" isRender={Boolean(isNoneData)} />
                 </ul>
