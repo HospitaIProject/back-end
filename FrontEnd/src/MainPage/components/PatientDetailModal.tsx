@@ -44,7 +44,7 @@ function PatientDetailModal({ values, onClose }: Props) {
                 <NumberViewInput label="나이" value={patientDTO.age} />
                 <NumberViewInput unit="cm" label="키" value={patientDTO.height} />
                 <NumberViewInput unit="kg" label="몸무게" value={patientDTO.weight} />
-                <NumberViewInput unit="kg/cm²" label="BMI" value={patientDTO.bmi} />
+                <NumberViewInput unit="kg/m²" label="BMI" value={patientDTO.bmi} />
                 <ViewInput label="ASA score" value={patientDTO.asaScore} />
                 <ViewInput label="위치" value={patientDTO.location} />
                 <ViewInput label="진단명" value={patientDTO.diagnosis} />
