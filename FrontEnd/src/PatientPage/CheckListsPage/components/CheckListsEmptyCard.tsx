@@ -6,9 +6,10 @@ type Props = {
     type: 'PREV' | 'TODAY' | 'POST';
     id: number;
     name: string;
+    operationDate: string;
 };
 
-function CheckListsEmptyCard({ type, id, name }: Props) {
+function CheckListsEmptyCard({ type, id, name, operationDate }: Props) {
     const navigate = useNavigate();
     let dateComparison = '';
     if (type === 'PREV') {
@@ -20,7 +21,7 @@ function CheckListsEmptyCard({ type, id, name }: Props) {
     }
 
     const handleRouteCheckListForm = () => {
-        navigate(`/patient/form/compliance?id=${id}&name=${name}&dateStatus=${type}`);
+        navigate(`/patient/form/compliance?id=${id}&name=${name}&dateStatus=${type}&od=${operationDate}`);
     };
 
     return (

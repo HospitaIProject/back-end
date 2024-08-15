@@ -43,11 +43,15 @@ function ComplianceFormPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
+    const operationDate = searchParams.get('od'); //수술날짜
+
     const { isVisible } = useScrollHeaderControl({}); //스크롤시 헤더 보이기 여부
 
-    const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); //오늘 날짜
+    const { onlyDate: formattedNowDate } = useDateFormatted(new Date(), 'SIMPLE'); //오늘 날짜
+
     const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
     const complianceFormUpdateMutation = useComplianceFormUpdateMutation(); //체크리스트 수정
+
     const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
     const fluidRestrictionQuery = useFluidRestrictionQuery({ operationId: Number(operationId) }); //수술 중 수액 제한 정보 가져오기
     const { data: existFields, isPending: isExistFieldsPending } = checkListSetupQuery; //체크리스트 세팅 정보
@@ -163,7 +167,7 @@ function ComplianceFormPage() {
                 </div>
                 <CheckListViewGuide
                     dateStatus={dateStatus === 'TODAY' ? '수술중' : dateStatus === 'PREV' ? `수술전` : `수술후`}
-                    date={formattedOnlyDate}
+                    date={formattedNowDate}
                     patientName={patientName || ''}
                     existFields={existFields}
                 />
@@ -299,6 +303,7 @@ function ComplianceFormPage() {
                                     formik={formik}
                                     placeHolder="제거한날 기입"
                                     isRender={formik.values.jpDrainRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
                                 />
                             }
                         />
@@ -315,6 +320,7 @@ function ComplianceFormPage() {
                                     formik={formik}
                                     placeHolder="제거한날 기입"
                                     isRender={formik.values.catheterRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
                                 />
                             }
                         />
@@ -337,6 +343,7 @@ function ComplianceFormPage() {
                                     formik={formik}
                                     placeHolder="제거한날 기입"
                                     isRender={formik.values.ivLineRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
                                 />
                             }
                         />

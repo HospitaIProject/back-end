@@ -2,7 +2,6 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import CategoryItemContainer from './CategoryItemContainer';
 import FilterModalContainer from './FilterModalContainer';
 import SubmitButton from '../form/SubmitButton';
-import { pushNotification } from '../../../utils/pushNotification';
 
 const CATEGORY_ITEMS_SORT = [
     {
@@ -55,12 +54,6 @@ function FilterModal({ onClose, isOpen }: Props) {
             params.set(param, value);
         }
         navigate(pathname + '?' + params.toString(), { replace: true });
-        pushNotification({
-            msg: '적용되었습니다.',
-            type: 'success',
-            theme: 'light',
-            position: 'top-right',
-        });
     };
     const handelReset = () => {
         const params = new URLSearchParams(searchParams.toString());

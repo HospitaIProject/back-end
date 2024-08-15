@@ -40,12 +40,15 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
         podMeal: true, //Post OP day 식사, POD 1day 식사, POD 2day 식사, POD 3day 식사
         podPain: true, //수술 후 통증
     });
+
+    const isEditPage = Boolean(handleSubmit); // handleSubmit이 있으면 editPage 없으면 viewPage
+
     const onChangeCheckListSetup = (checkItem: string, event: React.ChangeEvent<HTMLInputElement>) => {
         setCheckListSetup({ ...checkListSetup, [checkItem]: event.target.checked });
     };
     useEffect(() => {
         setCheckListSetup(values);
-    }, [values]);
+    }, [values]); //초기 값 설정
 
     return (
         <ModalFullScreenContainer
@@ -55,9 +58,11 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
         `}
             onClose={onClose}
         >
-            <div className="flex flex-col flex-1 px-6 mx-auto">
+            <div className={`mx-auto flex flex-1 flex-col px-6`}>
                 <DropBoxCheckListSetupContainer label="수술전">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
                             .map((patientKey) => (
@@ -73,7 +78,9 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                     </div>
                 </DropBoxCheckListSetupContainer>
                 <DropBoxCheckListSetupContainer label="수술중">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
                             .map((patientKey) => (
@@ -89,7 +96,9 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                     </div>
                 </DropBoxCheckListSetupContainer>
                 <DropBoxCheckListSetupContainer label="수술후">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
                             .map((patientKey) => (
@@ -104,7 +113,9 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                             ))}
                     </div>
                 </DropBoxCheckListSetupContainer>
-                {handleSubmit && <FixedSubmitButton onClick={() => handleSubmit(checkListSetup)} label="저장하기" />}
+                {isEditPage && handleSubmit && (
+                    <FixedSubmitButton onClick={() => handleSubmit(checkListSetup)} label="저장하기" />
+                )}
             </div>
         </ModalFullScreenContainer>
     );

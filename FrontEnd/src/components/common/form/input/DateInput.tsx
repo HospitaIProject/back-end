@@ -9,9 +9,10 @@ type Props<T> = {
     formik: FormikProps<T>;
     placeHolder?: string;
     isRender?: boolean;
+    minDate?: Date;
 };
 
-function DateInput<T>({ htmlFor, formik, isRender }: Props<T>) {
+function DateInput<T>({ htmlFor, formik, isRender, minDate }: Props<T>) {
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     const handleOpenModal = () => {
@@ -37,7 +38,7 @@ function DateInput<T>({ htmlFor, formik, isRender }: Props<T>) {
                     onClick={handleOpenModal}
                     className={` ${isValid ? 'border-2 border-red-400' : ''} flex h-fit ${isInput ? 'text-blue-500' : 'text-gray-400'} w-fit flex-row items-center justify-between gap-2 overflow-hidden rounded-lg bg-white p-1`}
                 >
-                    <CalendarIcon className="h-6 w-6 text-inherit" />
+                    <CalendarIcon className="w-6 h-6 text-inherit" />
                 </button>
                 {/* <button
                         type="button"
@@ -50,7 +51,13 @@ function DateInput<T>({ htmlFor, formik, isRender }: Props<T>) {
             </div>
 
             {isOpenModal && (
-                <DatePickerModal initialDate={isInput} onClose={handleCloseModal} onSelectDate={onSelectedDate} />
+                <DatePickerModal
+                    minDate={minDate}
+                    initialDate={isInput || new Date()}
+                    onClose={handleCloseModal}
+                    onSelectDate={onSelectedDate}
+                    description={`*수술일 부터 선택 가능합니다.`}
+                />
             )}
         </>
     );
