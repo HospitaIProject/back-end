@@ -58,9 +58,11 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
         `}
             onClose={onClose}
         >
-            <div className={`mx-auto flex flex-1 flex-col px-6 ${isEditPage ? '' : 'pointer-events-none'} `}>
+            <div className={`mx-auto flex flex-1 flex-col px-6`}>
                 <DropBoxCheckListSetupContainer label="수술전">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.PREV.includes(key))
                             .map((patientKey) => (
@@ -76,7 +78,9 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                     </div>
                 </DropBoxCheckListSetupContainer>
                 <DropBoxCheckListSetupContainer label="수술중">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key))
                             .map((patientKey) => (
@@ -92,7 +96,9 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                     </div>
                 </DropBoxCheckListSetupContainer>
                 <DropBoxCheckListSetupContainer label="수술후">
-                    <div className="grid w-full grid-cols-1 gap-1 py-4 mx-auto mobile:grid-cols-2">
+                    <div
+                        className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}
+                    >
                         {Object.keys(checkListSetup)
                             .filter((key) => CHECKLIST_SECTION_KEYS.POST.includes(key))
                             .map((patientKey) => (
