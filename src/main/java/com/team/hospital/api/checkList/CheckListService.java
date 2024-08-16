@@ -254,15 +254,15 @@ public class CheckListService {
 
         int bottom = 0;
 
-        if (checks.get(0) != null) {
+        if (!checks.isEmpty() && checks.get(0) != null) {
             if (checkListItem.isPodExercise()) bottom++;
             if (checkListItem.isPodMeal()) bottom++;
         }
-        if (checks.get(1) != null) {
+        if (checks.size() > 1 && checks.get(1) != null) {
             if (checkListItem.isPodExercise()) bottom++;
             if (checkListItem.isPodMeal()) bottom++;
         }
-        if (checks.get(2) != null) {
+        if (checks.size() > 2 && checks.get(2) != null) {
             if (checkListItem.isPodExercise()) bottom++;
         }
         return bottom;
@@ -272,15 +272,15 @@ public class CheckListService {
         List<CheckList> checks = checks(operationId);
         int top = 0;
 
-        if (checks.get(0) != null) {
+        if (!checks.isEmpty() && checks.get(0) != null) {
             if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES) top++;
             if (checks.get(0).getPodOneMeal() != null && checks.get(0).getPodOneMeal().getOption() == YES) top++;
         }
-        if (checks.get(1) != null) {
+        if (checks.size() > 1 && checks.get(1) != null) {
             if (checks.get(1).getPodTwoExercise() != null && checks.get(1).getPodTwoExercise().getOption() == YES) top++;
             if (checks.get(1).getPodTwoMeal() != null && checks.get(1).getPodTwoMeal().getOption() == YES) top++;
         }
-        if (checks.get(2) != null) {
+        if (checks.size() > 2 && checks.get(2) != null) {
             if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES) top++;
         }
         return top;
