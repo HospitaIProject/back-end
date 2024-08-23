@@ -1,21 +1,17 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
-import CreatableSelect from 'react-select/creatable'; // CreatableSelect 임포트
 import makeAnimated from 'react-select/animated';
 import { useEffect } from 'react';
-import _ from 'lodash';
-
+import Select from 'react-select';
 function MultiSelector<T>({
     label,
     htmlFor,
-    customFor,
     formik,
     values,
     isRender,
 }: {
     label: string;
     htmlFor: string;
-    customFor: string;
     formik: FormikProps<T>;
     values: { value: string; name: string }[];
     isRender?: boolean;
@@ -26,28 +22,12 @@ function MultiSelector<T>({
         // 커스텀으로 입력된 옵션과 기존에 선택된 옵션을 분리
         console.log('selectedOptions', selectedOptions);
 
-        const customValues = selectedOptions
-            .filter((option: any) => option.__isNew__)
-            .map((option: any) => option.value);
-
-        const selectedValues = selectedOptions
-            .filter((option: any) => !option.__isNew__)
-            .map((option: any) => option.value);
-
-        // 커스텀 필드에 커스텀으로 입력된 옵션 추가
-        if (customValues.length > 0) {
-            formik.setFieldValue(`${customFor}`, customValues);
-            formik.setFieldError(`${customFor}`, '');
-            formik.setFieldError(htmlFor, '');
-        } else {
-            formik.setFieldValue(`${customFor}`, '');
-        }
+        const selectedValues = selectedOptions.map((option: any) => option.value);
 
         // 선택 필드에 기존에 선택된 옵션 추가
         if (selectedValues.length > 0) {
             formik.setFieldValue(htmlFor, [...selectedValues]);
             formik.setFieldError(htmlFor, '');
-            formik.setFieldError(`${customFor}`, '');
         } else {
             formik.setFieldValue(htmlFor, '');
         }
@@ -58,22 +38,17 @@ function MultiSelector<T>({
     }, [formik.values]);
 
     const options = values.map((value) => ({ value: value.value, label: value.name }));
-    const isInput = formik?.getFieldProps(htmlFor).value || formik?.getFieldProps(customFor).value;
-    const isValid =
-        (formik.errors as Record<string, string>)[htmlFor] || (formik.errors as Record<string, string>)[customFor]; // formik의 에러 여부
+    const isInput = formik?.getFieldProps(htmlFor).value;
+    const isValid = (formik.errors as Record<string, string>)[htmlFor]; // formik의 에러 여부
 
     const selectedOptions = options.filter((option) => formik?.getFieldProps(htmlFor).value.includes(option.value)); // 선택된 옵션
-    const customOptions = (formik?.getFieldProps(customFor).value || []).map((value: string) => ({
-        value: value,
-        label: value,
-        __isNew__: true,
-    })); // 커스텀으로 입력된 옵션
-    const currentValues = [...selectedOptions, ...customOptions]; // 현재 선택된 옵션
+
+    const currentValues = [...selectedOptions]; // 현재 선택된 옵션
 
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div className="flex flex-grow">
-                <CreatableSelect
+                <Select
                     components={animatedComponents}
                     isMulti
                     options={options}
