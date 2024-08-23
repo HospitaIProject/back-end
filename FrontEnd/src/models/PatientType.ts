@@ -54,7 +54,6 @@ export type PatientWithOperationDtoType = {
     operationDateDTOs: {
         operationId: number; // 수술ID
         operationMethod: string[]; // 수술명
-        customOperationMethod: string[]; // 사용자 정의 수술명
         operationDate: string; // 수술일자
         hospitalizedDate: string; // 입원일자
         dischargedDate: string; // 퇴원일자

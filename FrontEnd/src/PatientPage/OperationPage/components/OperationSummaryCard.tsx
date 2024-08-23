@@ -27,7 +27,6 @@ function OperationSummaryCard({ operationData }: Props) {
 
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: operationData.operationMethod,
-        customOperationMethod: operationData.customOperationMethod,
     }); //수술명(수술명+커스텀 수술명 합침 )
     const { operationId, totalOperationTime } = operationData;
 

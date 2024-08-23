@@ -21,7 +21,6 @@ function ConfirmNewOperationInfo({ values, onSubmit, checkListSetup }: Props) {
 
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: values.operationMethod,
-        customOperationMethod: values.customOperationMethod,
     });
 
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState(false);

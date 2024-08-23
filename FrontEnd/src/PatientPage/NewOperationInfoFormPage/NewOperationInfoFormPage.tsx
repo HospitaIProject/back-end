@@ -54,8 +54,6 @@ function NewOperationInfoFormPage() {
                 if (confirm('수정하시겠습니까?')) {
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
-                    } else if (values.customOperationMethod === '') {
-                        values.customOperationMethod = [];
                     }
                     updateOperationInfoFormMutation.mutate({
                         operationData: values, // 환자수술 정보
@@ -69,8 +67,6 @@ function NewOperationInfoFormPage() {
                 if (confirm('등록하시겠습니까?')) {
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
-                    } else if (values.customOperationMethod === '') {
-                        values.customOperationMethod = [];
                     }
                     newOperationInfoFormMutation.mutate({
                         operationData: values, // 환자수술 정보
@@ -105,14 +101,10 @@ function NewOperationInfoFormPage() {
         setCheckListSetup({ ...newCheckListSetup });
         handleCloseCheckListSetup();
     };
-    const specialFields = ['customOperationMethod', 'operationMethod'];
+
     const handleOpenConfirm = (values: OperationInfoFormType) => {
         let isError = false;
         for (const key in values) {
-            if (specialFields.includes(key)) {
-                if (formik.values['customOperationMethod'] !== '' || formik.values['operationMethod'] !== '') continue;
-            }
-
             if (values[key] === '') {
                 formik.setFieldError(key, '필수 입력 항목입니다.');
                 isError = true;
@@ -133,6 +125,7 @@ function NewOperationInfoFormPage() {
         }
         // setIsConfirmPage(true);
     };
+
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     }; // 확인 모달 닫기
@@ -193,7 +186,6 @@ function NewOperationInfoFormPage() {
                         label="수술방법"
                         htmlFor="operationMethod"
                         formik={formik}
-                        customFor="customOperationMethod"
                         values={[
                             { value: 'RHC_ERHC', name: 'RHC, ERHC' },
                             { value: 'T_COLECTOMY', name: 'T-colectomy' },

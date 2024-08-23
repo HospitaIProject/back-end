@@ -250,7 +250,6 @@ export type ResponseCheckListsType = {
     operationDateDTO: {
         operationId: number;
         operationMethod: string[];
-        customOperationMethod: string[];
         operationDate: string;
         hospitalizedDate: string;
         dischargedDate: string;

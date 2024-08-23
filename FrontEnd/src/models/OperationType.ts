@@ -31,7 +31,6 @@ export type OperationInfoFormType = {
     [key: string]: string | number | OperationMethodType[] | OperationApproachType | string[] | Date;
 
     operationMethod: OperationMethodType[] | ''; //수술방법
-    customOperationMethod: string[] | ''; //수술방법 *직접입력
     operationApproach: OperationApproachType | ''; //수술approach //enum
     stomaFormation: 'YES' | 'NO' | ''; //장루 조성술 여부
     operationStartTime: Date | ''; //수술 시작 시간
@@ -44,7 +43,6 @@ export type OperationInfoFormType = {
 export type OperationItemType = {
     operationId: number;
     operationMethod: OperationMethodType[]; //수술방법
-    customOperationMethod: string[]; //수술방법 *직접입력
     operationApproach: OperationApproachType; //수술approach //enum
     stomaFormation: 'YES' | 'NO'; //장루 조성술 여부
     operationStartTime: Date; //수술 시작 시간

@@ -24,7 +24,6 @@ function OperationDetail({ operationData }: Props) {
     const { onlyTime: operationEndTime } = useDateFormatted(operationData.operationEndTime); //수술종료시간
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: operationData.operationMethod,
-        customOperationMethod: operationData.customOperationMethod,
     });
 
     useEffect(() => {
