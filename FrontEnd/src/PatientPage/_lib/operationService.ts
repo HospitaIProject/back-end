@@ -47,6 +47,7 @@ const postOrPutOperationInfoNewForm = async ({
         return checkListResponse;
     }
 }; //수술 정보 등록 폼 서비스
+
 const deleteOperationInfo = async ({ operationId }: { operationId: number }) => {
     const response = await Axios.delete(`/api/operation/${operationId}`);
     return response.data;

@@ -17,16 +17,29 @@ import TotalOperationInput from '../../components/common/form/input/TotalOperati
 import { validateCheckListSetup } from './components/utils/validateCheckListSetup';
 import { useOperationInfoInitialValues } from './utils/useOperationInfoInitialValues';
 import Loading from '../../components/common/Loading';
-import { useDefaultCheckListSettingQuery } from '../../DefaultCheckListSettingPage/_lib/defaultCheckListSettingService';
+import {
+    useDefaultCheckListSettingQuery,
+    useOperationMethodsQuery,
+} from '../../DefaultCheckListSettingPage/_lib/defaultCheckListSettingService';
+
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [selectFirstOperationMethod, setSelectFirstOperationMethod] = useState<string>('');
-    const newOperationInfoFormMutation = useNewOperationInfoFormMutation();
-    const updateOperationInfoFormMutation = useUpdateOperationInfoFormMutation();
+
+    const newOperationInfoFormMutation = useNewOperationInfoFormMutation(); //수술 정보 등록
+    const updateOperationInfoFormMutation = useUpdateOperationInfoFormMutation(); //수술 정보 수정
+
+    const operationMethodsQuery = useOperationMethodsQuery(); //수술명 목록 불러오기
     const defaultCheckListSettingQuery = useDefaultCheckListSettingQuery({
         enabled: selectFirstOperationMethod !== '',
         operationMethod: selectFirstOperationMethod,
-    }); //체크리스트 셋업
+    }); //각 수술명에대한 체크리스트 기본값 불러오기
+
+    const {
+        data: operationMethods,
+        error: operationMethodsError,
+        isPending: isOperationMethodsPending,
+    } = operationMethodsQuery;
     const {
         data: checkListDefaultItems,
         error: checkListDefaultItemsError,
@@ -152,7 +165,7 @@ function NewOperationInfoFormPage() {
         if (checkListDefaultItems && isCheckListDefaultItemsSuccess) {
             setCheckListSetup(checkListDefaultItems);
             pushNotification({
-                msg: `${checkListDefaultItems.operationMethod}의 체크리스트 설정을 불러왔습니다.`,
+                msg: `${formik.values.operationMethod[0]}의 설정된 체크리스트 항목 기본값을 불러왔습니다.`,
                 type: 'success',
                 theme: 'dark',
                 position: 'top-center',
@@ -172,7 +185,28 @@ function NewOperationInfoFormPage() {
         }
     }, [checkListDefaultItemsError]);
 
-    if (isPending) return <Loading />;
+    useEffect(() => {
+        if (operationMethods) console.log('수술명 목록 데이터', operationMethods);
+    }, [operationMethods]); //수술명 목록 불러오기 성공시
+    useEffect(() => {
+        if (checkListSetup) console.log('체크리스트 셋업 데이터', checkListSetup);
+    }, [checkListSetup]); //체크리스트 설정 불러오기 성공시
+
+    useEffect(() => {
+        if (operationMethodsError) {
+            console.log('operationMethodsError', operationMethodsError);
+            pushNotification({
+                msg: operationMethodsError.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
+                type: 'error',
+                theme: 'dark',
+            });
+        }
+    }, [operationMethodsError]); //수술명 목록 불러오기 에러 발생시
+
+    if (isPending || isOperationMethodsPending) return <Loading />;
+    if (operationMethodsError) {
+        return <div>{operationMethodsError?.response?.data.message || '오류가 발생 했습니다.'}</div>;
+    }
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
@@ -186,17 +220,10 @@ function NewOperationInfoFormPage() {
                         label="수술방법"
                         htmlFor="operationMethod"
                         formik={formik}
-                        values={[
-                            { value: 'RHC_ERHC', name: 'RHC, ERHC' },
-                            { value: 'T_COLECTOMY', name: 'T-colectomy' },
-                            { value: 'LHC_ELHC', name: 'LHC, ELHC' },
-                            { value: 'AR', name: 'AR' },
-                            { value: 'LAR', name: 'LAR' },
-                            { value: 'ISR', name: 'ISR' },
-                            { value: 'APR', name: 'APR' },
-                            { value: 'SUBTOTAL_TOTAL_COLECTOMY', name: 'Subtotal, Total colectomy' },
-                            { value: 'TOTAL_PROCTOCOLECTOMY', name: 'Total proctocolectomy' },
-                        ]}
+                        values={operationMethods.map((method) => ({
+                            value: method.name,
+                            name: method.name,
+                        }))}
                     />
                     <SingleSelector
                         label="수술approach"
