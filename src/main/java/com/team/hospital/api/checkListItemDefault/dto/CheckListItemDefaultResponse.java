@@ -1,7 +1,7 @@
 package com.team.hospital.api.checkListItemDefault.dto;
 
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
-import com.team.hospital.api.operation.enumType.OperationMethod;
+import com.team.hospital.api.operationMethod.OperationMethod;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -43,7 +43,6 @@ public class CheckListItemDefaultResponse {
         if (checkListItemDefault == null) return null; // Null safety check
 
         return CheckListItemDefaultResponse.builder()
-                .operationMethod(checkListItemDefault.getOperationMethod())
 
                 // 수술 전
                 .explainedPreOp(checkListItemDefault.isExplainedPreOp())
