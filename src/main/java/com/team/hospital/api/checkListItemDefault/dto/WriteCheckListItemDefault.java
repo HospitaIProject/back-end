@@ -1,12 +1,11 @@
 package com.team.hospital.api.checkListItemDefault.dto;
 
-import com.team.hospital.api.operation.enumType.OperationMethod;
 import lombok.Getter;
 
 @Getter
 public class WriteCheckListItemDefault {
 
-    private OperationMethod operationMethod;
+    private String operationTypeName;
 
     private boolean giStimulant;
     private boolean gumChewing;

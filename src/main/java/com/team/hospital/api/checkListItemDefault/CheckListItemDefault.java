@@ -2,7 +2,7 @@ package com.team.hospital.api.checkListItemDefault;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkListItemDefault.dto.WriteCheckListItemDefault;
-import com.team.hospital.api.operation.enumType.OperationMethod;
+import com.team.hospital.api.operationType.OperationType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,9 +20,8 @@ public class CheckListItemDefault extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(unique = true)  // 이 필드를 유니크 제약 조건으로 설정
-    private OperationMethod operationMethod;
+    @OneToOne(mappedBy = "checkListItemDefault")
+    private OperationType operationType;
 
     // 수술 전
     private boolean explainedPreOp;
@@ -55,7 +54,6 @@ public class CheckListItemDefault extends BaseEntity {
 
     public static CheckListItemDefault toEntity(WriteCheckListItemDefault write) {
         return CheckListItemDefault.builder()
-                .operationMethod(write.getOperationMethod())
 
                 // 수술 전
                 .explainedPreOp(write.isExplainedPreOp())

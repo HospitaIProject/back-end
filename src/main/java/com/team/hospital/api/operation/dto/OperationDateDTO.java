@@ -1,6 +1,6 @@
 package com.team.hospital.api.operation.dto;
 
-import com.team.hospital.api.operation.enumType.OperationMethod;
+import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,7 +30,6 @@ public class OperationDateDTO {
         builder
                 .operationId(operationDTO.getOperationId())
                 .operationMethod(operationDTO.getOperationMethod())
-                .customOperationMethod(operationDTO.getCustomOperationMethod())
                 .operationDate(patientDTO.getOperationDate());
 
         if (patientDTO.getOperationDate() != null) {

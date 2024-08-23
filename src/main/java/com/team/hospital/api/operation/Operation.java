@@ -2,11 +2,10 @@ package com.team.hospital.api.operation;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.operation.converter.CustomOperationMethodConverter;
-import com.team.hospital.api.operation.converter.OperationMethodConverter;
-import com.team.hospital.api.operation.enumType.*;
-import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.operation.dto.RegisterOperation;
+import com.team.hospital.api.operation.enumType.OperationApproach;
+import com.team.hospital.api.operationMethod.OperationMethod;
+import com.team.hospital.api.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,13 +24,9 @@ public class Operation extends BaseEntity {
     @Column(name = "operation_id")
     private Long id;
 
-    @Convert(converter = OperationMethodConverter.class)
-    @Column(nullable = false)
-    private List<OperationMethod> operationMethod;              // 수술 방법
-
-    @Convert(converter = CustomOperationMethodConverter.class)
-    @Column(nullable = true)
-    private List<String> customOperationMethod;                 // 사용자 정의 수술 방법
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "operation_id")
+    private List<OperationMethod> operationMethod;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -64,9 +59,9 @@ public class Operation extends BaseEntity {
     private Patient patient;
 
     public static Operation createOperation(RegisterOperation register, Patient patient) {
+
         return Operation.builder()
-                .operationMethod(register.getOperationMethod())
-                .customOperationMethod(register.getCustomOperationMethod())
+                .operationMethod(OperationMethod.toEntity(register.getOperationMethod()))
                 .operationApproach(register.getOperationApproach())
                 .stomaFormation(register.getStomaFormation())
                 .operationStartTime(register.getOperationStartTime())
@@ -78,16 +73,15 @@ public class Operation extends BaseEntity {
                 .build();
     }
 
-    public void updateOperation(RegisterOperation registerOperation) {
-        this.operationMethod = registerOperation.getOperationMethod();
-        this.customOperationMethod = registerOperation.getCustomOperationMethod();
-        this.operationApproach = registerOperation.getOperationApproach();
-        this.stomaFormation = registerOperation.getStomaFormation();
-        this.operationStartTime = registerOperation.getOperationStartTime();
-        this.operationEndTime = registerOperation.getOperationEndTime();
-        this.totalOperationTime = registerOperation.getTotalOperationTime();
-        this.totalFluidsAmount = registerOperation.getTotalFluidsAmount();
-        this.bloodLoss = registerOperation.getBloodLoss();
+    public void updateOperation(RegisterOperation register) {
+        this.operationMethod = OperationMethod.toEntity(register.getOperationMethod());
+        this.operationApproach = register.getOperationApproach();
+        this.stomaFormation = register.getStomaFormation();
+        this.operationStartTime = register.getOperationStartTime();
+        this.operationEndTime = register.getOperationEndTime();
+        this.totalOperationTime = register.getTotalOperationTime();
+        this.totalFluidsAmount = register.getTotalFluidsAmount();
+        this.bloodLoss = register.getBloodLoss();
     }
 
     public void updateComplicationStatus(BooleanOption booleanOption) {

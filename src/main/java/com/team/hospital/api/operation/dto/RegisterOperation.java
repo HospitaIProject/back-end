@@ -1,7 +1,7 @@
 package com.team.hospital.api.operation.dto;
 
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.operation.enumType.*;
+import com.team.hospital.api.operation.enumType.OperationApproach;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,9 +12,7 @@ import java.util.List;
 @Builder
 public class RegisterOperation {
 
-    private List<OperationMethod> operationMethod;        // 수술 방법
-
-    private List<String> customOperationMethod;                 // 사용자 정의 수술 방법
+    private List<String> operationMethod;        // 수술 방법
 
     private OperationApproach operationApproach;    // 수술 approach
 

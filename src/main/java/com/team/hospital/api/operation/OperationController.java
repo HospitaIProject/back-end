@@ -37,7 +37,11 @@ public class OperationController {
     @GetMapping("/api/operations/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
+//        List<Operation> operations = operationService.findAllByPatient(patientId);
+
+
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
+
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
                     double compilancePercentage = checkListService.test(operation.getId());
