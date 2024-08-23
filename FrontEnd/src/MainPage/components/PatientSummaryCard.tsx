@@ -34,22 +34,19 @@ function PatientSummaryCard({ userData }: Props) {
     const isOperationData = userData.operationDateDTOs.length > 0; // 수술정보가 있는지 확인
 
     let operationMethod: string[] = [];
-    let customOperationMethod: string[] = [];
     let operationId = 0;
 
     if (isOperationData) {
         operationMethod = userData.operationDateDTOs[0].operationMethod;
-        customOperationMethod = userData.operationDateDTOs[0].customOperationMethod;
-
         operationId = userData.operationDateDTOs[0].operationId;
     }
 
     const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(userData.patientDTO.operationDate); // 수술일자 포맷팅
     const { diffDay } = useOperationDayFormat(userData.patientDTO.operationDate); // 수술일자 차이 계산
+
     const operationMethodFormatted = useOperationMethodFormatted({
         operationMethod: operationMethod,
-        customOperationMethod: customOperationMethod,
-    });
+    }); // 수술방법 포맷팅
 
     const SUGERY_STATUS: { [key: string]: JSX.Element | string } = {
         PREV: '',

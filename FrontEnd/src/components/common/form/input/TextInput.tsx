@@ -46,7 +46,7 @@ function TextInput<T>({ label, htmlFor, type = 'text', formik, isRender }: Props
                         onChange={debouncedHandleChange}
                         defaultValue={formik?.getFieldProps(htmlFor).value}
                         placeholder="텍스트를 입력 해주세요."
-                        className={`h-12 w-full outline-none ${isFocused ? 'border-2 border-blue-400' : ''} rounded-lg border border-gray-300 px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
+                        className={`h-12 w-full outline-none ${isFocused ? 'border-2 border-blue-400' : 'border-gray-300'} rounded-lg border px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
                     />
                 )}
                 {type === 'textarea' && (

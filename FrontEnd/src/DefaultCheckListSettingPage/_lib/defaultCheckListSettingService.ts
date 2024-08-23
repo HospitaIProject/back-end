@@ -4,13 +4,19 @@ import Axios from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { pushNotification } from '../../utils/pushNotification';
+import { operationMethodItemType } from '../../models/OperationMethod';
+
+const getOperationMethods = async (): Promise<operationMethodItemType[]> => {
+    const response = await Axios.get('/api/operationTypes');
+    return response.data.data;
+};
 
 const getDefaultCheckListSetting = async ({
     operationMethod,
 }: {
     operationMethod: string;
 }): Promise<CheckListSetupType> => {
-    const response = await Axios.get(`/api/checkListItemDefault?operationMethod=${operationMethod}`);
+    const response = await Axios.get(`/api/checkListItemDefault/${operationMethod}`);
     return response.data.data;
 };
 
@@ -23,10 +29,19 @@ const updateDefaultCheckListSetting = async ({
 }) => {
     const transformData = {
         ...data,
-        operationMethod,
+        operationTypeName: operationMethod,
     };
     const response = await Axios.put(`/api/checkListItemDefault`, transformData);
     return response.data.data;
+};
+//----------------------------------------------hooks----------------------------------------------
+
+export const useOperationMethodsQuery = () => {
+    const query = useQuery<operationMethodItemType[], AxiosError<ErrorResponseType>>({
+        queryKey: ['operationMethods'],
+        queryFn: getOperationMethods,
+    });
+    return query;
 };
 
 export const useDefaultCheckListSettingQuery = ({
@@ -44,6 +59,7 @@ export const useDefaultCheckListSettingQuery = ({
 
     return query;
 };
+
 export const useUpdateDefaultCheckListSettingMutation = () => {
     const mutation = useMutation({
         mutationFn: updateDefaultCheckListSetting,

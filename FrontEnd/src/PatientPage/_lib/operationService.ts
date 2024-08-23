@@ -30,6 +30,7 @@ const postOrPutOperationInfoNewForm = async ({
         operationStartTime: operationStartTime,
         operationEndTime: operationEndTime,
     };
+
     console.log('requestOperationData', requestOperationData);
     if (submitType === 'post') {
         const patientResponse = await Axios.post(`api/operation/${patientId}`, requestOperationData); //먼저 수술 정보를 등록하고
@@ -46,6 +47,7 @@ const postOrPutOperationInfoNewForm = async ({
         return checkListResponse;
     }
 }; //수술 정보 등록 폼 서비스
+
 const deleteOperationInfo = async ({ operationId }: { operationId: number }) => {
     const response = await Axios.delete(`/api/operation/${operationId}`);
     return response.data;

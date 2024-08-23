@@ -76,7 +76,6 @@ export const useOperationInfoInitialValues = () => {
 
     const [initialValues, setInitialValues] = useState<OperationInfoFormType>({
         bloodLoss: '', //출혈량
-        customOperationMethod: '', //수술방법
         operationApproach: '', //수술 접근법
         operationEndTime: '', //수술 종료 시간
         operationMethod: '', //수술방법
@@ -92,7 +91,6 @@ export const useOperationInfoInitialValues = () => {
         if (operationDetail) {
             setInitialValues({
                 bloodLoss: operationDetail.bloodLoss,
-                customOperationMethod: operationDetail.customOperationMethod,
                 operationApproach: operationDetail.operationApproach,
                 operationEndTime: transformDateToTodayWithTime((operationDetail.operationEndTime as string) || ''),
                 operationMethod: operationDetail.operationMethod,
