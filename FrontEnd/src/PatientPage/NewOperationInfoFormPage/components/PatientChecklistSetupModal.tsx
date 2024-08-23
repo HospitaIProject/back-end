@@ -113,10 +113,10 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
                             ))}
                     </div>
                 </DropBoxCheckListSetupContainer>
-                {isEditPage && handleSubmit && (
-                    <FixedSubmitButton onClick={() => handleSubmit(checkListSetup)} label="저장하기" />
-                )}
             </div>
+            {isEditPage && handleSubmit && (
+                <FixedSubmitButton className="p-3" onClick={() => handleSubmit(checkListSetup)} label="저장하기" />
+            )}
         </ModalFullScreenContainer>
     );
 }
