@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import ModalFullScreenContainer from '../../components/common/ModalFullScreenContainer';
 import FixedSubmitButton from '../../components/common/form/FixedSubmitButton';
 import { useOperationMethodMutation } from '../_lib/defaultCheckListSettingService';
@@ -16,7 +16,8 @@ function OperationMethodSubmitModal({ onClose, type, initValue }: Props) {
     const onSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
         if (event) event.preventDefault();
         if (!inputRef.current) return;
-        if (inputRef.current?.value === '') {
+        const trimmedValue = inputRef.current.value.trim(); // 입력값 앞뒤 공백 제거
+        if (trimmedValue === '') {
             alert('수술명을 입력해주세요');
             return;
         }
@@ -40,6 +41,12 @@ function OperationMethodSubmitModal({ onClose, type, initValue }: Props) {
             }
         }
     };
+    useEffect(() => {
+        if (operationMethodMutation.isSuccess) {
+            onClose();
+            operationMethodMutation.reset();
+        }
+    }, [operationMethodMutation.isSuccess]);
     return (
         <ModalFullScreenContainer
             maxWidthClassName="max-w-screen-tablet"
@@ -48,10 +55,11 @@ function OperationMethodSubmitModal({ onClose, type, initValue }: Props) {
             onClose={onClose}
         >
             <div className={`mx-auto flex h-full flex-col`}>
-                <form onSubmit={onSubmit} className="flex flex-col h-full p-3">
-                    <div className="border-b-2 border-gray-300 focus-within:border-blue-500">
+                <form onSubmit={onSubmit} className="flex flex-col items-center h-full p-3">
+                    <div className="w-full border-b-2 border-gray-300 focus-within:border-blue-500">
                         <input
                             ref={inputRef}
+                            defaultValue={initValue}
                             type="text"
                             className="w-full p-1 outline-none"
                             placeholder="수술명을 입력해주세요"

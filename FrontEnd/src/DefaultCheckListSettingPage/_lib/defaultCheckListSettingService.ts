@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { CheckListSetupType } from '../../models/CheckListsType';
 import Axios from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
@@ -19,7 +19,7 @@ const postOperationMethod = async ({
     type: 'post' | 'put';
 }) => {
     if (type === 'post') {
-        const response = await Axios.post(`/api/operationType`, { name: newOperationMethod });
+        const response = await Axios.post(`/api/operationType`, { name: operationMethod });
         return response.data.data;
     } else {
         const response = await Axios.put(`/api/operationType/${operationMethod}`, { name: newOperationMethod });
@@ -65,6 +65,7 @@ export const useOperationMethodsQuery = () => {
 }; //수술명 불러오기
 
 export const useOperationMethodMutation = () => {
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: postOperationMethod,
         onError: (error: AxiosError<ErrorResponseType>) => {
@@ -73,13 +74,18 @@ export const useOperationMethodMutation = () => {
                 msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
                 type: 'error',
                 theme: 'dark',
+                position: 'top-center',
             });
         },
         onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({
+                queryKey: ['operationMethods'],
+            });
             pushNotification({
-                msg: variables.type === 'post' ? '수술명이 추가되었습니다.' : '수술명이 변경되었습니다.',
+                msg: variables.type === 'post' ? '추가되었습니다.' : '변경되었습니다.',
                 type: 'success',
                 theme: 'dark',
+                position: 'top-center',
             });
         },
     });
@@ -87,6 +93,7 @@ export const useOperationMethodMutation = () => {
 }; //수술명 추가 및 변경
 
 export const useOperationMethodDeleteMutation = () => {
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: deleteOperationMethod,
         onError: (error: AxiosError<ErrorResponseType>) => {
@@ -95,14 +102,20 @@ export const useOperationMethodDeleteMutation = () => {
                 msg: error.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.',
                 type: 'error',
                 theme: 'dark',
+                position: 'top-center',
             });
         },
         onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ['operationMethods'],
+            });
             pushNotification({
-                msg: '수술명이 삭제되었습니다.',
+                msg: '삭제되었습니다.',
                 type: 'success',
                 theme: 'dark',
+                position: 'top-center',
             });
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         },
     });
     return mutation;
