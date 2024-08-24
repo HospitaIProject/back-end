@@ -9,9 +9,13 @@ import Loading from '../../components/common/Loading';
 import SettingIcon from '../../icons/SettingIcon';
 import DeleteIcon from '../../icons/DeleteIcon';
 import PatientChecklistSetupModal from '../../PatientPage/NewOperationInfoFormPage/components/PatientChecklistSetupModal';
+import MethodSubmitModal from './MethodSubmitModal';
+// import MethodSettingSelectModal from './MethodSettingSelectModal';
 
 function DefaultCheckListSettingCard({ operationMethod }: { operationMethod: string }) {
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState<string>('');
+    const [isOperationMethodModal, setIsOperationMethodModal] = useState<boolean>(false);
+    // const [isSettingOptionModal, setIsSettingOptionModal] = useState<boolean>(false);
 
     const defaultCheckListSettingQuery = useDefaultCheckListSettingQuery({
         enabled: isCheckListSetupModal !== '',
@@ -31,19 +35,26 @@ function DefaultCheckListSettingCard({ operationMethod }: { operationMethod: str
             operationMethod: isCheckListSetupModal,
         });
         updateDefaultCheckListSettingMutation.isSuccess;
-    };
+    }; //체크리스트 설정 제출
 
     const handleOpenCheckListSetting = (value: string) => {
         setIsCheckListSetupModal(value);
-    };
+    }; //체크리스트 설정 모달 열기
     const handleCloseCheckListSetup = () => {
         setIsCheckListSetupModal('');
-    };
-    const handleOperationMethodDelete = () => {
+    }; //체크리스트 설정 모달 닫기
+
+    const handleOperationMethodDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         if (window.confirm('삭제하시겠습니까?')) {
             console.log('삭제');
         }
-    };
+    }; //수술명 삭제
+
+    const handleToggleOperationMethodModal = (isOpen: boolean) => {
+        setIsOperationMethodModal(isOpen);
+    }; //수술명 변경 모달 토글
+
     useEffect(() => {
         if (updateDefaultCheckListSettingMutation.isSuccess) {
             setIsCheckListSetupModal('');
@@ -67,8 +78,8 @@ function DefaultCheckListSettingCard({ operationMethod }: { operationMethod: str
 
     return (
         <>
-            {' '}
             <div
+                // onClick={() => setIsSettingOptionModal(true)}
                 onClick={() => handleOpenCheckListSetting(operationMethod)}
                 className="flex flex-row items-center justify-between gap-1 px-2 py-3 border-b cursor-pointer hover:bg-gray-50"
             >
@@ -93,6 +104,12 @@ function DefaultCheckListSettingCard({ operationMethod }: { operationMethod: str
                     values={checkListSetup}
                 />
             )}
+            {isOperationMethodModal && (
+                <MethodSubmitModal type="put" onClose={() => handleToggleOperationMethodModal(false)} /> //수술명 추가 모달
+            )}
+            {/* {
+                isSettingOptionModal && <MethodSettingSelectModal onClose={() => setIsSettingOptionModal(false)} /> //수술명 추가 모달
+            } */}
         </>
     );
 }

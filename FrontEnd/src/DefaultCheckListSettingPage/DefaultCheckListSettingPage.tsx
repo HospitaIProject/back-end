@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useOperationMethodsQuery } from './_lib/defaultCheckListSettingService';
 import Loading from '../components/common/Loading';
 import InfoIcons from '../icons/InfoIcons';
-import OperationMethodSubmitModal from './components/OperationMethodSubmitModal';
+import MethodSubmitModal from './components/MethodSubmitModal';
 import FixedSubmitButton from '../components/common/form/FixedSubmitButton';
 import DefaultCheckListSettingCard from './components/DefaultCheckListSettingCard';
 
@@ -64,7 +64,7 @@ function DefaultCheckListSettingPage() {
             </div>
 
             {isOperationMethodModal && (
-                <OperationMethodSubmitModal onClose={() => handleToggleOperationMethodModal(false)} /> //수술명 추가 모달
+                <MethodSubmitModal type="post" onClose={() => handleToggleOperationMethodModal(false)} /> //수술명 추가 모달
             )}
         </>
     );
