@@ -1,7 +1,7 @@
 import ModalFullScreenContainer from '../../components/common/ModalFullScreenContainer';
-import DeleteIcon from '../../icons/DeleteIcon';
-import PencilIcon from '../../icons/PencilIcon';
-import SettingIcon from '../../icons/SettingIcon';
+// import DeleteIcon from '../../icons/DeleteIcon';
+// import PencilIcon from '../../icons/PencilIcon';
+// import SettingIcon from '../../icons/SettingIcon';
 
 interface Props {
     onClose: () => void;
