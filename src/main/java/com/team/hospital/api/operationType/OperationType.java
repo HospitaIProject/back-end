@@ -1,7 +1,9 @@
 package com.team.hospital.api.operationType;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
+import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.operationType.dto.WriteOperationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,6 +23,10 @@ public class OperationType extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @OneToOne(mappedBy = "operationType", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private OperationMethod operationMethod;
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "check_list_item_default_id")
     private CheckListItemDefault checkListItemDefault;
@@ -29,10 +35,6 @@ public class OperationType extends BaseEntity {
         OperationTypeBuilder operationType = OperationType.builder();
 
         return operationType.name(operationTypeName).build();
-    }
-
-    public void update(WriteOperationType write) {
-        this.name = write.getName();
     }
 
     public static OperationType toEntity(WriteOperationType register) {
@@ -68,4 +70,7 @@ public class OperationType extends BaseEntity {
                 .build();
     }
 
+    public void update(WriteOperationType write) {
+        this.name = write.getName();
+    }
 }

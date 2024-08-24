@@ -110,7 +110,7 @@ public class CheckListService {
 
     public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
         return checkIfCheckListCreatedToday(operationId) ||
-                checkIfCheckListAfterCreatedToday(operationId) ||
+//                checkIfCheckListAfterCreatedToday(operationId) ||
                 checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }

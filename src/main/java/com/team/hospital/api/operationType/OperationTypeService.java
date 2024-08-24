@@ -37,4 +37,5 @@ public class OperationTypeService {
         OperationType operationType = findByOperationTypeName(operationTypeName);
         operationType.update(write);
     }
+
 }

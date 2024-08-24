@@ -19,7 +19,7 @@ public class CheckListItemController {
     @PostMapping("/api/checkListItem/{operationId}")
     @Operation(summary = "operation에 대한 checkListItem 세팅", description = "입력한 operation의 ID값에 해당한 operation의 checkListItem 등록")
     public SuccessResponse<?> save(@RequestBody WriteCheckListItem writeCheckListItem,
-                                   @PathVariable Long operationId){
+                                   @PathVariable Long operationId) {
         checkListItemService.save(writeCheckListItem, operationId);
         return SuccessResponse.createSuccess();
     }

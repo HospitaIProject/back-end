@@ -4,7 +4,8 @@ import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
-import com.team.hospital.api.operation.dto.RegisterOperation;
+import com.team.hospital.api.operation.dto.WriteOperation;
+import com.team.hospital.api.operationType.OperationTypeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,23 +30,21 @@ public class OperationController {
 
     @PostMapping("/api/operation/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 등록", description = "입력한 환자의 ID값에 해당한 환자의 operation 등록 후 Id 값 반환")
-    public SuccessResponse<Long> save(@RequestBody RegisterOperation registerOperation,
+    public SuccessResponse<Long> save(@RequestBody WriteOperation write,
                                       @PathVariable Long patientId) {
-        return SuccessResponse.createSuccess(operationService.save(registerOperation, patientId));
+        return SuccessResponse.createSuccess(operationService.save(write, patientId));
     }
 
     @GetMapping("/api/operations/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
 //        List<Operation> operations = operationService.findAllByPatient(patientId);
-
-
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
 
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
-                    double compilancePercentage = checkListService.test(operation.getId());
-                    return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, compilancePercentage);
+//                    double compilancePercentage = checkListService.test(operation.getId());
+                    return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, 0.0);
                 })
                 .toList();
 
@@ -54,9 +53,9 @@ public class OperationController {
 
     @PutMapping("/api/operation/{operationId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "operation 수정")
-    public SuccessResponse<?> modifyOperation(@RequestBody RegisterOperation registerOperation,
+    public SuccessResponse<?> modifyOperation(@RequestBody WriteOperation writeOperation,
                                               @PathVariable Long operationId) {
-        operationService.modify(registerOperation, operationId);
+        operationService.modify(writeOperation, operationId);
         return SuccessResponse.createSuccess();
     }
 

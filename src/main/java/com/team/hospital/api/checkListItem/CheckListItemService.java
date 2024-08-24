@@ -23,7 +23,6 @@ public class CheckListItemService {
     public void save(WriteCheckListItem writeCheckListItem, Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         CheckListItem checkListItem = CheckListItem.createCheckListItem(writeCheckListItem, operation);
-
         try {
             checkListItemRepository.save(checkListItem);
         } catch (DataIntegrityViolationException e) {

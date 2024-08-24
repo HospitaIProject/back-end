@@ -10,9 +10,9 @@ import java.util.List;
 
 @Getter
 @Builder
-public class RegisterOperation {
+public class WriteOperation {
 
-    private List<String> operationMethod;        // 수술 방법
+    private List<String> operationTypeNames;        // 수술 방법
 
     private OperationApproach operationApproach;    // 수술 approach
 
