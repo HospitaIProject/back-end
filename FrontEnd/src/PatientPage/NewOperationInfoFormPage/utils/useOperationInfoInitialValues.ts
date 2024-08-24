@@ -78,7 +78,7 @@ export const useOperationInfoInitialValues = () => {
         bloodLoss: '', //출혈량
         operationApproach: '', //수술 접근법
         operationEndTime: '', //수술 종료 시간
-        operationMethod: '', //수술방법
+        operationTypeNames: '', //수술방법
         operationStartTime: '', //수술 시작 시간
         stomaFormation: '', //Stoma 형성
         totalFluidsAmount: '', //총 수액량
@@ -93,7 +93,7 @@ export const useOperationInfoInitialValues = () => {
                 bloodLoss: operationDetail.bloodLoss,
                 operationApproach: operationDetail.operationApproach,
                 operationEndTime: transformDateToTodayWithTime((operationDetail.operationEndTime as string) || ''),
-                operationMethod: operationDetail.operationMethod,
+                operationTypeNames: operationDetail.operationMethod as string[],
                 operationStartTime: transformDateToTodayWithTime((operationDetail.operationStartTime as string) || ''),
                 stomaFormation: operationDetail.stomaFormation,
                 totalFluidsAmount: operationDetail.totalFluidsAmount,

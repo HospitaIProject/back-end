@@ -37,7 +37,7 @@ function PatientSummaryCard({ userData }: Props) {
     let operationId = 0;
 
     if (isOperationData) {
-        operationMethod = userData.operationDateDTOs[0].operationMethod;
+        operationMethod = userData.operationDateDTOs[0].operationMethods;
         operationId = userData.operationDateDTOs[0].operationId;
     }
 

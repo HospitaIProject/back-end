@@ -8,17 +8,7 @@ export type OperationComplianceType = {
 };
 
 //--------------------------------------------
-type OperationMethodType =
-    | 'RHC_ERHC'
-    | 'T_COLECTOMY'
-    | 'LHC_ELHC'
-    | 'AR'
-    | 'LAR'
-    | 'ISR'
-    | 'APR'
-    | 'SUBTOTAL_TOTAL_COLECTOMY'
-    | 'TOTAL_PROCTOCOLECTOMY'
-    | 'OTHER';
+
 type OperationApproachType =
     | 'OPEN'
     | 'LAPAROSCOPIC_MULTIPORT'
@@ -28,9 +18,9 @@ type OperationApproachType =
     | 'OPEN_CONVERSION';
 
 export type OperationInfoFormType = {
-    [key: string]: string | number | OperationMethodType[] | OperationApproachType | string[] | Date;
+    [key: string]: string | number | string[] | OperationApproachType | string[] | Date;
 
-    operationMethod: OperationMethodType[] | ''; //수술방법
+    operationTypeNames: string[] | ''; //수술방법
     operationApproach: OperationApproachType | ''; //수술approach //enum
     stomaFormation: 'YES' | 'NO' | ''; //장루 조성술 여부
     operationStartTime: Date | ''; //수술 시작 시간
@@ -42,7 +32,7 @@ export type OperationInfoFormType = {
 
 export type OperationItemType = {
     operationId: number;
-    operationMethod: OperationMethodType[]; //수술방법
+    operationMethod: string[]; //수술방법
     operationApproach: OperationApproachType; //수술approach //enum
     stomaFormation: 'YES' | 'NO'; //장루 조성술 여부
     operationStartTime: Date; //수술 시작 시간

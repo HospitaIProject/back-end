@@ -156,8 +156,8 @@ function NewOperationInfoFormPage() {
             resetCheckListSetup();
             return;
         }
-        if (formik.values.operationMethod.length > 0) {
-            setSelectFirstOperationMethod(formik.values.operationMethod[0]);
+        if (formik.values.operationTypeNames.length > 0) {
+            setSelectFirstOperationMethod(formik.values.operationTypeNames[0]);
         }
     }, [formik.values.operationMethod]);
 
@@ -165,7 +165,7 @@ function NewOperationInfoFormPage() {
         if (checkListDefaultItems && isCheckListDefaultItemsSuccess) {
             setCheckListSetup(checkListDefaultItems);
             pushNotification({
-                msg: `${formik.values.operationMethod[0]}의 설정된 체크리스트 항목 기본값을 불러왔습니다.`,
+                msg: `${formik.values.operationTypeNames[0]}의 설정된 체크리스트 항목 기본값을 불러왔습니다.`,
                 type: 'success',
                 theme: 'dark',
                 position: 'top-center',
@@ -218,7 +218,7 @@ function NewOperationInfoFormPage() {
                     {/* 수술방법 수정 필요 */}
                     <MultiSelector
                         label="수술방법"
-                        htmlFor="operationMethod"
+                        htmlFor="operationTypeNames"
                         formik={formik}
                         values={operationMethods.map((method) => ({
                             value: method.name,
