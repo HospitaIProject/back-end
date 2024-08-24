@@ -4,9 +4,8 @@ import Axios from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { pushNotification } from '../../utils/pushNotification';
-import { operationMethodItemType } from '../../models/OperationMethod';
 
-const getOperationMethods = async (): Promise<operationMethodItemType[]> => {
+const getOperationMethods = async (): Promise<string[]> => {
     const response = await Axios.get('/api/operationTypes');
     return response.data.data;
 }; //수술명 불러오기
@@ -58,7 +57,7 @@ const updateDefaultCheckListSetting = async ({
 //----------------------------------------------hooks----------------------------------------------
 
 export const useOperationMethodsQuery = () => {
-    const query = useQuery<operationMethodItemType[], AxiosError<ErrorResponseType>>({
+    const query = useQuery<string[], AxiosError<ErrorResponseType>>({
         queryKey: ['operationMethods'],
         queryFn: getOperationMethods,
     });

@@ -50,7 +50,7 @@ function DefaultCheckListSettingPage() {
                     </div>
 
                     {operationMethodsData.map((item, index) => {
-                        return <DefaultCheckListSettingCard key={index} operationMethod={item.name} />;
+                        return <DefaultCheckListSettingCard key={index} operationMethod={item} />;
                     })}
                     {/*수술명 목록*/}
                 </div>
