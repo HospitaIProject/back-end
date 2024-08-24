@@ -2,7 +2,7 @@ package com.team.hospital.api.operation;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
-import com.team.hospital.api.operation.dto.RegisterOperation;
+import com.team.hospital.api.operation.dto.WriteOperation;
 import com.team.hospital.api.operation.enumType.OperationApproach;
 import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.patient.Patient;
@@ -26,7 +26,7 @@ public class Operation extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "operation_id")
-    private List<OperationMethod> operationMethod;
+    private List<OperationMethod> operationMethods;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -58,23 +58,23 @@ public class Operation extends BaseEntity {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    public static Operation createOperation(RegisterOperation register, Patient patient) {
+    public static Operation createOperation(WriteOperation write, List<OperationMethod> operationMethods, Patient patient) {
 
         return Operation.builder()
-                .operationMethod(OperationMethod.toEntity(register.getOperationMethod()))
-                .operationApproach(register.getOperationApproach())
-                .stomaFormation(register.getStomaFormation())
-                .operationStartTime(register.getOperationStartTime())
-                .operationEndTime(register.getOperationEndTime())
-                .totalOperationTime(register.getTotalOperationTime())
-                .totalFluidsAmount(register.getTotalFluidsAmount())
-                .bloodLoss(register.getBloodLoss())
+                .operationMethods(operationMethods)
+                .operationApproach(write.getOperationApproach())
+                .stomaFormation(write.getStomaFormation())
+                .operationStartTime(write.getOperationStartTime())
+                .operationEndTime(write.getOperationEndTime())
+                .totalOperationTime(write.getTotalOperationTime())
+                .totalFluidsAmount(write.getTotalFluidsAmount())
+                .bloodLoss(write.getBloodLoss())
                 .patient(patient)
                 .build();
     }
 
-    public void updateOperation(RegisterOperation register) {
-        this.operationMethod = OperationMethod.toEntity(register.getOperationMethod());
+    public void updateOperation(WriteOperation register) {
+//        this.operationMethods = operationMethods;
         this.operationApproach = register.getOperationApproach();
         this.stomaFormation = register.getStomaFormation();
         this.operationStartTime = register.getOperationStartTime();

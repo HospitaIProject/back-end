@@ -14,7 +14,7 @@ public class OperationDateDTO {
 
     private Long operationId;
 
-    private List<OperationMethod> operationMethod;        // 수술 방법
+    private List<OperationMethod> operationMethods;        // 수술 방법
 
     private List<String> customOperationMethod;
 
@@ -29,7 +29,7 @@ public class OperationDateDTO {
 
         builder
                 .operationId(operationDTO.getOperationId())
-                .operationMethod(operationDTO.getOperationMethod())
+                .operationMethods(operationDTO.getOperationMethods())
                 .operationDate(patientDTO.getOperationDate());
 
         if (patientDTO.getOperationDate() != null) {

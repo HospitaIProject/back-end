@@ -1,5 +1,6 @@
 package com.team.hospital.api.operationMethod;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.operationType.OperationType;
 import jakarta.persistence.*;
@@ -21,18 +22,20 @@ public class OperationMethod extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "operation_type_id")
+    @JsonBackReference
     private OperationType operationType;
 
-    public static List<OperationMethod> toEntity(List<String> operationMethodNames) {
-        return operationMethodNames.stream()
+    public static List<OperationMethod> toEntity(List<OperationType> operationTypes) {
+        return operationTypes.stream()
                 .map(OperationMethod::toEntity)
                 .toList();
     }
 
-    public static OperationMethod toEntity(String operationTypeName) {
+    public static OperationMethod toEntity(OperationType operationType) {
         return OperationMethod.builder()
-                .operationType(OperationType.toEntity(operationTypeName))
+                .operationType(operationType)
                 .build();
+
     }
 
 }

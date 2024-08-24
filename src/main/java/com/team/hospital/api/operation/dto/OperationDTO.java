@@ -16,7 +16,7 @@ public class OperationDTO {
 
     private Long operationId;
 
-    private List<OperationMethod> operationMethod;        // 수술 방법
+    private List<OperationMethod> operationMethods;        // 수술 방법
 
     private OperationApproach operationApproach;            // 수술 approach
 
@@ -43,7 +43,7 @@ public class OperationDTO {
     public static OperationDTO toEntity(Operation operation) {
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationMethod(operation.getOperationMethod())
+                .operationMethods(operation.getOperationMethods())
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())
@@ -58,7 +58,7 @@ public class OperationDTO {
     public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, double compilancePercentage) {
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationMethod(operation.getOperationMethod())
+                .operationMethods(operation.getOperationMethods())
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())

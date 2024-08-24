@@ -94,8 +94,7 @@ public class PatientController {
         return switch (filterType) {
             case PATIENT_NAME -> patientService.findPatientsByName(query, pageable);
             case PATIENT_NUMBER -> patientService.findPatientsByPatientNumber(Long.parseLong(query), pageable);
-//            case OPERATION_METHOD -> operationService.findPatientsByOperationMethod(query, pageable);
-            case OPERATION_METHOD -> null;
+            case OPERATION_METHOD -> operationService.findPatientsByOperationMethod(query, pageable);
         };
     }
 

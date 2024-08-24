@@ -11,7 +11,6 @@ import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundEx
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.enumType.Diagnosis;
-import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -193,13 +191,13 @@ public class ExcelExportService {
             // 3rd Column
 
             // 4th Column
-            List<OperationMethod> operationMethod = operations.get(0).getOperationMethod();
-            StringJoiner operationMethods = new StringJoiner("\n");
-            for (OperationMethod method : operationMethod) {
-            }
-            Cell operationMethodCell = row.createCell(4);
-            operationMethodCell.setCellValue(operationMethods.toString());
-            operationMethodCell.setCellStyle(cellStyle);
+//            List<OperationMethod> operationMethod = operations.get(0).getOperationMethod();
+//            StringJoiner operationMethods = new StringJoiner("\n");
+//            for (OperationMethod method : operationMethod) {
+//            }
+//            Cell operationMethodCell = row.createCell(4);
+//            operationMethodCell.setCellValue(operationMethods.toString());
+//            operationMethodCell.setCellStyle(cellStyle);
             // 4th Column
 
             // 5th Column
