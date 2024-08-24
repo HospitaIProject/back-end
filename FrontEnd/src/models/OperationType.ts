@@ -18,7 +18,7 @@ type OperationApproachType =
     | 'OPEN_CONVERSION';
 
 export type OperationInfoFormType = {
-    [key: string]: string | number | string[] | OperationApproachType | string[] | Date;
+    [key: string]: string | number | string[] | OperationApproachType | string[] | Date | '';
 
     operationTypeNames: string[] | ''; //수술방법
     operationApproach: OperationApproachType | ''; //수술approach //enum
@@ -32,7 +32,7 @@ export type OperationInfoFormType = {
 
 export type OperationItemType = {
     operationId: number;
-    operationMethod: string[]; //수술방법
+    operationTypeNames: string[]; //수술방법
     operationApproach: OperationApproachType; //수술approach //enum
     stomaFormation: 'YES' | 'NO'; //장루 조성술 여부
     operationStartTime: Date; //수술 시작 시간

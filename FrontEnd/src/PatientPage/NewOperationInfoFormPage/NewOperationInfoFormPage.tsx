@@ -150,7 +150,7 @@ function NewOperationInfoFormPage() {
     }; // 체크리스트 설정 모달 닫기
 
     useEffect(() => {
-        console.log('formik.values.operationMethod', formik.values.operationMethod);
+        console.log('formik.values.operationTypeNames', formik.values.operationTypeNames);
         if (formik.values.operationMethod === '') {
             setSelectFirstOperationMethod('');
             resetCheckListSetup();
@@ -159,7 +159,7 @@ function NewOperationInfoFormPage() {
         if (formik.values.operationTypeNames.length > 0) {
             setSelectFirstOperationMethod(formik.values.operationTypeNames[0]);
         }
-    }, [formik.values.operationMethod]);
+    }, [formik.values.operationTypeNames]);
 
     useEffect(() => {
         if (checkListDefaultItems && isCheckListDefaultItemsSuccess) {
@@ -221,8 +221,8 @@ function NewOperationInfoFormPage() {
                         htmlFor="operationTypeNames"
                         formik={formik}
                         values={operationMethods.map((method) => ({
-                            value: method.name,
-                            name: method.name,
+                            value: method,
+                            name: method,
                         }))}
                     />
                     <SingleSelector
@@ -268,7 +268,7 @@ function NewOperationInfoFormPage() {
                         </span>
 
                         <span className="mt-2 text-sm text-green-600">
-                            *직접 입력한 수술 방법의 기본값은 모두 True입니다.
+                            *세팅값이 없을 경우 기본값은 true로 설정됩니다.
                         </span>
                     </div>
                 </form>

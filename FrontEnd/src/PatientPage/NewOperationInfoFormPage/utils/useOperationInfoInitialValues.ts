@@ -93,7 +93,7 @@ export const useOperationInfoInitialValues = () => {
                 bloodLoss: operationDetail.bloodLoss,
                 operationApproach: operationDetail.operationApproach,
                 operationEndTime: transformDateToTodayWithTime((operationDetail.operationEndTime as string) || ''),
-                operationTypeNames: operationDetail.operationMethod as string[],
+                operationTypeNames: operationDetail.operationTypeNames,
                 operationStartTime: transformDateToTodayWithTime((operationDetail.operationStartTime as string) || ''),
                 stomaFormation: operationDetail.stomaFormation,
                 totalFluidsAmount: operationDetail.totalFluidsAmount,

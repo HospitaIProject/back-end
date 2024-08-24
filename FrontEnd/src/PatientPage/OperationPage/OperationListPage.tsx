@@ -39,7 +39,7 @@ function OperationListPage() {
                         to={`/patient/new/operation?name=${patientName}&id=${patientId}`}
                         className="flex flex-row items-center gap-2 p-2 border rounded-md shadow-sm bg-gray-50"
                     >
-                        <span className="text-sm font-semibold text-gray-600">수술 추가</span>
+                        <span className="text-sm font-semibold text-gray-600">수술 등록</span>
                         <PlusIcon className="w-5 h-5 text-gray-600" />
                     </Link>
                 </div>

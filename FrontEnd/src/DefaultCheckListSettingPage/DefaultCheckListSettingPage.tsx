@@ -46,19 +46,18 @@ function DefaultCheckListSettingPage() {
                                 <span className="font-semibold text-green-600">초기값으로 사용</span>됩니다.
                             </span>
                         </div>
-                        <InfoIcons className="absolute text-yellow-400 -left-2 -top-2 h-7 w-7" />{' '}
+                        <InfoIcons className="absolute text-yellow-400 -left-2 -top-2 h-7 w-7" />
                     </div>
 
                     {operationMethodsData.map((item, index) => {
-                        return <DefaultCheckListSettingCard key={index} operationMethod={item.name} />;
+                        return <DefaultCheckListSettingCard key={index} operationMethod={item} />;
                     })}
                     {/*수술명 목록*/}
                 </div>
                 <FixedSubmitButton
                     className="p-3"
-                    buttonColorClassName="bg-gray-400"
                     onClick={() => handleToggleOperationMethodModal(true)}
-                    label="수술명&nbsp;&nbsp;+"
+                    label="새로운 수술 추가 +"
                 />
                 {/*수술명 추가 버튼*/}
             </div>

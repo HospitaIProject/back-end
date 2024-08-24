@@ -5,14 +5,20 @@ import PatientCheckCard from './PatientCheckCard';
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import { useEffect, useState } from 'react';
 import DropBoxCheckListSetupContainer from './DropBoxCheckListSetupContainer';
+import { AxiosError } from 'axios';
+import { ErrorResponseType } from '../../../models/AxiosResponseType';
+import Loading from '../../../components/common/Loading';
+import DisplayEmptyData from '../../../components/common/DisplayEmptyData';
 type Props = {
     values: CheckListSetupType;
     handleSubmit?: (newCheckListSetup: CheckListSetupType) => void;
     onClose: () => void;
     title?: string;
+    isPending?: boolean;
+    error?: AxiosError<ErrorResponseType, any> | null;
 };
 
-function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Props) {
+function PatientChecklistSetupModal({ handleSubmit, values, onClose, title, isPending, error }: Props) {
     const [checkListSetup, setCheckListSetup] = useState<CheckListSetupType>({
         explainedPreOp: true, // EAS 수술전 설명
         onsPreOp2hr: true, // 수술 2시간 전 ONS 복용여부
@@ -58,6 +64,13 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title }: Pr
         `}
             onClose={onClose}
         >
+            {isPending && <Loading />}
+            <DisplayEmptyData
+                isRender={Boolean(error)}
+                label={`
+                ${error?.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.'}
+                `}
+            />
             <div className={`mx-auto flex flex-1 flex-col px-6`}>
                 <DropBoxCheckListSetupContainer label="수술전">
                     <div
