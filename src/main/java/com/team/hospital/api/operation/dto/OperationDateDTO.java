@@ -1,6 +1,5 @@
 package com.team.hospital.api.operation.dto;
 
-import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.patient.dto.PatientDTO;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +13,7 @@ public class OperationDateDTO {
 
     private Long operationId;
 
-    private List<OperationMethod> operationMethods;        // 수술 방법
-
-    private List<String> customOperationMethod;
+    private List<String> operationTypeNames;        // 수술 방법
 
     private LocalDate operationDate;    // 수술일
 
@@ -25,11 +22,14 @@ public class OperationDateDTO {
     private LocalDate dischargedDate;    // 퇴원일
 
     public static OperationDateDTO toEntity(OperationDTO operationDTO, PatientDTO patientDTO) {
+        List<String> operationTypeNames = operationDTO.getOperationTypeNames();
+
+
         OperationDateDTOBuilder builder = OperationDateDTO.builder();
 
         builder
                 .operationId(operationDTO.getOperationId())
-                .operationMethods(operationDTO.getOperationMethods())
+                .operationTypeNames(operationTypeNames)
                 .operationDate(patientDTO.getOperationDate());
 
         if (patientDTO.getOperationDate() != null) {
