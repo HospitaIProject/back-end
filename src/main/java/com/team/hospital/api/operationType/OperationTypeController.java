@@ -2,7 +2,6 @@ package com.team.hospital.api.operationType;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.operationType.dto.WriteOperationType;
-import com.team.hospital.api.operationType.dto.ResponseOperationType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,12 @@ public class OperationTypeController {
     private final OperationTypeService operationTypeService;
 
     @GetMapping("/api/operationTypes")
-    @io.swagger.v3.oas.annotations.Operation(summary = "모든 operationType 반환", description = "등록된 모든 operationType을 반환합니다.")
+    @io.swagger.v3.oas.annotations.Operation(summary = "모든 operationType name 반환", description = "등록된 모든 operationType을 반환합니다.")
     public SuccessResponse<?> findAll() {
-        List<ResponseOperationType> list = operationTypeService.findAll().stream()
-                .map(ResponseOperationType::toEntity)
+        List<String> operationTypeNames = operationTypeService.findAll().stream()
+                .map(OperationType::getName)
                 .toList();
-        return SuccessResponse.createSuccess(list);
+        return SuccessResponse.createSuccess(operationTypeNames);
     }
 
     @PostMapping("/api/operationType")
