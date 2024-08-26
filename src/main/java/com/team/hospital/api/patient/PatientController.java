@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -119,7 +118,7 @@ public class PatientController {
     private PatientWithOperationDateDTO convertToPatientWithOperationDateDTO(Patient patient) {
         List<OperationDTO> operationDTOs = operationService.findAllByPatient(patient.getId()).stream()
                 .map(OperationDTO::toEntity)
-                .collect(Collectors.toList());
+                .toList();
 
         Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfAnyCheckListCreatedToday(recentOperation.getId());
