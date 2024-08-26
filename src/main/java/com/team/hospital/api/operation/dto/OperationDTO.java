@@ -4,6 +4,7 @@ import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.enumType.OperationApproach;
 import com.team.hospital.api.operationMethod.OperationMethod;
+import com.team.hospital.api.operationType.OperationType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public class OperationDTO {
 
     private Long operationId;
 
-    private List<OperationMethod> operationMethods;        // 수술 방법
+    private List<String> operationTypeNames;        // 수술 방법
 
     private OperationApproach operationApproach;            // 수술 approach
 
@@ -41,9 +42,14 @@ public class OperationDTO {
     private double compliancePercentage;
 
     public static OperationDTO toEntity(Operation operation) {
+        List<String> operationTypeNames = operation.getOperationMethods().stream()
+                .map(OperationMethod::getOperationType)
+                .map(OperationType::getName)
+                .toList();
+
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationMethods(operation.getOperationMethods())
+                .operationTypeNames(operationTypeNames)
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())
@@ -56,9 +62,14 @@ public class OperationDTO {
     }
 
     public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, double compilancePercentage) {
+        List<String> operationTypeNames = operation.getOperationMethods().stream()
+                .map(OperationMethod::getOperationType)
+                .map(OperationType::getName)
+                .toList();
+
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationMethods(operation.getOperationMethods())
+                .operationTypeNames(operationTypeNames)
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())
