@@ -1,6 +1,7 @@
 package com.team.hospital.api.operationType;
 
 import com.team.hospital.api.operationType.dto.WriteOperationType;
+import com.team.hospital.api.operationType.exception.OperationTypeNameAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ public class OperationTypeService {
     private final OperationTypeRepository operationTypeRepository;
 
     public void save(OperationType operationType) {
+        if (existsByName(operationType.getName())) throw new OperationTypeNameAlreadyExistsException();
         operationTypeRepository.save(operationType);
     }
 
@@ -36,6 +38,10 @@ public class OperationTypeService {
     public void update(String operationTypeName, WriteOperationType write) {
         OperationType operationType = findByOperationTypeName(operationTypeName);
         operationType.update(write);
+    }
+
+    private boolean existsByName(String name) {
+        return operationTypeRepository.existsByName(name);
     }
 
 }

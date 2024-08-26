@@ -9,8 +9,6 @@ import lombok.Getter;
 @Builder
 public class CheckListItemDefaultResponse {
 
-    private OperationMethod operationMethod;
-
     private boolean giStimulant;
     private boolean gumChewing;
     private boolean antiNauseaPostOp;

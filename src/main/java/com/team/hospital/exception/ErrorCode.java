@@ -34,6 +34,7 @@ public enum ErrorCode {
     CHECKLIST_DURING_CONFLICT(HttpStatus.CONFLICT, "E409004", "이미 등록된 수술 중 체크리스트가 존재합니다. 등록 대신 수정이 필요합니다."),
     CHECKLIST_AFTER_CONFLICT(HttpStatus.CONFLICT, "E409005", "이미 등록된 수술 후 체크리스트가 존재합니다. 등록 대신 수정이 필요합니다."),
     CHECKLIST_ITEM_DEFAULT_CONFLICT(HttpStatus.CONFLICT, "E409006", "이미 등록된 수술 목록 기본값이 존재합니다."),
+    OPERATION_TYPE_NAME_CONFLICT(HttpStatus.CONFLICT, "E409007", "이미 해당 수술명을 가진 수술이 존재합니다."),
 
     // 422, UNPROCESSABLE_ENTITY
     UNPROCESSABLE_ENTITY(HttpStatus.UNPROCESSABLE_ENTITY, "E422001", "유효하지 않은 엔티티 등록 요청입니다. 이미 등록된 엔티티가 존재하는지 확인이 필요합니다."),

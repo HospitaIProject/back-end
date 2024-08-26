@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -21,7 +20,7 @@ public class PatientWithOperationDateDTO {
         PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
         List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
                 .map(operationDTO -> OperationDateDTO.toEntity(operationDTO, patientDTO))
-                .collect(Collectors.toList());
+                .toList();
 
         return PatientWithOperationDateDTO.builder()
                 .patientDTO(patientDTO)
