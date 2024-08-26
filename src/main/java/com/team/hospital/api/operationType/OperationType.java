@@ -1,9 +1,7 @@
 package com.team.hospital.api.operationType;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
-import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.operationType.dto.WriteOperationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,21 +21,15 @@ public class OperationType extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @OneToOne(mappedBy = "operationType", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private OperationMethod operationMethod;
+//    @OneToOne(mappedBy = "operationType", cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private OperationMethod operationMethod;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "check_list_item_default_id")
     private CheckListItemDefault checkListItemDefault;
 
-    public static OperationType toEntity(String operationTypeName) {
-        OperationTypeBuilder operationType = OperationType.builder();
-
-        return operationType.name(operationTypeName).build();
-    }
-
-    public static OperationType toEntity(WriteOperationType register) {
+    public static OperationType toEntity(WriteOperationType write) {
         // 모든 값이 true로 설정된 CheckListItemDefault 생성
         CheckListItemDefault defaultChecklist = CheckListItemDefault.builder()
                 .explainedPreOp(true)
@@ -65,7 +57,7 @@ public class OperationType extends BaseEntity {
 
         // OperationType 생성 시 CheckListItemDefault를 함께 설정
         return OperationType.builder()
-                .name(register.getName())
+                .name(write.getName())
                 .checkListItemDefault(defaultChecklist)
                 .build();
     }
