@@ -1,10 +1,10 @@
 package com.team.hospital.api.operationType.dto;
 
-import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class WriteOperationType {
 
     private String name;
