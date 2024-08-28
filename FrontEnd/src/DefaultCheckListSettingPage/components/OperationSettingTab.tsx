@@ -13,9 +13,10 @@ import OperationMethodSubmitModal from './MethodSubmitModal';
 
 interface Props {
     operationMethod: string;
+    index: number;
 }
 
-function OperationSettingTab({ operationMethod }: Props) {
+function OperationSettingTab({ operationMethod, index }: Props) {
     const [isCheckListSetupModal, setIsCheckListSetupModal] = useState<boolean>(false); //체크리스트 설정 모달
     const [isOperationMethodModal, setIsOperationMethodModal] = useState<boolean>(false);
 
@@ -68,32 +69,34 @@ function OperationSettingTab({ operationMethod }: Props) {
     return (
         <>
             <div
-                className="flex flex-row gap-1 bg-white w-fit"
+                className="flex w-fit flex-row gap-1 bg-white"
                 onClick={(e) => {
                     e.stopPropagation();
                 }}
             >
                 <button
-                    className="flex flex-row items-center gap-1 p-2 text-sm text-gray-700 rounded-md hover:bg-gray-100"
+                    className="flex flex-row items-center gap-1 rounded-md p-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => handleToggleCheckListSettingModal(true)}
                 >
-                    <FileEditIcon className="w-5 h-5" />
+                    <FileEditIcon className="h-5 w-5" />
                     <span className="text-xs">관리</span>
                 </button>
                 <div className="my-1 border-l" />
                 <button
-                    className="flex flex-row items-center gap-1 p-2 text-sm text-green-700 rounded-md hover:bg-gray-100"
+                    className="flex flex-row items-center gap-1 rounded-md p-2 text-sm text-green-700 hover:bg-gray-100"
                     onClick={() => handleToggleOperationMethodModal(true)}
                 >
-                    <PencilIcon className="w-5 h-5" />
+                    <PencilIcon className="h-5 w-5" />
                     <span className="text-xs">수술명 수정</span>
                 </button>
-                <div className="my-1 border-l" />
+                <div className={`my-1 border-l ${index < 9 ? 'hidden' : ''}`} />
                 <button
-                    className="flex flex-row items-center gap-1 p-2 text-sm text-red-300 rounded-md hover:bg-gray-100"
+                    className={`flex flex-row items-center gap-1 rounded-md p-2 text-sm text-red-300 hover:bg-gray-100 ${
+                        index < 9 ? 'hidden' : ''
+                    }`}
                     onClick={handleOperationMethodDelete}
                 >
-                    <DeleteIcon className="w-5 h-5" />
+                    <DeleteIcon className="h-5 w-5" />
                     <span className="text-xs">삭제</span>
                 </button>
             </div>

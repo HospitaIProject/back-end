@@ -223,15 +223,22 @@ function NewOperationInfoFormPage() {
                     </h1>
 
                     {/* 수술방법 수정 필요 */}
-                    <MultiSelector
-                        label="수술방법"
-                        htmlFor="operationTypeNames"
-                        formik={formik}
-                        values={operationMethods.map((method) => ({
-                            value: method,
-                            name: method,
-                        }))}
-                    />
+                    <div
+                        className={`flex w-full flex-col ${isEditPage ? 'pointer-events-none rounded-lg bg-gray-50' : ' '}`}
+                    >
+                        <MultiSelector
+                            label="수술방법"
+                            htmlFor="operationTypeNames"
+                            formik={formik}
+                            values={operationMethods.map((method) => ({
+                                value: method,
+                                name: method,
+                            }))}
+                        />
+                        <span
+                            className={`mx-4 text-sm text-green-600 ${isEditPage ? '' : 'hidden'}`}
+                        >{`*수술방법은 수정이 불가능합니다. 수정을 원하시면 새로운 수술을 등록해주세요.`}</span>
+                    </div>
                     <SingleSelector
                         label="수술approach"
                         htmlFor="operationApproach"
