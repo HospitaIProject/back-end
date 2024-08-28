@@ -21,10 +21,12 @@ import {
     useDefaultCheckListSettingQuery,
     useOperationMethodsQuery,
 } from '../../DefaultCheckListSettingPage/_lib/defaultCheckListSettingService';
+import usePrompt from '../../Hooks/usePrompt';
 
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [selectFirstOperationMethod, setSelectFirstOperationMethod] = useState<string>('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const newOperationInfoFormMutation = useNewOperationInfoFormMutation(); //수술 정보 등록
     const updateOperationInfoFormMutation = useUpdateOperationInfoFormMutation(); //수술 정보 수정
@@ -65,9 +67,11 @@ function NewOperationInfoFormPage() {
             console.log('제출', values);
             if (isEditPage) {
                 if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true); //제출중
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
                     }
+
                     updateOperationInfoFormMutation.mutate({
                         operationData: values, // 환자수술 정보
                         setupData: checkListSetup, //해당 수술의 체크리스트 설정
@@ -78,6 +82,7 @@ function NewOperationInfoFormPage() {
                 }
             } else {
                 if (confirm('등록하시겠습니까?')) {
+                    setIsSubmitting(true); //제출중
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
                     }
@@ -92,6 +97,8 @@ function NewOperationInfoFormPage() {
             }
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
+
     const onSubmitCheckListSetup = (newCheckListSetup: CheckListSetupType) => {
         let isValid = validateCheckListSetup({ values: newCheckListSetup });
         console.log('newCheckListSetup', newCheckListSetup);
