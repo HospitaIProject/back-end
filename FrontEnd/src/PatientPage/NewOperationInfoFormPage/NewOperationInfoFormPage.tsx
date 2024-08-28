@@ -21,10 +21,12 @@ import {
     useDefaultCheckListSettingQuery,
     useOperationMethodsQuery,
 } from '../../DefaultCheckListSettingPage/_lib/defaultCheckListSettingService';
+import usePrompt from '../../Hooks/usePrompt';
 
 function NewOperationInfoFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [selectFirstOperationMethod, setSelectFirstOperationMethod] = useState<string>('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const newOperationInfoFormMutation = useNewOperationInfoFormMutation(); //수술 정보 등록
     const updateOperationInfoFormMutation = useUpdateOperationInfoFormMutation(); //수술 정보 수정
@@ -65,9 +67,11 @@ function NewOperationInfoFormPage() {
             console.log('제출', values);
             if (isEditPage) {
                 if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true); //제출중
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
                     }
+
                     updateOperationInfoFormMutation.mutate({
                         operationData: values, // 환자수술 정보
                         setupData: checkListSetup, //해당 수술의 체크리스트 설정
@@ -78,6 +82,7 @@ function NewOperationInfoFormPage() {
                 }
             } else {
                 if (confirm('등록하시겠습니까?')) {
+                    setIsSubmitting(true); //제출중
                     if (values.operationMethod === '') {
                         values.operationMethod = [];
                     }
@@ -92,6 +97,8 @@ function NewOperationInfoFormPage() {
             }
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
+
     const onSubmitCheckListSetup = (newCheckListSetup: CheckListSetupType) => {
         let isValid = validateCheckListSetup({ values: newCheckListSetup });
         console.log('newCheckListSetup', newCheckListSetup);
@@ -151,7 +158,7 @@ function NewOperationInfoFormPage() {
 
     useEffect(() => {
         console.log('formik.values.operationTypeNames', formik.values.operationTypeNames);
-        if (formik.values.operationMethod === '') {
+        if (formik.values.operationTypeNames === '') {
             setSelectFirstOperationMethod('');
             resetCheckListSetup();
             return;
@@ -210,8 +217,8 @@ function NewOperationInfoFormPage() {
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <form className="flex flex-col w-full gap-4 p-4 mx-auto bg-white" onSubmit={formik.handleSubmit}>
-                    <h1 className="w-full px-2 py-3 mx-auto mb-4 text-gray-600 border-b max-w-screen-mobile text-start">
+                <form className="mx-auto flex w-full flex-col gap-4 bg-white p-4" onSubmit={formik.handleSubmit}>
+                    <h1 className="mx-auto mb-4 w-full max-w-screen-mobile border-b px-2 py-3 text-start text-gray-600">
                         <span>환자명:&nbsp;{patientName}</span>
                     </h1>
 
@@ -255,11 +262,11 @@ function NewOperationInfoFormPage() {
                     />
                     <NumberInput unit="cc" label="수술 중 실혈량 (cc)" htmlFor="bloodLoss" formik={formik} />
 
-                    <div className="flex flex-col items-center w-full mt-4">
+                    <div className="mt-4 flex w-full flex-col items-center">
                         <button
                             type="button"
                             onClick={handleOpenCheckListSetup}
-                            className="w-full px-8 py-3 text-white bg-gray-400 rounded-md hover:bg-gray-500 mobile:max-w-screen-mobile"
+                            className="w-full rounded-md bg-gray-400 px-8 py-3 text-white hover:bg-gray-500 mobile:max-w-screen-mobile"
                         >
                             <span>체크리스트 설정</span>
                         </button>

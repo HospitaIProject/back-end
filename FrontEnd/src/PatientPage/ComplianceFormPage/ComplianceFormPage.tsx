@@ -22,6 +22,7 @@ import { useFluidRestrictionQuery } from '../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import PainSelector from '../../components/common/form/input/PainSelector';
 import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
+import usePrompt from '../../Hooks/usePrompt';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -37,6 +38,7 @@ const buttons: Button[] = [
 function ComplianceFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
     const [relativeDay, setRelativeDay] = useState<'PREV' | 'TODAY' | 'POST'>('POST');
+    const [isSubmitting, setIsSubmitting] = useState(false); //제출 중인지 여부
     const [searchParams] = useSearchParams();
     const { checkListId } = useParams(); //체크리스트 아이디(존재한다면 수정모드)
     const isEditPage = Boolean(checkListId); //수정페이지인지 여부
@@ -75,6 +77,7 @@ function ComplianceFormPage() {
             console.log('제출', values);
             if (isEditPage) {
                 if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true);
                     complianceFormUpdateMutation.mutate({
                         checkListId: Number(checkListId),
                         data: values,
@@ -85,6 +88,7 @@ function ComplianceFormPage() {
                 }
             } else {
                 if (confirm('제출하시겠습니까?')) {
+                    setIsSubmitting(true);
                     complianceFormMutation.mutate({
                         operationId: Number(operationId),
                         data: values,
@@ -96,6 +100,7 @@ function ComplianceFormPage() {
             }
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
 
     const handleOpenConfirm = () => {
         const isError = validateFields({
@@ -172,7 +177,7 @@ function ComplianceFormPage() {
                     existFields={existFields}
                 />
 
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>

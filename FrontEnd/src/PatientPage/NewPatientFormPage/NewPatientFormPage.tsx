@@ -14,12 +14,14 @@ import TotalHospitalizedInput from '../../components/common/form/input/TotalHosp
 import { usePatientInitialValues } from './utils/usePatientInitialValues';
 import Loading from '../../components/common/Loading';
 import { useParams } from 'react-router-dom';
+import usePrompt from '../../Hooks/usePrompt';
 
 function NewPatientFormPage() {
     const { patientId } = useParams();
     const isEdit = Boolean(patientId);
+    const [isConfirmPage, setIsConfirmPage] = useState(false); // 확인 페이지 모달 여부
+    const [isSubmitting, setIsSubmitting] = useState(false); //제출 중인지 여부
 
-    const [isConfirmPage, setIsConfirmPage] = useState(false);
     const patientNewFormMutation = useNewPatientFormMutation();
     const patientPutFormMutation = usePutPatientFormMutation();
 
@@ -31,12 +33,14 @@ function NewPatientFormPage() {
         onSubmit: (values) => {
             if (isEdit) {
                 if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true);
                     patientPutFormMutation.mutate({ data: values, patientId: Number(patientId) });
                 } else {
                     return;
                 }
             } else {
                 if (confirm('등록하시겠습니까?')) {
+                    setIsSubmitting(true);
                     patientNewFormMutation.mutate({ data: values });
                 } else {
                     return;
@@ -45,6 +49,8 @@ function NewPatientFormPage() {
             console.log('환자 정보 제출', values);
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
+
     const handleOpenConfirm = (values: PatientFormType) => {
         let isError = false;
         for (const key in values) {
@@ -72,12 +78,13 @@ function NewPatientFormPage() {
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     }; // 확인 모달 닫기
+
     if (isPending) return <Loading />;
 
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <form className="flex flex-col w-full gap-4 p-4 mx-auto mt-5 bg-white" onSubmit={formik.handleSubmit}>
+                <form className="mx-auto mt-5 flex w-full flex-col gap-4 bg-white p-4" onSubmit={formik.handleSubmit}>
                     <NumberInput label="등록번호" htmlFor="patientNumber" formik={formik} />
                     <TextInput label="환자이름" htmlFor="name" formik={formik} />
                     <SingleSelector

@@ -64,7 +64,12 @@ function PatientSummaryCard({ userData }: Props) {
         SUGERY_STATUS['POST'] = '';
     }
 
-    const handleRouteCheckList = () => {
+    const handleRouteCheckList = (e: React.MouseEvent | React.TouchEvent) => {
+        e.stopPropagation();
+        if (!isOperationData) {
+            alert('수술정보를 먼저 등록해주세요.');
+            return;
+        }
         if (userData.checkListCreatedToday) {
             if (dateComparison === 'POST') {
                 if (Math.abs(Number(diffDay)) === 1) {
@@ -108,10 +113,10 @@ function PatientSummaryCard({ userData }: Props) {
     return (
         <>
             <li
-                className="flex flex-col w-full gap-3 p-4 bg-white cursor-pointer border-y"
+                className="flex w-full cursor-pointer flex-col gap-3 bg-white px-4 py-4"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
-                <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
+                <div className="flex flex-row flex-wrap items-center justify-between gap-4">
                     <div className="flex flex-row items-center gap-1">
                         <span className="text-lg font-semibold text-blue-900">{userData.patientDTO.name} </span>
                     </div>
@@ -122,33 +127,37 @@ function PatientSummaryCard({ userData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row items-center justify-between w-full">
-                    <div className="flex flex-col gap-1">
-                        <span className="flex flex-wrap text-sm text-gray-700 break-words">
+                <div className="flex w-full flex-row items-center justify-between">
+                    <div className="flex flex-col gap-[2px]">
+                        <span className="flex flex-wrap break-words text-sm text-gray-700">
                             <span className="shrink-0">등록번호:&nbsp;</span>
-                            <span className="font-medium text-gray-900">{userData.patientDTO.patientNumber}</span>
+                            <span className="text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
-                        <span className="inline-block text-sm text-gray-700 break-words">
+                        <span className="my-0 inline-block break-words text-sm text-gray-700">
                             <span className="shrink-0">수술일:&nbsp;</span>
-                            <span className="font-medium text-gray-900">
+                            <span className="text-gray-900">
                                 {formattedOperationDate ? formattedOperationDate : '내역없음'}
                             </span>
+                            {/* <span className="mx-1 font-bold">·</span>
+                            <span className={`${dateComparison ? '' : 'border-none'} text-sm font-semibold text-black`}>
+                                {SUGERY_STATUS[dateComparison]}
+                            </span> */}
                         </span>
-                        <span className="inline-block text-sm text-gray-600 break-words">
+                        <span className="inline-block break-words text-sm text-gray-600">
                             <span className="shrink-0">수술명:&nbsp;</span>
-                            <span className="font-medium text-gray-900">
+                            <span className="text-gray-900">
                                 {operationMethodFormatted ? operationMethodFormatted : '내역없음'}
                             </span>
                         </span>
                     </div>
-                    <div className="flex flex-col justify-center gap-1 shrink-0">
+                    <div className="flex shrink-0 flex-col justify-center gap-1">
                         {isOperationData && (
                             <div className="relative">
                                 <button
                                     onClick={handleRouteCheckList}
                                     className={` ${
                                         userData.checkListCreatedToday ? 'opacity-50' : ''
-                                    } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-100 p-2 text-blue-700 shadow-sm`}
+                                    } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-50 p-2 text-blue-700 shadow-sm`}
                                 >
                                     <CheckListIcon className={`h-5 w-5 text-inherit`} />
                                     <span className="text-sm font-semibold">
@@ -186,19 +195,20 @@ function PatientSummaryCard({ userData }: Props) {
                     </div>
                 </div>
 
-                <div className="w-full border-t" />
+                <div className="w-full border-t border-gray-100" />
 
-                <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
+                <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
                     {/* <button className="px-2 text-sm font-medium border rounded-md hover:bg-blue-50">체크리스트</button> */}
-                    <span
-                        className={`${dateComparison ? '' : 'border-none'} rounded-md border px-2 py-1 text-sm text-gray-400`}
+
+                    <button
+                        className={`${dateComparison ? '' : 'border-none'} rounded-md border bg-gray-50 px-3 py-2 text-sm font-semibold text-gray-500`}
+                        onClick={handleRouteCheckList}
                     >
                         {SUGERY_STATUS[dateComparison]}
-                    </span>
-
+                    </button>
                     <Link
                         to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
-                        className="p-2 px-2 text-sm font-medium text-gray-500 border border-gray-500 rounded-md hover:bg-blue-50"
+                        className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
                     >
                         수술정보관리
                     </Link>

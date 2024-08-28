@@ -16,9 +16,11 @@ import SubmitButton from '../../components/common/form/SubmitButton';
 import { dailyValidateFields } from './utils/dailyValidateFields';
 import { pushNotification } from '../../utils/pushNotification';
 import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
+import usePrompt from '../../Hooks/usePrompt';
 
 function DailyCompliancePage() {
-    const [isConfirmPage, setIsConfirmPage] = useState(false);
+    const [isConfirmPage, setIsConfirmPage] = useState(false); // 확인 페이지 모달 여부
+    const [isSubmitting, setIsSubmitting] = useState(false); //제출 중인지 여부
 
     const [searchParams] = useSearchParams();
     const patientName = searchParams.get('name'); //환자명
@@ -50,6 +52,8 @@ function DailyCompliancePage() {
             console.log('제출', values);
             if (isEditPage) {
                 if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true);
+
                     dailyComplianceFormUpdateMutation.mutate({
                         checkListId: Number(checkListId),
                         data: values,
@@ -59,6 +63,7 @@ function DailyCompliancePage() {
                 }
             } else {
                 if (confirm('제출하시겠습니까?')) {
+                    setIsSubmitting(true);
                     dailyComplianceFormMutation.mutate({
                         operationId: Number(operationId),
                         data: values,
@@ -70,6 +75,7 @@ function DailyCompliancePage() {
             }
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
 
     const handleOpenConfirm = () => {
         const isError = dailyValidateFields({
@@ -102,7 +108,7 @@ function DailyCompliancePage() {
                     patientName={patientName || ''}
                     existFields={existFields}
                 />
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* ------Day 운동  ------ */}
 
                     <YesOrNoButton

@@ -66,8 +66,8 @@ function ConfirmComplianceForm({
     }
     return (
         <>
-            <div className="flex flex-col w-full h-full gap-3 px-4">
-                <span className="flex flex-row mx-auto text-lg font-bold text-center w-fit">{dateComparison}</span>
+            <div className="flex h-full w-full flex-col gap-3 px-4">
+                <span className="mx-auto flex w-fit flex-row text-center text-lg font-bold">{dateComparison}</span>
 
                 <div
                     className={`${dateStatus === 'PREV' ? 'grid' : 'hidden'} w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}
@@ -188,7 +188,7 @@ function ConfirmComplianceForm({
                                 className={`${values.jpDrainRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
                             >
                                 <span className="text-red-500">*</span>
-                                <CalendarIcon className="w-4 h-4 text-blue-500" />
+                                <CalendarIcon className="h-4 w-4 text-blue-500" />
                                 제거한날: {jpDrainRemovalDate}
                             </span>
                         }
@@ -205,7 +205,7 @@ function ConfirmComplianceForm({
                                     className={`${values.catheterRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
                                 >
                                     <span className="text-red-500">*</span>
-                                    <CalendarIcon className="w-4 h-4 text-blue-500" />
+                                    <CalendarIcon className="h-4 w-4 text-blue-500" />
                                     제거한날: {catheterRemovalDate}
                                 </span>
                                 <div
@@ -232,7 +232,7 @@ function ConfirmComplianceForm({
                                 className={`${values.ivLineRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
                             >
                                 <span className="text-red-500">*</span>
-                                <CalendarIcon className="w-4 h-4 text-blue-500" />
+                                <CalendarIcon className="h-4 w-4 text-blue-500" />
                                 제거한날: {ivLineRemovalDate}
                             </span>
                         }
@@ -259,8 +259,8 @@ function ConfirmComplianceForm({
                         ]}
                     />
                 </div>
-                {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="확인" />}
             </div>
+            {Boolean(onSubmit) && <FixedSubmitButton className="p-3" onClick={onSubmit} label="확인" />}
         </>
     );
 }

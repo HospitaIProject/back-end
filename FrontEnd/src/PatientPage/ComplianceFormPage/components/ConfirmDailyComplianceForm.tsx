@@ -24,8 +24,8 @@ function ConfirmDailyComplianceForm({
         <>
             {' '}
             {/* ------Day 운동  ------ */}
-            <div className="flex flex-col w-full h-full gap-3 px-4">
-                <span className="flex flex-row mx-auto text-lg font-bold text-center w-fit">{`D+${diffDay}`}</span>
+            <div className="flex h-full w-full flex-col gap-3 px-4">
+                <span className="mx-auto flex w-fit flex-row text-center text-lg font-bold">{`D+${diffDay}`}</span>
                 <div className={`grid w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}>
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.podOneExercise}
@@ -90,8 +90,8 @@ function ConfirmDailyComplianceForm({
                         ]}
                     />
                 </div>
-                {Boolean(onSubmit) && <FixedSubmitButton onClick={onSubmit} label="확인" />}
             </div>
+            {Boolean(onSubmit) && <FixedSubmitButton className="p-3" onClick={onSubmit} label="확인" />}
         </>
     );
 }
