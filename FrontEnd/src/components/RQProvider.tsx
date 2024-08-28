@@ -17,7 +17,7 @@ function RQProviders() {
                     retry: false, //쿼리 실패시 재시도를 하지 않도록 설정
                     throwOnError: (error: Error) => {
                         if (error instanceof AxiosError && error.response) {
-                            if (400 <= error.response.status && error.response.status <= 500) return false;
+                            if (400 <= error.response.status && error.response.status < 500) return false;
                         } //400번대 에러는 에러를 던지지 않도록 설정(tryCath로 에러처리)
                         return true;
                     }, //에러가 발생하면 에러를 던지도록 설정
