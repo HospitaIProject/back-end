@@ -55,7 +55,7 @@ function OperationMethodSubmitModal({ onClose, type, initValue }: Props) {
             onClose={onClose}
         >
             <div className={`mx-auto flex h-full flex-col`}>
-                <form onSubmit={onSubmit} className="flex flex-col items-center h-full p-3">
+                <form onSubmit={onSubmit} className="flex h-full flex-col items-center p-3">
                     <div className="w-full border-b-2 border-gray-300 focus-within:border-blue-500">
                         <input
                             ref={inputRef}

@@ -30,9 +30,9 @@ function DefaultCheckListSettingPage() {
     return (
         <>
             <div className={`flex w-full flex-grow flex-col`}>
-                <div className="flex flex-col w-full h-full p-4 mx-auto mt-2 bg-white">
-                    <div className="relative flex flex-col items-center p-4 mb-4 text-sm text-gray-800 border border-gray-300 border-dotted rounded-md">
-                        <div className="flex flex-col w-fit">
+                <div className="mx-auto mt-2 flex h-full w-full flex-col bg-white p-4">
+                    <div className="relative mb-4 flex flex-col items-center rounded-md border border-dotted border-gray-300 p-4 text-sm text-gray-800">
+                        <div className="flex w-fit flex-col">
                             <span>
                                 - <span className="font-semibold text-green-600">등록 된 수술명</span>을 선택하여&nbsp;
                                 <span className="font-semibold text-green-600">체크리스트를 설정</span>할 수 있습니다.
@@ -46,11 +46,11 @@ function DefaultCheckListSettingPage() {
                                 <span className="font-semibold text-green-600">초기값으로 사용</span>됩니다.
                             </span>
                         </div>
-                        <InfoIcons className="absolute text-yellow-400 -left-2 -top-2 h-7 w-7" />
+                        <InfoIcons className="absolute -left-2 -top-2 h-7 w-7 text-yellow-400" />
                     </div>
 
                     {operationMethodsData.map((item, index) => {
-                        return <DefaultCheckListSettingCard key={index} operationMethod={item} />;
+                        return <DefaultCheckListSettingCard index={index} key={index} operationMethod={item} />;
                     })}
                     {/*수술명 목록*/}
                 </div>
