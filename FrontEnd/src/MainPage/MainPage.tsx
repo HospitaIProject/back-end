@@ -29,13 +29,13 @@ function MainPage() {
     return (
         <>
             <div className="flex w-full flex-col justify-center">
-                <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
                 <div className="my-2 flex w-full flex-grow flex-col bg-white">
+                    <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
                     <ul className="grid grid-cols-1 gap-x-8 mobile:grid-cols-2 mobile:px-2">
                         {isSuccess &&
                             patientListQuery.data.map((data) => (
-                                <div className="flex w-full flex-col">
-                                    <PatientSummaryCard userData={data} key={data.patientDTO.patientId} />
+                                <div key={data.patientDTO.patientId} className="flex w-full flex-col">
+                                    <PatientSummaryCard userData={data} />
                                     <div className={`w-full border-t border-gray-200`} />
                                 </div>
                             ))}
