@@ -1,4 +1,4 @@
-import DesktopPagination from './DesktopPagination';
+// import DesktopPagination from './DesktopPagination';
 import MobilePagination from './MobilePagination';
 
 function ResponsivePagination({ pageSize = 1 }: { pageSize?: number }) {
