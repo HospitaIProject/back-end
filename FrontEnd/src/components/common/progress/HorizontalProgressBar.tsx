@@ -5,7 +5,7 @@ interface HorizontalProgressBarProps {
 }
 
 const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({ percent }) => {
-    const isOverHalf = percent >= 30;
+    const isOverHalf = percent >= 15;
     return (
         <div className="h-5 w-full overflow-hidden rounded-full bg-blue-200">
             {percent !== 0 && (
@@ -14,7 +14,7 @@ const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({ percent }
                     className="relative flex h-full items-center justify-end rounded-full bg-blue-600 pr-3 text-center text-xs font-medium text-blue-100"
                 >
                     <span className={`${isOverHalf ? '' : 'hidden'}`}>{percent}%</span>
-                    <span className={`${isOverHalf ? 'hidden' : ''} absolute -right-9 font-semibold text-blue-700`}>
+                    <span className={`${isOverHalf ? 'hidden' : ''} absolute -right-11 font-semibold text-blue-700`}>
                         {percent}%
                     </span>
                 </div>
