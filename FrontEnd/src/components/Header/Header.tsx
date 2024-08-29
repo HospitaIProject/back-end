@@ -7,6 +7,7 @@ import FilterHeader from '../common/filterModal/FilterHeader';
 import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import SettingIcon from '../../icons/SettingIcon';
+import HomeIcon from '../../icons/HomeIcon';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
@@ -77,14 +78,17 @@ export default function Header() {
     if (pathname !== '/') {
         return (
             <header className={`${isVisible ? '' : 'opacity-20'} sticky top-0 z-10 min-w-full bg-white`}>
-                <nav className="flex h-[65px] items-center border-b px-4">
+                <nav className="flex h-[65px] items-center justify-between border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
                     >
-                        <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" />
+                        <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
+                    <Link to="/" className="px-1">
+                        <HomeIcon className="h-7 w-7 text-gray-600" />
+                    </Link>
                 </nav>
             </header>
         );
@@ -96,21 +100,21 @@ export default function Header() {
                 className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-20'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
                 {/* ${isVisible ? '' : 'opacity-30'} */}
-                <nav className="relative z-10 flex h-[65px] items-center border-b bg-white px-4">
+                <nav className="relative z-10 flex h-[65px] items-center bg-white px-4">
                     <button onClick={handleFilterToggle}>
-                        <SearchListIcon className="text-gray-600 h-7 w-7" />
+                        <SearchListIcon className="h-7 w-7 text-gray-600" />
                     </button>
-                    <div className="flex flex-row items-center justify-end flex-grow gap-2">
+                    <div className="flex flex-grow flex-row items-center justify-end gap-2">
                         <Link
                             to="/patient/new/info"
-                            className="flex flex-row items-center gap-2 px-2 py-2 mr-1 text-blue-500 border border-blue-500 rounded-md shadow-sm"
+                            className="mr-1 flex flex-row items-center gap-2 rounded-md border border-blue-500 px-2 py-2 text-blue-500 shadow-sm"
                         >
                             <span className="text-sm font-medium">환자 등록하기</span>
-                            <PlusIcon className="w-5 h-5" />
+                            <PlusIcon className="h-5 w-5" />
                         </Link>
                         <div className="h-6 border-l border-gray-300" />
                         <Link to="/operation-checkList/default-setting" className="text-sm underline">
-                            <SettingIcon className="text-gray-600 h-7 w-7" />
+                            <SettingIcon className="h-7 w-7 text-gray-600" />
                         </Link>
                     </div>
 
