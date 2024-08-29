@@ -30,7 +30,7 @@ function MobilePagination({ pageSize }: { pageSize: number }) {
     };
 
     return (
-        <div className="flex items-center justify-between w-full py-2 bg-white border-y">
+        <div className="flex w-full items-center justify-between bg-white py-2">
             {/* <span className="text-sm font-semibold">
                     <span className="text-blue-600">{forcePage + 1} /</span> {pageSize}
                 </span> */}
@@ -39,14 +39,14 @@ function MobilePagination({ pageSize }: { pageSize: number }) {
                 disabled={forcePage === 0}
                 className={`mr-1 flex h-8 items-center justify-center px-2 py-1 text-gray-700 ${forcePage === 0 ? 'cursor-not-allowed opacity-40' : ''}`}
             >
-                <ArrowIcon className="w-8 h-auto transform rotate-180" />
+                <ArrowIcon className="h-auto w-8 rotate-180 transform" />
             </button>
 
             <ReactPaginate
                 previousLabel={null}
                 nextLabel={null}
                 breakLabel={
-                    <div className="flex items-center justify-center rounded-lg h-9 w-9">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg">
                         <span>...</span>
                     </div>
                 }
@@ -66,7 +66,7 @@ function MobilePagination({ pageSize }: { pageSize: number }) {
                 disabled={forcePage === pageSize - 1}
                 className={`ml-1 flex h-8 items-center justify-center rounded-md px-2 py-1 text-gray-700 ${forcePage === pageSize - 1 ? 'cursor-not-allowed opacity-40' : ''}`}
             >
-                <ArrowIcon className="w-8 h-auto text-inherit" />
+                <ArrowIcon className="h-auto w-8 text-inherit" />
             </button>
         </div>
     );
