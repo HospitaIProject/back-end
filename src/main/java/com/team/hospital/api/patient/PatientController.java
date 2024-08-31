@@ -35,7 +35,7 @@ public class PatientController {
     @PostMapping("/patient")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
     public SuccessResponse<?> join(@RequestBody RegisterPatient registerPatient) {
-        patientService.join(registerPatient);
+        patientService.save(registerPatient);
         return SuccessResponse.createSuccess();
     }
 
