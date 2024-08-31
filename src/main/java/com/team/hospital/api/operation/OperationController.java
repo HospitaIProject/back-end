@@ -1,6 +1,7 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
+import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
@@ -17,6 +18,7 @@ public class OperationController {
 
     private final OperationService operationService;
     private final ComplicationService complicationService;
+    private final CheckListService checkListService;
 
     @GetMapping("/api/operation/{operationId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 id값에 대한 operation 상세 조회", description = "입력한 operationID 값에 해당하는 operation 상세 조회")
@@ -40,8 +42,8 @@ public class OperationController {
 
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
-//                    double compilancePercentage = checkListService.test(operation.getId());
-                    return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, 0.0);
+                    double compliancePercentage = checkListService.test(operation.getId());
+                    return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, compliancePercentage);
                 })
                 .toList();
 

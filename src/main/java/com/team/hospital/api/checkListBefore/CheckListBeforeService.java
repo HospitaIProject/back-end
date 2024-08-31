@@ -82,10 +82,8 @@ public class CheckListBeforeService {
         return checkListBefore.isPresent();
     }
 
-    //
     public boolean existsByCheckListItemId(Long checkListItemId) {
         return checkListBeforeRepository.existsByCheckListItemId(checkListItemId);
     }
-
 
 }

@@ -2,11 +2,13 @@ package com.team.hospital;
 
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
 import com.team.hospital.api.operation.enumType.ASAScore;
+import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.operationType.OperationType;
 import com.team.hospital.api.operationType.OperationTypeService;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientRepository;
+import com.team.hospital.api.patient.enumType.Sex;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,24 +82,27 @@ public class InitDB {
                         .checkListItemDefault(defaultChecklist)
                         .build();
 
-                Patient patient = Patient.builder()
-                        .patientNumber(123456L)
-                        .name("정진혁")
-                        .age(26)
-                        .height(180)
-                        .weight(63)
-                        .bmi(19.44F)
-                        .asaScore(ASAScore.ASA_I)
-                        .location(Location.RECTUM)
-                        .operationDate(LocalDate.of(2024, 8, 22))
-                        .hospitalizedDate(LocalDate.of(2024, 8, 21))
-                        .dischargedDate(LocalDate.of(2024, 8, 29))
-                        .totalHospitalizedDays(9)
-                        .build();
-
                 operationTypeService.save(operationType);
-                patientRepository.save(patient);
             });
+
+            Patient patient = Patient.builder()
+                    .patientNumber(123456L)
+                    .name("정진혁")
+                    .age(26)
+                    .sex(Sex.MALE)
+                    .height(180)
+                    .weight(63)
+                    .bmi(19.44F)
+                    .asaScore(ASAScore.ASA_I)
+                    .diagnosis(Diagnosis.ANUS)
+                    .location(Location.RECTUM)
+                    .operationDate(LocalDate.of(2024, 8, 22))
+                    .hospitalizedDate(LocalDate.of(2024, 8, 21))
+                    .dischargedDate(LocalDate.of(2024, 8, 29))
+                    .totalHospitalizedDays(9)
+                    .build();
+
+            patientRepository.save(patient);
 
             System.out.println("Database initialized with operation methods.");
         }
