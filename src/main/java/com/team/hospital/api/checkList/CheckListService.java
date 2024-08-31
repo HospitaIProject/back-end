@@ -110,7 +110,7 @@ public class CheckListService {
 
     public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
         return checkIfCheckListCreatedToday(operationId) ||
-//                checkIfCheckListAfterCreatedToday(operationId) ||
+                checkIfCheckListAfterCreatedToday(operationId) ||
                 checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
                 checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
     }
@@ -118,25 +118,17 @@ public class CheckListService {
     // 에러 뜬다 고쳐야댐, 시간 차 공격 때문에 오류 발생. 한국, 미국 같은 날짜일 때 다시 테스트.
     public List<CheckList> checks(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
-        Patient patient = operation.getPatient();
-
-        if (patient.getDischargedDate() == null) return null;
-
-        // patient.getTotalHospitalizedDays();
-
+        LocalDate operationDate = operation.getPatient().getOperationDate();
+        LocalDate hospitalizedDate = operation.getPatient().getHospitalizedDate();
         List<CheckList> checkLists = findAllByOperationId(operationId);
-        int checkListCount = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), patient.getDischargedDate());
+
+        int checkListCount = (int) ChronoUnit.DAYS.between(hospitalizedDate, LocalDate.now());
+        System.out.println("checkListCount = " + checkListCount);
         List<CheckList> checks = new ArrayList<>(Collections.nCopies(checkListCount, null)); // 수술 다음 날 부터 퇴원일까지의 일 수만큼 null list로 초기화.
 
         for (CheckList checkList : checkLists) {
-            LocalDate dayOfCheckList = checkList.getDayOfCheckList();
-            int betweenDay = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), dayOfCheckList);
-            System.out.println("betweenDay = " + betweenDay);
-            if (betweenDay == 0) {
-                checks.set(betweenDay, checkList);
-            } else {
-                checks.set(betweenDay - 1, checkList); // set 메서드로 변경
-            }
+            int betweenDay = (int) ChronoUnit.DAYS.between(operationDate, checkList.getDayOfCheckList());
+            checks.set(betweenDay - 1, checkList); // set 메서드로 변경
         }
         return checks;
     }
