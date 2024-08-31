@@ -21,7 +21,7 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     @Transactional
-    public void join(RegisterPatient registerPatient) {
+    public void save(RegisterPatient registerPatient) {
         if (existsByPatientNumber(registerPatient.getPatientNumber())) throw new PatientAlreadyExistsException();
         Patient patient = Patient.createPatient(registerPatient);
         patientRepository.save(patient);
