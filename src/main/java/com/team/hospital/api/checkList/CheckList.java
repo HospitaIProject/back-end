@@ -3,18 +3,22 @@ package com.team.hospital.api.checkList;
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.converter.DailyPainScoreConverter;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
-import com.team.hospital.api.checkList.enumType.*;
+import com.team.hospital.api.checkList.enumType.CheckListFirst;
+import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 public class CheckList extends BaseEntity {
 
     @Id
@@ -94,7 +98,8 @@ public class CheckList extends BaseEntity {
                 .podTwoPain(write.getPodTwoPain())
                 .podThreePain(write.getPodThreePain())
 
-                .dayOfCheckList(write.getDayOfCheckList())
+                .dayOfCheckList(convertToKoreanDate(write.getDayOfCheckList()))
+//                .dayOfCheckList(write.getDayOfCheckList())
 
                 // CheckListItem
                 .checkListItem(checkListItem)
@@ -124,5 +129,20 @@ public class CheckList extends BaseEntity {
         if (write.getPodOnePain() != null) this.podOnePain = write.getPodOnePain();
         if (write.getPodTwoPain() != null) this.podTwoPain = write.getPodTwoPain();
         if (write.getPodThreePain() != null) this.podThreePain = write.getPodThreePain();
+    }
+
+    // 한국 시간으로 변환하는 메서드 추가
+    private static LocalDate convertToKoreanDate(LocalDate date) {
+        if (date == null) {
+            return null;
+        }
+        // 현재 시스템 기본 시간대를 사용해 ZonedDateTime 생성
+        ZonedDateTime zonedDateTime = date.atStartOfDay(ZoneId.systemDefault());
+
+        // 한국 시간대로 변환
+        ZonedDateTime koreanZonedDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+
+        // 변환된 ZonedDateTime을 LocalDate로 변환하여 반환
+        return koreanZonedDateTime.toLocalDate();
     }
 }
