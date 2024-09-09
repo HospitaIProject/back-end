@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class DailyPainScore {
-    private int morning;
-    private int afternoon;
+    private int day;
     private int evening;
+    private int night;
 }

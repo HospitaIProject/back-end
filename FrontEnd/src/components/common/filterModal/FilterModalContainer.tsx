@@ -5,7 +5,7 @@ import RefreshIcon from '../../../icons/RefreshIcon';
 
 type ModalWrapperProps = {
     children: React.ReactNode;
-
+    isOpen: boolean;
     onClose: () => void;
     handleReset: () => void;
 };
@@ -44,7 +44,7 @@ function FilterModalContainer({ children, onClose, handleReset }: ModalWrapperPr
                         </button>
                     </div>
                 </header>
-                <div className="w-full overflow-y-auto">{children}</div>
+                <div className="flex-grow w-full overflow-y-auto">{children}</div>
             </div>
         </div>,
         document.getElementById('modal-root') as HTMLElement,

@@ -5,6 +5,9 @@
 @font-face {
 }
 
+body {
+    @apply overscroll-y-none;
+}
 :root {
     font-family: system-ui, Inter, Avenir, Helvetica, Arial, sans-serif;
 
@@ -30,13 +33,7 @@ a:hover {
     color: #535bf2;
 }
 
-body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-}
+
 
 h1 {
     font-size: 3.2em;
@@ -160,6 +157,19 @@ button:focus-visible {
         transform: translateY(100%);
         opacity: 0;
     }
+}
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+.animate-slide-right {
+    animation: slide-right 0.2s ease-in-out;
 }
 .animate-slide-up {
     animation: slide-up 0.2s ease-in-out;

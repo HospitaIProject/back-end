@@ -13,9 +13,10 @@ type Props = {
     initialDate?: Date;
     onClose: () => void;
     onSelectDate: (date: Date) => void;
+    description?: string;
 };
 
-function DatePickerModal({ initialDate, onClose, onSelectDate, minDate }: Props) {
+function DatePickerModal({ initialDate, onClose, onSelectDate, minDate, description }: Props) {
     const [selectDate, setSelectDate] = useState<Date | null>(minDate ? minDate : new Date()); //선택된 날짜
 
     const handleChangeDate = () => {
@@ -25,7 +26,7 @@ function DatePickerModal({ initialDate, onClose, onSelectDate, minDate }: Props)
 
     useEffect(() => {
         if (initialDate) setSelectDate(initialDate);
-    }, [initialDate]);
+    }, [initialDate]); // 초기 날짜 설정
 
     return (
         <ModalFullScreenContainer title="날짜 선택" onClose={onClose} maxWidthClassName="max-w-[650px]">
@@ -61,6 +62,8 @@ function DatePickerModal({ initialDate, onClose, onSelectDate, minDate }: Props)
                         />
                     )}
                 />
+                <div className="p-5 mx-auto text-sm text-gray-400">{description}</div>
+
                 <div className="sticky bottom-0 flex justify-end w-full p-5 mt-auto bg-white">
                     <button
                         onClick={handleChangeDate}

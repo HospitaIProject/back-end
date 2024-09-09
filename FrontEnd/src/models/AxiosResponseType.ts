@@ -1,6 +1,6 @@
 export type ErrorResponseType = {
-    LocalDateTime: string;
+    timeStamp: string;
     status: number;
-    ErrorCode: string;
-    ErrorMessage: string;
+    errorCode: string;
+    message: string;
 };

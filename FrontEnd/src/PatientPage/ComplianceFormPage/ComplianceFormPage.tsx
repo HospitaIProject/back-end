@@ -1,22 +1,31 @@
 import { useFormik } from 'formik';
 import YesOrNoButton from '../../components/common/form/input/YesOrNoButton';
-import { ComplianceValuesType } from '../../models/FormType';
+import { checkListFormType } from '../../models/CheckListsType';
 import { useEffect, useState } from 'react';
-import SingleSelector from '../../components/common/form/input/SingleSelector';
-// import TextInput from '../../components/common/form/input/TextInput';
-import NumberInput from '../../components/common/form/input/NumberInput';
 import ComfirmComplianceFormModal from './components/ComfirmComplianceFormModal';
-import { useCheckListSetupQuery, useComplianceFormMutation } from '../_lib/complianceFormSevice';
+import {
+    useCheckListSetupQuery,
+    useComplianceFormMutation,
+    useComplianceFormUpdateMutation,
+} from '../_lib/complianceFormSevice';
 import SubmitButton from '../../components/common/form/SubmitButton';
-import { ITEMS_NAME_MAP } from '../../utils/mappingNames';
-import TextInput from '../../components/common/form/input/TextInput';
+import { CHECKLIST_ITEMS_NAME } from '../../utils/mappingNames';
 import DropContainer from './components/DropContainer';
-import { useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import Loading from '../../components/common/Loading';
+import { useInitialValues } from './utils/useInitialValues';
+import DateInput from '../../components/common/form/input/DateInput';
+import { validateFields } from './utils/validateFields';
+import { pushNotification } from '../../utils/pushNotification';
+import { useFluidRestrictionQuery } from '../_lib/checkListsService';
+import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
+import PainSelector from '../../components/common/form/input/PainSelector';
+import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
+import usePrompt from '../../Hooks/usePrompt';
 
 type Button = {
-    day: 'PREV' | 'TODAY' | 'POST' | 'ALL';
+    day: 'PREV' | 'TODAY' | 'POST';
     label: string;
 };
 
@@ -24,137 +33,132 @@ const buttons: Button[] = [
     { day: 'PREV', label: '수술 전' },
     { day: 'TODAY', label: '수술 당일' },
     { day: 'POST', label: '수술 후' },
-    { day: 'ALL', label: '전체' },
 ];
 
 function ComplianceFormPage() {
     const [isConfirmPage, setIsConfirmPage] = useState(false);
-    const [relativeDay, setRelativeDay] = useState<Array<'PREV' | 'TODAY' | 'POST' | 'ALL'>>(['PREV']);
+    const [relativeDay, setRelativeDay] = useState<'PREV' | 'TODAY' | 'POST'>('POST');
+    const [isSubmitting, setIsSubmitting] = useState(false); //제출 중인지 여부
     const [searchParams] = useSearchParams();
+    const { checkListId } = useParams(); //체크리스트 아이디(존재한다면 수정모드)
+    const isEditPage = Boolean(checkListId); //수정페이지인지 여부
     const patientName = searchParams.get('name'); //환자명
-    const surgeryId = searchParams.get('id'); //수술ID
+    const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const diffDay = searchParams.get('diffDay'); //몇일차인지
-    const { onlyDate: formattedOnlyDate } = useDateFormatted(new Date(), 'SIMPLE'); // 수술일자 포맷팅
-    const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
-    const checkListSetupQuery = useCheckListSetupQuery({ surgeryId: Number(surgeryId) }); //체크리스트 세팅 정보 가져오기
-    const { data: existFields, isPending } = checkListSetupQuery; //체크리스트 세팅 정보
+    const operationDate = searchParams.get('od'); //수술날짜
 
-    const initialValues: ComplianceValuesType = {
-        explainBeforeOperation: existFields?.explainBeforeOperation ? '' : undefined, // EAS 수술전 설명
-        takingONSBeforeOperationTwo_Hours: existFields?.takingONSBeforeOperationTwo_Hours ? '' : undefined, // 수술 2시간 전 ONS 복용여부
-        takingAfterBowelPreparation: existFields?.takingAfterBowelPreparation ? '' : undefined, // Bowel preparation 후 ONS 경장영양액 복용여부
-        preventionDVT: existFields?.preventionDVT ? '' : undefined, // DVT 예방
-        takingLaxatives: existFields?.takingLaxatives ? '' : undefined, // Laxatives 복용
-        chewingGum: existFields?.chewingGum ? '' : undefined, // Chewing gum
-        dayOfRemoveJP_Drain: existFields?.dayOfRemoveJP_Drain ? '' : undefined, // JP Drain 제거일
-        reasonByRemoveJP_DrainDelay: existFields?.reasonByRemoveJP_DrainDelay ? '' : undefined, // JP Drain 제거 지연 사유
-        dayOfRemoveUrinary_Catheter: existFields?.dayOfRemoveUrinary_Catheter ? '' : undefined, // Urinary catheter 제거일
-        reasonByRemoveUrinary_CatheterDelay: existFields?.reasonByRemoveUrinary_CatheterDelay ? '' : undefined, // Urinary catheter 제거 지연 사유
-        afterOperationLimitIV_Fluid: existFields?.afterOperationLimitIV_Fluid ? '' : undefined, // 수술 후 IV fluid 제한
-        dayOfRemoveIV_Fluid: existFields?.dayOfRemoveIV_Fluid ? '' : undefined, // IV fluid 제거일
-        reasonByRemoveIV_FluidDelay: existFields?.reasonByRemoveIV_FluidDelay ? '' : undefined, // IV fluid 제거 지연 이유
-        post_Nausea_Vomiting: existFields?.post_Nausea_Vomiting ? '' : undefined, // Post OP Nausea & Vomiting prophylaxis
-        postOpDayExercise: existFields?.postOpDayExercise ? '' : undefined, // Post OP day 운동
-        pod_Exercise: existFields?.pod_Exercise ? '' : undefined, // POD# 운동
-        postOpDayMeal: existFields?.postOpDayMeal ? '' : undefined, // Post OP day 식사
-        pod_Meal: existFields?.pod_Meal ? '' : undefined, // POD# 식사
-        beforeOperationMedicine: existFields?.beforeOperationMedicine ? '' : undefined, // 수술 전 통증 조절약
-        silt_Itm: existFields?.silt_Itm ? '' : undefined, // 수술중 SILT or ITM
-        postOpEffectivePainControl: existFields?.postOpEffectivePainControl ? '' : undefined, // Post op Effective pain control
-        pod_PainScore: existFields?.pod_PainScore ? '' : undefined, // POD#1 pain score
-        beforeSixtyMinute: existFields?.beforeSixtyMinute ? '' : undefined, // 피부 절개 60분 전 예방적 항생제 투여
-        maintainTemperature: existFields?.maintainTemperature ? '' : undefined, // 수술 중 환자 체온 유지
-        volumeOfIntraoperativeInfusion: existFields?.volumeOfIntraoperativeInfusion ? '' : undefined, // Volume of intraoperative infusion (ml)
-        bloodLoss: existFields?.bloodLoss ? '' : undefined, // Blood loss (cc)
-        urineOutput: existFields?.urineOutput ? '' : undefined, // Urine output (cc)
-        operationTime: existFields?.operationTime ? '' : undefined, // Operation time (min)
-        hasPost_Nausea_Vomiting: existFields?.hasPost_Nausea_Vomiting ? '' : undefined, // Post OP Nausea & Vomiting prophylaxis 여부
-        locate: existFields?.locate ? '' : undefined, // 입원병동
-        // 비고
-        explainBeforeOperation_remark: existFields?.explainBeforeOperation ? '' : undefined,
-        takingONSBeforeOperationTwo_Hours_remark: existFields?.takingONSBeforeOperationTwo_Hours ? '' : undefined,
-        takingAfterBowelPreparation_remark: existFields?.takingAfterBowelPreparation ? '' : undefined,
-        preventionDVT_remark: existFields?.preventionDVT ? '' : undefined,
-        takingLaxatives_remark: existFields?.takingLaxatives ? '' : undefined,
-        chewingGum_remark: existFields?.chewingGum ? '' : undefined,
-        dayOfRemoveJP_Drain_remark: existFields?.dayOfRemoveJP_Drain ? '' : undefined,
-        reasonByRemoveJP_DrainDelay_remark: existFields?.reasonByRemoveJP_DrainDelay ? '' : undefined,
-        dayOfRemoveUrinary_Catheter_remark: existFields?.dayOfRemoveUrinary_Catheter ? '' : undefined,
-        reasonByRemoveUrinary_CatheterDelay_remark: existFields?.reasonByRemoveUrinary_CatheterDelay ? '' : undefined,
-        afterOperationLimitIV_Fluid_remark: existFields?.afterOperationLimitIV_Fluid ? '' : undefined,
-        dayOfRemoveIV_Fluid_remark: existFields?.dayOfRemoveIV_Fluid ? '' : undefined,
-        reasonByRemoveIV_FluidDelay_remark: existFields?.reasonByRemoveIV_FluidDelay ? '' : undefined,
-        post_Nausea_Vomiting_remark: existFields?.post_Nausea_Vomiting ? '' : undefined,
-        postOpDayExercise_remark: existFields?.postOpDayExercise ? '' : undefined,
-        pod_Exercise_remark: existFields?.pod_Exercise ? '' : undefined,
-        postOpDayMeal_remark: existFields?.postOpDayMeal ? '' : undefined,
-        pod_Meal_remark: existFields?.pod_Meal ? '' : undefined,
-        beforeOperationMedicine_remark: existFields?.beforeOperationMedicine ? '' : undefined,
-        silt_Itm_remark: existFields?.silt_Itm ? '' : undefined,
-        postOpEffectivePainControl_remark: existFields?.postOpEffectivePainControl ? '' : undefined,
-        pod_PainScore_remark: existFields?.pod_PainScore ? '' : undefined,
-        beforeSixtyMinute_remark: existFields?.beforeSixtyMinute ? '' : undefined,
-        maintainTemperature_remark: existFields?.maintainTemperature ? '' : undefined,
-        volumeOfIntraoperativeInfusion_remark: existFields?.volumeOfIntraoperativeInfusion ? '' : undefined,
-        bloodLoss_remark: existFields?.bloodLoss ? '' : undefined,
-        urineOutput_remark: existFields?.urineOutput ? '' : undefined,
-        operationTime_remark: existFields?.operationTime ? '' : undefined,
-        hasPost_Nausea_Vomiting_remark: existFields?.hasPost_Nausea_Vomiting ? '' : undefined,
-        locate_remark: existFields?.locate ? '' : undefined,
-    };
+    const { isVisible } = useScrollHeaderControl({}); //스크롤시 헤더 보이기 여부
+
+    const { onlyDate: formattedNowDate } = useDateFormatted(new Date(), 'SIMPLE'); //오늘 날짜
+
+    const complianceFormMutation = useComplianceFormMutation(); //체크리스트 제출
+    const complianceFormUpdateMutation = useComplianceFormUpdateMutation(); //체크리스트 수정
+
+    const checkListSetupQuery = useCheckListSetupQuery({ operationId: Number(operationId) }); //체크리스트 세팅 정보 가져오기
+    const fluidRestrictionQuery = useFluidRestrictionQuery({ operationId: Number(operationId) }); //수술 중 수액 제한 정보 가져오기
+    const { data: existFields, isPending: isExistFieldsPending } = checkListSetupQuery; //체크리스트 세팅 정보
+    const { data: fluidRestriction, isPending: isFluidRestrictionPending } = fluidRestrictionQuery; //수술 중 수액 제한 정보
+    const { initialValues, isPending: isInitialValuesPending } = useInitialValues({
+        existFields,
+        toggleDateStatus: relativeDay,
+    }); //초기값 가져오기
+
+    const isConfirmButton =
+        (dateStatus === 'POST' && relativeDay.includes('POST')) ||
+        (dateStatus === 'TODAY' && relativeDay.includes('TODAY')) ||
+        (dateStatus === 'PREV' && relativeDay.includes('PREV')); //확인하기 버튼 보여주기 여부
+
     const formik = useFormik({
         initialValues, // 초기값
+        enableReinitialize: true, // 초기값이 변경되면 다시 렌더링
+
         validateOnChange: false, // change 이벤트 발생시 validate 실행 여부
         onSubmit: (values) => {
             console.log('제출', values);
-            if (confirm('제출하시겠습니까?')) {
-                complianceFormMutation.mutate({ surgeryId: Number(surgeryId), data: values });
+            if (isEditPage) {
+                if (confirm('수정하시겠습니까?')) {
+                    setIsSubmitting(true);
+                    complianceFormUpdateMutation.mutate({
+                        checkListId: Number(checkListId),
+                        data: values,
+                        type: relativeDay,
+                    });
+                } else {
+                    return;
+                }
             } else {
-                return;
+                if (confirm('제출하시겠습니까?')) {
+                    setIsSubmitting(true);
+                    complianceFormMutation.mutate({
+                        operationId: Number(operationId),
+                        data: values,
+                        type: relativeDay,
+                    });
+                } else {
+                    return;
+                }
             }
         },
     });
+    usePrompt(!isSubmitting); // 이동시 경고창
 
-    const handleOpenConfirm = (values: ComplianceValuesType) => {
-        console.log('확인하기', values);
-        let isError = false;
-        for (const key in values) {
-            if (!key.endsWith('_remark') && values[key] === '') {
-                formik.setFieldError(key, '필수 입력 항목입니다.');
-                isError = true;
-            } //비어있는 필드 유효성 검사(Remark 제외)
-        }
+    const handleOpenConfirm = () => {
+        const isError = validateFields({
+            formik,
+            type: relativeDay,
+            values: formik.values,
+        });
         if (isError) {
-            console.log('에러발생');
+            pushNotification({
+                msg: '필수 입력 항목이 누락되었습니다.',
+                type: 'error',
+                theme: 'dark',
+            });
             return;
         } else {
             setIsConfirmPage(true);
-            isError = false;
         }
-        setIsConfirmPage(true);
-    };
+    }; //제출하기 버튼 클릭시 확인 페이지로 이동
 
     const handleCloseConfirm = () => {
         setIsConfirmPage(false);
     };
-    const handleToggleField = (day: 'PREV' | 'TODAY' | 'POST' | 'ALL') => {
-        setRelativeDay([day]);
-    };
+    const handleToggleField = (day: 'PREV' | 'TODAY' | 'POST') => {
+        setRelativeDay(day);
+    }; //수술전, 당일, 후 버튼 클릭시 해당하는 필드만 보여주기
 
     useEffect(() => {
-        setRelativeDay([dateStatus as 'PREV' | 'TODAY' | 'POST']);
+        setRelativeDay(dateStatus as 'PREV' | 'TODAY' | 'POST');
     }, []);
 
-    if (isPending) {
+    useEffect(() => {
+        if (formik.values.jpDrainRemoval === 'NO') {
+            formik.setFieldValue('jpDrainRemovalDate', '');
+        }
+        if (formik.values.catheterRemoval === 'NO') {
+            formik.setFieldValue('catheterRemovalDate', '');
+            formik.setFieldValue('catheterReInsertion', '');
+        }
+        if (formik.values.ivLineRemoval === 'NO') {
+            formik.setFieldValue('ivLineRemovalDate', '');
+        }
+    }, [formik.values.jpDrainRemoval, formik.values.catheterRemoval, formik.values.ivLineRemoval]);
+
+    useEffect(() => {
+        console.log('podOnePain', formik.values.podOnePain);
+    }, [formik.values.podOnePain]);
+
+    if (isExistFieldsPending || isInitialValuesPending || isFluidRestrictionPending) {
         return <Loading />;
     }
-    if (!existFields) return;
+    if (!existFields || !fluidRestriction) return;
 
     return (
         <>
             <div className={`flex w-full flex-col ${isConfirmPage ? 'hidden' : ''}`}>
-                <div className="sticky top-[64px] z-10 flex flex-row border-b shadow-sm">
+                <div
+                    className={`sticky top-[65px] z-10 flex flex-row border-b shadow-sm transition-all duration-200 ${isVisible ? '' : 'pointer-events-none opacity-0'}`}
+                >
                     {buttons.map(({ day, label }) => (
                         <button
                             key={day}
@@ -166,232 +170,222 @@ function ComplianceFormPage() {
                         </button>
                     ))}
                 </div>
+                <CheckListViewGuide
+                    dateStatus={dateStatus === 'TODAY' ? '수술중' : dateStatus === 'PREV' ? `수술전` : `수술후`}
+                    date={formattedNowDate}
+                    patientName={patientName || ''}
+                    existFields={existFields}
+                />
 
-                <div className="flex flex-row items-center gap-1 py-3 pr-4 mb-4 border-b rounded-md bg-gray-50 pl-28 text-neutral-700">
-                    <span className="mx-auto text-xl font-bold text-center text-blue-500">{patientName}</span>
-                    <div className="flex flex-col items-end w-24 gap-1">
-                        <span className="text-sm font-medium text-gray-700">{formattedOnlyDate}</span>
-
-                        <span className="p-1 text-sm font-medium text-gray-700 bg-yellow-200">
-                            {dateStatus === 'TODAY'
-                                ? 'D-Day'
-                                : dateStatus === 'PREV'
-                                  ? `D-${diffDay}`
-                                  : `D+${Math.abs(Number(diffDay))}`}
-                        </span>
-                    </div>
-                </div>
-
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="explainBeforeOperation"
-                            label={ITEMS_NAME_MAP.explainBeforeOperation}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="explainedPreOp"
+                            label={CHECKLIST_ITEMS_NAME.explainedPreOp}
                             formik={formik}
-                            isRender={existFields.explainBeforeOperation}
+                            isRender={existFields.explainedPreOp}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="takingONSBeforeOperationTwo_Hours"
-                            label={ITEMS_NAME_MAP.takingONSBeforeOperationTwo_Hours}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="onsPreOp2hr"
+                            label={CHECKLIST_ITEMS_NAME.onsPreOp2hr}
                             formik={formik}
-                            isRender={existFields.takingONSBeforeOperationTwo_Hours}
+                            isRender={existFields.onsPreOp2hr}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="takingAfterBowelPreparation"
-                            label={ITEMS_NAME_MAP.takingAfterBowelPreparation}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="onsPostBowelPrep"
+                            label={CHECKLIST_ITEMS_NAME.onsPostBowelPrep}
                             formik={formik}
-                            isRender={existFields.takingAfterBowelPreparation}
+                            isRender={existFields.onsPostBowelPrep}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="takingLaxatives"
-                            label={ITEMS_NAME_MAP.takingLaxatives}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="dvtPrevention"
+                            label={CHECKLIST_ITEMS_NAME.dvtPrevention}
                             formik={formik}
-                            isRender={existFields.takingLaxatives}
+                            isRender={existFields.dvtPrevention}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="beforeOperationMedicine"
-                            label={ITEMS_NAME_MAP.beforeOperationMedicine}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="antibioticPreIncision"
+                            label={CHECKLIST_ITEMS_NAME.antibioticPreIncision}
                             formik={formik}
-                            isRender={existFields.beforeOperationMedicine}
+                            isRender={existFields.antibioticPreIncision}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="beforeSixtyMinute"
-                            label={ITEMS_NAME_MAP.beforeSixtyMinute}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="painMedPreOp"
+                            label={CHECKLIST_ITEMS_NAME.painMedPreOp}
                             formik={formik}
-                            isRender={existFields.beforeSixtyMinute}
+                            isRender={existFields.painMedPreOp}
+                            isDisabled={dateStatus !== 'PREV'}
                         />
                     </DropContainer>
 
                     {/* 수술당일 */}
-                    <DropContainer isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}>
-                        <TextInput<ComplianceValuesType>
-                            htmlFor="silt_Itm"
-                            label={ITEMS_NAME_MAP.silt_Itm}
+                    <DropContainer
+                        readOnly={dateStatus === 'PREV'}
+                        isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}
+                    >
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="maintainTemp"
+                            label={CHECKLIST_ITEMS_NAME.maintainTemp}
                             formik={formik}
-                            isRender={existFields.silt_Itm}
+                            isRender={existFields.maintainTemp}
+                            isDisabled={dateStatus !== 'TODAY'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="maintainTemperature"
-                            label={ITEMS_NAME_MAP.maintainTemperature}
+                        <YesOrNoButton<checkListFormType>
+                            label={`
+                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : ''} cc/kg/hr 으로 제한
+                            `}
+                            htmlFor="fluidRestriction"
                             formik={formik}
-                            isRender={existFields.maintainTemperature}
+                            isRender={existFields.fluidRestriction}
+                            isDisabled={dateStatus !== 'TODAY'}
                         />
-                        <YesOrNoButton<ComplianceValuesType>
-                            label={ITEMS_NAME_MAP.volumeOfIntraoperativeInfusion}
-                            htmlFor="volumeOfIntraoperativeInfusion"
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="antiNausea"
+                            label={CHECKLIST_ITEMS_NAME.antiNausea}
                             formik={formik}
-                            isRender={existFields.volumeOfIntraoperativeInfusion}
+                            isRender={existFields.antiNausea}
+                            isDisabled={dateStatus !== 'TODAY'}
                         />
-                        <NumberInput
-                            label={ITEMS_NAME_MAP.bloodLoss}
-                            htmlFor="bloodLoss"
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="painControl"
+                            label={CHECKLIST_ITEMS_NAME.painControl}
                             formik={formik}
-                            isRender={existFields.bloodLoss}
-                        />
-                        <NumberInput
-                            label={ITEMS_NAME_MAP.urineOutput}
-                            htmlFor="urineOutput"
-                            formik={formik}
-                            isRender={existFields.urineOutput}
-                        />
-                        <NumberInput
-                            label={ITEMS_NAME_MAP.operationTime}
-                            htmlFor="operationTime"
-                            formik={formik}
-                            isRender={existFields.operationTime}
+                            isRender={existFields.painControl}
+                            isDisabled={dateStatus !== 'TODAY'}
                         />
                     </DropContainer>
 
                     {/* 수술후 */}
-                    <DropContainer isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}>
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="preventionDVT"
-                            label={ITEMS_NAME_MAP.preventionDVT}
+                    <DropContainer
+                        readOnly={dateStatus === 'PREV' || dateStatus === 'TODAY'}
+                        isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}
+                    >
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="giStimulant"
+                            label={CHECKLIST_ITEMS_NAME.giStimulant}
                             formik={formik}
-                            isRender={existFields.preventionDVT}
+                            isRender={existFields.giStimulant}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="gumChewing"
+                            label={CHECKLIST_ITEMS_NAME.gumChewing}
+                            formik={formik}
+                            isRender={existFields.gumChewing}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="antiNauseaPostOp"
+                            label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
+                            formik={formik}
+                            isRender={existFields.antiNauseaPostOp}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="ivFluidRestrictionPostOp"
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                            formik={formik}
+                            isRender={existFields.ivFluidRestrictionPostOp}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="nonOpioidPainControl"
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                            formik={formik}
+                            isRender={existFields.nonOpioidPainControl}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="jpDrainRemoval"
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                            formik={formik}
+                            isRender={existFields.jpDrainRemoval}
+                            etcComponent={
+                                <DateInput<checkListFormType>
+                                    label=""
+                                    htmlFor="jpDrainRemovalDate"
+                                    formik={formik}
+                                    placeHolder="제거한날 기입"
+                                    isRender={formik.values.jpDrainRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
+                                />
+                            }
                         />
 
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="chewingGum"
-                            label={ITEMS_NAME_MAP.chewingGum}
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="catheterRemoval"
+                            label={CHECKLIST_ITEMS_NAME.catheterRemoval}
                             formik={formik}
-                            isRender={existFields.chewingGum}
+                            isRender={existFields.catheterRemoval}
+                            etcComponent={
+                                <DateInput<checkListFormType>
+                                    label=""
+                                    htmlFor="catheterRemovalDate"
+                                    formik={formik}
+                                    placeHolder="제거한날 기입"
+                                    isRender={formik.values.catheterRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
+                                />
+                            }
                         />
-                        <SingleSelector<ComplianceValuesType>
-                            htmlFor="dayOfRemoveJP_Drain"
-                            label={ITEMS_NAME_MAP.dayOfRemoveJP_Drain}
+
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="catheterReInsertion"
+                            label="* Foley cath 재삽입 여부"
                             formik={formik}
+                            isRender={existFields.catheterRemoval && formik.values.catheterRemoval === 'YES'}
+                        />
+                        <YesOrNoButton<checkListFormType>
+                            htmlFor="ivLineRemoval"
+                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                            formik={formik}
+                            isRender={existFields.ivLineRemoval}
+                            etcComponent={
+                                <DateInput<checkListFormType>
+                                    label=""
+                                    htmlFor="ivLineRemovalDate"
+                                    formik={formik}
+                                    placeHolder="제거한날 기입"
+                                    isRender={formik.values.ivLineRemoval === 'YES'}
+                                    minDate={operationDate ? new Date(operationDate) : undefined}
+                                />
+                            }
+                        />
+                        <YesOrNoButton
+                            htmlFor="postExercise"
+                            label={CHECKLIST_ITEMS_NAME.postExercise}
+                            formik={formik}
+                            isRender={existFields.podExercise}
+                        />
+                        <YesOrNoButton
+                            htmlFor="postMeal"
+                            label={CHECKLIST_ITEMS_NAME.postMeal}
+                            formik={formik}
+                            isRender={existFields.podMeal}
+                        />
+                        <PainSelector
+                            type="number"
+                            htmlFor="postPain"
+                            label={CHECKLIST_ITEMS_NAME.postPain}
+                            formik={formik}
+                            isRender={existFields.podPain}
                             values={[
-                                { value: 'POD_1', name: 'POD#1' },
-                                { value: 'POD_2', name: 'POD#2' },
-                                { value: 'POD_3', name: 'POD#3' },
-                                { value: 'POD_4', name: 'POD#4' },
-                                { value: 'AFTER_POD_5', name: 'POD#5 이후' },
+                                { value: 'day', label: 'Day' },
+                                { value: 'evening', label: 'Evening' },
+                                { value: 'night', label: 'Night' },
                             ]}
-                            isRender={existFields.dayOfRemoveJP_Drain}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="reasonByRemoveJP_DrainDelay"
-                            label={ITEMS_NAME_MAP.reasonByRemoveJP_DrainDelay}
-                            formik={formik}
-                            isRender={existFields.reasonByRemoveJP_DrainDelay}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="dayOfRemoveUrinary_Catheter"
-                            label={ITEMS_NAME_MAP.dayOfRemoveUrinary_Catheter}
-                            formik={formik}
-                            isRender={existFields.dayOfRemoveUrinary_Catheter}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="reasonByRemoveUrinary_CatheterDelay"
-                            label={ITEMS_NAME_MAP.reasonByRemoveUrinary_CatheterDelay}
-                            formik={formik}
-                            isRender={existFields.reasonByRemoveUrinary_CatheterDelay}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="afterOperationLimitIV_Fluid"
-                            label={ITEMS_NAME_MAP.afterOperationLimitIV_Fluid}
-                            formik={formik}
-                            isRender={existFields.afterOperationLimitIV_Fluid}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="dayOfRemoveIV_Fluid"
-                            label={ITEMS_NAME_MAP.dayOfRemoveIV_Fluid}
-                            formik={formik}
-                            isRender={existFields.dayOfRemoveIV_Fluid}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="reasonByRemoveIV_FluidDelay"
-                            label={ITEMS_NAME_MAP.reasonByRemoveIV_FluidDelay}
-                            formik={formik}
-                            isRender={existFields.reasonByRemoveIV_FluidDelay}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="post_Nausea_Vomiting"
-                            label={ITEMS_NAME_MAP.post_Nausea_Vomiting}
-                            formik={formik}
-                            isRender={existFields.post_Nausea_Vomiting}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="postOpDayExercise"
-                            label={ITEMS_NAME_MAP.postOpDayExercise}
-                            formik={formik}
-                            isRender={existFields.postOpDayExercise}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="pod_Exercise"
-                            label={ITEMS_NAME_MAP.pod_Exercise}
-                            formik={formik}
-                            isRender={existFields.pod_Exercise}
-                        />
-
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="postOpDayMeal"
-                            label={ITEMS_NAME_MAP.postOpDayMeal}
-                            formik={formik}
-                            isRender={existFields.postOpDayMeal}
-                        />
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="pod_Meal"
-                            label={ITEMS_NAME_MAP.pod_Meal}
-                            formik={formik}
-                            isRender={existFields.pod_Meal}
-                        />
-
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="postOpEffectivePainControl"
-                            label={ITEMS_NAME_MAP.postOpEffectivePainControl}
-                            formik={formik}
-                            isRender={existFields.postOpEffectivePainControl}
-                        />
-                        <SingleSelector<ComplianceValuesType>
-                            htmlFor="pod_PainScore"
-                            label={ITEMS_NAME_MAP.pod_PainScore}
-                            formik={formik}
-                            isRender={existFields.pod_PainScore}
-                            values={[
-                                { value: 'DAY', name: 'day' },
-                                { value: 'EVENING', name: 'Evening' },
-                                { value: 'NIGHT', name: 'Night' },
-                            ]}
-                        />
-
-                        <YesOrNoButton<ComplianceValuesType>
-                            htmlFor="hasPost_Nausea_Vomiting"
-                            label={ITEMS_NAME_MAP.hasPost_Nausea_Vomiting}
-                            formik={formik}
-                            isRender={existFields.hasPost_Nausea_Vomiting}
-                        />
-                        <TextInput<ComplianceValuesType>
-                            label="입원병동"
-                            htmlFor="locate"
-                            formik={formik}
-                            isRender={existFields.locate}
                         />
                     </DropContainer>
                 </form>
-                <SubmitButton onClick={() => handleOpenConfirm(formik.values)} label="확인하기" />
+                <div className={`mt-auto ${isConfirmButton ? 'block' : 'hidden'}`}>
+                    <SubmitButton
+                        onClick={handleOpenConfirm}
+                        label={`
+                        ${isEditPage ? '수정' : '제출'}하기
+                    `}
+                    />
+                </div>
             </div>
 
             {/* 작성한 폼을 한번 더확인 */}
@@ -401,6 +395,7 @@ function ComplianceFormPage() {
                     onSubmit={formik.handleSubmit}
                     onClose={handleCloseConfirm}
                     existFields={existFields}
+                    fluidRestriction={fluidRestriction}
                 />
             )}
         </>

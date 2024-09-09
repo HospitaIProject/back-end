@@ -18,12 +18,12 @@ const FILTER_ITEMS = [
         title: '환자번호',
     },
     {
-        value: 'surgeryMethod',
+        value: 'operationMethod',
         title: '수술명',
     },
 ];
 
-function FilterHeader() {
+function FilterHeader({ isRender }: { isRender: boolean }) {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [searchParams] = useSearchParams();
     const { pathname } = useLocation();
@@ -46,7 +46,7 @@ function FilterHeader() {
 
     const handleFilter = (value: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        if (value === 'all') {
+        if (value === 'patientName') {
             params.delete('sc');
         } else {
             params.set('sc', value);
@@ -54,10 +54,13 @@ function FilterHeader() {
         navigate(pathname + '?' + params.toString(), { replace: true });
     };
     useEffect(() => {}, [sc]);
+
     return (
         <>
-            <div className="sticky top-0 z-10 flex flex-col items-center w-full gap-1 px-4 py-2 bg-white border-b border-blue-200 h-fit">
-                <div className="flex flex-row items-center w-full gap-2 mt-1 overflow-x-auto">
+            <div
+                className={`${isRender ? 'h-[115px] border-b border-blue-200 py-2 opacity-100' : 'h-0 overflow-hidden opacity-0'} absolute left-0 top-[65px] flex w-full flex-col items-center gap-1 bg-white px-4 transition-all duration-300`}
+            >
+                <div className="flex flex-row items-center w-full gap-2 mt-1">
                     {FILTER_ITEMS.map((item) => (
                         <button
                             key={item.value}
@@ -78,7 +81,7 @@ function FilterHeader() {
                     </button>
                 </div>
             </div>
-            {isFilterModalOpen && <FilterModal onClose={closeFilterModal} />}
+            {isFilterModalOpen && <FilterModal isOpen={isFilterModalOpen} onClose={closeFilterModal} />}
         </>
     );
 }

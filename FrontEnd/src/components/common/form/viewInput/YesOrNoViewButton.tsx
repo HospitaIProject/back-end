@@ -1,5 +1,3 @@
-// import { ComplianceValuesType } from '../../../../models/FormType';
-
 import InputViewContainer from './InputViewContainer';
 
 type Props = {
@@ -7,22 +5,19 @@ type Props = {
     value: 'YES' | 'NO' | '' | undefined;
     remark?: string;
     isRender?: boolean;
+    etcComponent?: React.ReactNode;
+    isDivided?: boolean;
 };
 
-function YesOrNoViewButton({ label, value, remark, isRender }: Props) {
+function YesOrNoViewButton({ label, value, remark, isRender, etcComponent, isDivided }: Props) {
     return (
-        <InputViewContainer label={label} remark={remark} isRender={isRender}>
-            {/* <div className={`ml-2 flex flex-grow justify-end gap-1 rounded-lg`}>
-                <span className={`text-md h-7 ${value === 'YES' ? 'font-semibold text-blue-500' : 'text-gray-400'}`}>
-                    Yes
-                </span>
-                <span>/</span>
-                <span
-                    className={`text-md h-7 border-gray-300 ${value === 'NO' ? 'font-semibold text-blue-500' : 'text-gray-400'}`}
-                >
-                    No
-                </span>
-            </div> */}
+        <InputViewContainer
+            isDivided={isDivided}
+            label={label}
+            remark={remark}
+            isRender={isRender}
+            etcComponent={etcComponent}
+        >
             <div className={`flex flex-grow justify-end`}>
                 <div className="flex flex-row w-20">
                     <button

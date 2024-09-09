@@ -76,12 +76,12 @@ task createStaticDir {
 }
 
 task buildReact(type: Exec) {
-	workingDir "${projectDir}/frontend"
+	workingDir "${projectDir}/FrontEnd"
 	commandLine 'npm', 'run', 'build'
 }
 
 task copyReactBuild(type: Copy) {
-	from "${projectDir}/frontend/dist"
+	from "${projectDir}/FrontEnd/dist"
 	into "${projectDir}/src/main/resources/static"
 }
 

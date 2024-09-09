@@ -3,14 +3,13 @@ package com.team.hospital.api.operation.dto;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.enumType.OperationApproach;
-import com.team.hospital.api.operation.enumType.OperationMethod;
+import com.team.hospital.api.operationMethod.OperationMethod;
+import com.team.hospital.api.operationType.OperationType;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -18,9 +17,7 @@ public class OperationDTO {
 
     private Long operationId;
 
-    private List<OperationMethod> operationMethod;        // 수술 방법
-
-    private List<String> customOperationMethod;           // 사용자 정의 수술 방법
+    private List<String> operationTypeNames;        // 수술 방법
 
     private OperationApproach operationApproach;            // 수술 approach
 
@@ -36,11 +33,23 @@ public class OperationDTO {
 
     private double bloodLoss;             // 수술 중 실혈양 (cc)
 
-    public static OperationDTO toEntity(Operation operation){
+    private BooleanOption complicationStatus;        // 합병증 여부
+
+    private boolean complicationRegistered;
+
+    private double complicationScore;
+
+    private double compliancePercentage;
+
+    public static OperationDTO toEntity(Operation operation) {
+        List<String> operationTypeNames = operation.getOperationMethods().stream()
+                .map(OperationMethod::getOperationType)
+                .map(OperationType::getName)
+                .toList();
+
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationMethod(operation.getOperationMethod())
-                .customOperationMethod(operation.getCustomOperationMethod())
+                .operationTypeNames(operationTypeNames)
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())
@@ -48,12 +57,33 @@ public class OperationDTO {
                 .totalOperationTime(operation.getTotalOperationTime())
                 .totalFluidsAmount(operation.getTotalFluidsAmount())
                 .bloodLoss(operation.getBloodLoss())
+                .complicationStatus(operation.getComplicationStatus())
                 .build();
     }
 
-    public static List<OperationDTO> buildOperationDTOs(List<Operation> operations){
-        return operations.stream()
-                .map(OperationDTO::toEntity)
-                .collect(Collectors.toList());
+    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, double compilancePercentage) {
+        List<String> operationTypeNames = operation.getOperationMethods().stream()
+                .map(OperationMethod::getOperationType)
+                .map(OperationType::getName)
+                .toList();
+
+        return OperationDTO.builder()
+                .operationId(operation.getId())
+                .operationTypeNames(operationTypeNames)
+                .operationApproach(operation.getOperationApproach())
+                .stomaFormation(operation.getStomaFormation())
+                .operationStartTime(operation.getOperationStartTime())
+                .operationEndTime(operation.getOperationEndTime())
+                .totalOperationTime(operation.getTotalOperationTime())
+                .totalFluidsAmount(operation.getTotalFluidsAmount())
+                .bloodLoss(operation.getBloodLoss())
+                .complicationStatus(operation.getComplicationStatus())
+
+                .complicationRegistered(complicationRegistered)
+                .complicationScore(complicationScore)
+                .compliancePercentage(compilancePercentage)
+
+                .build();
     }
+
 }

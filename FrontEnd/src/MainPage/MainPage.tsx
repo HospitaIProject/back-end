@@ -28,14 +28,21 @@ function MainPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
+            <div className="flex w-full flex-col justify-center">
                 <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
+                <div className="my-2 flex w-full flex-grow flex-col bg-white">
+                    <ul className="grid grid-cols-1 gap-x-8 mobile:grid-cols-2 mobile:px-2">
+                        {isSuccess &&
+                            patientListQuery.data.map((data) => (
+                                <div className="flex w-full flex-col">
+                                    <PatientSummaryCard userData={data} key={data.patientDTO.patientId} />
+                                    <div className={`w-full border-t border-gray-200`} />
+                                </div>
+                            ))}
+                    </ul>
+                </div>
 
-                <ul className="grid grid-cols-1 gap-2 py-2 mobile:grid-cols-2 mobile:px-2">
-                    {isSuccess && patientListQuery.data.map((data) => <PatientSummaryCard userData={data} />)}
-                </ul>
-
-                <ResponsivePagination />
+                <ResponsivePagination pageSize={1} />
             </div>
         </>
     );

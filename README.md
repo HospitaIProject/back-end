@@ -1,4 +1,7 @@
 # 수술 환자 관리 시스템
+
+[English Version](README.en.md)
+
 ![image](https://github.com/user-attachments/assets/bd613b85-edd0-4a7b-a2ca-4f527a0caaac)
 
 - 프로젝트 기간 : 24.07
@@ -9,7 +12,7 @@
 ---
 # 프로젝트 소개 및 기능
 - 실제 성모병원 내에서 사용되는 수술/입원 환자 관리 시스템 입니다.
-- 인증된 관리자만 모든 시스템 이용을 관리할 수 있습니다.
+- 인증된 관리자만 모든 시스템을 접근하고 관리할 수 있습니다.
 - 환자를 등록합니다.
 - 환자에 대한 수술 날짜와 수술 종류를 입력합니다.
 - 수술 종류에 따라 CheckList 항목을 선택합니다.
@@ -17,6 +20,12 @@
 - 병원 관계자는 환자별, 날짜별로 수술/입원에 대한 정보를 관리할 수 있습니다.
 - 병원 관계자는 작성한 모든 항목을 수정/삭제가 가능합니다.
 - 정리된 기록을 Excel 파일로 추출할 수 있습니다.
+
+---
+# 순서도
+![순서도 저장](https://github.com/user-attachments/assets/738dc6ff-a3e4-4c60-987e-2b08799ece60)
+
+
 
 ---
 ## 사용 기술
@@ -47,4 +56,5 @@ etc:
 - <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 ---
 ## Architecture
-![img_1.png](img_1.png)
+![image](https://github.com/user-attachments/assets/37f8ac0a-17dd-4139-8c6d-20f8f4702e1f)
+

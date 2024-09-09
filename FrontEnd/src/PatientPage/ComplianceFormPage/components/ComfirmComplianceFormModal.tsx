@@ -1,17 +1,24 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import { CheckListSetupDaySectionType, ComplianceValuesType } from '../../../models/FormType';
+import { checkListFormType } from '../../../models/CheckListsType';
+import { CheckListSetupType } from '../../../models/CheckListsType';
 import ConfirmComplianceForm from './ConfirmComplianceForm';
 type Props = {
-    values: ComplianceValuesType;
+    values: checkListFormType;
     onSubmit: () => void;
     onClose: () => void;
-    existFields: CheckListSetupDaySectionType;
+    existFields: CheckListSetupType;
+    fluidRestriction: number;
 };
 
-function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields }: Props) {
+function ComfirmComplianceFormModal({ values, onSubmit, onClose, existFields, fluidRestriction }: Props) {
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
-            <ConfirmComplianceForm values={values} onSubmit={onSubmit} existFields={existFields} />
+            <ConfirmComplianceForm
+                formValues={values}
+                fluidRestriction={fluidRestriction}
+                onSubmit={onSubmit}
+                existFields={existFields}
+            />
         </ModalFullScreenContainer>
     );
 }

@@ -4,8 +4,10 @@ import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.exception.PatientAlreadyExistsException;
 import com.team.hospital.api.patient.exception.PatientNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ public class PatientService {
     private final PatientRepository patientRepository;
 
     @Transactional
-    public void join(RegisterPatient registerPatient) {
+    public void save(RegisterPatient registerPatient) {
         if (existsByPatientNumber(registerPatient.getPatientNumber())) throw new PatientAlreadyExistsException();
         Patient patient = Patient.createPatient(registerPatient);
         patientRepository.save(patient);
@@ -37,28 +39,29 @@ public class PatientService {
         patientRepository.delete(patient);
     }
 
+    public Patient findPatientById(Long patientId) {
+        Optional<Patient> patient = patientRepository.findById(patientId);
+        if (patient.isEmpty()) throw new PatientNotFoundException();
+        return patient.get();
+    }
+
     public List<Patient> findAll() {
         return patientRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public Slice<Patient> findPatientsByName(String query, Pageable pageable) {
         return patientRepository.findByNameContaining(query, pageable);
     }
 
     public Slice<Patient> findPatientsByPatientNumber(Long patientNumber, Pageable pageable) {
-        return patientRepository.findByPatientNumber(patientNumber, pageable);
+        Page<Patient> page = patientRepository.findAllByPatientNumberContaining(patientNumber.toString(), pageable);
+        return new SliceImpl<>(page.getContent(), pageable, page.hasNext());
     }
 
     public Slice<Patient> findAll(Pageable pageable) {
         return patientRepository.findAll(pageable);
     }
 
-    public Patient findPatientById(Long patientId) {
-        Optional<Patient> patient = patientRepository.findById(patientId);
-        if (patient.isEmpty()) throw new PatientNotFoundException();
-        return patient.get();
-    }
 
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);

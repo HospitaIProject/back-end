@@ -1,30 +1,35 @@
-export type PatientType = {
-    createdAt: Date;
-    updatedAt: Date;
-    id: number;
-    patientNumber: number | '';
-    name: string | '';
-    sex: 'MALE' | 'FEMALE' | '';
-    birthday: Date | '';
-    height: number | '';
-    weight: number | '';
-    bmi: number | '';
-    asaScore: 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI' | '';
-    location: string | '';
-    dignosis: string | '';
-    operationDate: Date | '';
-    hospitalizedDate: Date | '';
-    dischargedDate: Date | '';
-    totalHospitalizedDays: number | '';
-    operationMethod: string | '';
-    operationApproach: string | '';
-    stomaFormation: 'COLOSTOMY' | 'IlEOSTOMY' | 'UROSTOMY' | 'GASTROSTOMY' | 'JEJUNOSTOMY' | '';
-    ajcCStage: string | '';
-    numberOfRetrievedLine: number | '';
-    complicationOccurence: 'YES' | 'NO' | '';
-    cdClassification: string | '';
-    reOperationWithIn30Days: 'YES' | 'NO' | '';
-    reOperationCause: string | '';
+//--------------------------------------------
+
+type AsaScoreType = 'ASA_I' | 'ASA_II' | 'ASA_III' | 'ASA_IV' | 'ASA_V' | 'ASA_VI';
+type LocationType = 'RT_SIDED_COLON' | 'LT_SIDED_COLON' | 'RECTUM' | 'MULTIPLE';
+type DiagnosisType =
+    | 'ASCENDING_COLON'
+    | 'HF_COLON'
+    | 'T_COLON'
+    | 'SF_COLON'
+    | 'DS_COLON'
+    | 'SIGMOID_COLON'
+    | 'RS_COLON'
+    | 'RECTUM'
+    | 'CECUM'
+    | 'APPENDICEAL'
+    | 'ANUS';
+export type PatientFormType = {
+    [key: string]: string | number | Date | DiagnosisType | AsaScoreType | LocationType;
+    patientNumber: number | ''; //등록번호
+    name: 'MALE' | 'FEMALE' | ''; //환자이름
+    sex: string | ''; //성별
+    age: number | ''; //나이
+    height: number | ''; //키(cm)
+    weight: number | ''; //몸무게(kg)
+    bmi: number | ''; //BMI(kg/cm^2)
+    asaScore: AsaScoreType | ''; //ASA score
+    location: LocationType | ''; //위치            //enum
+    diagnosis: DiagnosisType | ''; //진단명          //enum
+    operationDate: Date | ''; //수술일
+    hospitalizedDate: Date | ''; //입원일
+    dischargedDate: Date | ''; //퇴원일
+    totalHospitalizedDays: number | ''; //총 재원 일수(일)
 };
 
 export type PatientWithOperationDtoType = {
@@ -34,11 +39,21 @@ export type PatientWithOperationDtoType = {
         patientNumber: number; // 환자번호
         name: string; // 이름
         sex: 'MALE' | 'FEMALE'; // 성별
-        birthday: string; // 생년월일
+        age: number; // 나이
+        height: number; // 키
+        weight: number; // 몸무게
+        bmi: number; // BMI
+        asaScore: AsaScoreType; // ASA score
+        location: LocationType; // 위치
+        diagnosis: DiagnosisType; // 진단명
+        operationDate: string; // 수술일
+        hospitalizedDate: string; // 입원일
+        dischargedDate: string; // 퇴원일
+        totalHospitalizedDays: number; // 총 재원 일수
     };
     operationDateDTOs: {
         operationId: number; // 수술ID
-        operationMethod: string; // 수술명
+        operationTypeNames: string[]; // 수술명
         operationDate: string; // 수술일자
         hospitalizedDate: string; // 입원일자
         dischargedDate: string; // 퇴원일자

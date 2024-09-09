@@ -1,5 +1,7 @@
 import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 
 function SingleSelector<T>({
     label,
@@ -14,8 +16,12 @@ function SingleSelector<T>({
     values: { value: string; name: string }[];
     isRender?: boolean;
 }) {
-    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        formik?.setFieldValue(htmlFor, e.target.value);
+    const animatedComponents = makeAnimated();
+
+    const options = values.map((value) => ({ value: value.value, label: value.name }));
+    const handleChange = (newValue: any) => {
+        console.log('newValue', newValue);
+        formik?.setFieldValue(htmlFor, newValue.value);
         formik?.setFieldError(htmlFor, '');
     };
 
@@ -24,22 +30,37 @@ function SingleSelector<T>({
 
     return (
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
-            <div className="flex flex-grow h-12 overflow-hidden mobile:max-w-60">
-                <select
+            <div className="flex flex-grow">
+                <Select
+                    components={animatedComponents}
+                    options={options}
+                    isSearchable={false}
                     onChange={handleChange}
-                    defaultValue=""
-                    className={`w-full rounded-lg border border-gray-300 px-2 ${isValid ? 'border-2 border-red-400' : ''}`}
-                    id={htmlFor}
-                >
-                    <option value="">선택</option>
-                    {values.map((value, index) => {
-                        return (
-                            <option key={index} value={value.value}>
-                                {value.name}
-                            </option>
-                        );
-                    })}
-                </select>
+                    classNamePrefix="select"
+                    placeholder="선택"
+                    value={options.find((option) => option.value === formik?.getFieldProps(htmlFor).value)}
+                    styles={{
+                        control: (baseStyles, state) => ({
+                            ...baseStyles,
+                            width: '100%',
+                            minHeight: '3rem',
+                            borderWidth: '1px', // 원하는 두께로 변경
+                            boxShadow: `none`, // 선택 시 그림자 제거 (선택적)
+                            borderRadius: `0.5rem`, // 원하는 모양으로 변경
+                            '&:hover': {},
+                            border: isValid
+                                ? '2px solid #e53e3e'
+                                : '' || state.isFocused
+                                  ? '2px solid rgb(96 165 250) '
+                                  : '1px solid rgb(209 213 219) ',
+                            cursor: 'pointer',
+                        }),
+                        container: (provided) => ({
+                            ...provided,
+                            width: '100%',
+                        }),
+                    }}
+                />
             </div>
         </InputContainer>
     );

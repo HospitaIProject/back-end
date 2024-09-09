@@ -23,7 +23,6 @@ public class CheckListItemService {
     public void save(WriteCheckListItem writeCheckListItem, Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
         CheckListItem checkListItem = CheckListItem.createCheckListItem(writeCheckListItem, operation);
-
         try {
             checkListItemRepository.save(checkListItem);
         } catch (DataIntegrityViolationException e) {
@@ -33,18 +32,18 @@ public class CheckListItemService {
     }
 
     @Transactional
-    public void modify(WriteCheckListItem write, Long checkListItemId) {
-        CheckListItem checkListItem = findCheckListItemById(checkListItemId);
+    public void update(WriteCheckListItem write, Long operationId) {
+        CheckListItem checkListItem = findCheckListItemByOperation(operationId);
         checkListItem.updateCheckListItem(write);
     }
 
     @Transactional
-    public void delete(Long checkListItemId) {
-        CheckListItem checkListItem = findCheckListItemById(checkListItemId);
+    public void delete(Long operationId) {
+        CheckListItem checkListItem = findCheckListItemByOperation(operationId);
         checkListItemRepository.delete(checkListItem);
     }
 
-    @Transactional
+//    @Transactional
     public CheckListItem findCheckListItemByOperation(Long operationId) {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findCheckListItemByOperationId(operationId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException("해당 수술에 체크리스트 목록이 등록되지 않았습니다.");
@@ -55,6 +54,10 @@ public class CheckListItemService {
         Optional<CheckListItem> checkListItem = checkListItemRepository.findById(checkListItemId);
         if (checkListItem.isEmpty()) throw new CheckListItemNotFoundException();
         return checkListItem.get();
+    }
+
+    public CheckListItem findByOperationId(Long operationId) {
+        return checkListItemRepository.findByOperationId(operationId);
     }
 
 }

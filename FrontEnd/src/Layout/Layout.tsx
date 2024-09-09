@@ -4,18 +4,23 @@ import { Toaster } from 'react-hot-toast';
 import { Outlet, useLocation } from 'react-router-dom';
 import FallbackUI from '../components/common/FallbackUI';
 
-const WHITE_BG_PAGES = ['/login', '/patient/new/info', '/patient/new/surgery', '/patient/form/compliance'];
+const WHITE_BG_PAGES = [
+    '/login',
+    '/patient/new/info',
+    '/patient/new/operation',
+    '/patient/form/compliance/edit',
+    '/patient/form/compliance',
+    '/patient/checkLists/preview',
+    '/patient/form/compliance/daily/edit',
+    '/patient/form/compliance/daily',
+    '/operation-checkList/default-setting',
+];
 
 function Layout() {
     const { pathname } = useLocation();
+    console.log('pathname', pathname);
 
-    let bgColor;
-
-    if (WHITE_BG_PAGES.includes(pathname)) {
-        bgColor = 'bg-white';
-    } else {
-        bgColor = 'bg-gray-100';
-    }
+    let bgColor = WHITE_BG_PAGES.some((pagePath) => pathname.startsWith(pagePath)) ? 'bg-white' : 'bg-gray-100';
 
     return (
         <>
@@ -26,7 +31,8 @@ function Layout() {
                     /* onReset prop에 reset 함수를 전달하여 에러가 발생했을 때 reset 함수를 실행합니다. */
                     /* FallbackComponent prop에 FallbackUI 컴포넌트를 전달하여 에러가 발생했을 때 보여줄 UI를 설정합니다. */
                     <ErrorBoundary onReset={reset} FallbackComponent={FallbackUI}>
-                        <div className={`h-dvh w-dvw overflow-y-auto ${bgColor} `}>
+                        <div className={` ${bgColor} `}>
+                            {/* h-dvh w-dvw overflow-y-auto */}
                             <div className="mx-auto w-full max-w-[1300px]">
                                 <Outlet />
                             </div>

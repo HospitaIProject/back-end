@@ -8,10 +8,18 @@ type ModalWrapperProps = {
 
     onClose?: () => void;
     maxWidthClassName?: string; //container className
+    maxHeightClassName?: string; //container className
     bgClassName?: string; //background className
 };
 
-function ModalFullScreenContainer({ children, title, onClose, maxWidthClassName, bgClassName }: ModalWrapperProps) {
+function ModalFullScreenContainer({
+    children,
+    title,
+    onClose,
+    maxWidthClassName,
+    maxHeightClassName,
+    bgClassName,
+}: ModalWrapperProps) {
     const [isBrowser, setIsBrowser] = useState(false);
 
     useEffect(() => {
@@ -30,9 +38,13 @@ function ModalFullScreenContainer({ children, title, onClose, maxWidthClassName,
     if (!open || !isBrowser) return null;
 
     return ReactDOM.createPortal(
-        <div className="bg-modal fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-dvh w-screen justify-center bg-gray-800 bg-opacity-40 pt-10">
+        <div
+            className="bg-modal fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-dvh w-screen justify-center bg-gray-800 bg-opacity-40 pt-4"
+            onClick={onClose}
+        >
             <div
-                className={`flex w-full scroll-smooth ${maxWidthClassName ? maxWidthClassName : 'max-w-screen-tablet'} flex-col rounded-t-lg border-x border-t ${bgClassName ? bgClassName : 'bg-white'}`}
+                className={`animate-slide-up mt-auto ${maxHeightClassName} flex h-full w-full scroll-smooth ${maxWidthClassName ? maxWidthClassName : 'max-w-screen-tablet'} flex-col rounded-t-lg border-x border-t ${bgClassName ? bgClassName : 'bg-white'}`}
+                onClick={(e) => e.stopPropagation()}
             >
                 <header className="flex flex-row justify-between w-full p-6 text-gray-600">
                     <div className="flex justify-center flex-grow font-medium ml-7">
@@ -42,7 +54,7 @@ function ModalFullScreenContainer({ children, title, onClose, maxWidthClassName,
                         <CloseIcon className="w-8 h-8 text-inherit" />
                     </button>
                 </header>
-                <div className="w-full overflow-y-auto">{children}</div>
+                <div className="w-full h-full overflow-y-auto">{children}</div>
             </div>
         </div>,
         document.getElementById('modal-root') as HTMLElement,

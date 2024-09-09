@@ -1,8 +1,9 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
+import { PatientFormType } from '../../../models/PatientType';
 import ConfirmNewPatientForm from './ConfirmNewPatientForm';
 
 type Props = {
-    values: any;
+    values: PatientFormType;
     onSubmit: () => void;
     onClose: () => void;
 };
