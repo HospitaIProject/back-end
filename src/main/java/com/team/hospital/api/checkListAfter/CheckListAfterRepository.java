@@ -1,5 +1,6 @@
 package com.team.hospital.api.checkListAfter;
 
+import com.team.hospital.api.checkListItem.CheckListItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +13,6 @@ public interface CheckListAfterRepository extends JpaRepository<CheckListAfter, 
     Optional<CheckListAfter> findByOperationId(@Param("operationId") Long operationId);
 
     boolean existsByCheckListItemId(Long checkListItemId);
+    CheckListAfter findCheckListAfterByCheckListItem(CheckListItem checkListItem);
+
 }
