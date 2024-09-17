@@ -26,6 +26,116 @@ public class CheckList extends BaseEntity {
     @Column(name = "check_list_id")
     private Long id;
 
+    // 하루 3번 15분동안 껌씹기 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_gumChewing")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_gumChewing_remarks"))
+    })
+    private CheckListFirst podOneGumChewing; // POD 1day 껌씹기 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_gumChewing")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_gumChewing_remarks"))
+    })
+    private CheckListFirst podTwoGumChewing; // POD 2day 껌씹기 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_gumChewing")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_gumChewing_remarks"))
+    })
+    private CheckListFirst podThreeGumChewing; // POD 3day 껌씹기 여부
+
+    // 수술 후 IV fluid 제한 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_iv_fluid_restriction")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_iv_fluid_restriction_remarks"))
+    })
+    private CheckListFirst podOneIvFluidRestriction; // POD 1day IV fluid 제한 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_iv_fluid_restriction")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_iv_fluid_restriction_remarks"))
+    })
+    private CheckListFirst podTwoIvFluidRestriction; // POD 2day IV fluid 제한 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_iv_fluid_restriction")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_iv_fluid_restriction_remarks"))
+    })
+    private CheckListFirst podThreeIvFluidRestriction; // POD 3day IV fluid 제한 여부
+
+    // 수술 후 non-opioid pain control 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_non_opioid_pain_control")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_non_opioid_pain_control_remarks"))
+    })
+    private CheckListFirst podOneNonOpioidPainControl; // POD 1day non-opioid pain control 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_non_opioid_pain_control")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_non_opioid_pain_control_remarks"))
+    })
+    private CheckListFirst podTwoNonOpioidPainControl; // POD 2day non-opioid pain control 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_non_opioid_pain_control")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_non_opioid_pain_control_remarks"))
+    })
+    private CheckListFirst podThreeNonOpioidPainControl; // POD 3day non-opioid pain control 여부
+
+    // 수술 후 3일이내 JP drain 제거 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_jp_drain_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_jp_drain_removal_remarks"))
+    })
+    private CheckListFirst podOneJpDrainRemoval; // POD 1day 3일이내 JP drain 제거 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_jp_drain_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_jp_drain_removal_remarks"))
+    })
+    private CheckListFirst podTwoJpDrainRemoval; // POD 2day 3일이내 JP drain 제거 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_jp_drain_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_jp_drain_removal_remarks"))
+    })
+    private CheckListFirst podThreeJpDrainRemoval; // POD 3day 3일이내 JP drain 제거 여부
+
+    // 수술 후 3일이내 IV line 제거 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_iv_line_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_iv_line_removal_remarks"))
+    })
+    private CheckListFirst podOneIvLineRemoval; // POD 1day 3일이내 IV line 제거 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_iv_line_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_iv_line_removal_remarks"))
+    })
+    private CheckListFirst podTwoIvLineRemoval; // POD 2day 3일이내 IV line 제거 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_iv_line_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_iv_line_removal_remarks"))
+    })
+    private CheckListFirst podThreeIvLineRemoval; // POD 3day 3일이내 IV line 제거 여부
+
     // POD Exercise
     @Embedded
     @AttributeOverrides({
@@ -64,8 +174,6 @@ public class CheckList extends BaseEntity {
     private CheckListFirst podTwoMeal; // POD 2day 운동
 
     // POD Pain
-
-
     @Convert(converter = DailyPainScoreConverter.class)
     private DailyPainScore podOnePain; // POD 1day 운동
 
