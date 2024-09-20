@@ -12,20 +12,14 @@ import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import CheckListsPostEmptyCard from './components/CheckListsPostEmptyCard';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import HorizontalProgressBar from '../../components/common/progress/HorizontalProgressBar';
+import dayjs from 'dayjs';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
-    // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
-    const date = new Date(operationDate);
+    // day.js로 날짜를 파싱하고 일수를 더함
+    const newDate = dayjs(operationDate).add(daysToAdd, 'day');
 
-    // 일수를 더함
-    date.setDate(date.getDate() + daysToAdd);
-
-    // 결과 날짜를 'YYYY-MM-DD' 형식의 문자열로 변환하여 반환
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더함
-    const day = date.getDate().toString().padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
+    // 'YYYY-MM-DD' 형식으로 반환
+    return newDate.format('YYYY-MM-DD');
 }
 
 function CheckListsPage() {
@@ -88,9 +82,9 @@ function CheckListsPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-col items-center w-full gap-3 px-4 py-3 mobile:col-span-2">
-                    <div className="flex flex-row justify-between w-full gap-3">
+            <div className="flex w-full flex-col justify-center">
+                <div className="flex w-full flex-col items-center gap-3 px-4 py-3 mobile:col-span-2">
+                    <div className="flex w-full flex-row justify-between gap-3">
                         <span className="text-gray-600">
                             환자명:&nbsp;<span className="">{patientName}</span>
                         </span>
@@ -110,14 +104,14 @@ function CheckListsPage() {
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison !== 'POST' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술 후 체크리스트는 수술일 다음 날부터 작성 가능합니다.
                             </span>
                         </div>
                     )}
                     {checkListsData.checkListDTOs === null && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 일일 체크리스트는 퇴원일이 입력된 후에 표시됩니다.
                             </span>
@@ -154,7 +148,7 @@ function CheckListsPage() {
 
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison === 'PREV' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술 중 체크리스트는 수술일 당일부터 작성 가능합니다.
                             </span>
