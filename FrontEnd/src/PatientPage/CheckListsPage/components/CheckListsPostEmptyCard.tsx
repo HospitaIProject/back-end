@@ -23,16 +23,16 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
     return (
         <>
             <li
-                className="flex flex-row items-center w-full gap-1 px-4 py-3 bg-white cursor-pointer border-y hover:bg-blue-50"
+                className="flex w-full cursor-pointer flex-row items-center gap-1 border-y bg-white px-4 py-3 hover:bg-blue-50"
                 style={{
                     order: order,
                 }}
                 onClick={handleRouteCheckListForm}
             >
-                <div className="flex flex-row items-center w-full gap-6">
-                    <span className="flex-shrink-0 w-12 font-semibold text-sky-800">{dateComparison}</span>
+                <div className="flex w-full flex-row items-center gap-6">
+                    <span className="w-12 flex-shrink-0 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-row items-center">
-                        <span className="inline-block text-sm text-gray-400 break-words">{`체크리스트 작성 가능`}</span>
+                        <span className="inline-block break-words text-sm text-gray-400">{`체크리스트 작성 가능`}</span>
                     </div>
                 </div>
                 <Link
@@ -40,7 +40,7 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                     className={`relative mx-1 flex flex-shrink-0 flex-row items-center justify-center gap-1 rounded-lg border p-2 text-gray-400 shadow-sm`}
                 >
                     <span className="text-sm">작성하기</span>
-                    <ArrowIcon className="w-4 h-4 text-inherit" />
+                    <ArrowIcon className="h-4 w-4 text-inherit" />
                     {today && (
                         <span className="absolute -right-3 -top-3 flex items-center justify-center rounded-md bg-yellow-200 p-[2px] text-xs text-red-500">
                             New
