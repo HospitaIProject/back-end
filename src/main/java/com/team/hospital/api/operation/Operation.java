@@ -24,7 +24,7 @@ public class Operation extends BaseEntity {
     @Column(name = "operation_id")
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "operation_id")
     private List<OperationMethod> operationMethods;
 

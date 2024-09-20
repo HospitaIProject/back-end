@@ -1,5 +1,6 @@
 package com.team.hospital.api.checkList;
 
+import com.team.hospital.api.checkList.dto.CheckListDailyDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListAfter.CheckListAfter;
@@ -71,6 +72,11 @@ public class CheckListService {
         return checkList.get();
     }
 
+    public CheckListDailyDTO testV2(Long operationId) {
+        List<CheckList> checkLists = findAllByOperationId(operationId);
+        return CheckListDailyDTO.createCheckListDailyDTO(checkLists);
+    }
+
     // D+2부터 적용되도록 수정
     public boolean checkIfCheckListCreatedToday(Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
@@ -104,7 +110,6 @@ public class CheckListService {
             // 수술 후 D+1 체크리스트가 존재하고 D+1 체크리스트가 작성 완료되었는지 확인
             return checks.get(0) != null && checkListAfter.isPresent();
         }
-
         return false;
     }
 
@@ -126,7 +131,7 @@ public class CheckListService {
         int checkListCount = (int) ChronoUnit.DAYS.between(hospitalizedDate, currentDate);
         checkListCount = Math.max(checkListCount, 0);
 
-        System.out.println("checkListCount = " + checkListCount);
+//        System.out.println("checkListCount = " + checkListCount);
 
         List<CheckList> checks = new ArrayList<>(Collections.nCopies(checkListCount, null));
 
