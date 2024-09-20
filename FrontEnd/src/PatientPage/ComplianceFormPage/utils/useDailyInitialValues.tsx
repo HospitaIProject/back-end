@@ -64,6 +64,42 @@ export const useDailyInitialValues = ({ existFields }: { existFields?: CheckList
         podThreeExercise_remarks: isPod3 && existFields?.podExercise ? '' : undefined,
         podOneMeal_remarks: isPod1 && existFields?.podMeal ? '' : undefined,
         podTwoMeal_remarks: isPod2 && existFields?.podMeal ? '' : undefined,
+
+        //-------------------------추가 항목-------------------------
+        podOneGumChewing: existFields?.gumChewing && isPod1 ? '' : undefined, //POD 1day 껌씹기
+        podTwoGumChewing: existFields?.gumChewing && isPod2 ? '' : undefined, //POD 2day 껌씹기
+        podThreeGumChewing: existFields?.gumChewing && isPod3 ? '' : undefined, //POD 3day 껌씹기
+
+        podOneIvFluidRestriction: existFields?.ivFluidRestrictionPostOp && isPod1 ? '' : undefined, //POD 1day IV fluid 제한
+        podTwoIvFluidRestriction: existFields?.ivFluidRestrictionPostOp && isPod2 ? '' : undefined, //POD 2day IV fluid 제한
+        podThreeIvFluidRestriction: existFields?.ivFluidRestrictionPostOp && isPod3 ? '' : undefined, //POD 3day IV fluid 제한
+
+        podOneNonOpioidPainControl: existFields?.nonOpioidPainControl && isPod1 ? '' : undefined, //POD 1day non-opioid pain control 여부
+        podTwoNonOpioidPainControl: existFields?.nonOpioidPainControl && isPod2 ? '' : undefined, //POD 2day non-opioid pain control 여부
+        podThreeNonOpioidPainControl: existFields?.nonOpioidPainControl && isPod3 ? '' : undefined, //POD 3day non-opioid pain control 여부
+
+        podOneJpDrainRemoval: existFields?.jpDrainRemoval && isPod1 ? '' : undefined, //POD 1day JP drain 제거 여부
+        podTwoJpDrainRemoval: existFields?.jpDrainRemoval && isPod2 ? '' : undefined, //POD 2day JP drain 제거 여부
+        podThreeJpDrainRemoval: existFields?.jpDrainRemoval && isPod3 ? '' : undefined, //POD 3day JP drain 제거 여부
+        podOneIvLineRemoval: existFields?.ivLineRemoval && isPod1 ? '' : undefined, //POD 1day IV line 제거 여부
+        podTwoIvLineRemoval: existFields?.ivLineRemoval && isPod2 ? '' : undefined, //POD 2day IV line 제거 여부
+        podThreeIvLineRemoval: existFields?.ivLineRemoval && isPod3 ? '' : undefined, //POD 3day IV line 제거 여부
+
+        podOneGumChewing_remarks: isPod1 && existFields?.gumChewing ? '' : undefined,
+        podTwoGumChewing_remarks: isPod2 && existFields?.gumChewing ? '' : undefined,
+        podThreeGumChewing_remarks: isPod3 && existFields?.gumChewing ? '' : undefined,
+        podOneIvFluidRestriction_remarks: isPod1 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,
+        podTwoIvFluidRestriction_remarks: isPod2 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,
+        podThreeIvFluidRestriction_remarks: isPod3 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,
+        podOneNonOpioidPainControl_remarks: isPod1 && existFields?.nonOpioidPainControl ? '' : undefined,
+        podTwoNonOpioidPainControl_remarks: isPod2 && existFields?.nonOpioidPainControl ? '' : undefined,
+        podThreeNonOpioidPainControl_remarks: isPod3 && existFields?.nonOpioidPainControl ? '' : undefined,
+        podOneJpDrainRemoval_remarks: isPod1 && existFields?.jpDrainRemoval ? '' : undefined,
+        podTwoJpDrainRemoval_remarks: isPod2 && existFields?.jpDrainRemoval ? '' : undefined,
+        podThreeJpDrainRemoval_remarks: isPod3 && existFields?.jpDrainRemoval ? '' : undefined,
+        podOneIvLineRemoval_remarks: isPod1 && existFields?.ivLineRemoval ? '' : undefined,
+        podTwoIvLineRemoval_remarks: isPod2 && existFields?.ivLineRemoval ? '' : undefined,
+        podThreeIvLineRemoval_remarks: isPod3 && existFields?.ivLineRemoval ? '' : undefined,
     };
     if (checkListDaily) {
         initialValues = checkListDaily as DailyCheckListFormType;

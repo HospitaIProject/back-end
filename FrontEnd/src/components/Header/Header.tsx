@@ -83,11 +83,11 @@ export default function Header() {
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
                     >
-                        <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
+                        <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
                     <Link to="/" className="px-1">
-                        <HomeIcon className="h-7 w-7 text-gray-600" />
+                        <HomeIcon className="text-gray-600 h-7 w-7" />
                     </Link>
                 </nav>
             </header>
@@ -102,19 +102,19 @@ export default function Header() {
                 {/* ${isVisible ? '' : 'opacity-30'} */}
                 <nav className="relative z-10 flex h-[65px] items-center bg-white px-4">
                     <button onClick={handleFilterToggle}>
-                        <SearchListIcon className="h-7 w-7 text-gray-600" />
+                        <SearchListIcon className="text-gray-600 h-7 w-7" />
                     </button>
-                    <div className="flex flex-grow flex-row items-center justify-end gap-2">
+                    <div className="flex flex-row items-center justify-end flex-grow gap-2">
                         <Link
                             to="/patient/new/info"
-                            className="mr-1 flex flex-row items-center gap-2 rounded-md border border-blue-500 px-2 py-2 text-blue-500 shadow-sm"
+                            className="flex flex-row items-center gap-2 px-2 py-2 mr-1 text-blue-500 border border-blue-500 rounded-md shadow-sm"
                         >
                             <span className="text-sm font-medium">환자 등록하기</span>
-                            <PlusIcon className="h-5 w-5" />
+                            <PlusIcon className="w-5 h-5" />
                         </Link>
                         <div className="h-6 border-l border-gray-300" />
                         <Link to="/operation-checkList/default-setting" className="text-sm underline">
-                            <SettingIcon className="h-7 w-7 text-gray-600" />
+                            <SettingIcon className="text-gray-600 h-7 w-7" />
                         </Link>
                     </div>
 

@@ -135,6 +135,44 @@ export type DailyCheckListFormType = {
     podTwoMeal_remarks?: string;
 
     dayOfCheckList?: Date;
+
+    //-----------------추가필드-----------------
+    podOneGumChewing?: 'YES' | 'NO' | '';
+    podTwoGumChewing?: 'YES' | 'NO' | '';
+    podThreeGumChewing?: 'YES' | 'NO' | '';
+
+    podOneIvFluidRestriction?: 'YES' | 'NO' | '';
+    podTwoIvFluidRestriction?: 'YES' | 'NO' | '';
+    podThreeIvFluidRestriction?: 'YES' | 'NO' | '';
+
+    podOneNonOpioidPainControl?: 'YES' | 'NO' | '';
+    podTwoNonOpioidPainControl?: 'YES' | 'NO' | '';
+    podThreeNonOpioidPainControl?: 'YES' | 'NO' | '';
+
+    podOneJpDrainRemoval?: 'YES' | 'NO' | '';
+    podTwoJpDrainRemoval?: 'YES' | 'NO' | '';
+    podThreeJpDrainRemoval?: 'YES' | 'NO' | '';
+
+    podOneIvLineRemoval?: 'YES' | 'NO' | '';
+    podTwoIvLineRemoval?: 'YES' | 'NO' | '';
+    podThreeIvLineRemoval?: 'YES' | 'NO' | '';
+
+    podOneGumChewing_remarks?: string;
+    podTwoGumChewing_remarks?: string;
+    podThreeGumChewing_remarks?: string;
+    podOneIvFluidRestriction_remarks?: string;
+    podTwoIvFluidRestriction_remarks?: string;
+    podThreeIvFluidRestriction_remarks?: string;
+    podOneNonOpioidPainControl_remarks?: string;
+    podTwoNonOpioidPainControl_remarks?: string;
+    podThreeNonOpioidPainControl_remarks?: string;
+    podOneJpDrainRemoval_remarks?: string;
+    podTwoJpDrainRemoval_remarks?: string;
+    podThreeJpDrainRemoval_remarks?: string;
+    podOneIvLineRemoval_remarks?: string;
+    podTwoIvLineRemoval_remarks?: string;
+    podThreeIvLineRemoval_remarks?: string;
+    //-----------------비고
 }; //데일리 체크리스트 폼
 
 export type CheckListsBeforeItemType = {
@@ -238,6 +276,44 @@ export type CheckListsDailyItemType = {
     podThreeExercise_remarks?: string;
     podOneMeal_remarks?: string;
     podTwoMeal_remarks?: string;
+
+    //-----------------추가필드-----------------
+    podOneGumChewing?: 'YES' | 'NO';
+    podTwoGumChewing?: 'YES' | 'NO';
+    podThreeGumChewing?: 'YES' | 'NO';
+
+    podOneIvFluidRestriction?: 'YES' | 'NO';
+    podTwoIvFluidRestriction?: 'YES' | 'NO';
+    podThreeIvFluidRestriction?: 'YES' | 'NO';
+
+    podOneNonOpioidPainControl?: 'YES' | 'NO';
+    podTwoNonOpioidPainControl?: 'YES' | 'NO';
+    podThreeNonOpioidPainControl?: 'YES' | 'NO';
+
+    podOneJpDrainRemoval?: 'YES' | 'NO';
+    podTwoJpDrainRemoval?: 'YES' | 'NO';
+    podThreeJpDrainRemoval?: 'YES' | 'NO';
+
+    podOneIvLineRemoval?: 'YES' | 'NO';
+    podTwoIvLineRemoval?: 'YES' | 'NO';
+    podThreeIvLineRemoval?: 'YES' | 'NO';
+
+    podOneGumChewing_remarks?: string;
+    podTwoGumChewing_remarks?: string;
+    podThreeGumChewing_remarks?: string;
+    podOneIvFluidRestriction_remarks?: string;
+    podTwoIvFluidRestriction_remarks?: string;
+    podThreeIvFluidRestriction_remarks?: string;
+    podOneNonOpioidPainControl_remarks?: string;
+    podTwoNonOpioidPainControl_remarks?: string;
+    podThreeNonOpioidPainControl_remarks?: string;
+    podOneJpDrainRemoval_remarks?: string;
+    podTwoJpDrainRemoval_remarks?: string;
+    podThreeJpDrainRemoval_remarks?: string;
+    podOneIvLineRemoval_remarks?: string;
+    podTwoIvLineRemoval_remarks?: string;
+    podThreeIvLineRemoval_remarks?: string;
+    //-----------------비고
 };
 
 export type ResponseCheckListsType = {
