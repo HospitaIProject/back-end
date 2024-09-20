@@ -123,6 +123,12 @@ public class CheckListController {
         return SuccessResponse.createSuccess();
     }
 
+    @GetMapping("/api/checkList/pod/{operationId}")
+    @Operation(summary = "POD 등록 여부")
+    public SuccessResponse<?> checkPodRegistered(@PathVariable Long operationId) {
+        return SuccessResponse.createSuccess(checkListService.testV2(operationId));
+    }
+
     private CheckListBeforeDTO getCheckListBeforeDTO(Long operationId) {
         try {
             return checkListBeforeService.findCheckListBeforeByOperationId(operationId);
