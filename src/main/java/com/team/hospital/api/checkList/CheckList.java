@@ -191,6 +191,30 @@ public class CheckList extends BaseEntity {
 
     public static CheckList createCheckList(WriteCheckList write, CheckListItem checkListItem) {
         return CheckList.builder()
+                // Gum Chewing 여부
+                .podOneGumChewing(CheckListFirst.of(write.getPodOneGumChewing(), write.getPodOneGumChewing_remarks()))
+                .podTwoGumChewing(CheckListFirst.of(write.getPodTwoGumChewing(), write.getPodTwoGumChewing_remarks()))
+                .podThreeGumChewing(CheckListFirst.of(write.getPodThreeGumChewing(), write.getPodThreeGumChewing_remarks()))
+
+                // IV fluid 제한 여부
+                .podOneIvFluidRestriction(CheckListFirst.of(write.getPodOneIvFluidRestriction(), write.getPodOneIvFluidRestriction_remarks()))
+                .podTwoIvFluidRestriction(CheckListFirst.of(write.getPodTwoIvFluidRestriction(), write.getPodTwoIvFluidRestriction_remarks()))
+                .podThreeIvFluidRestriction(CheckListFirst.of(write.getPodThreeIvFluidRestriction(), write.getPodThreeIvFluidRestriction_remarks()))
+
+                // Non-opioid pain control 여부
+                .podOneNonOpioidPainControl(CheckListFirst.of(write.getPodOneNonOpioidPainControl(), write.getPodOneNonOpioidPainControl_remarks()))
+                .podTwoNonOpioidPainControl(CheckListFirst.of(write.getPodTwoNonOpioidPainControl(), write.getPodTwoNonOpioidPainControl_remarks()))
+                .podThreeNonOpioidPainControl(CheckListFirst.of(write.getPodThreeNonOpioidPainControl(), write.getPodThreeNonOpioidPainControl_remarks()))
+
+                // JP drain 제거 여부
+                .podOneJpDrainRemoval(CheckListFirst.of(write.getPodOneJpDrainRemoval(), write.getPodOneJpDrainRemoval_remarks()))
+                .podTwoJpDrainRemoval(CheckListFirst.of(write.getPodTwoJpDrainRemoval(), write.getPodTwoJpDrainRemoval_remarks()))
+                .podThreeJpDrainRemoval(CheckListFirst.of(write.getPodThreeJpDrainRemoval(), write.getPodThreeJpDrainRemoval_remarks()))
+
+                // IV line 제거 여부
+                .podOneIvLineRemoval(CheckListFirst.of(write.getPodOneIvLineRemoval(), write.getPodOneIvLineRemoval_remarks()))
+                .podTwoIvLineRemoval(CheckListFirst.of(write.getPodTwoIvLineRemoval(), write.getPodTwoIvLineRemoval_remarks()))
+                .podThreeIvLineRemoval(CheckListFirst.of(write.getPodThreeIvLineRemoval(), write.getPodThreeIvLineRemoval_remarks()))
 
                 // POD Exercise
                 .podOneExercise(CheckListFirst.of(write.getPodOneExercise(), write.getPodOneExercise_remarks()))
@@ -215,25 +239,74 @@ public class CheckList extends BaseEntity {
     }
 
     public void updateCheckList(WriteCheckList write) {
+        // Gum Chewing 여부
+        if (write.getPodOneGumChewing() != null) this.podOneGumChewing.update(write.getPodOneGumChewing());
+        if (write.getPodOneGumChewing_remarks() != null) this.podOneGumChewing.update(write.getPodOneGumChewing_remarks());
+
+        if (write.getPodTwoGumChewing() != null) this.podTwoGumChewing.update(write.getPodTwoGumChewing());
+        if (write.getPodTwoGumChewing_remarks() != null) this.podTwoGumChewing.update(write.getPodTwoGumChewing_remarks());
+
+        if (write.getPodThreeGumChewing() != null) this.podThreeGumChewing.update(write.getPodThreeGumChewing());
+        if (write.getPodThreeGumChewing_remarks() != null) this.podThreeGumChewing.update(write.getPodThreeGumChewing_remarks());
+
+        // IV fluid 제한 여부
+        if (write.getPodOneIvFluidRestriction() != null) this.podOneIvFluidRestriction.update(write.getPodOneIvFluidRestriction());
+        if (write.getPodOneIvFluidRestriction_remarks() != null) this.podOneIvFluidRestriction.update(write.getPodOneIvFluidRestriction_remarks());
+
+        if (write.getPodTwoIvFluidRestriction() != null) this.podTwoIvFluidRestriction.update(write.getPodTwoIvFluidRestriction());
+        if (write.getPodTwoIvFluidRestriction_remarks() != null) this.podTwoIvFluidRestriction.update(write.getPodTwoIvFluidRestriction_remarks());
+
+        if (write.getPodThreeIvFluidRestriction() != null) this.podThreeIvFluidRestriction.update(write.getPodThreeIvFluidRestriction());
+        if (write.getPodThreeIvFluidRestriction_remarks() != null) this.podThreeIvFluidRestriction.update(write.getPodThreeIvFluidRestriction_remarks());
+
+        // Non-opioid pain control 여부
+        if (write.getPodOneNonOpioidPainControl() != null) this.podOneNonOpioidPainControl.update(write.getPodOneNonOpioidPainControl());
+        if (write.getPodOneNonOpioidPainControl_remarks() != null) this.podOneNonOpioidPainControl.update(write.getPodOneNonOpioidPainControl_remarks());
+
+        if (write.getPodTwoNonOpioidPainControl() != null) this.podTwoNonOpioidPainControl.update(write.getPodTwoNonOpioidPainControl());
+        if (write.getPodTwoNonOpioidPainControl_remarks() != null) this.podTwoNonOpioidPainControl.update(write.getPodTwoNonOpioidPainControl_remarks());
+
+        if (write.getPodThreeNonOpioidPainControl() != null) this.podThreeNonOpioidPainControl.update(write.getPodThreeNonOpioidPainControl());
+        if (write.getPodThreeNonOpioidPainControl_remarks() != null) this.podThreeNonOpioidPainControl.update(write.getPodThreeNonOpioidPainControl_remarks());
+
+        // JP drain 제거 여부
+        if (write.getPodOneJpDrainRemoval() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval());
+        if (write.getPodOneJpDrainRemoval_remarks() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval_remarks());
+
+        if (write.getPodTwoJpDrainRemoval() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval());
+        if (write.getPodTwoJpDrainRemoval_remarks() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval_remarks());
+
+        if (write.getPodThreeJpDrainRemoval() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval());
+        if (write.getPodThreeJpDrainRemoval_remarks() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval_remarks());
+
+        // IV line 제거 여부
+        if (write.getPodOneIvLineRemoval() != null) this.podOneIvLineRemoval.update(write.getPodOneIvLineRemoval());
+        if (write.getPodOneIvLineRemoval_remarks() != null) this.podOneIvLineRemoval.update(write.getPodOneIvLineRemoval_remarks());
+
+        if (write.getPodTwoIvLineRemoval() != null) this.podTwoIvLineRemoval.update(write.getPodTwoIvLineRemoval());
+        if (write.getPodTwoIvLineRemoval_remarks() != null) this.podTwoIvLineRemoval.update(write.getPodTwoIvLineRemoval_remarks());
+
+        if (write.getPodThreeIvLineRemoval() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval());
+        if (write.getPodThreeIvLineRemoval_remarks() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval_remarks());
+
+        // POD Exercise
         if (write.getPodOneExercise() != null) this.podOneExercise.update(write.getPodOneExercise());
         if (write.getPodOneExercise_remarks() != null) this.podOneExercise.update(write.getPodOneExercise_remarks());
 
         if (write.getPodTwoExercise() != null) this.podTwoExercise.update(write.getPodTwoExercise());
         if (write.getPodTwoExercise_remarks() != null) this.podTwoExercise.update(write.getPodTwoExercise_remarks());
 
-
         if (write.getPodThreeExercise() != null) this.podThreeExercise.update(write.getPodThreeExercise());
         if (write.getPodThreeExercise_remarks() != null) this.podThreeExercise.update(write.getPodThreeExercise_remarks());
 
-
+        // POD Meal
         if (write.getPodOneMeal() != null) this.podOneMeal.update(write.getPodOneMeal());
         if (write.getPodOneMeal_remarks() != null) this.podOneMeal.update(write.getPodOneMeal_remarks());
-
 
         if (write.getPodTwoMeal() != null) this.podTwoMeal.update(write.getPodTwoMeal());
         if (write.getPodTwoMeal_remarks() != null) this.podTwoMeal.update(write.getPodTwoMeal_remarks());
 
-
+        // POD Pain
         if (write.getPodOnePain() != null) this.podOnePain = write.getPodOnePain();
         if (write.getPodTwoPain() != null) this.podTwoPain = write.getPodTwoPain();
         if (write.getPodThreePain() != null) this.podThreePain = write.getPodThreePain();
