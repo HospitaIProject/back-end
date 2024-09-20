@@ -206,12 +206,21 @@ function PatientSummaryCard({ userData }: Props) {
                     >
                         {SUGERY_STATUS[dateComparison]}
                     </button>
-                    <Link
-                        to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
-                        className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
-                    >
-                        수술정보관리
-                    </Link>
+                    <div className="flex flex-row gap-2">
+                        <Link
+                            to={`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`}
+                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
+                        >
+                            체크리스트
+                        </Link>
+
+                        <Link
+                            to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
+                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
+                        >
+                            수술정보관리
+                        </Link>
+                    </div>
                 </div>
             </li>
             {isModalOpen && <PatientDetailModal values={userData} onClose={() => setIsModalOpen(false)} />}
