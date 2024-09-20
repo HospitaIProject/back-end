@@ -1,14 +1,15 @@
-import DesktopPagination from './DesktopPagination';
+// import DesktopPagination from './DesktopPagination';
 import MobilePagination from './MobilePagination';
 
 function ResponsivePagination({ pageSize = 1 }: { pageSize?: number }) {
     return (
         <>
-            <div className="flex flex-row w-full mt-auto mobile:hidden">
+            <div className="mt-auto flex w-full flex-row mobile:hidden">
                 <MobilePagination pageSize={pageSize} />
             </div>
-            <div className="flex-row hidden w-full mt-auto mobile:flex">
-                <DesktopPagination pageSize={pageSize} />
+            <div className="mt-auto hidden w-full flex-row mobile:flex">
+                {/* <DesktopPagination pageSize={pageSize} /> */}
+                <MobilePagination pageSize={pageSize} />
             </div>
         </>
     );
