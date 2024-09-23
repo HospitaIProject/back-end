@@ -1,5 +1,7 @@
 package com.team.hospital.excel;
 
+import com.team.hospital.api.checkList.CheckList;
+import com.team.hospital.api.checkList.CheckListRepository;
 import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.checkListAfter.CheckListAfter;
 import com.team.hospital.api.checkListAfter.CheckListAfterRepository;
@@ -46,6 +48,7 @@ public class ExcelExportService {
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListAfterRepository checkListAfterRepository;
     private final ComplicationRepository complicationRepository;
+    private final CheckListRepository checkListRepository;
 
 
     public ByteArrayInputStream exportToExcel() throws IOException {
@@ -135,6 +138,7 @@ public class ExcelExportService {
             List<Operation> operations = operationService.findAllByPatient(p.getId());
             StringBuilder sb = new StringBuilder(); //수술명
             StringBuilder sb2 = new StringBuilder();    //적용 CP
+
             for (Operation op : operations) {
                 List<OperationMethod> operationMethods = op.getOperationMethods();
                 for (OperationMethod opm : operationMethods) {
@@ -217,7 +221,7 @@ public class ExcelExportService {
                     row.createCell(19).setCellValue("-");
                 }
                 try {
-                    row.createCell(20).setCellValue(" ");                                                              //수술중 통증 조절 종류 (서술) -> 어떤 항목인지 모르겠음
+                    row.createCell(20).setCellValue(checkListDuring.getPainControl().getRemarks());                     //수술중 통증 조절 종류 (서술) -> 확실 x
                 } catch (Exception e) {
                     row.createCell(20).setCellValue("-");
                 }
@@ -284,6 +288,26 @@ public class ExcelExportService {
                     row.createCell(32).setCellValue("-");
                 }
 
+                List<CheckList> checkList = checkListRepository.findAllByCheckListItem(checkListItem);
+
+                for (CheckList c : checkList) {
+                    try {
+                        row.createCell(33).setCellValue(c.getPodOneExercise().getOption().name());                       //POD#1 운동
+                    } catch (Exception e) {
+                        row.createCell(33).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(34).setCellValue(c.getPodTwoExercise().getOption().name());                       //POD#2 운동
+                    } catch (Exception e) {
+                        row.createCell(34).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(35).setCellValue(c.getPodThreeExercise().getOption().name());                      //POD#3 운동
+                    } catch (Exception e) {
+                        row.createCell(35).setCellValue("-");
+                    }
 
                 row.createCell(33).setCellValue(" ");                       //POD#1 운동       -> 어떤 항목인지 모르겠음
                 row.createCell(34).setCellValue(" ");                       //POD#2 운동      -> 어떤 항목인지 모르겠음
@@ -294,16 +318,13 @@ public class ExcelExportService {
 
                 //compliance
                 Optional<Complication> complication = complicationRepository.findByOperationId(op.getId());
-                if(complication.isPresent()) {
+                if (complication.isPresent()) {
                     row.createCell(39).setCellValue(" ");                                                        //ERAS 성공 항목수 -> 어떤 항목인지 모르겠음
                     row.createCell(40).setCellValue(" ");                                                       //ERAS 적용한 항목수 -> 어떤 항목인지 모르겠음
                     row.createCell(41).setCellValue(complication.get().getComplicationScore());                //Compliance rate (성공수/적용수)*100
                 }
 
                 //기타정보
-                row.createCell(42).setCellValue(" ");                                            //POD#1 VAS score(아침/점심/저녁)    -> 어떤 항목인지 모르겠음
-                row.createCell(43).setCellValue(" ");                                           //POD#2 VAS score(아침/점심/저녁)     -> 어떤 항목인지 모르겠음
-                row.createCell(44).setCellValue(" ");                                          //POD#3 VAS score(아침/점심/저녁)      -> 어떤 항목인지 모르겠음
                 row.createCell(45).setCellValue(op.getBloodLoss());                           //blood loss
                 row.createCell(46).setCellValue(" ");                                        //urine output                        -> 어떤 항목인지 모르겠음
                 row.createCell(47).setCellValue(op.getTotalOperationTime());                //op time
@@ -488,7 +509,9 @@ public class ExcelExportService {
         workbook.write(out);
         workbook.close();
 
-        return new ByteArrayInputStream(out.toByteArray());
+        return new
+
+                ByteArrayInputStream(out.toByteArray());
     }
 
     private static String convertDateToString(LocalDate localDate) {
