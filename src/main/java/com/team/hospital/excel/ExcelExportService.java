@@ -66,16 +66,35 @@ public class ExcelExportService {
 
         // Header names
         String[] headers = {
-                "환자이름", "등록번호", "입원일", "수술일", "퇴원일", "POD(일)", "진단명", "수술명", "Location", "적용한 CP",
-                "ERAS설명", "수술전 ONS", "엔커버 복용", "DVT 예방", "예방적 항생제", "수술전 통증 조절약",
-                "Hypothermia 예방(Air-warmer)", "수술중 volume 2-4cc/hr", "수술중 PONV", "수술중 pain control",
-                "수술중 통증 조절 종류 (서술)", "Laxatives", "chewing gum", "수술후 당일 PONV 예방", "fluid 제한",
-                "postop pain control", "POD#3 이후 JP 제거했는지", "JP drain 제거일", "Urinary catheter 수술실에서 제거",
-                "Urinary catheter 제거한 날짜 (서술)", "POD#3 이후 IV 라인제거", "IV 라인제거 날짜", "OP day 운동",
-                "POD#1 운동", "POD#2 운동", "POD#3 운동", "OP day Diet", "POD#1 Diet", "POD#2 Diet",
-                "ERAS 성공 항목수", "ERAS 적용한 항목수", "Compliance rate (성공수/적용수)*100",
+                "No", "환자이름", "등록번호", "입원일", "수술일", "퇴원일", "POD(일)", "진단명", "수술명",          // 기본 정보
+                "Location\n1: colon\n2: rectum", "적용한 CP\n1: colon\n2: rectum",                      // 기본 정보
+
+                "ERAS설명\n1 = YES\n0 = No", "수술전 ONS\n1 = YES\n0 = No", "엔커버 복용\n1 = YES\n0 = No",           // 수술 전
+                "DVT 예방\n1 = YES\n0 = No", "예방적 항생제\n1 = YES\n0 = No", "수술전 통증\n조절약\n1 = YES\n0 = No",   // 수술 전
+
+                "Hypothermia 예방(Air-warmer)\n1 = YES\n0 = No", "수술중 volume 2-4cc/hr였는지\n1 = YES\n0 = No", "수술중 PONV\n1 = YES\n0 = No",
+                "수술중 pain control 유무", "수술중 통증 조절 종류 (서술)",
+
+                "Laxatives\n1 = YES\n0 = No", "chewing gum\n1 = YES\n0 = No", "수술후 당일 PONV 예방\n1 = YES\n0 = No", "fluid 제한\n(C:500, R:2000)",
+
+
+                "postop pain control\n1 = no opioid\n2 = opioid", "POD#3 이후 JP 제거했는지\n1 = YES\n0 = No", "JP drain 제거일\n(서술)", "Urinary catheter\n수술실에서 제거\n1 = YES\n0 = No",
+                "Urinary catheter 제거한 날짜\n(서술)", "POD#3 이후\nIV 라인제거\n1 = YES\n0 = No", "IV 라인제거\n날짜\n(서술)", "OP day\n운동\n1 = YES\n0 = No",
+
+                "POD#1\n운동\n1 = YES\n0 = No", "POD#2\n운동\n1 = YES\n0 = No", "POD#3\n운동\n1 = YES\n0 = No",
+                "OP day Diet\n1 = YES\n0 = No", "POD#1 Diet\n1 = YES\n0 = No", "POD#2 Diet\n1 = YES\n0 = No",
+
+                "ERAS 성공 항목수", "ERAS 적용한 항목수", "Compliance\nrate\n(성공수/적용수)*100",
+
                 "POD#1 VAS score(아침/점심/저녁)", "POD#2 VAS score(아침/점심/저녁)", "POD#3 VAS score(아침/점심/저녁)",
-                "blood loss", "urine output", "op time"
+                "blood loss", "urine output", "op time",
+
+                "pre WBC", "pre Neu", "pre Lym", "pre CRP", "pre Alb",
+                "D0 WBC", "D0 Neu", "D0 Lym", "D0 CRP", "D0 Alb",
+                "D1 WBC", "D1 Neu", "D1 Lym", "D1 CRP", "D1 Alb",
+                "D2 WBC", "D2 Neu", "D2 Lym", "D2 CRP", "D2 Alb",
+                "D3 WBC", "D3 Neu", "D3 Lym", "D3 CRP", "D3 Alb",
+                "D4 WBC", "D4 Neu", "D4 Lym", "D4 CRP", "D4 Alb"
         };
 
         // Create header cells and apply the header style
