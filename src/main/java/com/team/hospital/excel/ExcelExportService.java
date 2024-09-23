@@ -167,6 +167,7 @@ public class ExcelExportService {
                 CheckListDuring checkListDuring = checkListDuringRepository.findCheckListDuringByCheckListItem(checkListItem);
                 CheckListAfter checkListAfter = checkListAfterRepository.findCheckListAfterByCheckListItem(checkListItem);
 
+
                 //수술전   ----
                 try {
                     row.createCell(10).setCellValue(checkListBefore.getExplainedPreOp().getOption().name());                         //ERAS 설명
@@ -309,12 +310,44 @@ public class ExcelExportService {
                         row.createCell(35).setCellValue("-");
                     }
 
-                row.createCell(33).setCellValue(" ");                       //POD#1 운동       -> 어떤 항목인지 모르겠음
-                row.createCell(34).setCellValue(" ");                       //POD#2 운동      -> 어떤 항목인지 모르겠음
-                row.createCell(35).setCellValue(" ");                       //POD#3 운동      -> 어떤 항목인지 모르겠음
-                row.createCell(36).setCellValue(" ");                       //OP day Diet   -> 어떤 항목인지 모르겠음
-                row.createCell(37).setCellValue(" ");                       //POD#1 Diet    -> 어떤 항목인지 모르겠음
-                row.createCell(38).setCellValue(" ");                       //POD#2 Diet    -> 어떤 항목인지 모르겠음
+
+                    try {
+                        row.createCell(36).setCellValue("");                       //OP day Diet     -> 어떤 항목인지 모르겠음
+                    } catch (Exception e) {
+                        row.createCell(36).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(37).setCellValue(c.getPodOneMeal().getOption().name());                       //POD#1 Diet     -> 헷갈
+                    } catch (Exception e) {
+                        row.createCell(37).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(38).setCellValue(c.getPodTwoMeal().getOption().name());                       //POD#2 Diet     -> 헷갈
+                    } catch (Exception e) {
+                        row.createCell(38).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(42).setCellValue("아침: " + c.getPodOnePain().getDay() + "/점심: " + c.getPodOnePain().getEvening() + "/저녁: " + c.getPodOnePain().getNight());                       //POD#1 VAS score(아침/점심/저녁)    -> 헷갈
+                    } catch (Exception e) {
+                        row.createCell(42).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(43).setCellValue("아침: " + c.getPodTwoPain().getDay() + "/점심: " + c.getPodTwoPain().getEvening() + "/저녁: " + c.getPodTwoPain().getNight());                       //POD#2 VAS score(아침/점심/저녁)     -> 헷갈
+                    } catch (Exception e) {
+                        row.createCell(43).setCellValue("-");
+                    }
+
+                    try {
+                        row.createCell(44).setCellValue("아침: " + c.getPodThreePain().getDay() + "/점심: " + c.getPodThreePain().getEvening() + "/저녁: " + c.getPodThreePain().getNight());                       //POD#3 VAS score(아침/점심/저녁)      -> 헷갈
+                    } catch (Exception e) {
+                        row.createCell(44).setCellValue("-");
+                    }
+
+                }
 
                 //compliance
                 Optional<Complication> complication = complicationRepository.findByOperationId(op.getId());
