@@ -7,6 +7,7 @@ import FilterHeader from '../common/filterModal/FilterHeader';
 import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import SettingIcon from '../../icons/SettingIcon';
+import HomeIcon from '../../icons/HomeIcon';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
@@ -77,7 +78,7 @@ export default function Header() {
     if (pathname !== '/') {
         return (
             <header className={`${isVisible ? '' : 'opacity-20'} sticky top-0 z-10 min-w-full bg-white`}>
-                <nav className="flex h-[65px] items-center border-b px-4">
+                <nav className="flex h-[65px] items-center justify-between border-b px-4">
                     <button
                         className="flex flex-row items-center gap-1 font-semibold text-gray-700"
                         onClick={handleBack}
@@ -85,6 +86,9 @@ export default function Header() {
                         <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
+                    <Link to="/" className="px-1">
+                        <HomeIcon className="text-gray-600 h-7 w-7" />
+                    </Link>
                 </nav>
             </header>
         );
@@ -96,7 +100,7 @@ export default function Header() {
                 className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-20'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
                 {/* ${isVisible ? '' : 'opacity-30'} */}
-                <nav className="relative z-10 flex h-[65px] items-center border-b bg-white px-4">
+                <nav className="relative z-10 flex h-[65px] items-center bg-white px-4">
                     <button onClick={handleFilterToggle}>
                         <SearchListIcon className="text-gray-600 h-7 w-7" />
                     </button>

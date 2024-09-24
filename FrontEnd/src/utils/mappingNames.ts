@@ -24,17 +24,21 @@ export const CHECKLIST_ITEMS_NAME: {
     catheterRemoval: '수술 후 수술장에서 소변줄 제거 여부',
     ivLineRemoval: '수술 후 3일이내 IV line 제거 여부',
     postExercise: 'Post OP day 운동',
-    podOneExercise: 'POD 1day 운동',
-    podTwoExercise: 'POD 2day 운동',
-    podThreeExercise: 'POD 3day 운동',
     postMeal: 'Post OP day 식사',
-    podOneMeal: 'POD 1day 식사',
-    podTwoMeal: 'POD 2day 식사',
     postPain: 'Post OP day 수술 후 통증',
-    podOnePain: 'POD 1day 수술 후  통증',
-    podTwoPain: 'POD 2day 수술 후  통증',
-    podThreePain: 'POD 3day 수술 후 통증',
+
     //-------------------------수술후
+    podOneExercise: 'POD 1 day 운동',
+    podTwoExercise: 'POD 2 day 운동',
+    podThreeExercise: 'POD 3 day 운동',
+    podOneMeal: 'POD 1 day 식사',
+    podTwoMeal: 'POD 2 day 식사',
+    podOnePain: 'POD 1 day 수술 후  통증',
+    podTwoPain: 'POD 2 day 수술 후  통증',
+    podThreePain: 'POD 3 day 수술 후 통증',
+    podOneGumChewing: 'POD 1 day 껌씹기',
+
+    //-------------------------데일리체크리스트
 
     podExercise: 'Post day 운동',
     podMeal: 'Post day 식사',
