@@ -106,14 +106,18 @@ public class ExcelExportService {
 
         List<Patient> patients = patientService.findAll();
         System.out.println("전채 환자 명:" + patients.size());
-
         int rowIndex = 1;
 
         for (Patient p : patients) {
             // 한 환자당 여러 수술이 있을 수 있으므로 수술 정보마다 새 행을 생성
             List<Operation> operations = operationService.findAllByPatient(p.getId());
-
             for (Operation op : operations) {
+
+                // CheckList 데이터 처리 (POD1, POD2, POD3)
+                List<CheckList> checkList = checkListRepository.findAllByOperationId(op.getId());
+//                System.out.println(p.getName() + "환자의 등록된 체크리스트 갯수는 :" +  checkList.size() +  "개 입니다.");
+                if(checkList.size() < 3) continue;
+
                 Row row = sheet.createRow(rowIndex); // 각 수술마다 새로운 행 생성
 
                 StringBuilder sb = new StringBuilder(); // 수술명
@@ -123,114 +127,146 @@ public class ExcelExportService {
                     sb.append(opm.getOperationType().getName()).append(", ");
                 }
 
-                // 기본 환자 및 수술 정보 채우기
-                row.createCell(0).setCellValue(p.getName());                                   // 환자이름
-                row.createCell(1).setCellValue(p.getPatientNumber());                         // 등록번호
-                row.createCell(2).setCellValue(convertDateToString(p.getHospitalizedDate()));                         // 입원일
-                row.createCell(3).setCellValue(convertDateToString(p.getOperationDate()));                         // 수술일
-
-                setCellValueSafe(row, 4, () -> convertDateToString(p.getDischargedDate()));  // 퇴원일
-
-                row.createCell(5).setCellValue(p.getTotalHospitalizedDays());             // POD(일)
-                row.createCell(6).setCellValue(p.getDiagnosis().name());                 // 진단명
-                row.createCell(7).setCellValue(sb.toString());                          // 수술명
-                row.createCell(8).setCellValue(p.getLocation().name());                // Location
-                row.createCell(9).setCellValue(op.getOperationApproach().name());       // 적용한 CP
-
                 // CheckList 처리 (Before, During, After)
                 CheckListItem checkListItem = checkListItemRepository.findCheckListItemByOperation(op);
                 CheckListBefore checkListBefore = checkListBeforeRepository.findCheckListBeforeByCheckListItem(checkListItem);
                 CheckListDuring checkListDuring = checkListDuringRepository.findCheckListDuringByCheckListItem(checkListItem);
                 CheckListAfter checkListAfter = checkListAfterRepository.findCheckListAfterByCheckListItem(checkListItem);
 
+                row.createCell(0).setCellValue(rowIndex);                                                                                  //NO
+                row.createCell(1).setCellValue(p.getName());                                                                              //환자이름
+                row.createCell(2).setCellValue(p.getPatientNumber());                                                                    //환자번호
+                row.createCell(3).setCellValue(convertDateToString(p.getHospitalizedDate()));                                           //입원일
+                row.createCell(4).setCellValue(convertDateToString(p.getOperationDate()));                                             //수술일
+                setCellValueSafe(row, 4, () -> convertDateToString(p.getDischargedDate()));                                     //퇴원일
+                row.createCell(6).setCellValue(p.getTotalHospitalizedDays());                                                        //POD(일)
+                row.createCell(7).setCellValue(p.getDiagnosis().name());                                                            //진단명
+                row.createCell(8).setCellValue(sb.toString());                                                                     //수술명
+                row.createCell(9).setCellValue(p.getLocation().name());                                                           //Location 1: colon 2: rctum
+                row.createCell(10).setCellValue(op.getOperationApproach().name());                                               //적용한 CP 1: colon 2: rectum
+
                 // 수술 전 정보 처리
-                setCellValueSafe(row, 10, () -> checkListBefore.getExplainedPreOp().getOption().name());  // ERAS 설명
-                setCellValueSafe(row, 11, () -> checkListBefore.getOnsPreOp2hr().getOption().name());     // 수술 전 ONS
-                setCellValueSafe(row, 12, () -> checkListBefore.getOnsPostBowelPrep().getOption().name()); // 엔커버 복용
-                setCellValueSafe(row, 13, () -> checkListBefore.getDvtPrevention().getOption().name());  // DVT 예방
-                setCellValueSafe(row, 14, () -> checkListBefore.getAntibioticPreIncision().getOption().name());  // 예방적 항생제
-                setCellValueSafe(row, 15, () -> checkListBefore.getPainMedPreOp().getOption().name());    // 수술 전 통증 조절약
+                setCellValueSafe(row, 11, () -> checkListBefore.getExplainedPreOp().getOption().name());                                //ERAS설명 1 = YES 0 = No
+                setCellValueSafe(row, 12, () -> checkListBefore.getOnsPreOp2hr().getOption().name());                                   //수술전 ONS 1 = YES  0 = No
+                setCellValueSafe(row, 13, () -> checkListBefore.getOnsPostBowelPrep().getOption().name());                              //엔커버 복용 1 = YES  0 = No
+                setCellValueSafe(row, 14, () -> checkListBefore.getDvtPrevention().getOption().name());                                 //DVT 예방 1 = YES 0 = No
+                setCellValueSafe(row, 15, () -> checkListBefore.getAntibioticPreIncision().getOption().name());                         //예방적 항생제 1 = YES  0 = No
+                setCellValueSafe(row, 16, () -> checkListBefore.getPainMedPreOp().getOption().name());                                  //수술전 통증 조절약 1 = YES 0 = No
 
                 // 수술 중 정보 처리
-                setCellValueSafe(row, 16, () -> checkListDuring.getMaintainTemp().getOption().name());    // Hypothermia 예방
-                setCellValueSafe(row, 17, () -> checkListDuring.getFluidRestriction().getOption().name()); // 수술 중 Volume 제한
-                setCellValueSafe(row, 18, () -> checkListDuring.getAntiNausea().getOption().name());      // 수술 중 PONV 예방
-                setCellValueSafe(row, 19, () -> checkListDuring.getPainControl().getOption().name());     // 수술 중 통증 조절
-                setCellValueSafe(row, 20, () -> checkListDuring.getPainControl().getRemarks());           // 수술 중 통증 조절 종류 (서술)
+                setCellValueSafe(row, 17, () -> checkListDuring.getMaintainTemp().getOption().name());                  //Hypothermia 예방(Air-warmer) 1 = YES  0 = No
+                setCellValueSafe(row, 18, () -> checkListDuring.getFluidRestriction().getOption().name());              //수술중 volume 2-4cc/hr였는지 1 = YES  0 = No
+                setCellValueSafe(row, 19, () -> checkListDuring.getAntiNausea().getOption().name());                    //수술중 PONV 1 = YES  0 = No
+                setCellValueSafe(row, 20, () -> checkListDuring.getPainControl().getOption().name());                   //수술중 pain control 유무
+                setCellValueSafe(row, 21, () -> checkListDuring.getPainControl().getRemarks());                         //수술중 통증 조절 종류 (서술)
 
                 // 수술 후 정보 처리
-                setCellValueSafe(row, 21, () -> checkListAfter.getGiStimulant().getOption().name());     // Laxatives
-                setCellValueSafe(row, 22, () -> checkListAfter.getGumChewing().getOption().name());      // Chewing gum
-                setCellValueSafe(row, 23, () -> checkListAfter.getAntiNauseaPostOp().getOption().name()); // PONV 예방
-                setCellValueSafe(row, 24, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().name()); // IV Fluid 제한
-                setCellValueSafe(row, 25, () -> checkListAfter.getNonOpioidPainControl().getOption().name());  // Pain control
-                setCellValueSafe(row, 26, () -> checkListAfter.getJpDrainRemoval().getOption().name());  // JP 제거
-                setCellValueSafe(row, 27, () -> checkListAfter.getJpDrainRemoval().getRemovedDate().toString());    // JP 제거일
-                setCellValueSafe(row, 28, () -> checkListAfter.getCatheterRemoval().getOption().name());  // Urinary catheter 제거
-                setCellValueSafe(row, 29, () -> checkListAfter.getCatheterRemoval().getRemovedDate().toString());   // Urinary catheter 제거일
-                setCellValueSafe(row, 30, () -> checkListAfter.getIvLineRemoval().getOption().name());   // IV 라인 제거
-                setCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getRemovedDate().toString());     // IV 라인 제거일
-                setCellValueSafe(row, 32, () -> checkListAfter.getPostExercise().getOption().name());    // OP day 운동
-
-                // CheckList 데이터 처리 (POD1, POD2, POD3)
-                List<CheckList> checkList = checkListRepository.findAllByOperationId(op.getId());
+                setCellValueSafe(row, 22, () -> checkListAfter.getGiStimulant().getOption().name());     // Laxatives //Laxatives 1 = YES  0 = No
+                setCellValueSafe(row, 23, () -> checkListAfter.getGumChewing().getOption().name());; //chewing gum 1 = YES 0 = No
+                setCellValueSafe(row, 24, () -> checkListAfter.getAntiNauseaPostOp().getOption().name()); //수술후 당일 PONV 예방 1 = YES 0 = No
+                setCellValueSafe(row, 25, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().name()); //fluid 제한 (C:500, R:2000)
+                setCellValueSafe(row, 26, () -> checkListAfter.getNonOpioidPainControl().getOption().name()); //postop pain control 1 = no opioid 2 = opioid
+                setCellValueSafe(row, 27, () -> checkListAfter.getJpDrainRemoval().getOption().name());  //POD#3 이후 JP 제거했는지 1 = YES 0 = No
+                setCellValueSafe(row, 28, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate())); //JP drain 제거일 (서술)
+                setCellValueSafe(row, 29, () -> checkListAfter.getCatheterRemoval().getOption().name()); //Urinary catheter 수술실에서 제거 1 = YES 0 = No
+                setCellValueSafe(row, 30, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate())); //Urinary catheter 제거한 날짜(서술)
+                setCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().name()); //POD#3 이후 IV 라인제거 1 = YES 0 = No
+                setCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate())); //IV 라인제거 (날짜 서술)
+                setCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().name()); //OP day 운동 1 = YES 0 = No
 
                 for (CheckList c : checkList) {
 
                     if (c.getPodOneExercise() != null) {
-                        setCellValueSafe(row, 33, () -> c.getPodOneExercise().getOption().name());
-                    }
+                        setCellValueSafe(row, 34, () -> c.getPodOneExercise().getOption().name());
+                    } ///POD#1 운동 1 = YES 0 = No
 
                     if (c.getPodTwoExercise() != null) {
-                        setCellValueSafe(row, 34, () -> c.getPodTwoExercise().getOption().name());
-                    }
+                        setCellValueSafe(row, 35, () -> c.getPodTwoExercise().getOption().name());
+                    } //POD#2 운동 1 = YES 0 = No
 
                     if (c.getPodThreeExercise() != null) {
-                        setCellValueSafe(row, 35, () -> c.getPodThreeExercise().getOption().name());
-                    }
+                        setCellValueSafe(row, 36, () -> c.getPodThreeExercise().getOption().name());
+                    } //POD#3 운동 1 = YES 0 = No
 
                     if (c.getPodOneMeal() != null) {
-                        setCellValueSafe(row, 37, () -> c.getPodOneMeal().getOption().name());
-                    }
+                        setCellValueSafe(row, 38, () -> c.getPodOneMeal().getOption().name());
+                    } //POD#1 Diet 1 = YES 0 = No
 
                     if (c.getPodTwoMeal() != null) {
-                        setCellValueSafe(row, 38, () -> c.getPodTwoMeal().getOption().name());
-                    }
+                        setCellValueSafe(row, 39, () -> c.getPodTwoMeal().getOption().name());
+                    }; //POD#2 Diet 1 = YES 0 = No
 
                     if (c.getPodOnePain() != null) {
-                        setCellValueSafe(row, 42, () -> "아침: " + c.getPodOnePain().getDay() + "/점심: "
+                        setCellValueSafe(row, 43, () -> "아침: " + c.getPodOnePain().getDay() + "/점심: "
                                 + c.getPodOnePain().getEvening() + "/저녁: "
                                 + c.getPodOnePain().getNight());
-                    }
+                    } //"POD#1 VAS score(아침/점심/저녁)
 
                     if (c.getPodTwoPain() != null) {
-                        setCellValueSafe(row, 43, () -> "아침: " + c.getPodTwoPain().getDay() + "/점심: "
+                        setCellValueSafe(row, 44, () -> "아침: " + c.getPodTwoPain().getDay() + "/점심: "
                                 + c.getPodTwoPain().getEvening() + "/저녁: "
                                 + c.getPodTwoPain().getNight());
-                    }
+                    } //"POD#2 VAS score(아침/점심/저녁)
 
                     if (c.getPodThreePain() != null) {
-                        setCellValueSafe(row, 44, () -> "아침: " + c.getPodThreePain().getDay() + "/점심: "
+                        setCellValueSafe(row, 45, () -> "아침: " + c.getPodThreePain().getDay() + "/점심: "
                                 + c.getPodThreePain().getEvening() + "/저녁: "
                                 + c.getPodThreePain().getNight());
-                    }
+                    } //"POD#3 VAS score(아침/점심/저녁)
                 }
+
+
+                setCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().name()); //OP day Diet 1 = YES 0 = No
+
+                row.createCell(40).setCellValue("모름"); //ERAS 성공 항목수
+                row.createCell(41).setCellValue("모름"); //ERAS 적용한 항목수
+
+                row.createCell(46).setCellValue(op.getBloodLoss()); //blood loss
+                row.createCell(47).setCellValue("모름"); //urine output
+                row.createCell(48).setCellValue(op.getTotalOperationTime()); //op time
 
                 // 합병증 정보 처리 (Complication)
                 complicationRepository.findByOperationId(op.getId()).ifPresent(complication -> {
-                    row.createCell(41).setCellValue(complication.getComplicationScore()); // Compliance rate
+                    row.createCell(42).setCellValue(complication.getComplicationScore());  //Compliance rate (성공수/적용수)*100
                 });
 
-                // 기타 정보
-                row.createCell(45).setCellValue(op.getBloodLoss());                           // blood loss
-                row.createCell(47).setCellValue(op.getTotalOperationTime());                 // op time
+/*
+                row.createCell(49).setCellValue(); //pre WBC
+                row.createCell(50).setCellValue(); //pre Neu
+                row.createCell(51).setCellValue(); //pre Lym
+                row.createCell(52).setCellValue(); //pre CRP
+                row.createCell(53).setCellValue(); //pre Alb
 
-                row.createCell(36).setCellValue("모름");//36 OP day Diet
-                row.createCell(39).setCellValue("모름");//39 ERAS 성공 항목수
-                row.createCell(40).setCellValue("모름");//40 ERAS 적용한 항목수
-                row.createCell(46).setCellValue("모름");//46 urine output
+                row.createCell(54).setCellValue(); //D0 WBC
+                row.createCell(55).setCellValue(); //D0 Neu
+                row.createCell(56).setCellValue(); //D0 Lym
+                row.createCell(57).setCellValue(); //D0 CRP
+                row.createCell(58).setCellValue(); //D0 Alb
 
+                row.createCell(59).setCellValue(); //D1 WBC
+                row.createCell(60).setCellValue(); //D1 Neu
+                row.createCell(61).setCellValue(); //D1 Lym
+                row.createCell(62).setCellValue(); //D1 CRP
+                row.createCell(63).setCellValue(); //D1 Alb
 
+                row.createCell(64).setCellValue(); //D2 WBC
+                row.createCell(65).setCellValue(); //D2 Neu
+                row.createCell(66).setCellValue(); //D2 Lym
+                row.createCell(67).setCellValue(); //D2 CRP
+                row.createCell(68).setCellValue(); //D2 Alb
+
+                row.createCell(69).setCellValue(); //D3 WBC
+                row.createCell(70).setCellValue(); //D3 Neu
+                row.createCell(71).setCellValue(); //D3 Lym
+                row.createCell(72).setCellValue(); //D3 CRP
+                row.createCell(73).setCellValue(); //D3 Alb
+
+                row.createCell(74).setCellValue(); //D4 WBC
+                row.createCell(75).setCellValue(); //D4 Neu
+                row.createCell(76).setCellValue(); //D4 Lym
+                row.createCell(77).setCellValue(); //D4 CRP
+                row.createCell(78).setCellValue(); //D4 Alb
+ */
                 rowIndex++;
             }
         }
@@ -244,9 +280,7 @@ public class ExcelExportService {
         workbook.write(out);
         workbook.close();
 
-        return new
-
-                ByteArrayInputStream(out.toByteArray());
+        return new ByteArrayInputStream(out.toByteArray());
     }
 
     private void setCellValueSafe(Row row, int cellIndex, Supplier<String> supplier) {
@@ -259,7 +293,6 @@ public class ExcelExportService {
             row.createCell(cellIndex).setCellValue("-");
         }
     }
-
 
     private static String convertDateToString(LocalDate localDate) {
         Month month = localDate.getMonth();
