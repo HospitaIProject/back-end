@@ -1,0 +1,26 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "gradle",
+			"id": "/Users/jonghyunlee/Desktop/성모병원/back-endbootJarhospital",
+			"script": "bootJar",
+			"description": "Assembles an executable jar archive containing the main classes and their dependencies.",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"project": "hospital",
+			"buildFile": "/Users/jonghyunlee/Desktop/성모병원/back-end/build.gradle",
+			"rootProject": "hospital",
+			"projectFolder": "/Users/jonghyunlee/Desktop/성모병원/back-end",
+			"workspaceFolder": "/Users/jonghyunlee/Desktop/성모병원/back-end",
+			"args": "",
+			"javaDebug": false,
+			"problemMatcher": [
+				"$gradle"
+			],
+			"label": "gradle: bootJar"
+		}
+	]
+}
