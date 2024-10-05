@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+	// Spring WebFlux 추가 (WebClient를 사용하기 위해 필요)
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// Apache POI
 	implementation 'org.apache.poi:poi-ooxml:5.2.3'
