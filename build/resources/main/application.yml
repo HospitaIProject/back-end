@@ -1,0 +1,110 @@
+spring:
+  profiles:
+#    active: local
+    active: blue
+#    active: green
+    group:
+      local: local, common
+      blue: blue, common
+      green: green, common
+
+server:
+  env: green
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/hospital
+    username: root
+    password: asd990810
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      data-source-properties:
+        serverTimezone: Asia/Seoul
+
+server:
+  port: 8080
+  serverAddress: localhost
+
+serverName: local_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: blue
+  datasource:
+    url: jdbc:mysql://3.34.15.114:3306/hospital
+    username: root
+    password: asd990810
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      data-source-properties:
+        serverTimezone: Asia/Seoul
+
+server:
+  port: 8080
+  serverAddress: 3.34.15.114
+
+serverName: blue_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: green
+
+  datasource:
+    url: jdbc:mysql://3.34.15.114:3306/hospital
+    username: root
+    password: asd990810
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    hikari:
+      data-source-properties:
+        serverTimezone: Asia/Seoul
+
+server:
+  port: 8081
+  serverAddress: 3.34.15.114
+
+serverName: green_server
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+  jwt:
+    secret: ba2b6e5736c1892aad946993cd692958e1231aac9c15d723c3e28d993695c0b3371afa9605b17e9282eb347b25cb5d235e65fd0320f6bf84532f5daed18d669e
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa:
+    hibernate:
+#      ddl-auto: create
+      ddl-auto: update
+    properties:
+      javax:
+        persistence:
+          jdbc:
+            time-zone: Asia/Seoul
+
+  sql:
+    init:
+      mode: always
+
+  jackson:
+    time-zone: Asia/Seoul

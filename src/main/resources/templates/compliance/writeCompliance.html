@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compliance Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        label, select, input, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: auto;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Compliance Form</h1>
+<form id="complianceForm">
+    <label for="explainBeforeOperation">Explain Before Operation:</label>
+    <select id="explainBeforeOperation" name="explainBeforeOperation">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="explainBeforeOperation_remark">Remark:</label>
+    <input type="text" id="explainBeforeOperation_remark" name="explainBeforeOperation_remark">
+    <br>
+
+    <label for="takingONSBeforeOperationTwo_Hours">Taking ONS Before Operation (2 Hours):</label>
+    <select id="takingONSBeforeOperationTwo_Hours" name="takingONSBeforeOperationTwo_Hours">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="takingONSBeforeOperationTwo_Hours_remark">Remark:</label>
+    <input type="text" id="takingONSBeforeOperationTwo_Hours_remark" name="takingONSBeforeOperationTwo_Hours_remark">
+    <br>
+
+    <label for="takingAfterBowelPreparation">Taking After Bowel Preparation:</label>
+    <select id="takingAfterBowelPreparation" name="takingAfterBowelPreparation">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="takingAfterBowelPreparation_remark">Remark:</label>
+    <input type="text" id="takingAfterBowelPreparation_remark" name="takingAfterBowelPreparation_remark">
+    <br>
+
+    <label for="preventionDVT">Prevention DVT:</label>
+    <select id="preventionDVT" name="preventionDVT">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="preventionDVT_remark">Remark:</label>
+    <input type="text" id="preventionDVT_remark" name="preventionDVT_remark">
+    <br>
+
+    <label for="takingLaxatives">Taking Laxatives:</label>
+    <select id="takingLaxatives" name="takingLaxatives">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="takingLaxatives_remark">Remark:</label>
+    <input type="text" id="takingLaxatives_remark" name="takingLaxatives_remark">
+    <br>
+
+    <label for="chewingGum">Chewing Gum:</label>
+    <select id="chewingGum" name="chewingGum">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="chewingGum_remark">Remark:</label>
+    <input type="text" id="chewingGum_remark" name="chewingGum_remark">
+    <br>
+
+    <label for="dayOfRemoveJP_Drain">Day of Remove JP Drain:</label>
+    <select id="dayOfRemoveJP_Drain" name="dayOfRemoveJP_Drain">
+        <option value="POD_1">POD#1</option>
+        <option value="POD_2">POD#2</option>
+        <option value="POD_3">POD#3</option>
+        <option value="POD_4">POD#4</option>
+        <option value="AFTER_POD_5">POD#5 and after</option>
+    </select>
+    <br>
+    <label for="dayOfRemoveJP_Drain_remark">Remark:</label>
+    <input type="text" id="dayOfRemoveJP_Drain_remark" name="dayOfRemoveJP_Drain_remark">
+    <br>
+
+    <label for="reasonByRemoveJP_DrainDelay">Reason by Remove JP Drain Delay:</label>
+    <select id="reasonByRemoveJP_DrainDelay" name="reasonByRemoveJP_DrainDelay">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="reasonByRemoveJP_DrainDelay_remark">Remark:</label>
+    <input type="text" id="reasonByRemoveJP_DrainDelay_remark" name="reasonByRemoveJP_DrainDelay_remark">
+    <br>
+
+    <label for="dayOfRemoveUrinary_Catheter">Day of Remove Urinary Catheter:</label>
+    <select id="dayOfRemoveUrinary_Catheter" name="dayOfRemoveUrinary_Catheter">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="dayOfRemoveUrinary_Catheter_remark">Remark:</label>
+    <input type="text" id="dayOfRemoveUrinary_Catheter_remark" name="dayOfRemoveUrinary_Catheter_remark">
+    <br>
+
+    <label for="reasonByRemoveUrinary_CatheterDelay">Reason by Remove Urinary Catheter Delay:</label>
+    <select id="reasonByRemoveUrinary_CatheterDelay" name="reasonByRemoveUrinary_CatheterDelay">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="reasonByRemoveUrinary_CatheterDelay_remark">Remark:</label>
+    <input type="text" id="reasonByRemoveUrinary_CatheterDelay_remark" name="reasonByRemoveUrinary_CatheterDelay_remark">
+    <br>
+
+    <label for="afterOperationLimitIV_Fluid">After Operation Limit IV Fluid:</label>
+    <select id="afterOperationLimitIV_Fluid" name="afterOperationLimitIV_Fluid">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="afterOperationLimitIV_Fluid_remark">Remark:</label>
+    <input type="text" id="afterOperationLimitIV_Fluid_remark" name="afterOperationLimitIV_Fluid_remark">
+    <br>
+
+    <label for="dayOfRemoveIV_Fluid">Day of Remove IV Fluid:</label>
+    <select id="dayOfRemoveIV_Fluid" name="dayOfRemoveIV_Fluid">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="dayOfRemoveIV_Fluid_remark">Remark:</label>
+    <input type="text" id="dayOfRemoveIV_Fluid_remark" name="dayOfRemoveIV_Fluid_remark">
+    <br>
+
+    <label for="reasonByRemoveIV_FluidDelay">Reason by Remove IV Fluid Delay:</label>
+    <select id="reasonByRemoveIV_FluidDelay" name="reasonByRemoveIV_FluidDelay">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="reasonByRemoveIV_FluidDelay_remark">Remark:</label>
+    <input type="text" id="reasonByRemoveIV_FluidDelay_remark" name="reasonByRemoveIV_FluidDelay_remark">
+    <br>
+
+    <label for="post_Nausea_Vomiting">Post OP Nausea & Vomiting Prophylaxis:</label>
+    <select id="post_Nausea_Vomiting" name="post_Nausea_Vomiting">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="post_Nausea_Vomiting_remark">Remark:</label>
+    <input type="text" id="post_Nausea_Vomiting_remark" name="post_Nausea_Vomiting_remark">
+    <br>
+    <label for="postOpDayExercise">Post OP Day Exercise:</label>
+    <select id="postOpDayExercise" name="postOpDayExercise">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="postOpDayExercise_remark">Remark:</label>
+    <input type="text" id="postOpDayExercise_remark" name="postOpDayExercise_remark">
+    <br>
+
+    <label for="pod_1Exercise">POD#1 Exercise:</label>
+    <select id="pod_1Exercise" name="pod_1Exercise">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="pod_1Exercise_remark">Remark:</label>
+    <input type="text" id="pod_1Exercise_remark" name="pod_1Exercise_remark">
+    <br>
+
+    <label for="pod_2Exercise">POD#2 Exercise:</label>
+    <select id="pod_2Exercise" name="pod_2Exercise">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="pod_2Exercise_remark">Remark:</label>
+    <input type="text" id="pod_2Exercise_remark" name="pod_2Exercise_remark">
+    <br>
+
+    <label for="pod_3Exercise">POD#3 Exercise:</label>
+    <select id="pod_3Exercise" name="pod_3Exercise">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="pod_3Exercise_remark">Remark:</label>
+    <input type="text" id="pod_3Exercise_remark" name="pod_3Exercise_remark">
+    <br>
+
+    <label for="postOpDayMeal">Post OP Day Meal:</label>
+    <select id="postOpDayMeal" name="postOpDayMeal">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="postOpDayMeal_remark">Remark:</label>
+    <input type="text" id="postOpDayMeal_remark" name="postOpDayMeal_remark">
+    <br>
+
+    <label for="pod_1Meal">POD#1 Meal:</label>
+    <select id="pod_1Meal" name="pod_1Meal">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="pod_1Meal_remark">Remark:</label>
+    <input type="text" id="pod_1Meal_remark" name="pod_1Meal_remark">
+    <br>
+
+    <label for="pod_2Meal">POD#2 Meal:</label>
+    <select id="pod_2Meal" name="pod_2Meal">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="pod_2Meal_remark">Remark:</label>
+    <input type="text" id="pod_2Meal_remark" name="pod_2Meal_remark">
+    <br>
+
+    <label for="beforeOperationMedicine">Before Operation Medicine:</label>
+    <select id="beforeOperationMedicine" name="beforeOperationMedicine">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="beforeOperationMedicine_remark">Remark:</label>
+    <input type="text" id="beforeOperationMedicine_remark" name="beforeOperationMedicine_remark">
+    <br>
+
+    <label for="silt_Itm">SILT or ITM:</label>
+    <input type="text" id="silt_Itm" name="silt_Itm">
+    <br>
+    <label for="silt_Itm_remark">Remark:</label>
+    <input type="text" id="silt_Itm_remark" name="silt_Itm_remark">
+    <br>
+
+    <label for="postOpEffectivePainControl">Post OP Effective Pain Control:</label>
+    <select id="postOpEffectivePainControl" name="postOpEffectivePainControl">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="postOpEffectivePainControl_remark">Remark:</label>
+    <input type="text" id="postOpEffectivePainControl_remark" name="postOpEffectivePainControl_remark">
+    <br>
+
+    <label for="pod_1PainScore">POD#1 Pain Score:</label>
+    <select id="pod_1PainScore" name="pod_1PainScore">
+        <option value="DAY">Day</option>
+        <option value="EVENING">Evening</option>
+        <option value="NIGHT">Night</option>
+    </select>
+    <br>
+    <label for="pod_1PainScore_remark">Remark:</label>
+    <input type="text" id="pod_1PainScore_remark" name="pod_1PainScore_remark">
+    <br>
+
+    <label for="pod_2PainScore">POD#2 Pain Score:</label>
+    <select id="pod_2PainScore" name="pod_2PainScore">
+        <option value="DAY">Day</option>
+        <option value="EVENING">Evening</option>
+        <option value="NIGHT">Night</option>
+    </select>
+    <br>
+    <label for="pod_2PainScore_remark">Remark:</label>
+    <input type="text" id="pod_2PainScore_remark" name="pod_2PainScore_remark">
+    <br>
+
+    <label for="pod_3PainScore">POD#3 Pain Score:</label>
+    <select id="pod_3PainScore" name="pod_3PainScore">
+        <option value="DAY">Day</option>
+        <option value="EVENING">Evening</option>
+        <option value="NIGHT">Night</option>
+    </select>
+    <br>
+    <label for="pod_3PainScore_remark">Remark:</label>
+    <input type="text" id="pod_3PainScore_remark" name="pod_3PainScore_remark">
+    <br>
+
+    <label for="beforeSixtyMinute">Before Sixty Minute:</label>
+    <select id="beforeSixtyMinute" name="beforeSixtyMinute">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="beforeSixtyMinute_remark">Remark:</label>
+    <input type="text" id="beforeSixtyMinute_remark" name="beforeSixtyMinute_remark">
+    <br>
+
+    <label for="maintainTemperature">Maintain Temperature:</label>
+    <select id="maintainTemperature" name="maintainTemperature">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="maintainTemperature_remark">Remark:</label>
+    <input type="text" id="maintainTemperature_remark" name="maintainTemperature_remark">
+    <br>
+
+    <label for="volumeOfIntraoperativeInfusion">Volume of Intraoperative Infusion (ml):</label>
+    <input type="number" id="volumeOfIntraoperativeInfusion" name="volumeOfIntraoperativeInfusion">
+    <br>
+    <label for="volumeOfIntraoperativeInfusion_remark">Remark:</label>
+    <input type="text" id="volumeOfIntraoperativeInfusion_remark" name="volumeOfIntraoperativeInfusion_remark">
+    <br>
+
+    <label for="bloodLoss">Blood Loss (cc):</label>
+    <input type="number" id="bloodLoss" name="bloodLoss">
+    <br>
+    <label for="bloodLoss_remark">Remark:</label>
+    <input type="text" id="bloodLoss_remark" name="bloodLoss_remark">
+    <br>
+
+    <label for="urineOutput">Urine Output (cc):</label>
+    <input type="number" id="urineOutput" name="urineOutput">
+    <br>
+    <label for="urineOutput_remark">Remark:</label>
+    <input type="text" id="urineOutput_remark" name="urineOutput_remark">
+    <br>
+
+    <label for="operationTime">Operation Time (min):</label>
+    <input type="number" id="operationTime" name="operationTime">
+    <label for="operationTime_remark">Remark:</label>
+    <input type="text" id="operationTime_remark" name="operationTime_remark">
+    <br>
+
+    <label for="isPost_Nausea_Vomiting">Post OP Nausea & Vomiting Prophylaxis:</label>
+    <select id="isPost_Nausea_Vomiting" name="isPost_Nausea_Vomiting">
+        <option value="YES">Yes</option>
+        <option value="NO">No</option>
+    </select>
+    <br>
+    <label for="isPost_Nausea_Vomiting_remark">Remark:</label>
+    <input type="text" id="isPost_Nausea_Vomiting_remark" name="isPost_Nausea_Vomiting_remark">
+    <br>
+
+    <label for="locate">Locate:</label>
+    <input type="text" id="locate" name="locate">
+    <br>
+    <label for="locate_remark">Remark:</label>
+    <input type="text" id="locate_remark" name="locate_remark">
+    <br>
+
+    <button type="button" onclick="saveCompliance()">Save Compliance</button>
+</form>
+
+<script>
+    function saveCompliance() {
+        // Retrieve values from the form
+        const writeCheckList = {
+            explainBeforeOperation: document.getElementById('explainBeforeOperation').value,
+            explainBeforeOperation_remark: document.getElementById('explainBeforeOperation_remark').value,
+            takingONSBeforeOperationTwo_Hours: document.getElementById('takingONSBeforeOperationTwo_Hours').value,
+            takingONSBeforeOperationTwo_Hours_remark: document.getElementById('takingONSBeforeOperationTwo_Hours_remark').value,
+            takingAfterBowelPreparation: document.getElementById('takingAfterBowelPreparation').value,
+            takingAfterBowelPreparation_remark: document.getElementById('takingAfterBowelPreparation_remark').value,
+            preventionDVT: document.getElementById('preventionDVT').value,
+            preventionDVT_remark: document.getElementById('preventionDVT_remark').value,
+            takingLaxatives: document.getElementById('takingLaxatives').value,
+            takingLaxatives_remark: document.getElementById('takingLaxatives_remark').value,
+            chewingGum: document.getElementById('chewingGum').value,
+            chewingGum_remark: document.getElementById('chewingGum_remark').value,
+            dayOfRemoveJP_Drain: document.getElementById('dayOfRemoveJP_Drain').value,
+            dayOfRemoveJP_Drain_remark: document.getElementById('dayOfRemoveJP_Drain_remark').value,
+            reasonByRemoveJP_DrainDelay: document.getElementById('reasonByRemoveJP_DrainDelay').value,
+            reasonByRemoveJP_DrainDelay_remark: document.getElementById('reasonByRemoveJP_DrainDelay_remark').value,
+            dayOfRemoveUrinary_Catheter: document.getElementById('dayOfRemoveUrinary_Catheter').value,
+            dayOfRemoveUrinary_Catheter_remark: document.getElementById('dayOfRemoveUrinary_Catheter_remark').value,
+            reasonByRemoveUrinary_CatheterDelay: document.getElementById('reasonByRemoveUrinary_CatheterDelay').value,
+            reasonByRemoveUrinary_CatheterDelay_remark: document.getElementById('reasonByRemoveUrinary_CatheterDelay_remark').value,
+            afterOperationLimitIV_Fluid: document.getElementById('afterOperationLimitIV_Fluid').value,
+            afterOperationLimitIV_Fluid_remark: document.getElementById('afterOperationLimitIV_Fluid_remark').value,
+            dayOfRemoveIV_Fluid: document.getElementById('dayOfRemoveIV_Fluid').value,
+            dayOfRemoveIV_Fluid_remark: document.getElementById('dayOfRemoveIV_Fluid_remark').value,
+            reasonByRemoveIV_FluidDelay: document.getElementById('reasonByRemoveIV_FluidDelay').value,
+            reasonByRemoveIV_FluidDelay_remark: document.getElementById('reasonByRemoveIV_FluidDelay_remark').value,
+            post_Nausea_Vomiting: document.getElementById('post_Nausea_Vomiting').value,
+            post_Nausea_Vomiting_remark: document.getElementById('post_Nausea_Vomiting_remark').value,
+            postOpDayExercise: document.getElementById('postOpDayExercise').value,
+            postOpDayExercise_remark: document.getElementById('postOpDayExercise_remark').value,
+            pod_1Exercise: document.getElementById('pod_1Exercise').value,
+            pod_1Exercise_remark: document.getElementById('pod_1Exercise_remark').value,
+            pod_2Exercise: document.getElementById('pod_2Exercise').value,
+            pod_2Exercise_remark: document.getElementById('pod_2Exercise_remark').value,
+            pod_3Exercise: document.getElementById('pod_3Exercise').value,
+            pod_3Exercise_remark: document.getElementById('pod_3Exercise_remark').value,
+            postOpDayMeal: document.getElementById('postOpDayMeal').value,
+            postOpDayMeal_remark: document.getElementById('postOpDayMeal_remark').value,
+            pod_1Meal: document.getElementById('pod_1Meal').value,
+            pod_1Meal_remark: document.getElementById('pod_1Meal_remark').value,
+            pod_2Meal: document.getElementById('pod_2Meal').value,
+            pod_2Meal_remark: document.getElementById('pod_2Meal_remark').value,
+            beforeOperationMedicine: document.getElementById('beforeOperationMedicine').value,
+            beforeOperationMedicine_remark: document.getElementById('beforeOperationMedicine_remark').value,
+            silt_Itm: document.getElementById('silt_Itm').value,
+            silt_Itm_remark: document.getElementById('silt_Itm_remark').value,
+            postOpEffectivePainControl: document.getElementById('postOpEffectivePainControl').value,
+            postOpEffectivePainControl_remark: document.getElementById('postOpEffectivePainControl_remark').value,
+            pod_1PainScore: document.getElementById('pod_1PainScore').value,
+            pod_1PainScore_remark: document.getElementById('pod_1PainScore_remark').value,
+            pod_2PainScore: document.getElementById('pod_2PainScore').value,
+            pod_2PainScore_remark: document.getElementById('pod_2PainScore_remark').value,
+            pod_3PainScore: document.getElementById('pod_3PainScore').value,
+            pod_3PainScore_remark: document.getElementById('pod_3PainScore_remark').value,
+            beforeSixtyMinute: document.getElementById('beforeSixtyMinute').value,
+            beforeSixtyMinute_remark: document.getElementById('beforeSixtyMinute_remark').value,
+            maintainTemperature: document.getElementById('maintainTemperature').value,
+            maintainTemperature_remark: document.getElementById('maintainTemperature_remark').value,
+            volumeOfIntraoperativeInfusion: document.getElementById('volumeOfIntraoperativeInfusion').value,
+            volumeOfIntraoperativeInfusion_remark: document.getElementById('volumeOfIntraoperativeInfusion_remark').value,
+            bloodLoss: document.getElementById('bloodLoss').value,
+            bloodLoss_remark: document.getElementById('bloodLoss_remark').value,
+            urineOutput: document.getElementById('urineOutput').value,
+            urineOutput_remark: document.getElementById('urineOutput_remark').value,
+            operationTime: document.getElementById('operationTime').value,
+            operationTime_remark: document.getElementById('operationTime_remark').value,
+            isPost_Nausea_Vomiting: document.getElementById('isPost_Nausea_Vomiting').value,
+            isPost_Nausea_Vomiting_remark: document.getElementById('isPost_Nausea_Vomiting_remark').value,
+            locate: document.getElementById('locate').value,
+            locate_remark: document.getElementById('locate_remark').value
+        };
+
+        const patientId = 123; // Replace with actual patient ID
+
+        // Send data to the server
+        fetch(`/api/checkList/${patientId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(writeCheckList),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Compliance data saved successfully!');
+                    // Optionally clear the form or perform other actions
+                } else {
+                    alert('Failed to save checkList data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error saving checkList data:', error);
+                alert('An error occurred while saving checkList data.');
+            });
+    }
+</script>
+</body>
+</html>
+
+

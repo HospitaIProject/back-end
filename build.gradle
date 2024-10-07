@@ -1,0 +1,114 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.1'
+	id 'io.spring.dependency-management' version '1.1.5'
+}
+
+group = 'com.hospital'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Spring WebFlux 추가 (WebClient를 사용하기 위해 필요)
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Apache POI
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+	//mysql
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
+	// sqlite
+	implementation 'org.xerial:sqlite-jdbc:3.34.0'
+	implementation 'org.hibernate.orm:hibernate-community-dialects'
+
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+	implementation 'org.testng:testng:7.1.0'//Swagger
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compileOnly 'org.projectlombok:lombok'
+
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//jwt
+	implementation 'com.auth0:java-jwt:3.18.1'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// 수정된 부분
+task createStaticDir {
+	doLast {
+		def staticDir = file("${projectDir}/src/main/resources/static")
+		if (!staticDir.exists()) {
+			staticDir.mkdirs()
+		}
+	}
+}
+
+task buildReact(type: Exec) {
+	workingDir "${projectDir}/FrontEnd"
+	commandLine 'npm', 'run', 'build'
+}
+
+task copyReactBuild(type: Copy) {
+	from "${projectDir}/FrontEnd/dist"
+	into "${projectDir}/src/main/resources/static"
+}
+
+task cleanReactBuild(type: Delete) {
+	delete fileTree(dir: "${projectDir}/src/main/resources/static").matching {
+		include '**/*'
+	}
+}
+
+// 수정된 부분: 태스크 의존성 및 실행 순서 조정
+copyReactBuild.dependsOn buildReact, createStaticDir
+cleanReactBuild.mustRunAfter createStaticDir
+copyReactBuild.mustRunAfter cleanReactBuild
+
+bootJar {
+	dependsOn cleanReactBuild, copyReactBuild
+}
+
+// processResources 태스크가 copyReactBuild 이후에 실행되도록 설정
+processResources.dependsOn copyReactBuild
+
+bootJar {
+	enabled = true
+}
+
+jar {
+	enabled = false
+}
