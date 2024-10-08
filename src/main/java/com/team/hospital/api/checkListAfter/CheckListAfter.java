@@ -33,17 +33,29 @@ public class CheckListAfter extends BaseEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "gum_chewing")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "gum_chewing_remarks"))
-    })
-    private CheckListFirst gumChewing; // 하루 3번 15분동안 껌씹기 여부
-
-    @Embedded
-    @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "anti_nausea_post_op")),
             @AttributeOverride(name = "remarks", column = @Column(name = "anti_nausea_post_op_remarks"))
     })
     private CheckListFirst antiNauseaPostOp; // 수술 후 구역구토방지제 사용 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "catheter_removal")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "catheter_removal_remarks")),
+            @AttributeOverride(name = "removedDate", column = @Column(name = "catheter_removal_removedDate")),
+            @AttributeOverride(name = "foleyCathReInsertion", column = @Column(name = "catheter_reInsertion"))
+    })
+    private CheckListThird catheterRemoval; // 수술 후 수술장에서 소변줄 제거 여부
+
+    // ============================================================================================
+    // 여기 5가지 항목은 모두 POD#0~3 까지 모두 YES로 체크 되었을 경우에 최종 YES로 들어감.
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "gum_chewing")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "gum_chewing_remarks"))
+    })
+    private CheckListFirst gumChewing; // 하루 3번 15분동안 껌씹기 여부
 
     @Embedded
     @AttributeOverrides({
@@ -69,20 +81,13 @@ public class CheckListAfter extends BaseEntity {
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "catheter_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "catheter_removal_remarks")),
-            @AttributeOverride(name = "removedDate", column = @Column(name = "catheter_removal_removedDate")),
-            @AttributeOverride(name = "foleyCathReInsertion", column = @Column(name = "catheter_reInsertion"))
-    })
-    private CheckListThird catheterRemoval; // 수술 후 수술장에서 소변줄 제거 여부
-
-    @Embedded
-    @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "iv_line_removal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "iv_line_removal_remarks")),
             @AttributeOverride(name = "removedDate", column = @Column(name = "iv_line_removal_removedDate"))
     })
     private CheckListSecond ivLineRemoval; // 수술 후 3일이내 IV line 제거 여부
+
+    // =======================================================================================================
 
     @Embedded
     @AttributeOverrides({
@@ -96,10 +101,10 @@ public class CheckListAfter extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "post_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "post_meal_remarks"))
     })
-    private CheckListFirst postMeal; // Post OP day 운동
+    private CheckListFirst postMeal; // Post OP day 식사
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore postPain; // Post OP day 운동
+    private DailyPainScore postPain; // Post OP day Pain
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id", nullable = false)
