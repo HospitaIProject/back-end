@@ -1,7 +1,7 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
-import com.team.hospital.api.checkList.CheckListService;
+import com.team.hospital.api.checkList.ComplianceCalculationService;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
@@ -18,7 +18,7 @@ public class OperationController {
 
     private final OperationService operationService;
     private final ComplicationService complicationService;
-    private final CheckListService checkListService;
+    private final ComplianceCalculationService complianceCalculationService;
 
     @GetMapping("/api/operation/{operationId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 id값에 대한 operation 상세 조회", description = "입력한 operationID 값에 해당하는 operation 상세 조회")
@@ -37,12 +37,10 @@ public class OperationController {
     @GetMapping("/api/operations/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 환자에 대한 operation 목록", description = "입력한 환자의 ID값에 해당하는 환자의 operation 목록")
     public SuccessResponse<List<OperationDTO>> findOperations(@PathVariable Long patientId) {
-//        List<Operation> operations = operationService.findAllByPatient(patientId);
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
-
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
-                    double compliancePercentage = checkListService.test(operation.getId());
+                    double compliancePercentage = complianceCalculationService.calculateScore(operation.getId());
                     return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, compliancePercentage);
                 })
                 .toList();
