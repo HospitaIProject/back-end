@@ -175,13 +175,13 @@ public class CheckList extends BaseEntity {
 
     // POD Pain
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podOnePain; // POD 1day 운동
+    private DailyPainScore podOnePain; // POD 1day Pain
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podTwoPain; // POD 2day 운동
+    private DailyPainScore podTwoPain; // POD 2day Pain
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podThreePain; // POD 3day 운동
+    private DailyPainScore podThreePain; // POD 3day Pain
 
     private LocalDate dayOfCheckList;
 
