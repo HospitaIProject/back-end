@@ -78,8 +78,8 @@ task createStaticDir {
 }
 
 task buildReact(type: Exec) {
-	workingDir "${projectDir}/FrontEnd"
-	commandLine 'npm', 'run', 'build'
+	workingDir file("$projectDir/FrontEnd")
+	commandLine 'bash', '-c', 'source ~/.nvm/nvm.sh && nvm use && npm run build'
 }
 
 task copyReactBuild(type: Copy) {
