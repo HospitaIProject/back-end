@@ -35,12 +35,13 @@ public class CheckListItem extends BaseEntity {
 
     // 수술 후
     private boolean giStimulant;                   // 위장관 촉진 약 복용 여부
-    private boolean gumChewing;                    // 하루 3번 15분동안 껌씹기 여부
     private boolean antiNauseaPostOp;              // 수술 후 구역구토방지제 사용 여부
+    private boolean catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
+
+    private boolean gumChewing;                    // 하루 3번 15분동안 껌씹기 여부
     private boolean ivFluidRestrictionPostOp;      // 수술 후 IV fluid 제한 여부
     private boolean nonOpioidPainControl;          // 수술 후 non-opioid pain control 여부
     private boolean jpDrainRemoval;                // 수술 후 3일이내 JP drain 제거 여부
-    private boolean catheterRemoval;               // 수술 후 수술장에서 소변줄 제거 여부
     private boolean ivLineRemoval;                 // 수술 후 3일이내 IV line 제거 여부
 
     private boolean podExercise;                   // 운동
