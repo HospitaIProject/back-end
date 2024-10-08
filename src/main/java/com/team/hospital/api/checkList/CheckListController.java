@@ -37,6 +37,7 @@ public class CheckListController {
     private final CheckListDuringService checkListDuringService;
     private final CheckListAfterService checkListAfterService;
     private final OperationService operationService;
+    private final ComplianceCalculationService complianceCalculationService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
     @Operation(summary = "세팅한 체크리스트에 대하여 체크리스트 등록")
@@ -66,7 +67,7 @@ public class CheckListController {
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
         CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
 
-        double test = checkListService.test(operationId);
+        double complianceScore = complianceCalculationService.calculateScore(operationId);
 
         CheckListWithOperationDateDTO responseDTO;
 
@@ -78,7 +79,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    test);
+                    complianceScore);
         } else {
             responseDTO = CheckListWithOperationDateDTO.toEntity(
                     checkLists,
@@ -88,7 +89,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    test);
+                    complianceScore);
         }
 
         return SuccessResponse.createSuccess(responseDTO);
