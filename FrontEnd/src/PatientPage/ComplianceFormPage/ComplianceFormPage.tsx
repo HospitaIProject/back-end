@@ -147,6 +147,9 @@ function ComplianceFormPage() {
     useEffect(() => {
         console.log('podOnePain', formik.values.podOnePain);
     }, [formik.values.podOnePain]);
+    useEffect(() => {
+        console.log('fluidRestriction', fluidRestriction);
+    }, [fluidRestriction]);
 
     if (isExistFieldsPending || isInitialValuesPending || isFluidRestrictionPending) {
         return <Loading />;
@@ -177,7 +180,7 @@ function ComplianceFormPage() {
                     existFields={existFields}
                 />
 
-                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
+                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>

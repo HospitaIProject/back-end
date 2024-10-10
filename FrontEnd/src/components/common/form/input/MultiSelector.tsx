@@ -67,7 +67,7 @@ function MultiSelector<T>({
                             '&:hover': {},
                             border: isValid
                                 ? '2px solid #e53e3e'
-                                : '' || state.isFocused
+                                : state.isFocused
                                   ? '2px solid rgb(96 165 250) '
                                   : '1px solid rgb(209 213 219) ',
                             cursor: 'pointer',
