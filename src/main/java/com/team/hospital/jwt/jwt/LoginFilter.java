@@ -1,6 +1,7 @@
 package com.team.hospital.jwt.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.team.hospital.api.account.dto.CustomAccountDetails;
 import com.team.hospital.api.account.dto.LoginRequest;
 import com.team.hospital.api.account.dto.LoginResponse;
@@ -8,6 +9,7 @@ import com.team.hospital.api.account.dto.TokenDTO;
 import com.team.hospital.api.apiResponse.ErrorResponse;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.exception.ErrorCode;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -35,6 +37,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
+    @PostConstruct
+    public void init() {
+        // JavaTimeModule 추가
+        objectMapper.registerModule(new JavaTimeModule());
+    }
+
+
     @Override
     protected String obtainUsername(HttpServletRequest request) {
         return request.getParameter("adminID");
@@ -43,7 +52,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         try {
+
             LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+            System.out.println(loginRequest);
 
             //스프링 시큐리티에서 email 과 password 를 검증하기 위해서는 token 에 담아야 한다.
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getAdminID(), loginRequest.getAdminPW(), null);
@@ -88,7 +99,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setCharacterEncoding("UTF-8");
         ErrorResponse commonApiResponse = ErrorResponse.createError(ErrorCode.LOGIN_FAILED);
         try {
-            response.getWriter().write(new ObjectMapper().writeValueAsString(commonApiResponse));
+            response.getWriter().write(objectMapper.writeValueAsString(commonApiResponse));
         } catch (IOException e){
             throw new RuntimeException("잘못된 응답 형식입니다.", e);
         }
