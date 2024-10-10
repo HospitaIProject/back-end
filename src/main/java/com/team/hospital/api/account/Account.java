@@ -26,7 +26,7 @@ public class Account extends BaseEntity {
         return Account.builder()
                 .adminID(request.getAdminID())
                 .adminPW(request.getAdminPW())
-                .role(Role.ROLE_USER)
+                .role(Role.ROLE_ADMIN)
                 .build();
     }
 }
