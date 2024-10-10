@@ -81,10 +81,19 @@ public class CheckListDuringController {
     @io.swagger.v3.oas.annotations.Operation(summary = "수술 중 수액 용량 제한 조회")
     public SuccessResponse<?> getFluidRestriction(@PathVariable Long operationId) {
         Operation operation = operationService.findOperationById(operationId);
-        double totalFluidsAmount = operation.getTotalFluidsAmount();
-        float weight = operation.getPatient().getWeight();
-        int totalOperationTime = operation.getTotalOperationTime();
-        double fluidRestriction = totalFluidsAmount / weight / ((double) totalOperationTime / 60);
+
+        double totalFluidsAmount = operation.getTotalFluidsAmount();    // 총 수액량
+        double weight = operation.getPatient().getWeight();             // 환자 체중
+        int totalOperationTimeInMinutes = operation.getTotalOperationTime();  // 수술 시간 (분 단위)
+
+        double fluidRestriction = calculateFluidRestriction(totalFluidsAmount, weight, totalOperationTimeInMinutes);
+
         return SuccessResponse.createSuccess(fluidRestriction);
+    }
+
+    private double calculateFluidRestriction(double totalFluids, double weight, int operationTimeInMinutes) {
+        double operationTimeInHours = operationTimeInMinutes / 60.0; // 시간 단위로 변환
+        double restriction = totalFluids / weight / operationTimeInHours; // 제한 계산
+        return Math.round(restriction * 100) / 100.0; // 소수점 2자리 반올림
     }
 }
