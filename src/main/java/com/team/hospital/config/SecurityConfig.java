@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록되도록 하는 어노테이션
@@ -63,7 +62,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**").permitAll() //swagger
                         .requestMatchers("/api/account", "/api/login").permitAll()          //모든 권한 허용
-                        .anyRequest().permitAll()); //authenticated                             //다른 권한은 로그인한 유저만 추후 바꿔야함
+                        .anyRequest().authenticated()); //authenticated                             //다른 권한은 로그인한 유저만 추후 바꿔야함
 
 
         // 필터 순서 JwtFilter -> 로그인 필터
