@@ -63,7 +63,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         //Spring Security 가 사용자 인증 후 Authentication 객체에 저장된 사용자 정보를 getPrincipal 로 가져옴
         CustomAccountDetails customAccountDetails = (CustomAccountDetails) authentication.getPrincipal();
 
-        String email = customAccountDetails.getAdminId();
+        String adminId = customAccountDetails.getAdminId();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
@@ -71,7 +71,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-        String accessToken = jwtUtil.createAccessToken(email, role, 1000L * 60 * 60 * 60);
+        String accessToken = jwtUtil.createAccessToken(adminId, role, 1000L * 60 * 60 * 60);
 
         LoginResponse loginResponse = LoginResponse.toEntity(TokenDTO.toEntity(accessToken));
 
