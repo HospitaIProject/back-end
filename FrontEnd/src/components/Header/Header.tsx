@@ -73,6 +73,8 @@ export default function Header() {
         label = '체크리스트 목록';
     } else if (pathname.startsWith('/operation-checkList/default-setting')) {
         label = '수술별 체크리스트 기본설정';
+    } else if (pathname.startsWith('/summary/excel')) {
+        label = '환자 데이터 액셀 다운로드';
     }
 
     if (pathname !== '/') {
