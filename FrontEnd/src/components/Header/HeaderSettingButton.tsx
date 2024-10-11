@@ -1,4 +1,4 @@
-import { Link, redirect, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SettingIcon from '../../icons/SettingIcon';
 import { useState } from 'react';
 import LogoutIcon from '../../icons/LogoutIcon';
@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import SideBarContainer from '../Sidebar/SideBarContainer';
 import ArrowIcon from '../../icons/ArrowIcon';
 
-function HeaderSettingButton({ isVisible }: { isVisible: boolean }) {
+function HeaderSettingButton() {
     const navigate = useNavigate();
     const [isSettingOpen, setIsSettingOpen] = useState<boolean>(false);
 

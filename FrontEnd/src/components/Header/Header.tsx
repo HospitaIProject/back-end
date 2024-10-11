@@ -6,7 +6,6 @@ import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
 import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
-import SettingIcon from '../../icons/SettingIcon';
 import HomeIcon from '../../icons/HomeIcon';
 import HeaderSettingButton from './HeaderSettingButton';
 
@@ -114,7 +113,7 @@ export default function Header() {
                             <PlusIcon className="w-5 h-5" />
                         </Link>
                         <div className="h-6 border-l border-gray-300" />
-                        <HeaderSettingButton isVisible={isVisible} />
+                        <HeaderSettingButton />
                     </div>
 
                     <FilterHeader isRender={absFilter} />
