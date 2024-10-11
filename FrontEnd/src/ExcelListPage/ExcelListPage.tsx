@@ -1,7 +1,6 @@
 import InfoIcons from '../icons/InfoIcons';
 import { useExcelQuery } from './_lib/excelService';
 import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
 
 function ExcelListPage() {
     const excelQuery = useExcelQuery({ enabled: false });
