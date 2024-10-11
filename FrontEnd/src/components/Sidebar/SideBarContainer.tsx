@@ -27,14 +27,20 @@ function SideBarContainer({ children, title, onClose }: ModalWrapperProps) {
     if (!open || !isBrowser) return null;
 
     return ReactDOM.createPortal(
-        <div className="bg-modal fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-dvh w-screen justify-start bg-gray-800 bg-opacity-40">
-            <div className={`animate-slide-right flex w-64 flex-col scroll-smooth border-x border-t bg-white`}>
+        <div
+            className="bg-modal fixed bottom-0 left-0 right-0 top-0 z-[2000] flex h-dvh w-screen justify-start bg-gray-800 bg-opacity-40"
+            onClick={onClose}
+        >
+            <div
+                onClick={(event) => event.stopPropagation()} // 이 부분을 추가합니다.
+                className={`animate-slide-right flex w-64 flex-col scroll-smooth border-x border-t bg-white`}
+            >
                 <header className="flex flex-row justify-between w-full p-4 text-gray-600">
-                    <div className="flex justify-center flex-grow font-medium ml-7">
-                        <span className="text-lg">{title}</span>
+                    <div className="flex items-center justify-center flex-grow font-medium ml-7">
+                        <span className="">{title}</span>
                     </div>
                     <button onClick={onClose}>
-                        <CloseIcon className="h-7 w-7 text-inherit" />
+                        <CloseIcon className="w-6 h-6 text-inherit" />
                     </button>
                 </header>
                 <div className="w-full h-full overflow-y-auto">{children}</div>

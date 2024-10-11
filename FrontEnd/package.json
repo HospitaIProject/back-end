@@ -19,6 +19,7 @@
         "dayjs": "^1.11.11",
         "eslint-config-prettier": "^9.1.0",
         "formik": "^2.4.6",
+        "js-cookie": "^3.0.5",
         "lodash": "^4.17.21",
         "postcss": "^8.4.38",
         "prettier-plugin-tailwindcss": "^0.6.5",
@@ -36,6 +37,7 @@
         "uuid": "^10.0.0"
     },
     "devDependencies": {
+        "@types/js-cookie": "^3.0.6",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@types/uuid": "^10.0.0",
