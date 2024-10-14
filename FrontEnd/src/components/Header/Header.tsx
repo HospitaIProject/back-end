@@ -6,8 +6,8 @@ import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
 import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
-import SettingIcon from '../../icons/SettingIcon';
 import HomeIcon from '../../icons/HomeIcon';
+import HeaderSettingButton from './HeaderSettingButton';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
@@ -73,6 +73,8 @@ export default function Header() {
         label = '체크리스트 목록';
     } else if (pathname.startsWith('/operation-checkList/default-setting')) {
         label = '수술별 체크리스트 기본설정';
+    } else if (pathname.startsWith('/summary/excel')) {
+        label = '환자 데이터 액셀 다운로드';
     }
 
     if (pathname !== '/') {
@@ -113,9 +115,7 @@ export default function Header() {
                             <PlusIcon className="w-5 h-5" />
                         </Link>
                         <div className="h-6 border-l border-gray-300" />
-                        <Link to="/operation-checkList/default-setting" className="text-sm underline">
-                            <SettingIcon className="text-gray-600 h-7 w-7" />
-                        </Link>
+                        <HeaderSettingButton />
                     </div>
 
                     <FilterHeader isRender={absFilter} />

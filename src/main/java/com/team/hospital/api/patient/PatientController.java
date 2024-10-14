@@ -11,6 +11,7 @@ import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.enumType.CheckListStatus;
 import com.team.hospital.api.patient.enumType.FilterType;
 import com.team.hospital.api.patient.enumType.Opdate;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Tag(name = "환자 관리", description = "환자 정보를 관리하는 API")
+@SecurityRequirement(name = "Bearer Authentication")
 public class PatientController {
 
     private final PatientService patientService;
