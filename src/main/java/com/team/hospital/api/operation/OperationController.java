@@ -1,11 +1,11 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
-import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.checkList.ComplianceCalculationService;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Tag(name = "수술 관리", description = "수술 관리 API")
+@SecurityRequirement(name = "Bearer Authentication")
 public class OperationController {
 
     private final OperationService operationService;

@@ -2,6 +2,7 @@ package com.team.hospital.api.operationType;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.operationType.dto.WriteOperationType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@SecurityRequirement(name = "Bearer Authentication")
 public class OperationTypeController {
 
     private final OperationTypeService operationTypeService;

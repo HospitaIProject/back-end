@@ -5,6 +5,7 @@ import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.complication.dto.ComplicationDTO;
 import com.team.hospital.api.complication.dto.WriteComplication;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "합병증 관리", description = "합병증 관리 API")
+@SecurityRequirement(name = "Bearer Authentication")
 public class ComplicationController {
 
     private final ComplicationService complicationService;

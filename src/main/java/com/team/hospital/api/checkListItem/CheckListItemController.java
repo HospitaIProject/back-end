@@ -5,6 +5,7 @@ import com.team.hospital.api.checkListItem.dto.CheckListItemDTO;
 import com.team.hospital.api.checkListItem.dto.CheckListItemResponse;
 import com.team.hospital.api.checkListItem.dto.WriteCheckListItem;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "체크리스트 목록 관리", description = "체크리스트 목록 관리 API")
+@SecurityRequirement(name = "Bearer Authentication")
 public class CheckListItemController {
 
     private final CheckListItemService checkListItemService;
