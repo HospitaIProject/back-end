@@ -54,7 +54,6 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         try {
 
             LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
-            System.out.println(loginRequest);
 
             //스프링 시큐리티에서 email 과 password 를 검증하기 위해서는 token 에 담아야 한다.
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginRequest.getAdminID(), loginRequest.getAdminPW(), null);
@@ -82,7 +81,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-        String accessToken = jwtUtil.createAccessToken(adminId, role, 1000L * 60 * 60 * 60);
+        String accessToken = jwtUtil.createAccessToken(adminId, role, 1000L * 60 * 60 * 24 * 7); //일주일
 
         LoginResponse loginResponse = LoginResponse.toEntity(TokenDTO.toEntity(accessToken));
 
