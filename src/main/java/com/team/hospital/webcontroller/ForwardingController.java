@@ -1,53 +1,76 @@
 package com.team.hospital.webcontroller;
 
-import com.team.hospital.api.apiResponse.SuccessResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequiredArgsConstructor
-@Slf4j
 public class ForwardingController {
 
-    private final RestTemplate restTemplate;
-
+    // 리다이렉트 메소드
     @RequestMapping(value = "/**/{path:[^\\.]*}")
-    public <T> ResponseEntity<SuccessResponse<T>> forwardRequest(HttpServletRequest request) {
+    public String redirect(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
 
-        // 요청 URI를 로그에 출력
-        log.info("Received request URI: {}", requestURI);
-
-        // 내부 API 호출이 필요한 경우
-        if (requestURI.startsWith("/api")) {
-            log.info("Forwarding API request Invoked.");
-
-            String internalApiUrl = "http://localhost:8080" + requestURI;
-
-            // RestTemplate을 사용하여 동기적으로 내부 API 호출
-            ResponseEntity<String> internalResponse = restTemplate.exchange(
-                    internalApiUrl,
-                    HttpMethod.GET,
-                    null,
-                    String.class
-            );
-
-            // 성공 응답: SuccessResponse로 변환하여 반환
-            SuccessResponse<String> successResponse = SuccessResponse.createSuccess(internalResponse.getBody());
-            return ResponseEntity.ok((SuccessResponse<T>) successResponse);
+        if (requestURI.startsWith("/hc") || requestURI.startsWith("/env")) {
+            return "forward:" + requestURI;
         }
 
-        // 그 외의 요청은 React의 index.html로 포워딩
-        return ResponseEntity.ok((SuccessResponse<T>) SuccessResponse.createSuccess("forward:/index.html"));
+        // Forward to home page so that route is preserved.
+        return "forward:/";
     }
 }
+
+//package com.team.hospital.webcontroller;
+//
+//import com.team.hospital.api.apiResponse.SuccessResponse;
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.http.HttpMethod;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.client.RestTemplate;
+//
+//import jakarta.servlet.http.HttpServletRequest;
+//
+//@Controller
+//@RequiredArgsConstructor
+//@Slf4j
+//public class ForwardingController {
+//
+//    private final RestTemplate restTemplate;
+//
+//    @RequestMapping(value = "/**/{path:[^\\.]*}")
+//    public <T> ResponseEntity<SuccessResponse<T>> forwardRequest(HttpServletRequest request) {
+//        String requestURI = request.getRequestURI();
+//
+//        // 요청 URI를 로그에 출력
+//        log.info("Received request URI: {}", requestURI);
+//
+//        // 내부 API 호출이 필요한 경우
+//        if (requestURI.startsWith("/api")) {
+//            log.info("Forwarding API request Invoked.");
+//
+//            String internalApiUrl = "http://localhost:8080" + requestURI;
+//
+//            // RestTemplate을 사용하여 동기적으로 내부 API 호출
+//            ResponseEntity<String> internalResponse = restTemplate.exchange(
+//                    internalApiUrl,
+//                    HttpMethod.GET,
+//                    null,
+//                    String.class
+//            );
+//
+//            // 성공 응답: SuccessResponse로 변환하여 반환
+//            SuccessResponse<String> successResponse = SuccessResponse.createSuccess(internalResponse.getBody());
+//            return ResponseEntity.ok((SuccessResponse<T>) successResponse);
+//        }
+//
+//        // 그 외의 요청은 React의 index.html로 포워딩
+//        return ResponseEntity.ok((SuccessResponse<T>) SuccessResponse.createSuccess("forward:/index.html"));
+//    }
+//}
 
 //package com.team.hospital.webcontroller;
 //
