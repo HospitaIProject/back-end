@@ -24,6 +24,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
+    private final ObjectMapper objectMapper;
     private final JwtUtil jwtUtil;
     private final CustomAccountDetailsService customAccountDetailsService;
 
@@ -64,7 +65,7 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
 
             ErrorResponse commonApiResponse = ErrorResponse.createError(ErrorCode.EXPIRED_TOKEN);
-            response.getWriter().write(new ObjectMapper().writeValueAsString(commonApiResponse));
+            response.getWriter().write(objectMapper.writeValueAsString(commonApiResponse));
         }
     }
 }
