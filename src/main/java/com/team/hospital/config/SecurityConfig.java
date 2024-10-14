@@ -61,13 +61,15 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**").permitAll() //swagger
-                        .requestMatchers("/api/account", "/api/login").permitAll()          //모든 권한 허용
-                        .anyRequest().authenticated()); //authenticated                             //다른 권한은 로그인한 유저만 추후 바꿔야함
+                        .requestMatchers("/api/account", "/api/signIn").permitAll()  //다른 권한은 로그인한 유저만 추후 바꿔야함
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()); //authenticated
+
 
 
         // 필터 순서 JwtFilter -> 로그인 필터
         http
-                .addFilterBefore(new JwtFilter(jwtUtil, customAccountDetailsService), LoginFilter.class);
+                .addFilterBefore(new JwtFilter(objectMapper, jwtUtil, customAccountDetailsService), LoginFilter.class);
 
 
         // UsernamePasswordAuthenticationFilter 필터 대신 커스텀 한 LoginFilter
