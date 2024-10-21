@@ -19,4 +19,8 @@ public enum Diagnosis {
     Diagnosis(int num) {
         this.num = num;
     }
+
+    public int getNum() {
+        return num;
+    }
 }

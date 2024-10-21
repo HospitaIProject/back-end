@@ -14,4 +14,7 @@ public enum OperationApproach {
         this.num = num;
     }
 
+    public int getNum() {
+        return num;
+    }
 }

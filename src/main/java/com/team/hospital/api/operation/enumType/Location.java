@@ -11,4 +11,7 @@ public enum Location {
         this.num = num;
     }
 
+    public int getNum() {
+        return num;
+    }
 }
