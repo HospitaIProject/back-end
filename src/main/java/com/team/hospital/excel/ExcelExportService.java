@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,35 +67,244 @@ public class ExcelExportService {
 
         // Header names
         String[] headers = {
-                "No", "환자이름", "등록번호", "입원일", "수술일", "퇴원일", "POD(일)", "진단명", "수술명",          // 기본 정보
-                "Location\n1: colon\n2: rectum", "적용한 CP\n1: colon\n2: rectum",                      // 기본 정보
+                "No",                                       //0
+                "환자이름",                                   //1
+                "등록번호",                                   //2
+                "입원일",                                    //3
+                "수술일",                                    //4
+                "퇴원일",                                    //5
+                "POD(일)",                                  //6
 
-                "ERAS설명\n1 = YES\n0 = No", "수술전 ONS\n1 = YES\n0 = No", "엔커버 복용\n1 = YES\n0 = No",           // 수술 전
-                "DVT 예방\n1 = YES\n0 = No", "예방적 항생제\n1 = YES\n0 = No", "수술전 통증\n조절약\n1 = YES\n0 = No",   // 수술 전
+                "진단명\n" +                                 //7
+                "1: Ascending colon\n" +
+                "2:  HF colon cancer \n" +
+                "3: Transverse colon \n" +
+                "4: Splenic flexure colon\n" +
+                "5: Descending colon  \n" +
+                "6: Sigmoid colon \n" +
+                "7: Rectosigmoid colon \n" +
+                "8: Rectum \n" +
+                "9: cecum\n" +
+                "10: Appendiceal\n" +
+                "11: Anus ",
 
-                "Hypothermia 예방(Air-warmer)\n1 = YES\n0 = No", "수술중 volume 2-4cc/hr였는지\n1 = YES\n0 = No", "수술중 PONV\n1 = YES\n0 = No",
-                "수술중 pain control 유무", "수술중 통증 조절 종류 (서술)",
+                "수술명\n" +                                //8
+                        "1: RHC, ERHC\n" +
+                        "2: T-colectomy\n" +
+                        "3: LHC, ELHC\n" +
+                        "4: AR\n" +
+                        "5: LAR\n" +
+                        "6: ISR\n" +
+                        "7: APR\n" +
+                        "8: subtotal, total colectomy \n" +
+                        "9: Total proctocolectomy\n" +
+                        "10: 기타 (서술) ",
 
-                "Laxatives\n1 = YES\n0 = No", "chewing gum\n1 = YES\n0 = No", "수술후 당일 PONV 예방\n1 = YES\n0 = No", "fluid 제한\n(C:500, R:2000)",
+                "암 Location\n" +
+                        "1: Rt sided colon \n" +
+                        "2: Lt sided colon \n" +
+                        "3: rectum \n" +
+                        "4: multiple",              //9
+
+                "수술approah \n" +
+                        "1: open\n" +
+                        "2: Laparoscopic_multiport\n" +
+                        "3: Laparoscopic_singleport\n" +
+                        "4: Robotic_multiport\n" +
+                        "5: Robotic_singleport\n" +
+                        "6: open conversion ",           //10
+
+                "적용한 CP\n" +
+                        "1: colon\n" +
+                        "2: rectum",           //11
+
+                "ERAS설명\n" +
+                        "1 = YES\n" +
+                        "0 = No",            //12
+
+                "수술전 ONS\n" +
+                        "1 = YES\n" +
+                        "0 = No",         //13
+
+                "엔커버 복용\n" +
+                        "1 = YES\n" +
+                        "0 = No",    // 14
 
 
-                "postop pain control\n1 = no opioid\n2 = opioid", "POD#3 이후 JP 제거했는지\n1 = YES\n0 = No", "JP drain 제거일\n(서술)", "Urinary catheter\n수술실에서 제거\n1 = YES\n0 = No",
-                "Urinary catheter 제거한 날짜\n(서술)", "POD#3 이후\nIV 라인제거\n1 = YES\n0 = No", "IV 라인제거\n날짜\n(서술)", "OP day\n운동\n1 = YES\n0 = No",
+                "DVT 예방\n" +
+                        "1 = YES\n" +
+                        "0 = No",      //15
 
-                "POD#1\n운동\n1 = YES\n0 = No", "POD#2\n운동\n1 = YES\n0 = No", "POD#3\n운동\n1 = YES\n0 = No",
-                "OP day Diet\n1 = YES\n0 = No", "POD#1 Diet\n1 = YES\n0 = No", "POD#2 Diet\n1 = YES\n0 = No",
+                "예방적 항생제\n" +
+                        "1 = YES\n" +
+                        "0 = No",        //16
 
-                "ERAS 성공 항목수", "ERAS 적용한 항목수", "Compliance\nrate\n(성공수/적용수)*100",
+                "수술전 통증\n" +
+                        "조절약\n" +
+                        "1 = YES\n" +
+                        "0 = No",                       //17
 
-                "POD#1 VAS score(아침/점심/저녁)", "POD#2 VAS score(아침/점심/저녁)", "POD#3 VAS score(아침/점심/저녁)",
-                "blood loss", "urine output", "op time",
+                "Hypothermia 예방\n" +
+                        "(Air-warmer)\n" +
+                        "1 = YES\n" +
+                        "0 = No",                            //18
 
-                "pre WBC", "pre Neu", "pre Lym", "pre CRP", "pre Alb",
-                "D0 WBC", "D0 Neu", "D0 Lym", "D0 CRP", "D0 Alb",
-                "D1 WBC", "D1 Neu", "D1 Lym", "D1 CRP", "D1 Alb",
-                "D2 WBC", "D2 Neu", "D2 Lym", "D2 CRP", "D2 Alb",
-                "D3 WBC", "D3 Neu", "D3 Lym", "D3 CRP", "D3 Alb",
-                "D4 WBC", "D4 Neu", "D4 Lym", "D4 CRP", "D4 Alb"
+                "수술중 volume 2-4cc/hr였는지\n" +
+                        "1 = YES\n" +
+                        "0 = No",                           //19
+
+                "수술중 PONV\n" +
+                        "1 = YES\n" +
+                        "0 = No",                       //20
+
+                "수술중 \n" +
+                        "pain control 유무\n" +
+                        "1 = YES\n" +
+                        "0 = No",                     //21
+
+                "수술중 통증 조절 종류\n" +
+                        "1: TAPB\n" +
+                        "2: WI\n" +
+                        "3: ITM\n" +
+                        "4: 기타 ",              //22
+
+                "Laxatives\n" +
+                        "1 = YES\n" +
+                        "0 = No",                      //23
+
+                "chewing gum\n" +
+                        "1 = YES\n" +
+                        "0 = No",   //24
+
+                "수술후 당일 PONV 예방\n" +
+                        "1 = YES\n" +
+                        "0 = No",           //25
+
+                "fluid 제한\n" +
+                        "(C:500, R:2000)\n" +
+                        "1 = YES\n" +
+                        "0 = No",                           //26
+
+                "postop pain control\n" +
+                        "1 = no opioid\n" +
+                        "0 = opioid",  //27
+
+                "POD#1 이후 JP 제거했는지\n" +
+                        "1 = YES\n" +
+                        "0 = No",                //28
+
+                "JP drain 제거일\n" +
+                        "(서술)",           //29
+
+                "Urinary catheter\n" +
+                        "수술실에서 제거\n" +
+                        "1 = YES\n" +
+                        "0 = No",                          //30
+
+                "Urinary catheter 제거한 날짜\n" +
+                        "(서술)",                  //31
+
+                "POD#3 이후\n" +
+                        "IV 라인제거\n" +
+                        "1 = YES\n" +
+                        "0 = No",                   //32
+
+                "IV 라인제거\n" +
+                        "날짜\n" +
+                        "(서술)",                   //33
+
+                "OP day\n" +
+                        "운동\n" +
+                        "1 = YES\n" +
+                        "0 = No",                   //34
+
+                "POD#1\n" +
+                        "운동\n" +
+                        "1 = YES\n" +
+                        "0 = No",                 //35
+
+                "POD#2\n" +
+                        "운동\n" +
+                        "1 = YES\n" +
+                        "0 = No",                  //36
+
+                "POD#3\n" +
+                        "운동\n" +
+                        "1 = YES\n" +
+                        "0 = No",                  //37
+
+                "OP day Diet\n" +
+                        "1 = YES\n" +
+                        "0 = No",                              //38
+
+                "POD#1 Diet\n" +
+                        "1 = YES\n" +
+                        "0 = No",                             //39
+
+                "POD#2 Diet\n" +
+                        "1 = YES\n" +
+                        "0 = No",          //40
+
+                "ERAS 성공 항목수",                //41
+
+                "ERAS 적용한 항목수",                //42
+
+                "Compliance\n" +
+                        "rate\n" +
+                        "(성공수/적용수)*100",                //43
+
+                "OP day\n" +
+                        "VAS score\n" +
+                        "(점심)",                                  //44
+
+                "OP day\n" +
+                        "VAS score\n" +
+                        "(저녁)",                                //45
+
+                "POD#1 \n" +
+                        "VAS score\n" +
+                        "(아침)",                                      //46
+
+                "POD#1 \n" +
+                        "VAS score\n" +
+                        "(점심)",                          //47
+
+                "POD#1 \n" +
+                        "VAS score\n" +
+                        "(저녁)",          //48
+
+                "POD#2 \n" +
+                        "VAS score\n" +
+                        "(아침)",          //49
+
+                "POD#2 \n" +
+                        "VAS score\n" +
+                        "(점심)",          //50
+
+                "POD#2 \n" +
+                        "VAS score\n" +
+                        "(저녁)",          //51
+
+                "POD#3 \n" +
+                        "VAS score\n" +
+                        "(아침)",           //52
+
+                "POD#3 \n" +
+                        "VAS score\n" +
+                        "(점심)",           //53
+
+                "POD#3 \n" +
+                        "VAS score\n" +
+                        "(저녁)",             //54
+
+                "blood loss",               //55
+                "urine output",                   //56
+                "op time",               //57
+
+//                "D1 Neu", "D1 Lym", "D1 CRP", "D1 Alb",
+//                "D2 WBC", "D2 Neu", "D2 Lym", "D2 CRP", "D2 Alb",
+//                "D3 WBC", "D3 Neu", "D3 Lym", "D3 CRP", "D3 Alb",
+//                "D4 WBC", "D4 Neu", "D4 Lym", "D4 CRP", "D4 Alb"
         };
 
         // Create header cells and apply the header style
@@ -120,12 +330,11 @@ public class ExcelExportService {
 
                 Row row = sheet.createRow(rowIndex); // 각 수술마다 새로운 행 생성
 
-                StringBuilder sb = new StringBuilder(); // 수술명
                 List<OperationMethod> operationMethods = op.getOperationMethods();
 
-                for (OperationMethod opm : operationMethods) {
-                    sb.append(opm.getOperationType().getName()).append(", ");
-                }
+                String result = operationMethods.stream()
+                        .map(opm -> opm.getOperationType().getName())//이 부분 숫자 필요
+                        .collect(Collectors.joining(", "));
 
                 // CheckList 처리 (Before, During, After)
                 CheckListItem checkListItem = checkListItemRepository.findCheckListItemByOperation(op);
@@ -138,97 +347,111 @@ public class ExcelExportService {
                 row.createCell(2).setCellValue(p.getPatientNumber());                                                                    //환자번호
                 row.createCell(3).setCellValue(convertDateToString(p.getHospitalizedDate()));                                           //입원일
                 row.createCell(4).setCellValue(convertDateToString(p.getOperationDate()));                                             //수술일
-                setCellValueSafe(row, 4, () -> convertDateToString(p.getDischargedDate()));                                     //퇴원일
+                setStringCellValueSafe(row, 4, () -> convertDateToString(p.getDischargedDate()));                                     //퇴원일
                 row.createCell(6).setCellValue(p.getTotalHospitalizedDays());                                                        //POD(일)
-                row.createCell(7).setCellValue(p.getDiagnosis().name());                                                            //진단명
-                row.createCell(8).setCellValue(sb.toString());                                                                     //수술명
-                row.createCell(9).setCellValue(p.getLocation().name());                                                           //Location 1: colon 2: rctum
-                row.createCell(10).setCellValue(op.getOperationApproach().name());                                               //적용한 CP 1: colon 2: rectum
+
+                row.createCell(7).setCellValue(p.getDiagnosis().getNum());                                                          //진단명
+                row.createCell(8).setCellValue(result);                                                                     //수술명 -> 숫자 필요
+
+                row.createCell(9).setCellValue(p.getLocation().getNum());                                                         // 암 Location 1: colon 2: rctum
+                row.createCell(10).setCellValue(op.getOperationApproach().getNum());                                              //수술 approah CP 1: colon 2: rectum
+                row.createCell(11).setCellValue("모름");                                                           //적용한 CP
+
 
                 // 수술 전 정보 처리
-                setCellValueSafe(row, 11, () -> checkListBefore.getExplainedPreOp().getOption().name());                                //ERAS설명 1 = YES 0 = No
-                setCellValueSafe(row, 12, () -> checkListBefore.getOnsPreOp2hr().getOption().name());                                   //수술전 ONS 1 = YES  0 = No
-                setCellValueSafe(row, 13, () -> checkListBefore.getOnsPostBowelPrep().getOption().name());                              //엔커버 복용 1 = YES  0 = No
-                setCellValueSafe(row, 14, () -> checkListBefore.getDvtPrevention().getOption().name());                                 //DVT 예방 1 = YES 0 = No
-                setCellValueSafe(row, 15, () -> checkListBefore.getAntibioticPreIncision().getOption().name());                         //예방적 항생제 1 = YES  0 = No
-                setCellValueSafe(row, 16, () -> checkListBefore.getPainMedPreOp().getOption().name());                                  //수술전 통증 조절약 1 = YES 0 = No
+                setIntCellValueSafe(row, 12, () -> checkListBefore.getExplainedPreOp().getOption().getNum());       //ERAS
+                setIntCellValueSafe(row, 13, () -> checkListBefore.getOnsPreOp2hr().getOption().getNum());//수술전 ONS
+                setIntCellValueSafe(row, 14, () -> checkListBefore.getOnsPostBowelPrep().getOption().getNum());//엔커버
+                setIntCellValueSafe(row, 15, () -> checkListBefore.getDvtPrevention().getOption().getNum());   //DVT
+                setIntCellValueSafe(row, 16, () -> checkListBefore.getAntibioticPreIncision().getOption().getNum()); //예방적 항생제
+                setIntCellValueSafe(row, 17, () -> checkListBefore.getPainMedPreOp().getOption().getNum());//수술전 통증 조절약
 
                 // 수술 중 정보 처리
-                setCellValueSafe(row, 17, () -> checkListDuring.getMaintainTemp().getOption().name());                  //Hypothermia 예방(Air-warmer) 1 = YES  0 = No
-                setCellValueSafe(row, 18, () -> checkListDuring.getFluidRestriction().getOption().name());              //수술중 volume 2-4cc/hr였는지 1 = YES  0 = No
-                setCellValueSafe(row, 19, () -> checkListDuring.getAntiNausea().getOption().name());                    //수술중 PONV 1 = YES  0 = No
-                setCellValueSafe(row, 20, () -> checkListDuring.getPainControl().getOption().name());                   //수술중 pain control 유무
-                setCellValueSafe(row, 21, () -> checkListDuring.getPainControl().getRemarks());                         //수술중 통증 조절 종류 (서술)
+                setIntCellValueSafe(row, 18, () -> checkListDuring.getMaintainTemp().getOption().getNum());; //Hypothermia 예방
+                setIntCellValueSafe(row, 19, () -> checkListDuring.getFluidRestriction().getOption().getNum()); //수술중 volume 2~4
+                setIntCellValueSafe(row, 20, () -> checkListDuring.getAntiNausea().getOption().getNum()); //수술중 PONV
+                setIntCellValueSafe(row, 21, () -> checkListDuring.getPainControl().getOption().getNum()); //수술중 pain control 유무
+                setStringCellValueSafe(row, 22, () -> "추가 요망"); //5. 수술 중 통증 종류도 항목화 해주세요 (서술 아닙니다.)
+
 
                 // 수술 후 정보 처리
-                setCellValueSafe(row, 22, () -> checkListAfter.getGiStimulant().getOption().name());     // Laxatives //Laxatives 1 = YES  0 = No
-                setCellValueSafe(row, 23, () -> checkListAfter.getGumChewing().getOption().name());; //chewing gum 1 = YES 0 = No
-                setCellValueSafe(row, 24, () -> checkListAfter.getAntiNauseaPostOp().getOption().name()); //수술후 당일 PONV 예방 1 = YES 0 = No
-                setCellValueSafe(row, 25, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().name()); //fluid 제한 (C:500, R:2000)
-                setCellValueSafe(row, 26, () -> checkListAfter.getNonOpioidPainControl().getOption().name()); //postop pain control 1 = no opioid 2 = opioid
-                setCellValueSafe(row, 27, () -> checkListAfter.getJpDrainRemoval().getOption().name());  //POD#3 이후 JP 제거했는지 1 = YES 0 = No
-                setCellValueSafe(row, 28, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate())); //JP drain 제거일 (서술)
-                setCellValueSafe(row, 29, () -> checkListAfter.getCatheterRemoval().getOption().name()); //Urinary catheter 수술실에서 제거 1 = YES 0 = No
-                setCellValueSafe(row, 30, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate())); //Urinary catheter 제거한 날짜(서술)
-                setCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().name()); //POD#3 이후 IV 라인제거 1 = YES 0 = No
-                setCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate())); //IV 라인제거 (날짜 서술)
-                setCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().name()); //OP day 운동 1 = YES 0 = No
+                setIntCellValueSafe(row, 23, () -> checkListAfter.getGiStimulant().getOption().getNum());                       //Laxatives
+                setIntCellValueSafe(row, 24, () -> checkListAfter.getGumChewing().getOption().getNum());                        //chewing gum
+                setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
+                setIntCellValueSafe(row, 26, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().getNum());          //fluid 제한
 
-                for (CheckList c : checkList) {
-
-                    if (c.getPodOneExercise() != null) {
-                        setCellValueSafe(row, 34, () -> c.getPodOneExercise().getOption().name());
-                    } ///POD#1 운동 1 = YES 0 = No
-
-                    if (c.getPodTwoExercise() != null) {
-                        setCellValueSafe(row, 35, () -> c.getPodTwoExercise().getOption().name());
-                    } //POD#2 운동 1 = YES 0 = No
-
-                    if (c.getPodThreeExercise() != null) {
-                        setCellValueSafe(row, 36, () -> c.getPodThreeExercise().getOption().name());
-                    } //POD#3 운동 1 = YES 0 = No
-
-                    if (c.getPodOneMeal() != null) {
-                        setCellValueSafe(row, 38, () -> c.getPodOneMeal().getOption().name());
-                    } //POD#1 Diet 1 = YES 0 = No
-
-                    if (c.getPodTwoMeal() != null) {
-                        setCellValueSafe(row, 39, () -> c.getPodTwoMeal().getOption().name());
-                    }; //POD#2 Diet 1 = YES 0 = No
-
-                    if (c.getPodOnePain() != null) {
-                        setCellValueSafe(row, 43, () -> "아침: " + c.getPodOnePain().getDay() + "/점심: "
-                                + c.getPodOnePain().getEvening() + "/저녁: "
-                                + c.getPodOnePain().getNight());
-                    } //"POD#1 VAS score(아침/점심/저녁)
-
-                    if (c.getPodTwoPain() != null) {
-                        setCellValueSafe(row, 44, () -> "아침: " + c.getPodTwoPain().getDay() + "/점심: "
-                                + c.getPodTwoPain().getEvening() + "/저녁: "
-                                + c.getPodTwoPain().getNight());
-                    } //"POD#2 VAS score(아침/점심/저녁)
-
-                    if (c.getPodThreePain() != null) {
-                        setCellValueSafe(row, 45, () -> "아침: " + c.getPodThreePain().getDay() + "/점심: "
-                                + c.getPodThreePain().getEvening() + "/저녁: "
-                                + c.getPodThreePain().getNight());
-                    } //"POD#3 VAS score(아침/점심/저녁)
-                }
+                if(checkListAfter.getNonOpioidPainControl().getOption().getNum() == 1)
+                    setIntCellValueSafe(row, 27, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
+                else
+                    setIntCellValueSafe(row, 27, () -> 1);
 
 
-                setCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().name()); //OP day Diet 1 = YES 0 = No
+                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
+                setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
+                setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
+                setIntCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
+                setStringCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
+                setIntCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
+                setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
 
                 row.createCell(40).setCellValue("모름"); //ERAS 성공 항목수
                 row.createCell(41).setCellValue("모름"); //ERAS 적용한 항목수
-
-                row.createCell(46).setCellValue(op.getBloodLoss()); //blood loss
-                row.createCell(47).setCellValue("모름"); //urine output
-                row.createCell(48).setCellValue(op.getTotalOperationTime()); //op time
 
                 // 합병증 정보 처리 (Complication)
                 complicationRepository.findByOperationId(op.getId()).ifPresent(complication -> {
                     row.createCell(42).setCellValue(complication.getComplicationScore());  //Compliance rate (성공수/적용수)*100
                 });
+
+                setIntCellValueSafe(row, 43, () -> checkListAfter.getPostPain().getEvening());  //OP day VAS score (점심)
+                setIntCellValueSafe(row, 44, () -> checkListAfter.getPostPain().getNight());//OP day VAS score (저녁)
+
+                row.createCell(54).setCellValue(op.getBloodLoss()); //blood loss
+                row.createCell(55).setCellValue("모름"); //urine output
+                row.createCell(56).setCellValue(op.getTotalOperationTime()); //op time
+
+                for (CheckList c : checkList) {
+
+                    setIntCellValueSafe(row, 28, () -> c.getPodOneJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+
+                    if (c.getPodOneExercise() != null) {
+                        setIntCellValueSafe(row, 34, () -> c.getPodOneExercise().getOption().getNum());
+                    } ///POD#1 운동 1 = YES 0 = No
+
+                    if (c.getPodTwoExercise() != null) {
+                        setIntCellValueSafe(row, 35, () -> c.getPodTwoExercise().getOption().getNum());
+                    } //POD#2 운동 1 = YES 0 = No
+
+                    if (c.getPodThreeExercise() != null) {
+                        setIntCellValueSafe(row, 36, () -> c.getPodThreeExercise().getOption().getNum());
+                    } //POD#3 운동 1 = YES 0 = No
+
+                    if (c.getPodOneMeal() != null) {
+                        setIntCellValueSafe(row, 38, () -> c.getPodOneMeal().getOption().getNum());
+                    } //POD#1 Diet 1 = YES 0 = No
+
+                    if (c.getPodTwoMeal() != null) {
+                        setIntCellValueSafe(row, 39, () -> c.getPodTwoMeal().getOption().getNum());
+                    }; //POD#2 Diet 1 = YES 0 = No
+
+
+                    if (c.getPodOnePain() != null) {
+                        setIntCellValueSafe(row, 45, () -> c.getPodOnePain().getDay());
+                        setIntCellValueSafe(row, 46, () -> c.getPodOnePain().getDay());
+                        setIntCellValueSafe(row, 47, () -> c.getPodOnePain().getDay());
+                    } //"POD#1 VAS score(아침/점심/저녁)
+
+                    if (c.getPodTwoPain() != null) {
+                        setIntCellValueSafe(row, 48, () -> c.getPodTwoPain().getDay());
+                        setIntCellValueSafe(row, 49, () -> c.getPodTwoPain().getDay());
+                        setIntCellValueSafe(row, 50, () -> c.getPodTwoPain().getDay());
+                    } //"POD#2 VAS score(아침/점심/저녁)
+
+                    if (c.getPodThreePain() != null) {
+                        setIntCellValueSafe(row, 51, () -> c.getPodThreePain().getDay());
+                        setIntCellValueSafe(row, 52, () -> c.getPodThreePain().getDay());
+                        setIntCellValueSafe(row, 53, () -> c.getPodThreePain().getDay());
+                    } //"POD#3 VAS score(아침/점심/저녁)
+                }
 
 /*
                 row.createCell(49).setCellValue(); //pre WBC
@@ -283,7 +506,18 @@ public class ExcelExportService {
         return new ByteArrayInputStream(out.toByteArray());
     }
 
-    private void setCellValueSafe(Row row, int cellIndex, Supplier<String> supplier) {
+    private void setIntCellValueSafe(Row row, int cellIndex, Supplier<Integer> supplier) {
+        try {
+            Integer value = supplier.get();
+            if (value != null) {
+                row.createCell(cellIndex).setCellValue(value);
+            }
+        } catch (Exception e) {
+            row.createCell(cellIndex).setCellValue("-");
+        }
+    }
+
+    private void setStringCellValueSafe(Row row, int cellIndex, Supplier<String> supplier) {
         try {
             String value = supplier.get();
             if (value != null) {
