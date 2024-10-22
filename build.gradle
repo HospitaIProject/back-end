@@ -38,8 +38,7 @@ dependencies {
 	implementation 'org.hibernate.orm:hibernate-community-dialects'
 
 	// swagger
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
-	implementation 'org.testng:testng:7.1.0'//Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -67,13 +66,32 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// 수정된 부분
+//task copyEnv(type: Copy) {
+//	def profile = System.getProperty('spring.profiles.active', 'local')
+//	println "Using profile: ${profile}"
+//
+//	from "${rootDir}/frontend/.env.${profile}"
+//	into "${rootDir}/frontend"
+//	rename { String fileName -> '.env' }
+//}
+//
+//processResources.dependsOn copyEnv
+
 task createStaticDir {
 	doLast {
 		def staticDir = file("${projectDir}/src/main/resources/static")
 		if (!staticDir.exists()) {
 			staticDir.mkdirs()
+			println "Static directory created: ${staticDir}"
+		} else {
+			println "Static directory already exists: ${staticDir}"
 		}
+	}
+}
+
+task cleanReactBuild(type: Delete) {
+	delete fileTree(dir: "${projectDir}/src/main/resources/static").matching {
+		include '**/*'
 	}
 }
 
@@ -84,28 +102,18 @@ task buildReact(type: Exec) {
 
 task copyReactBuild(type: Copy) {
 	from "${projectDir}/FrontEnd/dist"
-	into "${projectDir}/src/main/resources/static"
+	into "${rootDir}/src/main/resources/static"
 }
 
-task cleanReactBuild(type: Delete) {
-	delete fileTree(dir: "${projectDir}/src/main/resources/static").matching {
-		include '**/*'
-	}
-}
-
-// 수정된 부분: 태스크 의존성 및 실행 순서 조정
-copyReactBuild.dependsOn buildReact, createStaticDir
 cleanReactBuild.mustRunAfter createStaticDir
+copyReactBuild.dependsOn buildReact, createStaticDir
 copyReactBuild.mustRunAfter cleanReactBuild
 
-bootJar {
-	dependsOn cleanReactBuild, copyReactBuild
-}
-
-// processResources 태스크가 copyReactBuild 이후에 실행되도록 설정
+// :processResources 작업에 의존성을 명시적으로 추가
 processResources.dependsOn copyReactBuild
 
 bootJar {
+	dependsOn cleanReactBuild, copyReactBuild
 	enabled = true
 }
 

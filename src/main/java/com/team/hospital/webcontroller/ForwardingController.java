@@ -1,16 +1,26 @@
 package com.team.hospital.webcontroller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@Slf4j
 public class ForwardingController {
 
     // 리다이렉트 메소드
     @RequestMapping(value = "/**/{path:[^\\.]*}")
     public String redirect(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
+        String host = request.getServerName(); // 호스트 이름 (도메인)
+        int port = request.getServerPort();   // 포트 번호
+        String scheme = request.getScheme();  // HTTP 또는 HTTPS
+
+        log.info("Request URI = {}", requestURI);
+        log.info("Host = {}", host);
+        log.info("Port = {}", port);
+        log.info("Scheme = {}", scheme);
 
         if (requestURI.startsWith("/hc") || requestURI.startsWith("/env")) {
             return "forward:" + requestURI;

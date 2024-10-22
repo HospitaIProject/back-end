@@ -375,8 +375,8 @@ public class ExcelExportService {
 
 
                 // 수술 후 정보 처리
-                setIntCellValueSafe(row, 23, () -> checkListAfter.getGiStimulant().getOption().getNum());                       //Laxatives
-                setIntCellValueSafe(row, 24, () -> checkListAfter.getGumChewing().getOption().getNum());                        //chewing gum
+//                 setIntCellValueSafe(row, 23, () -> checkListAfter.getGiStimulant().getOption().getNum());                       //Laxatives
+//                 setIntCellValueSafe(row, 24, () -> checkListAfter.getGumChewing().getOption().getNum());                        //chewing gum
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
                 setIntCellValueSafe(row, 26, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().getNum());          //fluid 제한
 

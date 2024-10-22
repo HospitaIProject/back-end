@@ -63,6 +63,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**").permitAll() //swagger
                         .requestMatchers("/api/account", "/api/signIn").permitAll()  //다른 권한은 로그인한 유저만 추후 바꿔야함
                         .requestMatchers("/api/**").authenticated()
+//                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().permitAll()); //authenticated
 
 

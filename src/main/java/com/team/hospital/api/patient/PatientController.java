@@ -11,6 +11,7 @@ import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.enumType.CheckListStatus;
 import com.team.hospital.api.patient.enumType.FilterType;
 import com.team.hospital.api.patient.enumType.Opdate;
+import com.team.hospital.api.patient.enumType.SearchType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -63,18 +63,31 @@ public class PatientController {
         return SuccessResponse.createSuccess();
     }
 
+    @GetMapping("/patients/monthly/{year}/{month}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "특정 월의 환자 조회", description = "입력된 년, 월에 해당하는 환자 리스트를 조회합니다.")
+    public SuccessResponse<?> findPatientsByYearAndMonth(@PathVariable(required = false) int year, @PathVariable(required = false) int month,
+                                                         @RequestParam(defaultValue = "BY_YEAR_MONTH") SearchType searchType, @RequestParam(required = false) String operationName,
+                                                         @RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+        List<Patient> patients;
+        Pageable pageable = getPageable(page, size);
+
+        if (searchType == SearchType.BY_OPERATION) { patients = patientService.findPatientsByOperationTypeName(operationName, pageable).getContent(); }
+        else { patients = patientService.findByYearAndMonth(year, month, pageable).getContent(); }
+
+        return SuccessResponse.createSuccess(patients);
+    }
+
     @GetMapping("/patients")
     @io.swagger.v3.oas.annotations.Operation(summary = "필터 환자 조회", description = "필터를 이용해 환자를 조회합니다.")
     public SuccessResponse<?> findPatients(@RequestParam(required = false) FilterType filterType,
                                            @RequestParam(required = false) String query,
+
                                            @RequestParam(required = false) Integer page,
                                            @RequestParam(required = false) Integer size,
+
                                            @RequestParam(defaultValue = "DEFAULT") Opdate opDate,
                                            @RequestParam(defaultValue = "ALL") CheckListStatus checkListStatus) {
-        int pageNumber = (page != null ? page : 1) - 1;
-        int pageSize = (size != null ? size : 10);
-
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Pageable pageable = getPageable(page, size);
 
         List<PatientWithOperationDateDTO> patientDTOs;
         boolean queryPresent = StringUtils.hasText(query) && filterType != null;
@@ -90,6 +103,8 @@ public class PatientController {
 
         return SuccessResponse.createSuccess(patientDTOs);
     }
+
+
 
     private Slice<Patient> getFilteredPatients(FilterType filterType, String query, Pageable pageable) {
         return switch (filterType) {
@@ -126,6 +141,13 @@ public class PatientController {
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfAnyCheckListCreatedToday(recentOperation.getId());
 
         return PatientWithOperationDateDTO.toEntity(patient, operationDTOs, checkListCreatedToday);
+    }
+
+    private static Pageable getPageable(Integer page, Integer size) {
+        int pageNumber = (page != null && page > 0 ? page : 1) - 1;
+        int pageSize = (size != null && size > 0 ? size : 10);
+
+        return PageRequest.of(pageNumber, pageSize);
     }
 
 }

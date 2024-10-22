@@ -21,16 +21,15 @@ public class OperationType extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-//    @OneToOne(mappedBy = "operationType", cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private OperationMethod operationMethod;
-
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "check_list_item_default_id")
     private CheckListItemDefault checkListItemDefault;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean deleted = false; // 소프트 딜리트 플래그
+
     public static OperationType toEntity(WriteOperationType write) {
-        // 모든 값이 true로 설정된 CheckListItemDefault 생성
         CheckListItemDefault defaultChecklist = CheckListItemDefault.builder()
                 .explainedPreOp(true)
                 .onsPreOp2hr(true)
@@ -55,7 +54,6 @@ public class OperationType extends BaseEntity {
                 .podPain(true)
                 .build();
 
-        // OperationType 생성 시 CheckListItemDefault를 함께 설정
         return OperationType.builder()
                 .name(write.getName())
                 .checkListItemDefault(defaultChecklist)
@@ -64,5 +62,13 @@ public class OperationType extends BaseEntity {
 
     public void update(WriteOperationType write) {
         this.name = write.getName();
+    }
+
+    public void softDelete() {
+        this.deleted = true;
+    }
+
+    public void restore() {
+        this.deleted = false; // 삭제 플래그 해제
     }
 }
