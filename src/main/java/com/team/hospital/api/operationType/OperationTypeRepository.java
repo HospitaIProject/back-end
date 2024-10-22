@@ -1,15 +1,20 @@
 package com.team.hospital.api.operationType;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OperationTypeRepository extends JpaRepository<OperationType, Long> {
-    // 기본 CRUD 메서드는 JpaRepository에서 제공됩니다.
-    // 필요한 경우 추가적인 쿼리 메서드를 정의할 수 있습니다.
-    Optional<OperationType> findByName(String name);
+    @Query("SELECT o FROM OperationType o WHERE o.name = :name AND o.deleted = false")
+    Optional<OperationType> findByName(@Param("name") String name);
 
-    public boolean existsByName(String name);
+    @Query("SELECT o FROM OperationType o WHERE o.deleted = false")
+    List<OperationType> findAllActive();
 
-    public void deleteByName(String name);
+    @Query("SELECT o FROM OperationType o WHERE o.name = :name")
+    Optional<OperationType> findByNameIncludingDeleted(@Param("name") String name);
+
 }
