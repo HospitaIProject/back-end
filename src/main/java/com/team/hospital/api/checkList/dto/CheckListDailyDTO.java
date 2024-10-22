@@ -37,7 +37,7 @@ public class CheckListDailyDTO {
             if (checkList.getPodOneJpDrainRemoval().getOption() == YES || checkList.getPodTwoJpDrainRemoval().getOption() == YES || checkList.getPodThreeJpDrainRemoval().getOption() == YES) {
                 builder.jpDrainRemoval(true);
             }
-            if (checkList.getPodOneIvLineRemoval().getOption() == YES || checkList.getPodTwoIvLineRemoval().getOption() == YES || checkList.getPodThreeIvLineRemoval().getOption() == YES) {
+            if (checkList.getPodThreeIvLineRemoval().getOption() == YES) {
                 builder.ivLineRemoval(true);
             }
         }
