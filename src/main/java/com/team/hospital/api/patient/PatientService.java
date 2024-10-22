@@ -62,6 +62,14 @@ public class PatientService {
         return patientRepository.findAll(pageable);
     }
 
+    public Slice<Patient> findByYearAndMonth(int year, int month, Pageable pageable) {
+        if (year <= 0 || month <= 0 || month > 12) throw new IllegalArgumentException("올바른 년도와 월을 입력해주십시오");
+        return patientRepository.findByYearAndMonth(year, month, pageable);
+    }
+
+    public Slice<Patient> findPatientsByOperationTypeName(String operationName, Pageable pageable) {
+        return patientRepository.findPatientsByOperationTypeName(operationName, pageable);
+    }
 
     boolean existsByPatientNumber(Long patientNumber) {
         return patientRepository.existsByPatientNumber(patientNumber);
