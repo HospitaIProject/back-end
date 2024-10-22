@@ -38,8 +38,6 @@ public class CheckListDTO {
     private BooleanOption podTwoJpDrainRemoval;
     private BooleanOption podThreeJpDrainRemoval;
 
-    private BooleanOption podOneIvLineRemoval;
-    private BooleanOption podTwoIvLineRemoval;
     private BooleanOption podThreeIvLineRemoval;
 
     // POD Exercise
@@ -73,8 +71,6 @@ public class CheckListDTO {
     private String podTwoJpDrainRemoval_remarks;
     private String podThreeJpDrainRemoval_remarks;
 
-    private String podOneIvLineRemoval_remarks;
-    private String podTwoIvLineRemoval_remarks;
     private String podThreeIvLineRemoval_remarks;
 
     // Pod Exercise
@@ -154,14 +150,6 @@ public class CheckListDTO {
         }
 
         // 추가된 IvLineRemoval 속성
-        if (checkList.getPodOneIvLineRemoval() != null) {
-            checkListDTO.podOneIvLineRemoval(checkList.getPodOneIvLineRemoval().getOption());
-            checkListDTO.podOneIvLineRemoval_remarks(checkList.getPodOneIvLineRemoval().getRemarks());
-        }
-        if (checkList.getPodTwoIvLineRemoval() != null) {
-            checkListDTO.podTwoIvLineRemoval(checkList.getPodTwoIvLineRemoval().getOption());
-            checkListDTO.podTwoIvLineRemoval_remarks(checkList.getPodTwoIvLineRemoval().getRemarks());
-        }
         if (checkList.getPodThreeIvLineRemoval() != null) {
             checkListDTO.podThreeIvLineRemoval(checkList.getPodThreeIvLineRemoval().getOption());
             checkListDTO.podThreeIvLineRemoval_remarks(checkList.getPodThreeIvLineRemoval().getRemarks());
