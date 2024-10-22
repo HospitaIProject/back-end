@@ -48,8 +48,4 @@ public class OperationTypeService {
         operationType.update(write);
     }
 
-    private boolean existsByName(String name) {
-        return operationTypeRepository.existsByName(name);
-    }
-
 }
