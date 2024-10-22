@@ -16,12 +16,19 @@ public class OperationTypeService {
     private final OperationTypeRepository operationTypeRepository;
 
     public void save(OperationType operationType) {
-        if (existsByName(operationType.getName())) throw new OperationTypeNameAlreadyExistsException();
-        operationTypeRepository.save(operationType);
+        operationTypeRepository.findByNameIncludingDeleted(operationType.getName())
+                .ifPresentOrElse(existing -> {
+                    if (existing.isDeleted()) {
+                        existing.restore();
+                        operationTypeRepository.save(existing);
+                    } else {
+                        throw new OperationTypeNameAlreadyExistsException();
+                    }
+                }, () -> operationTypeRepository.save(operationType));
     }
 
     public List<OperationType> findAll() {
-        return operationTypeRepository.findAll();
+        return operationTypeRepository.findAllActive(); // 소프트 딜리트된 항목 제외
     }
 
     public OperationType findByOperationTypeName(String operationTypeName) {
@@ -31,7 +38,8 @@ public class OperationTypeService {
 
     @Transactional
     public void deleteByName(String operationTypeName) {
-        operationTypeRepository.deleteByName(operationTypeName);
+        OperationType operationType = findByOperationTypeName(operationTypeName);
+        operationType.softDelete(); // 소프트 딜리트 수행
     }
 
     @Transactional
