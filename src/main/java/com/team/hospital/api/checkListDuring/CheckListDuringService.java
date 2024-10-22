@@ -73,16 +73,9 @@ public class CheckListDuringService {
 
     public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
         // 오늘이 수술 날일 경우, 수술중 체크리스트가 오늘 등록되었다면 true 반환.
-        try {
-            Operation operation = operationService.findOperationById(operationId);
-            Patient patient = operation.getPatient();
-            LocalDate operationDate = patient.getOperationDate();
-
-            CheckListDuringDTO checkListDuringDTO = findCheckListDuringByOperationId(operationId);
-            return Objects.equals(LocalDate.now(), operationDate) && checkListDuringDTO.getCreateAt().toLocalDate().equals(LocalDate.now());
-        } catch (CheckListDuringNotFoundException e) {
-            return false;
-        }
+        LocalDate operationDate = operationService.findOperationById(operationId).getPatient().getOperationDate();
+        LocalDate today = LocalDate.now();
+        return operationDate.equals(today) && checkListDuringRepository.findByOperationId(operationId).isPresent();
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {
