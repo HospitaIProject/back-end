@@ -1,12 +1,14 @@
 package com.team.hospital.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
+
 
 @SecurityScheme(
         name = "Bearer Authentication",
@@ -14,16 +16,18 @@ import org.springframework.context.annotation.Bean;
         bearerFormat = "JWT",
         scheme = "Bearer"
 )
+@OpenAPIDefinition(
+        servers = {
+                @Server(url = "https://stmary.site", description = "개발 서버"),
+                @Server(url = "http://localhost:8080", description = "로컬 서버")
+        })
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
-        Server server = new Server();
-        server.setUrl("http://localhost:8080");
 
         return new OpenAPI()
                 .components(new Components())
-//                .servers(List.of(server))
                 .info(apiInfo());
     }
 
