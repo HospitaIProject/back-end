@@ -85,27 +85,10 @@ public class CheckListService {
         return daysBetween >= 1 && daysBetween <= 3 && checks.get(daysBetween - 1) != null;
     }
 
-    // 수술 D+1 일 때 수술후 체크리스트 작성 + D+1 체크리스트 작성 완료 되었을 시 true 반환.
-    public boolean checkIfCheckListAfterCreatedToday(Long operationId) {
-        Operation operation = operationService.findOperationById(operationId);
-        Patient patient = operation.getPatient();
-
-        // 수술 후 D+1인지 확인
-        if (ChronoUnit.DAYS.between(patient.getOperationDate(), LocalDate.now()) == 1) {
-            List<CheckList> checks = checks(operationId);
-            Optional<CheckListAfter> checkListAfter = checkListAfterService.findCheckListAfterByOpId(operationId);
-
-            // 수술 후 D+1 체크리스트가 존재하고 D+1 체크리스트가 작성 완료되었는지 확인
-            return checks.get(0) != null && checkListAfter.isPresent();
-        }
-        return false;
-    }
-
     public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
-        return checkIfCheckListCreatedToday(operationId) ||
-                checkIfCheckListAfterCreatedToday(operationId) ||
-                checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
-                checkListDuringService.checkIfCheckListDuringCreatedToday(operationId);
+        return checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
+                (checkListDuringService.checkIfCheckListDuringCreatedToday(operationId) && checkListAfterService.checkIfCheckListAfterCreatedToday(operationId)) ||
+                checkIfCheckListCreatedToday(operationId);
     }
 
     public List<CheckList> checks(Long operationId) {
