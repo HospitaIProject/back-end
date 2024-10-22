@@ -161,8 +161,8 @@ public class ExcelExportService {
                 setCellValueSafe(row, 21, () -> checkListDuring.getPainControl().getRemarks());                         //수술중 통증 조절 종류 (서술)
 
                 // 수술 후 정보 처리
-                setCellValueSafe(row, 22, () -> checkListAfter.getGiStimulant().getOption().name());     // Laxatives //Laxatives 1 = YES  0 = No
-                setCellValueSafe(row, 23, () -> checkListAfter.getGumChewing().getOption().name());; //chewing gum 1 = YES 0 = No
+//                setCellValueSafe(row, 22, () -> checkListAfter.getGiStimulant().getOption().name());     // Laxatives //Laxatives 1 = YES  0 = No
+//                setCellValueSafe(row, 23, () -> checkListAfter.getGumChewing().getOption().name());; //chewing gum 1 = YES 0 = No
                 setCellValueSafe(row, 24, () -> checkListAfter.getAntiNauseaPostOp().getOption().name()); //수술후 당일 PONV 예방 1 = YES 0 = No
                 setCellValueSafe(row, 25, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().name()); //fluid 제한 (C:500, R:2000)
                 setCellValueSafe(row, 26, () -> checkListAfter.getNonOpioidPainControl().getOption().name()); //postop pain control 1 = no opioid 2 = opioid
