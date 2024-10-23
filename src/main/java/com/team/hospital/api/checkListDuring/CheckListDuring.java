@@ -2,6 +2,7 @@ package com.team.hospital.api.checkListDuring;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
+import com.team.hospital.api.checkListDuring.dto.CheckListPCM;
 import com.team.hospital.api.checkListDuring.dto.WriteCheckListDuring;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
@@ -48,6 +49,13 @@ public class CheckListDuring extends BaseEntity {
     })
     private CheckListFirst painControl; // 수술 중 통증 조절을 위한 처치 여부
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "painControlMethod", column = @Column(name = "pain_control_method")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pain_control_mehtod_remarks"))
+    })
+    private CheckListPCM painControlMethod; // 수술 중 통증 조절 종류
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id", nullable = false)
     private CheckListItem checkListItem;
@@ -60,6 +68,7 @@ public class CheckListDuring extends BaseEntity {
                 .fluidRestriction(CheckListFirst.of(write.getFluidRestriction(), write.getFluidRestriction_remarks()))
                 .antiNausea(CheckListFirst.of(write.getAntiNausea(), write.getAntiNausea_remarks()))
                 .painControl(CheckListFirst.of(write.getPainControl(), write.getPainControl_remarks()))
+                .painControlMethod(CheckListPCM.of(write.getPainControlMethod(), write.getPainControlMethod_remarks()))
 
                 .checkListItem(checkListItem)
                 .build();
@@ -70,5 +79,6 @@ public class CheckListDuring extends BaseEntity {
         this.fluidRestriction.update(write.getFluidRestriction(), write.getFluidRestriction_remarks());
         this.antiNausea.update(write.getAntiNausea(), write.getAntiNausea_remarks());
         this.painControl.update(write.getPainControl(), write.getPainControl_remarks());
+        this.painControlMethod.update(write.getPainControlMethod(), write.getPainControlMethod_remarks());
     }
 }
