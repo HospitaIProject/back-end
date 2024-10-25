@@ -21,7 +21,11 @@ import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -75,6 +79,28 @@ public class PatientController {
         else { patients = patientService.findByYearAndMonth(year, month, pageable).getContent(); }
 
         return SuccessResponse.createSuccess(patients);
+    }
+
+    @GetMapping("/patients/operationDates")
+    @io.swagger.v3.oas.annotations.Operation(
+            summary = "연도 및 월별 환자 조회",
+            description = "환자들의 수술 날짜를 기준으로 연도별로 그룹화된 월 리스트를 제공합니다. 월 중복은 제거되며, 연도와 월 모두 내림차순으로 정렬됩니다."
+    )
+    public SuccessResponse<?> findYearAndMonthList() {
+        List<Patient> patients = patientService.findAll();
+
+        Map<Integer, List<Integer>> result = patients.stream()
+                .map(Patient::getOperationDate)
+                .collect(Collectors.groupingBy(
+                        LocalDate::getYear,
+                        Collectors.mapping(LocalDate::getMonthValue, Collectors.collectingAndThen(Collectors.toSet(),  // 중복 제거
+                                set -> set.stream()
+                                        .sorted(Comparator.reverseOrder())  // 월 내림차순 정렬
+                                        .collect(Collectors.toList()))
+                        )
+                ));
+
+        return SuccessResponse.createSuccess(result);
     }
 
     @GetMapping("/patients")
