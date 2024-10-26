@@ -1,13 +1,13 @@
 // import Navbar from './Navbar';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import ArrowIcon from '../../icons/ArrowIcon';
-import PlusIcon from '../../icons/PlusIcon';
 import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
 import { useEffect, useState } from 'react';
 import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import HomeIcon from '../../icons/HomeIcon';
 import HeaderSettingButton from './HeaderSettingButton';
+import HeaderDateChangeButton from './HeaderDateChangeButton';
 
 export type ItemName = 'patient' | 'services' | 'contact';
 
@@ -86,31 +86,22 @@ export default function Header() {
                 className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-20'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
                 <nav className="relative z-10 flex h-[65px] items-center bg-white px-4">
-                    {pathname === '/patient' && (
-                        <button
-                            className="flex flex-row items-center gap-1 font-semibold text-gray-700"
-                            onClick={handleBack}
-                        >
-                            <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
-                            <span className="text-sm">
-                                {year}년 {month}월
-                            </span>
-                        </button>
-                    )}
+                    <HeaderDateChangeButton year={year} month={month} />
 
                     <div className="flex flex-grow flex-row items-center justify-end gap-2">
-                        <Link
+                        {/* <Link
                             to="/patient/new/info"
-                            className="mr-1 flex flex-row items-center gap-2 rounded-md border border-blue-500 px-2 py-2 text-blue-500 shadow-sm"
+                            className="flex flex-row items-center gap-2 px-2 py-2 mr-1 text-blue-500 border border-blue-500 rounded-md shadow-sm"
                         >
                             <span className="text-sm font-medium">환자 등록하기</span>
-                            <PlusIcon className="h-5 w-5" />
-                        </Link>
-                        <div className="h-6 border-l border-gray-300" />
-                        {pathname === '/' && <HeaderSettingButton />}
+                            <PlusIcon className="w-5 h-5" />
+                        </Link> */}
+
                         <button className={` ${pathname === '/' ? 'hidden' : 'block'} `} onClick={handleFilterToggle}>
                             <SearchListIcon className="h-7 w-7 text-gray-600" />
                         </button>
+                        <div className="h-6 border-l border-gray-300" />
+                        {<HeaderSettingButton />}
                     </div>
 
                     <FilterHeader isRender={absFilter} />
