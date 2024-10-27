@@ -7,7 +7,7 @@ import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.operationType.OperationType;
 import com.team.hospital.api.operationType.OperationTypeService;
 import com.team.hospital.api.patient.Patient;
-import com.team.hospital.api.patient.PatientRepository;
+import com.team.hospital.api.patient.repository.PatientRepository;
 import com.team.hospital.api.patient.enumType.Sex;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
