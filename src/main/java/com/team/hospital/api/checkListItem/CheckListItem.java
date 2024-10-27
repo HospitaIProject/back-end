@@ -47,7 +47,7 @@ public class CheckListItem extends BaseEntity {
     private boolean podMeal;                       // 식사
     private boolean podPain;                       // 통증
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "operation_id")
     private Operation operation;
 
