@@ -8,7 +8,7 @@
 //import com.team.hospital.api.operationType.dto.WriteOperationType;
 //import com.team.hospital.api.operationType.exception.OperationTypeNameAlreadyExistsException;
 //import com.team.hospital.api.patient.Patient;
-//import com.team.hospital.api.patient.PatientRepository;
+//import com.team.hospital.api.patient.repository.PatientRepository;
 //import com.team.hospital.api.patient.PatientService;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;
