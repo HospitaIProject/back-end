@@ -31,7 +31,7 @@ type Button = {
 
 const buttons: Button[] = [
     { day: 'PREV', label: '수술 전' },
-    { day: 'TODAY', label: '수술 당일' },
+    { day: 'TODAY', label: '수술 중' },
     { day: 'POST', label: '수술 후' },
 ];
 
@@ -180,7 +180,7 @@ function ComplianceFormPage() {
                     existFields={existFields}
                 />
 
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>
