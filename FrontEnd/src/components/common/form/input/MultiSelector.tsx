@@ -50,6 +50,7 @@ function MultiSelector<T>({
             <div className="flex flex-grow">
                 <Select
                     components={animatedComponents}
+                    menuPlacement="auto"
                     isMulti
                     options={options}
                     value={currentValues}
@@ -67,7 +68,7 @@ function MultiSelector<T>({
                             '&:hover': {},
                             border: isValid
                                 ? '2px solid #e53e3e'
-                                : '' || state.isFocused
+                                : state.isFocused
                                   ? '2px solid rgb(96 165 250) '
                                   : '1px solid rgb(209 213 219) ',
                             cursor: 'pointer',
@@ -79,7 +80,7 @@ function MultiSelector<T>({
                     }}
                 />
             </div>
-            <div className="hidden cursor-pointer min-h-12"></div>
+            <div className="hidden min-h-12 cursor-pointer"></div>
         </InputContainer>
     );
 }

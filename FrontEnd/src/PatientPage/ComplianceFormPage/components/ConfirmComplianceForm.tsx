@@ -14,6 +14,7 @@ import CalendarIcon from '../../../icons/CalendarIcon';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import Loading from '../../../components/common/Loading';
 import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
+import ViewInput from '../../../components/common/form/viewInput/ViewInput';
 
 type Props = {
     formValues?: checkListFormType;
@@ -141,6 +142,12 @@ function ConfirmComplianceForm({
                         isRender={existFields.painControl}
                         value={values.painControl}
                         remark={values.painControl_remarks}
+                    />
+                    <ViewInput
+                        label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                        value={values.painControlMethod}
+                        remark={values.painControlMethod_remarks}
+                        isRender={true}
                     />
                 </div>
 

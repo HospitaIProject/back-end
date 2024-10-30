@@ -23,6 +23,7 @@ import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import PainSelector from '../../components/common/form/input/PainSelector';
 import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
 import usePrompt from '../../Hooks/usePrompt';
+import SingleSelector from '../../components/common/form/input/SingleSelector';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -227,7 +228,7 @@ function ComplianceFormPage() {
                         />
                     </DropContainer>
 
-                    {/* 수술당일 */}
+                    {/* 수술중 */}
                     <DropContainer
                         readOnly={dateStatus === 'PREV'}
                         isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}
@@ -261,6 +262,18 @@ function ComplianceFormPage() {
                             formik={formik}
                             isRender={existFields.painControl}
                             isDisabled={dateStatus !== 'TODAY'}
+                        />
+                        <SingleSelector
+                            values={[
+                                { value: 'TAPB', name: 'TAPB' },
+                                { value: 'WI', name: 'WI' },
+                                { value: 'ITM', name: 'ITM' },
+                                { value: 'OTHER', name: 'OTHER' },
+                            ]}
+                            htmlFor="painControlMethod"
+                            label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                            formik={formik}
+                            isRender={true} //수정 필요
                         />
                     </DropContainer>
 

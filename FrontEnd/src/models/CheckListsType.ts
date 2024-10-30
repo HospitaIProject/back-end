@@ -71,7 +71,8 @@ export type checkListFormType = {
     fluidRestriction?: 'YES' | 'NO' | ''; //수술 중 수액  2-4cc/kg/hr 으로 제한 *별도 수치 디스플레이 필요
     antiNausea?: 'YES' | 'NO' | ''; //수술 중 구역구토 방지제 사용 여부
     painControl?: 'YES' | 'NO' | ''; //수술 중 통증 조절을 위한 처치 여부
-    //-------------------------수술당일
+    painControlMethod?: 'TAPB' | 'WI' | 'ITM' | 'OTHER' | ''; //수술 중 통증 조절 종류
+    //-------------------------수술중
 
     antiNauseaPostOp?: 'YES' | 'NO' | ''; //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp?: 'YES' | 'NO' | ''; //수술 후 IV fluid 제한
@@ -99,6 +100,7 @@ export type checkListFormType = {
     fluidRestriction_remarks?: string;
     antiNausea_remarks?: string;
     painControl_remarks?: string;
+    painControlMethod_remarks?: string;
 
     antiNauseaPostOp_remarks?: string;
     ivFluidRestrictionPostOp_remarks?: string;
@@ -203,13 +205,15 @@ export type CheckListsDuringItemType = {
     fluidRestriction?: 'YES' | 'NO';
     antiNausea?: 'YES' | 'NO';
     painControl?: 'YES' | 'NO';
+    painControlMethod?: 'TAPB' | 'WI' | 'ITM' | 'OTHER';
 
     maintainTemp_remarks?: string;
     fluidRestriction_remarks?: string;
     antiNausea_remarks?: string;
     painControl_remarks?: string;
+    painControlMethod_remarks?: string;
 
-    //-------------------------수술당일
+    //-------------------------수술중
 };
 
 export type CheckListsAfterItemType = {

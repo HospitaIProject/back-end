@@ -55,11 +55,13 @@ const postOrPutComplianceForm = async ({
             fluidRestriction: data.fluidRestriction,
             antiNausea: data.antiNausea,
             painControl: data.painControl,
+            painControlMethod: data.painControlMethod,
 
             maintainTemp_remarks: data.maintainTemp_remarks,
             fluidRestriction_remarks: data.fluidRestriction_remarks,
             antiNausea_remarks: data.antiNausea_remarks,
             painControl_remarks: data.painControl_remarks,
+            painControlMethod_remarks: data.painControlMethod_remarks,
         };
     } else {
         processedChecklistData = {

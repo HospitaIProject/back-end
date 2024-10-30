@@ -15,7 +15,7 @@ const validationRules = {
         'antibioticPreIncision',
         'painMedPreOp',
     ],
-    TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl'],
+    TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl', 'painControlMethod'],
     POST: [
         'antiNauseaPostOp',
         'ivFluidRestrictionPostOp',
