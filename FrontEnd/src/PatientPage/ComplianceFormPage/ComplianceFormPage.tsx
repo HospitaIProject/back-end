@@ -270,12 +270,6 @@ function ComplianceFormPage() {
                         isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}
                     >
                         <YesOrNoButton<checkListFormType>
-                            htmlFor="gumChewing"
-                            label={CHECKLIST_ITEMS_NAME.gumChewing}
-                            formik={formik}
-                            isRender={existFields.gumChewing}
-                        />
-                        <YesOrNoButton<checkListFormType>
                             htmlFor="antiNauseaPostOp"
                             label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
                             formik={formik}

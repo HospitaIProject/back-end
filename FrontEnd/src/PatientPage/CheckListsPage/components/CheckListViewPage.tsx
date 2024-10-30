@@ -43,7 +43,6 @@ const initialValues: CombinedType = {
     painControl_remarks: '',
     //------------------------------수술당일-----------------------------------
 
-    gumChewing: '', //하루 3번 15분동안 껌씹기
     antiNauseaPostOp: '', //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp: '', //수술 후 IV fluid 제한awsas
     nonOpioidPainControl: '', //수술 후 non-opioid pain control 여부
@@ -82,7 +81,6 @@ const initialValues: CombinedType = {
         evening: 0,
         night: 0,
     }, //POD 3day 통증
-    gumChewing_remarks: '',
     antiNauseaPostOp_remarks: '',
     ivFluidRestrictionPostOp_remarks: '',
     nonOpioidPainControl_remarks: '',
@@ -244,12 +242,6 @@ function CheckListViewPage() {
 
                     {/* 수술후 */}
                     <DropContainer isOpen={relativeDay.includes('POST')}>
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="gumChewing"
-                            label={CHECKLIST_ITEMS_NAME.gumChewing}
-                            formik={formik}
-                            isRender={existFields.gumChewing}
-                        />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNauseaPostOp"
                             label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}

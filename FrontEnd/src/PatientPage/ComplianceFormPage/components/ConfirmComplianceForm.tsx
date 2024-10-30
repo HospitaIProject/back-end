@@ -150,12 +150,6 @@ function ConfirmComplianceForm({
                     {/* 수술후 */}
 
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.gumChewing}
-                        isRender={existFields.gumChewing}
-                        value={values.gumChewing}
-                        remark={values.gumChewing_remarks}
-                    />
-                    <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
                         isRender={existFields.antiNauseaPostOp}
                         value={values.antiNauseaPostOp}

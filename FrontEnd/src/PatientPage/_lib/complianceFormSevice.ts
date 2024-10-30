@@ -63,8 +63,6 @@ const postOrPutComplianceForm = async ({
         };
     } else {
         processedChecklistData = {
-            giStimulant: data.giStimulant,
-            gumChewing: data.gumChewing,
             antiNauseaPostOp: data.antiNauseaPostOp,
             ivFluidRestrictionPostOp: data.ivFluidRestrictionPostOp,
             nonOpioidPainControl: data.nonOpioidPainControl,
@@ -79,8 +77,6 @@ const postOrPutComplianceForm = async ({
             postMeal: data.postMeal,
             postPain: data.postPain,
 
-            giStimulant_remarks: data.giStimulant_remarks,
-            gumChewing_remarks: data.gumChewing_remarks,
             antiNauseaPostOp_remarks: data.antiNauseaPostOp_remarks,
             ivFluidRestrictionPostOp_remarks: data.ivFluidRestrictionPostOp_remarks,
             nonOpioidPainControl_remarks: data.nonOpioidPainControl_remarks,

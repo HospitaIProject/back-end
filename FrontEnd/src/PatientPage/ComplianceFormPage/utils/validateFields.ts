@@ -17,7 +17,6 @@ const validationRules = {
     ],
     TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl'],
     POST: [
-        'gumChewing',
         'antiNauseaPostOp',
         'ivFluidRestrictionPostOp',
         'nonOpioidPainControl',
