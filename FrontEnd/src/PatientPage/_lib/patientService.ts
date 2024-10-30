@@ -56,6 +56,7 @@ const deletePatientForm = async ({ patientId }: { patientId: number }) => {
 
 export const useNewPatientFormMutation = () => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: postPatientNewForm,
 
@@ -69,6 +70,9 @@ export const useNewPatientFormMutation = () => {
         },
         onSuccess: (data) => {
             console.log('xxxxx', data);
+            queryClient.invalidateQueries({
+                queryKey: ['mainDate'],
+            });
 
             alert('제출되었습니다.');
             navigate(-1);
@@ -129,6 +133,9 @@ export const useDeletePatientFormMutation = () => {
         onSuccess: () => {
             queryClient.invalidateQueries({
                 queryKey: ['patient', 'list'],
+            });
+            queryClient.invalidateQueries({
+                queryKey: ['mainDate'],
             });
             pushNotification({
                 msg: '삭제되었습니다.',

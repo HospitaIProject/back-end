@@ -117,6 +117,11 @@ const postDailyComplianceForm = async ({
     let processedChecklistData;
     processedChecklistData = {
         ...data,
+        podOneIvLineRemoval: undefined,
+        podOneIvLineRemoval_remarks: undefined,
+        podTwoIvLineRemoval: undefined,
+        podTwoIvLineRemoval_remarks: undefined,
+
         dayOfCheckList: submitType === 'post' ? dayOfCheckList : undefined,
     };
     console.log('processedChecklistData', processedChecklistData);

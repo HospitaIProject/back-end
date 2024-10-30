@@ -226,7 +226,8 @@ function ConfirmDailyComplianceForm({
                                   ? values.podTwoIvLineRemoval_remarks
                                   : values.podThreeIvLineRemoval_remarks
                         }
-                        isRender={existFields.ivLineRemoval && (isPod1 || isPod2 || isPod3)}
+                        // isRender={existFields.ivLineRemoval && (isPod1 || isPod2 || isPod3)} //일단 pod3만 랜더링
+                        isRender={existFields.ivLineRemoval && isPod3}
                     />
                 </div>
             </div>

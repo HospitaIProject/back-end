@@ -13,6 +13,7 @@ import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
 import CheckListViewGuide from './CheckListViewGuide';
+import SingleSelector from '../../../components/common/form/input/SingleSelector';
 type CombinedType = checkListFormType & DailyCheckListFormType;
 
 const initialValues: CombinedType = {
@@ -237,6 +238,18 @@ function CheckListViewPage() {
                             label={CHECKLIST_ITEMS_NAME.painControl}
                             formik={formik}
                             isRender={existFields.painControl}
+                        />
+                        <SingleSelector<checkListFormType>
+                            values={[
+                                { value: 'TAPB', name: 'TAPB' },
+                                { value: 'WI', name: 'WI' },
+                                { value: 'ITM', name: 'ITM' },
+                                { value: 'OTHER', name: 'OTHER' },
+                            ]}
+                            htmlFor="painControlMethod"
+                            label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                            formik={formik}
+                            isRender={true} //수정 필요
                         />
                     </DropContainer>
 
