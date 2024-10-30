@@ -4,7 +4,7 @@ import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { useQuery } from '@tanstack/react-query';
 
 export type MainDateType = {
-    [year: string]: number[];
+    [year: string]: { [month: string]: number };
 };
 
 const getMainDate = async (): Promise<MainDateType> => {

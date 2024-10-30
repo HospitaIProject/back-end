@@ -33,7 +33,7 @@ function Layout() {
                     <ErrorBoundary onReset={reset} FallbackComponent={FallbackUI}>
                         <div className={` ${bgColor} `}>
                             {/* h-dvh w-dvw overflow-y-auto */}
-                            <div className="mx-auto w-full max-w-[1300px]">
+                            <div className="mx-auto w-full max-w-[1300px] border-gray-200 mobile:border-x">
                                 <Outlet />
                             </div>
                         </div>

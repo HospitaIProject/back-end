@@ -6,9 +6,9 @@ import ArrowIcon from '../icons/ArrowIcon';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
 
 function MainDateSelectionPage() {
+    // const thisMonth = String(new Date().getMonth() + 1);
     const naviate = useNavigate();
     const [selectedYear, setSelectedYear] = useState<string | undefined>(undefined);
-
     const mainDateQuery = useMainDateQuery();
     const { data, isPending, error } = mainDateQuery;
 
@@ -62,24 +62,29 @@ function MainDateSelectionPage() {
                 <div className="grid grid-cols-3 gap-3 p-3 mobile:grid-cols-4">
                     <button
                         onClick={handleLink}
-                        className="relative flex min-h-24 flex-col items-center justify-center gap-1 rounded-md border bg-gray-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1"
+                        className="relative flex min-h-20 flex-col items-center justify-center gap-1 rounded-md border bg-gray-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1"
                     >
                         <span>전체</span>
                         <ArrowIcon className="absolute right-0 top-0 h-4 w-4 -rotate-45 text-blue-500" />
                     </button>
                     {selectedYear &&
                         selectedYear !== '전체' &&
-                        data[selectedYear].map((month) => (
-                            <Link
-                                to={`/patient?year=${selectedYear}&month=${month}`}
-                                key={month}
-                                className="relative flex min-h-24 flex-col items-center justify-center gap-1 rounded-md border bg-blue-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1"
-                            >
-                                <span className="font-medium">{month}월</span>
-                                <span className="text-sm text-gray-600">수술 0건</span>
-                                <ArrowIcon className="absolute right-0 top-0 h-4 w-4 -rotate-45 text-blue-500" />
-                            </Link>
-                        ))}
+                        Object.keys(data[selectedYear])
+                            .reverse()
+                            .map((month) => (
+                                <Link
+                                    to={`/patient?year=${selectedYear}&month=${month}`}
+                                    key={month}
+                                    className={`relative flex min-h-20 flex-col items-center justify-center gap-1 rounded-md border bg-blue-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1`}
+                                >
+                                    <span className="font-medium">{month}월</span>
+                                    <span className="text-sm text-gray-600">
+                                        환자{' '}
+                                        <span className="font-medium text-blue-600">{data[selectedYear][month]}</span>명
+                                    </span>
+                                    <ArrowIcon className="absolute right-0 top-0 h-4 w-4 -rotate-45 text-blue-500" />
+                                </Link>
+                            ))}
                 </div>
             </div>
         </div>

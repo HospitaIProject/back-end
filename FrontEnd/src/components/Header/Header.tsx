@@ -8,7 +8,6 @@ import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import HomeIcon from '../../icons/HomeIcon';
 import HeaderSettingButton from './HeaderSettingButton';
 import HeaderDateChangeButton from './HeaderDateChangeButton';
-
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
@@ -50,6 +49,12 @@ export default function Header() {
             }
         }
     }, [isVisible]); // 헤더가 보이거나 숨겨질 때 토글 메뉴 상태를 변경(헤더가 보이면 토글 메뉴를 닫고, 헤더가 숨겨지면 토글 메뉴를 열어줌) *해당 동작은 스크롤의 높이를 컨트롤 하지 않기때문에 무한루프가 발생 방지
+    useEffect(() => {
+        if (pathname === '/') {
+            setIsPaddingFilter(false);
+            setAbsFilter(false);
+        }
+    }, [pathname]);
 
     let label;
     if (pathname.startsWith('/patient/form/compliance/edit')) {
