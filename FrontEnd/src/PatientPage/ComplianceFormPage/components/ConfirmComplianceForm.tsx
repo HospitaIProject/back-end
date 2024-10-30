@@ -148,12 +148,7 @@ function ConfirmComplianceForm({
                     className={`${dateStatus === 'POST' ? 'grid' : 'hidden'} w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}
                 >
                     {/* 수술후 */}
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.giStimulant}
-                        isRender={existFields.giStimulant}
-                        value={values.giStimulant}
-                        remark={values.giStimulant_remarks}
-                    />
+
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.gumChewing}
                         isRender={existFields.gumChewing}

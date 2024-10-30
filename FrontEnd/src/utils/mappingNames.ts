@@ -15,7 +15,6 @@ export const CHECKLIST_ITEMS_NAME: {
     painControl: '수술 중 통증 조절을 위한 처치 여부',
     //-------------------------수술당일
 
-    giStimulant: ' 위장관 촉진 약 복용',
     gumChewing: '하루 3번 15분동안 껌씹기',
     antiNauseaPostOp: '수술 후 구역구토방지제 사용 여부',
     ivFluidRestrictionPostOp: '수술 후 IV fluid 제한',

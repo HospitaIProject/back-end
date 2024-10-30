@@ -270,12 +270,6 @@ function ComplianceFormPage() {
                         isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}
                     >
                         <YesOrNoButton<checkListFormType>
-                            htmlFor="giStimulant"
-                            label={CHECKLIST_ITEMS_NAME.giStimulant}
-                            formik={formik}
-                            isRender={existFields.giStimulant}
-                        />
-                        <YesOrNoButton<checkListFormType>
                             htmlFor="gumChewing"
                             label={CHECKLIST_ITEMS_NAME.gumChewing}
                             formik={formik}

@@ -132,7 +132,6 @@ export const useInitialValues = ({
         painControl_remarks: existFields?.painControl ? '' : undefined,
         //------------------------------수술당일-----------------------------------
 
-        giStimulant: existFields?.giStimulant ? '' : undefined, //위장관 촉진 약 복용
         gumChewing: existFields?.gumChewing ? '' : undefined, //하루 3번 15분동안 껌씹기
         antiNauseaPostOp: existFields?.antiNauseaPostOp ? '' : undefined, //수술 후 구역구토방지제 사용 여부
         ivFluidRestrictionPostOp: existFields?.ivFluidRestrictionPostOp ? '' : undefined, //수술 후 IV fluid 제한awsas
@@ -155,7 +154,6 @@ export const useInitialValues = ({
             : undefined,
         //수술 후 통증
 
-        giStimulant_remarks: existFields?.giStimulant ? '' : undefined,
         gumChewing_remarks: existFields?.gumChewing ? '' : undefined,
         antiNauseaPostOp_remarks: existFields?.antiNauseaPostOp ? '' : undefined,
         ivFluidRestrictionPostOp_remarks: existFields?.ivFluidRestrictionPostOp ? '' : undefined,
@@ -198,7 +196,6 @@ export const useInitialValues = ({
     }
     if (checkListAfterData) {
         const checkListAfter = checkListAfterData;
-        initialValues.giStimulant = checkListAfter?.giStimulant;
         initialValues.gumChewing = checkListAfter?.gumChewing;
         initialValues.antiNauseaPostOp = checkListAfter?.antiNauseaPostOp;
         initialValues.ivFluidRestrictionPostOp = checkListAfter?.ivFluidRestrictionPostOp;
@@ -220,7 +217,6 @@ export const useInitialValues = ({
         initialValues.postMeal = checkListAfter?.postMeal;
         initialValues.postPain = checkListAfter?.postPain;
 
-        initialValues.giStimulant_remarks = checkListAfter?.giStimulant_remarks;
         initialValues.gumChewing_remarks = checkListAfter?.gumChewing_remarks;
         initialValues.antiNauseaPostOp_remarks = checkListAfter?.antiNauseaPostOp_remarks;
         initialValues.ivFluidRestrictionPostOp_remarks = checkListAfter?.ivFluidRestrictionPostOp_remarks;

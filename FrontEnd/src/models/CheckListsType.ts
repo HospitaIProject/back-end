@@ -17,7 +17,6 @@ export type CheckListSetupType = {
     painControl: boolean; //수술 중 통증 조절을 위한 처치 여부
     //-------------------------수술당일
 
-    giStimulant: boolean; //위장관 촉진 약 복용
     gumChewing: boolean; //하루 3번 15분동안 껌씹기
     antiNauseaPostOp: boolean; //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp: boolean; //수술 후 IV fluid 제한
@@ -41,7 +40,6 @@ export const CHECKLIST_SECTION_KEYS = {
     TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl'],
 
     POST: [
-        'giStimulant',
         'gumChewing',
         'antiNauseaPostOp',
         'ivFluidRestrictionPostOp',
@@ -76,7 +74,6 @@ export type checkListFormType = {
     painControl?: 'YES' | 'NO' | ''; //수술 중 통증 조절을 위한 처치 여부
     //-------------------------수술당일
 
-    giStimulant?: 'YES' | 'NO' | ''; //위장관 촉진 약 복용
     gumChewing?: 'YES' | 'NO' | ''; //하루 3번 15분동안 껌씹기
     antiNauseaPostOp?: 'YES' | 'NO' | ''; //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp?: 'YES' | 'NO' | ''; //수술 후 IV fluid 제한
@@ -105,7 +102,6 @@ export type checkListFormType = {
     antiNausea_remarks?: string;
     painControl_remarks?: string;
 
-    giStimulant_remarks?: string;
     gumChewing_remarks?: string;
     antiNauseaPostOp_remarks?: string;
     ivFluidRestrictionPostOp_remarks?: string;
@@ -227,8 +223,7 @@ export type CheckListsAfterItemType = {
     createAt: string;
     updatedAt: string;
 
-    giStimulant?: 'YES' | 'NO';
-    gumChewing?: 'YES' | 'NO';
+    gumChewing?: 'YES' | 'NO'; //하루 3번 15분동안 껌씹기
     antiNauseaPostOp?: 'YES' | 'NO';
     ivFluidRestrictionPostOp?: 'YES' | 'NO'; //수술 후 IV fluid 제한
     nonOpioidPainControl?: 'YES' | 'NO'; //수술 후 non-opioid pain control 여부
@@ -243,7 +238,6 @@ export type CheckListsAfterItemType = {
     postMeal?: 'YES' | 'NO'; //Post OP day 식사
     postPain?: PostPainType; //수술 후 통증
 
-    giStimulant_remarks?: string;
     gumChewing_remarks?: string;
     antiNauseaPostOp_remarks?: string;
     ivFluidRestrictionPostOp_remarks?: string;
