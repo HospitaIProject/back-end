@@ -28,6 +28,7 @@ export type CheckListSetupType = {
     podMeal: boolean; //Post OP day 식사, POD 1day 식사, POD 2day 식사, POD 3day 식사
     podPain: boolean; //수술 후 통증
 };
+
 export const CHECKLIST_SECTION_KEYS = {
     PREV: [
         'explainedPreOp',
@@ -51,6 +52,17 @@ export const CHECKLIST_SECTION_KEYS = {
         'podPain',
     ],
 };
+export const DAILY_CHECKLIST_SECTION_KEYS = [
+    'podExercise',
+    'podMeal',
+    'podPain',
+    'gumChewing',
+    'ivFluidRestrictionPostOp',
+    'nonOpioidPainControl',
+    'jpDrainRemoval',
+    'ivLineRemoval',
+];
+
 type PostPainType = {
     day: number | '';
     evening: number | '';

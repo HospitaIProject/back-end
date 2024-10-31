@@ -263,19 +263,19 @@ function CheckListViewPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivFluidRestrictionPostOp"
-                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivFluidRestrictionPostOp}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="nonOpioidPainControl"
-                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.nonOpioidPainControl}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="jpDrainRemoval"
-                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
                             etcComponent={
@@ -313,7 +313,7 @@ function CheckListViewPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivLineRemoval"
-                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivLineRemoval}
                             etcComponent={
