@@ -163,19 +163,19 @@ function ConfirmComplianceForm({
                         remark={values.antiNauseaPostOp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                        label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD#0)'}
                         isRender={existFields.ivFluidRestrictionPostOp}
                         value={values.ivFluidRestrictionPostOp}
                         remark={values.ivFluidRestrictionPostOp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                        label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD#0)'}
                         isRender={existFields.nonOpioidPainControl}
                         value={values.nonOpioidPainControl}
                         remark={values.nonOpioidPainControl_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
                         isRender={existFields.jpDrainRemoval}
                         value={values.jpDrainRemoval}
                         remark={values.jpDrainRemoval_remarks}
@@ -219,7 +219,7 @@ function ConfirmComplianceForm({
                     />
 
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                        label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                         isRender={existFields.ivLineRemoval}
                         value={values.ivLineRemoval}
                         remark={values.ivLineRemoval_remarks}

@@ -1,5 +1,5 @@
 import ArrowIcon from '../../../icons/ArrowIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 
 type Props = {
@@ -9,15 +9,19 @@ type Props = {
     order: number;
     today?: boolean;
     queryDate: string;
+    totalCompleted: number;
 };
 
-function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDate }: Props) {
+function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDate, totalCompleted }: Props) {
+    const navigate = useNavigate();
     const dateComparison = `D+${day}`;
 
     const handleRouteCheckListForm = () => {
-        // navigate(
-        //     `/patient/form/compliance?id=${operationId}&name=${patientName}&dateStatus=${dateComparison}&diffDay=${diffDay}`,
-        // );
+        if (day + 2 > totalCompleted) {
+            alert('‼️ 이전 체크리스트를 먼저 작성해주세요.');
+            return;
+        }
+        navigate(`/patient/form/compliance/daily?id=${id}&name=${name}&diffDay=${-day}&date=${queryDate}`);
     };
 
     return (
@@ -27,7 +31,6 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                 style={{
                     order: order,
                 }}
-                onClick={handleRouteCheckListForm}
             >
                 <div className="flex w-full flex-row items-center gap-6">
                     <span className="w-12 flex-shrink-0 font-semibold text-sky-800">{dateComparison}</span>
@@ -35,8 +38,8 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                         <span className="inline-block break-words text-sm text-gray-400">{`체크리스트 작성 가능`}</span>
                     </div>
                 </div>
-                <Link
-                    to={`/patient/form/compliance/daily?id=${id}&name=${name}&diffDay=${-day}&date=${queryDate}`}
+                <button
+                    onClick={handleRouteCheckListForm}
                     className={`relative mx-1 flex flex-shrink-0 flex-row items-center justify-center gap-1 rounded-lg border p-2 text-gray-400 shadow-sm`}
                 >
                     <span className="text-sm">작성하기</span>
@@ -46,7 +49,7 @@ function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDat
                             New
                         </span>
                     )}
-                </Link>
+                </button>
             </li>
         </>
     );
