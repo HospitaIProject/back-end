@@ -21,6 +21,10 @@ Axios.interceptors.request.use(
             alert('세션이 만료되어 로그인 페이지로 이동합니다.');
             window.location.href = '/login';
         }
+        if (error.response?.status === 403) {
+            alert('접근 권한이 없습니다.');
+            window.location.href = '/login';
+        }
         return Promise.reject(error);
     },
 );

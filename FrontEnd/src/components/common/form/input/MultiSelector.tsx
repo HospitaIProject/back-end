@@ -50,6 +50,7 @@ function MultiSelector<T>({
             <div className="flex flex-grow">
                 <Select
                     components={animatedComponents}
+                    menuPlacement="auto"
                     isMulti
                     options={options}
                     value={currentValues}
@@ -79,7 +80,7 @@ function MultiSelector<T>({
                     }}
                 />
             </div>
-            <div className="hidden cursor-pointer min-h-12"></div>
+            <div className="hidden min-h-12 cursor-pointer"></div>
         </InputContainer>
     );
 }

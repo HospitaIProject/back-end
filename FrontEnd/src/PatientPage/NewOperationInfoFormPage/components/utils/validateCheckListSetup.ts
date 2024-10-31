@@ -15,7 +15,6 @@ export const validateCheckListSetup = ({ values }: Props) => {
     ];
     const intraOpFields = ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl'];
     const postOpFields = [
-        'giStimulant',
         'gumChewing',
         'antiNauseaPostOp',
         'ivFluidRestrictionPostOp',

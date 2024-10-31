@@ -23,6 +23,7 @@ import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import PainSelector from '../../components/common/form/input/PainSelector';
 import CheckListViewGuide from '../CheckListsPage/components/CheckListViewGuide';
 import usePrompt from '../../Hooks/usePrompt';
+import SingleSelector from '../../components/common/form/input/SingleSelector';
 
 type Button = {
     day: 'PREV' | 'TODAY' | 'POST';
@@ -31,7 +32,7 @@ type Button = {
 
 const buttons: Button[] = [
     { day: 'PREV', label: '수술 전' },
-    { day: 'TODAY', label: '수술 당일' },
+    { day: 'TODAY', label: '수술 중' },
     { day: 'POST', label: '수술 후' },
 ];
 
@@ -180,7 +181,7 @@ function ComplianceFormPage() {
                     existFields={existFields}
                 />
 
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>
@@ -227,7 +228,7 @@ function ComplianceFormPage() {
                         />
                     </DropContainer>
 
-                    {/* 수술당일 */}
+                    {/* 수술중 */}
                     <DropContainer
                         readOnly={dateStatus === 'PREV'}
                         isOpen={relativeDay.includes('TODAY') || relativeDay.includes('ALL')}
@@ -262,6 +263,18 @@ function ComplianceFormPage() {
                             isRender={existFields.painControl}
                             isDisabled={dateStatus !== 'TODAY'}
                         />
+                        <SingleSelector
+                            values={[
+                                { value: 'TAPB', name: 'TAPB' },
+                                { value: 'WI', name: 'WI' },
+                                { value: 'ITM', name: 'ITM' },
+                                { value: 'OTHER', name: 'OTHER' },
+                            ]}
+                            htmlFor="painControlMethod"
+                            label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                            formik={formik}
+                            isRender={true} //수정 필요
+                        />
                     </DropContainer>
 
                     {/* 수술후 */}
@@ -270,18 +283,6 @@ function ComplianceFormPage() {
                         isOpen={relativeDay.includes('POST') || relativeDay.includes('ALL')}
                     >
                         <YesOrNoButton<checkListFormType>
-                            htmlFor="giStimulant"
-                            label={CHECKLIST_ITEMS_NAME.giStimulant}
-                            formik={formik}
-                            isRender={existFields.giStimulant}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="gumChewing"
-                            label={CHECKLIST_ITEMS_NAME.gumChewing}
-                            formik={formik}
-                            isRender={existFields.gumChewing}
-                        />
-                        <YesOrNoButton<checkListFormType>
                             htmlFor="antiNauseaPostOp"
                             label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
                             formik={formik}
@@ -289,19 +290,19 @@ function ComplianceFormPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivFluidRestrictionPostOp"
-                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivFluidRestrictionPostOp}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="nonOpioidPainControl"
-                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.nonOpioidPainControl}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="jpDrainRemoval"
-                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
                             etcComponent={
@@ -341,7 +342,7 @@ function ComplianceFormPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivLineRemoval"
-                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivLineRemoval}
                             etcComponent={

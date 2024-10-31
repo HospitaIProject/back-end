@@ -15,6 +15,7 @@ import DefaultCheckListSettingPage from './DefaultCheckListSettingPage/DefaultCh
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ExcelListPage from './ExcelListPage/ExcelListPage';
+import MainDateSelectionPage from './MainPage/MainDateSelectionPage';
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,8 @@ const router = createBrowserRouter([
                     {
                         element: <HeaderLayout />,
                         children: [
-                            { path: '/', element: <MainPage /> },
+                            { path: '/', element: <MainDateSelectionPage /> },
+                            { path: '/patient', element: <MainPage /> },
                             { path: '/operation-checkList/default-setting', element: <DefaultCheckListSettingPage /> },
                             {
                                 path: '/summary/excel',

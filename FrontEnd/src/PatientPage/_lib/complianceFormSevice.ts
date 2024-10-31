@@ -55,16 +55,16 @@ const postOrPutComplianceForm = async ({
             fluidRestriction: data.fluidRestriction,
             antiNausea: data.antiNausea,
             painControl: data.painControl,
+            painControlMethod: data.painControlMethod,
 
             maintainTemp_remarks: data.maintainTemp_remarks,
             fluidRestriction_remarks: data.fluidRestriction_remarks,
             antiNausea_remarks: data.antiNausea_remarks,
             painControl_remarks: data.painControl_remarks,
+            painControlMethod_remarks: data.painControlMethod_remarks,
         };
     } else {
         processedChecklistData = {
-            giStimulant: data.giStimulant,
-            gumChewing: data.gumChewing,
             antiNauseaPostOp: data.antiNauseaPostOp,
             ivFluidRestrictionPostOp: data.ivFluidRestrictionPostOp,
             nonOpioidPainControl: data.nonOpioidPainControl,
@@ -79,8 +79,6 @@ const postOrPutComplianceForm = async ({
             postMeal: data.postMeal,
             postPain: data.postPain,
 
-            giStimulant_remarks: data.giStimulant_remarks,
-            gumChewing_remarks: data.gumChewing_remarks,
             antiNauseaPostOp_remarks: data.antiNauseaPostOp_remarks,
             ivFluidRestrictionPostOp_remarks: data.ivFluidRestrictionPostOp_remarks,
             nonOpioidPainControl_remarks: data.nonOpioidPainControl_remarks,
@@ -119,6 +117,11 @@ const postDailyComplianceForm = async ({
     let processedChecklistData;
     processedChecklistData = {
         ...data,
+        podOneIvLineRemoval: undefined,
+        podOneIvLineRemoval_remarks: undefined,
+        podTwoIvLineRemoval: undefined,
+        podTwoIvLineRemoval_remarks: undefined,
+
         dayOfCheckList: submitType === 'post' ? dayOfCheckList : undefined,
     };
     console.log('processedChecklistData', processedChecklistData);

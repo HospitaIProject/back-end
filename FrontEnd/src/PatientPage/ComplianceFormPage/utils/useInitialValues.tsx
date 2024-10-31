@@ -125,15 +125,16 @@ export const useInitialValues = ({
         fluidRestriction: existFields?.fluidRestriction ? '' : undefined, //수술 중 수액  2-4cc/kg/hr 으로 제한 *별도 수치 디스플레이 필요
         antiNausea: existFields?.antiNausea ? '' : undefined, //수술 중 구역구토 방지제 사용 여부
         painControl: existFields?.painControl ? '' : undefined, //수술 중 통증 조절을 위한 처치 여부
+        painControlMethod: true ? '' : undefined, //수술 중 통증 조절을 위한 처치 방법
 
         maintainTemp_remarks: existFields?.maintainTemp ? '' : undefined,
         fluidRestriction_remarks: existFields?.fluidRestriction ? '' : undefined,
         antiNausea_remarks: existFields?.antiNausea ? '' : undefined,
         painControl_remarks: existFields?.painControl ? '' : undefined,
-        //------------------------------수술당일-----------------------------------
+        painControlMethod_remarks: true ? '' : undefined,
 
-        giStimulant: existFields?.giStimulant ? '' : undefined, //위장관 촉진 약 복용
-        gumChewing: existFields?.gumChewing ? '' : undefined, //하루 3번 15분동안 껌씹기
+        //------------------------------수술중-----------------------------------
+
         antiNauseaPostOp: existFields?.antiNauseaPostOp ? '' : undefined, //수술 후 구역구토방지제 사용 여부
         ivFluidRestrictionPostOp: existFields?.ivFluidRestrictionPostOp ? '' : undefined, //수술 후 IV fluid 제한awsas
         nonOpioidPainControl: existFields?.nonOpioidPainControl ? '' : undefined, //수술 후 non-opioid pain control 여부
@@ -155,8 +156,6 @@ export const useInitialValues = ({
             : undefined,
         //수술 후 통증
 
-        giStimulant_remarks: existFields?.giStimulant ? '' : undefined,
-        gumChewing_remarks: existFields?.gumChewing ? '' : undefined,
         antiNauseaPostOp_remarks: existFields?.antiNauseaPostOp ? '' : undefined,
         ivFluidRestrictionPostOp_remarks: existFields?.ivFluidRestrictionPostOp ? '' : undefined,
         nonOpioidPainControl_remarks: existFields?.nonOpioidPainControl ? '' : undefined,
@@ -190,16 +189,16 @@ export const useInitialValues = ({
         initialValues.fluidRestriction = checkListDuring?.fluidRestriction;
         initialValues.antiNausea = checkListDuring?.antiNausea;
         initialValues.painControl = checkListDuring?.painControl;
+        initialValues.painControlMethod = checkListDuring?.painControlMethod;
 
         initialValues.maintainTemp_remarks = checkListDuring?.maintainTemp_remarks;
         initialValues.fluidRestriction_remarks = checkListDuring?.fluidRestriction_remarks;
         initialValues.antiNausea_remarks = checkListDuring?.antiNausea_remarks;
         initialValues.painControl_remarks = checkListDuring?.painControl_remarks;
+        initialValues.painControlMethod_remarks = checkListDuring?.painControlMethod_remarks;
     }
     if (checkListAfterData) {
         const checkListAfter = checkListAfterData;
-        initialValues.giStimulant = checkListAfter?.giStimulant;
-        initialValues.gumChewing = checkListAfter?.gumChewing;
         initialValues.antiNauseaPostOp = checkListAfter?.antiNauseaPostOp;
         initialValues.ivFluidRestrictionPostOp = checkListAfter?.ivFluidRestrictionPostOp;
         initialValues.nonOpioidPainControl = checkListAfter?.nonOpioidPainControl;
@@ -220,8 +219,6 @@ export const useInitialValues = ({
         initialValues.postMeal = checkListAfter?.postMeal;
         initialValues.postPain = checkListAfter?.postPain;
 
-        initialValues.giStimulant_remarks = checkListAfter?.giStimulant_remarks;
-        initialValues.gumChewing_remarks = checkListAfter?.gumChewing_remarks;
         initialValues.antiNauseaPostOp_remarks = checkListAfter?.antiNauseaPostOp_remarks;
         initialValues.ivFluidRestrictionPostOp_remarks = checkListAfter?.ivFluidRestrictionPostOp_remarks;
         initialValues.nonOpioidPainControl_remarks = checkListAfter?.nonOpioidPainControl_remarks;

@@ -248,7 +248,8 @@ function DailyCompliancePage() {
                             })
                         }
                         formik={formik}
-                        isRender={existFields.ivLineRemoval && (isPod1 || isPod2 || isPod3)}
+                        // isRender={existFields.ivLineRemoval && (isPod1 || isPod2 || isPod3)} //일단은 pod3만 렌더링 되도록 변경
+                        isRender={existFields.ivLineRemoval && isPod3}
                     />
                 </form>
                 <div className={`mt-auto`}>
