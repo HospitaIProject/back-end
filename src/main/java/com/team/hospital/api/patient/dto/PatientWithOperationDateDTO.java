@@ -1,7 +1,6 @@
 package com.team.hospital.api.patient.dto;
 
-import com.team.hospital.api.operation.dto.OperationDTO;
-import com.team.hospital.api.operation.dto.OperationDateDTO;
+import com.team.hospital.api.operation.dto.OpDto;
 import com.team.hospital.api.patient.Patient;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,20 +12,30 @@ import java.util.List;
 public class PatientWithOperationDateDTO {
 
     private PatientDTO patientDTO;
-    private List<OperationDateDTO> operationDateDTOs;
+    private List<OpDto> operationDateDTOs;   // 가장 최근 수술 이름.
     private boolean checkListCreatedToday;
 
-    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDTO> operationDTOs, boolean checkListCreatedToday) {
-        PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
-        List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
-                .map(operationDTO -> OperationDateDTO.toEntity(operationDTO, patientDTO))
-                .toList();
+//    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDTO> operationDTOs, boolean checkListCreatedToday) {
+//        PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
+//        List<OperationDateDTO> operationDateDTOs = operationDTOs.stream()
+//                .map(operationDTO -> OperationDateDTO.toEntity(operationDTO, patientDTO))
+//                .toList();
+//
+//        return PatientWithOperationDateDTO.builder()
+//                .patientDTO(patientDTO)
+//                .operationDateDTOs(operationDateDTOs)
+//                .checkListCreatedToday(checkListCreatedToday)
+//                .build();
+//    }
 
+    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OpDto> opDtos, boolean checkListCreatedToday) {
+        PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
         return PatientWithOperationDateDTO.builder()
                 .patientDTO(patientDTO)
-                .operationDateDTOs(operationDateDTOs)
+                .operationDateDTOs(opDtos)
                 .checkListCreatedToday(checkListCreatedToday)
                 .build();
     }
+
 
 }
