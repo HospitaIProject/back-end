@@ -59,10 +59,6 @@ public class CheckListAfterService {
         return checkListAfter.get();
     }
 
-    public Optional<CheckListAfter> findCheckListAfterByOpId(Long operationId) {
-        return checkListAfterRepository.findByOperationId(operationId);
-    }
-
     public CheckListAfterDTO findCheckListAfterByOperationId(Long operationId) {
         Optional<CheckListAfter> checkListAfter = checkListAfterRepository.findByOperationId(operationId);
         if (checkListAfter.isEmpty()) throw new CheckListAfterNotFoundException();
@@ -74,11 +70,9 @@ public class CheckListAfterService {
     }
 
     // 수술 D+1 일 때 수술후 체크리스트 작성 + D+1 체크리스트 작성 완료 되었을 시 true 반환.
-    public boolean checkIfCheckListAfterCreatedToday(Long operationId) {
-        LocalDate operationDate = operationService.findOperationById(operationId).getPatient().getOperationDate();
+    public boolean checkIfCheckListAfterCreatedToday(Long operationId, LocalDate operationDate) {
         LocalDate today = LocalDate.now();
-
-        return today.equals(operationDate) && findCheckListAfterByOpId(operationId).isPresent();
+        return today.equals(operationDate) && checkListAfterRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {
