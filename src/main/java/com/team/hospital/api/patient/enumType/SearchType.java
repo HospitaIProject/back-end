@@ -1,6 +1,10 @@
 package com.team.hospital.api.patient.enumType;
 
+import lombok.Getter;
+
+@Getter
 public enum SearchType {
-    BY_YEAR_MONTH,  // 년월별 조회
-    BY_OPERATION    // 수술별 조회
+    PATIENT_NAME,       // 환자 이름
+    PATIENT_NUMBER,     // 환자 번호
+//    OPERATION_METHOD    // 수술명
 }

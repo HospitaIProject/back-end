@@ -85,7 +85,7 @@ public class CheckListAfter extends BaseEntity {
     private CheckListFirst postMeal; // Post OP day 운동
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore postPain; // Post OP day 운동
+    private DailyPainScore postPain; // Post OP day pain score
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id", nullable = false)

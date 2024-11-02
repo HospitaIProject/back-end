@@ -150,24 +150,24 @@ public class CheckList extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "pod_one_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_meal_remarks"))
     })
-    private CheckListFirst podOneMeal; // POD 1day 운동
+    private CheckListFirst podOneMeal; // POD 1day 식사
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "pod_two_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_meal_remarks"))
     })
-    private CheckListFirst podTwoMeal; // POD 2day 운동
+    private CheckListFirst podTwoMeal; // POD 2day 식사
 
     // POD Pain
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podOnePain; // POD 1day 운동
+    private DailyPainScore podOnePain; // POD 1day pain score
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podTwoPain; // POD 2day 운동
+    private DailyPainScore podTwoPain; // POD 2day pain score
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podThreePain; // POD 3day 운동
+    private DailyPainScore podThreePain; // POD 3day pain score
 
     private LocalDate dayOfCheckList;
 

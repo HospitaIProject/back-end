@@ -63,12 +63,10 @@ public class CheckListBeforeService {
         return checkListBeforeRepository.findAll();
     }
 
-    public boolean checkIfCheckListBeforeCreatedToday(Long operationId) {
+    public boolean checkIfCheckListBeforeCreatedToday(Long operationId, LocalDate operationDate) {
         LocalDate today = LocalDate.now();
-        LocalDate operationDate = operationService.findOperationById(operationId).getPatient().getOperationDate();
-
         // 오늘 날짜가 수술 날짜보다 같거나 이후일 경우 false 반환
-        return today.isBefore(operationDate) || checkListBeforeRepository.findByOperationId(operationId).isPresent();
+        return today.isBefore(operationDate) || checkListBeforeRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {

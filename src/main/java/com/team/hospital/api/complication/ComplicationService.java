@@ -40,9 +40,9 @@ public class ComplicationService {
     }
 
     @Transactional
-    public void updateComplicationStatus(Long operationId, BooleanOption booleanOptionq) {
+    public void updateComplicationStatus(Long operationId, BooleanOption booleanOption) {
         Operation operation = operationService.findOperationById(operationId);
-        operation.updateComplicationStatus(booleanOptionq);
+        operation.updateComplicationStatus(booleanOption);
     }
 
     @Transactional

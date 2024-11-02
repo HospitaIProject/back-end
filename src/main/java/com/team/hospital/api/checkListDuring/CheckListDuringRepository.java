@@ -12,6 +12,9 @@ public interface CheckListDuringRepository extends JpaRepository<CheckListDuring
     @Query("SELECT cd From CheckListDuring cd where cd.checkListItem.operation.id = :operationId")
     Optional<CheckListDuring> findByOperationId(@Param("operationId") Long operationId);
 
+    @Query("SELECT COUNT(cd) > 0 FROM CheckListDuring cd WHERE cd.checkListItem.operation.id = :operationId")
+    boolean existsByOperationId(@Param("operationId") Long operationId);
+
     boolean existsByCheckListItemId(Long checkListItemId);
 
     CheckListDuring findCheckListDuringByCheckListItem(CheckListItem checkListItem);

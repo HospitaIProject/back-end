@@ -3,7 +3,6 @@ package com.team.hospital.api.checkList;
 import com.team.hospital.api.checkList.dto.CheckListDailyDTO;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
-import com.team.hospital.api.checkListAfter.CheckListAfter;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
 import com.team.hospital.api.checkListBefore.CheckListBeforeService;
 import com.team.hospital.api.checkListDuring.CheckListDuringService;
@@ -11,7 +10,6 @@ import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
-import com.team.hospital.api.patient.Patient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,22 +71,18 @@ public class CheckListService {
     }
 
     // D+2부터 적용되도록 수정
-    public boolean checkIfCheckListCreatedToday(Long operationId) {
-        Operation operation = operationService.findOperationById(operationId);
-        Patient patient = operation.getPatient();
-        List<CheckList> checks = checks(operationId);
-
+    public boolean checkIfCheckListCreatedToday(Long operationId, LocalDate operationDate) {
         // 오늘 날짜와 수술 날짜 간의 일 수 계산
-        int daysBetween = (int) ChronoUnit.DAYS.between(patient.getOperationDate(), LocalDate.now());
-
+        int daysBetween = (int) ChronoUnit.DAYS.between(operationDate, LocalDate.now());
+        boolean createdToday = checkListRepository.existsCheckListWithExactDaysBetween(operationId, operationDate);
         // daysBetween 값이 1~3 범위에 있는지 확인하고 해당 index의 체크리스트가 존재하는지 확인
-        return daysBetween >= 1 && daysBetween <= 3 && checks.get(daysBetween - 1) != null;
+        return daysBetween >= 1 && daysBetween <= 3 && createdToday;
     }
 
-    public boolean checkIfAnyCheckListCreatedToday(Long operationId) {
-        return checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId) ||
-                (checkListDuringService.checkIfCheckListDuringCreatedToday(operationId) && checkListAfterService.checkIfCheckListAfterCreatedToday(operationId)) ||
-                checkIfCheckListCreatedToday(operationId);
+    public boolean checkIfAnyCheckListCreatedToday(Long operationId, LocalDate operationDate) {
+        return checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId, operationDate) ||
+                (checkListDuringService.checkIfCheckListDuringCreatedToday(operationId, operationDate) && checkListAfterService.checkIfCheckListAfterCreatedToday(operationId, operationDate)) ||
+                checkIfCheckListCreatedToday(operationId, operationDate);
     }
 
     public List<CheckList> checks(Long operationId) {

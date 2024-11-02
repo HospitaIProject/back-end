@@ -5,9 +5,7 @@ import com.team.hospital.api.checkListDuring.dto.WriteCheckListDuring;
 import com.team.hospital.api.checkListDuring.exception.CheckListDuringNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
-import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
-import com.team.hospital.api.patient.Patient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -71,11 +68,10 @@ public class CheckListDuringService {
         return checkListDuringRepository.findAll();
     }
 
-    public boolean checkIfCheckListDuringCreatedToday(Long operationId) {
+    public boolean checkIfCheckListDuringCreatedToday(Long operationId, LocalDate operationDate) {
         // 오늘이 수술 날일 경우, 수술중 체크리스트가 오늘 등록되었다면 true 반환.
-        LocalDate operationDate = operationService.findOperationById(operationId).getPatient().getOperationDate();
         LocalDate today = LocalDate.now();
-        return operationDate.equals(today) && checkListDuringRepository.findByOperationId(operationId).isPresent();
+        return operationDate.equals(today) && checkListDuringRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {

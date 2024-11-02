@@ -1,6 +1,6 @@
 package com.team.hospital.api.patient.dto;
 
-import com.team.hospital.api.operation.dto.OpDto;
+import com.team.hospital.api.operation.dto.OpDtoString;
 import com.team.hospital.api.patient.Patient;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Builder
-public class PatientWithOperationDateDTO {
+public class PatientWithOperationDateDTOString {
 
     private PatientDTO patientDTO;
-    private List<OpDto> operationDateDTOs;   // 가장 최근 수술 이름.
+    private List<OpDtoString> operationDateDTOs;   // 가장 최근 수술 이름.
     private boolean checkListCreatedToday;
 
 //    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OperationDTO> operationDTOs, boolean checkListCreatedToday) {
@@ -28,14 +28,12 @@ public class PatientWithOperationDateDTO {
 //                .build();
 //    }
 
-    public static PatientWithOperationDateDTO toEntity(Patient patient, List<OpDto> opDtos, boolean checkListCreatedToday) {
+    public static PatientWithOperationDateDTOString toEntity(Patient patient, List<OpDtoString> opDtoStrings, boolean checkListCreatedToday) {
         PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
-        return PatientWithOperationDateDTO.builder()
+        return PatientWithOperationDateDTOString.builder()
                 .patientDTO(patientDTO)
-                .operationDateDTOs(opDtos)
+                .operationDateDTOs(opDtoStrings)
                 .checkListCreatedToday(checkListCreatedToday)
                 .build();
     }
-
-
 }

@@ -12,6 +12,9 @@ public interface CheckListAfterRepository extends JpaRepository<CheckListAfter, 
     @Query("SELECT ca From CheckListAfter ca where ca.checkListItem.operation.id = :operationId")
     Optional<CheckListAfter> findByOperationId(@Param("operationId") Long operationId);
 
+    @Query("SELECT COUNT(ca) > 0 FROM CheckListAfter ca where ca.checkListItem.operation.id = :operationId")
+    boolean existsByOperationId(@Param("operationId") Long operationId);
+
     boolean existsByCheckListItemId(Long checkListItemId);
     CheckListAfter findCheckListAfterByCheckListItem(CheckListItem checkListItem);
 
