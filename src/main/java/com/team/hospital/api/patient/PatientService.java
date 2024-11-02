@@ -79,10 +79,6 @@ public class PatientService {
     }
 
     public Slice<Patient> findPatientsByOperationTypeName(String operationName, Pageable pageable) {
-        return patientRepository.findPatientsByOperationTypeName(operationName, pageable);
-    }
-
-    public Slice<Patient> findPatientsByOperationTypeNameContaining(String operationName, Pageable pageable) {
         return patientRepository.findPatientsByOperationTypeNameContaining(operationName, pageable);
     }
 
