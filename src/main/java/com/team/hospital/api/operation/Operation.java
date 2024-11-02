@@ -17,6 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@ToString
 public class Operation extends BaseEntity {
 
     @Id
@@ -54,11 +55,18 @@ public class Operation extends BaseEntity {
     @Builder.Default
     private BooleanOption complicationStatus = BooleanOption.NO;
 
+//    @Convert(converter = StringListConverter.class)
+//    @Column(name = "operation_names", columnDefinition = "TEXT")
+//    private List<String> operationNames;
+
+    private String operationNames;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
     public static Operation createOperation(WriteOperation write, List<OperationMethod> operationMethods, Patient patient) {
+        String operationNames = String.join(", ", write.getOperationTypeNames());
 
         return Operation.builder()
                 .operationMethods(operationMethods)
@@ -69,6 +77,7 @@ public class Operation extends BaseEntity {
                 .totalOperationTime(write.getTotalOperationTime())
                 .totalFluidsAmount(write.getTotalFluidsAmount())
                 .bloodLoss(write.getBloodLoss())
+                .operationNames(operationNames)
                 .patient(patient)
                 .build();
     }
