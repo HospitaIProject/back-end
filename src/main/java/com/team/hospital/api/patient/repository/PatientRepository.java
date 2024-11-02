@@ -26,9 +26,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
-            "JOIN o.operationMethods om " +
-            "JOIN om.operationType ot " +
-            "WHERE ot.name LIKE CONCAT('%', :name, '%')")
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%')")
     Page<Patient> findPatientsByOperationTypeNameContaining(@Param("name") String name, Pageable pageable);
 
     @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year AND MONTH(p.operationDate) = :month")
