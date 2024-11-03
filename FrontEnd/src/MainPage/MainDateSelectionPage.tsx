@@ -6,6 +6,7 @@ import ArrowIcon from '../icons/ArrowIcon';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
 import usePWAInstallPrompt from '../components/PWA/usePWAInstallPrompt';
 import PWAInatallPrompt from '../components/PWA/PWAInatallPrompt';
+import PWAInstallPromptIos from '../components/PWA/PWAInstallPromptIos';
 
 function MainDateSelectionPage() {
     // const thisMonth = String(new Date().getMonth() + 1);
@@ -93,7 +94,8 @@ function MainDateSelectionPage() {
                     </div>
                 </div>
             </div>
-            {deferredPrompt && <PWAInatallPrompt handleInstall={handleInstall} onClose={() => {}} />}
+            {/iPad|iPhone|iPod/.test(window.navigator.userAgent) && <PWAInstallPromptIos />}
+            {deferredPrompt && <PWAInatallPrompt handleInstall={handleInstall} />}
         </>
     );
 }

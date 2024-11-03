@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
-function PWAInatallPrompt({ handleInstall }: { onClose: () => void; handleInstall: () => void }) {
+function PWAInatallPrompt({ handleInstall }: { handleInstall: () => void }) {
     const [modal, setModal] = useState(true);
+
     if (localStorage.getItem('PWAmodal') === '1' || !modal) {
         return (
             <div className="fixed bottom-0 flex w-full max-w-[1298px] flex-row items-center justify-between gap-2 bg-black bg-opacity-80 p-3">
