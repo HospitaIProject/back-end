@@ -81,14 +81,14 @@ public class PatientController {
         if (year == null && month == null) {
             // 수술명으로 조회
             if (opName != null) {
-                patients = patientService.findPatientsByOperationTypeName(opName, pageable).getContent();
+                patients = patientService.findPatientsByOperationTypeNameContaining(opName, pageable).getContent();
             } else {
                 patients = patientService.findAll(pageable).getContent();
             }
         }
         if (year != null && month == null) {
             if (opName != null) {
-                patients = patientService.findPatientsByOperationTypeName(opName, pageable).stream()
+                patients = patientService.findPatientsByOperationTypeNameContaining(opName, pageable).stream()
                         .filter(patient -> patient.getOperationDate().getYear() == year)
                         .toList();
             } else {
@@ -97,7 +97,7 @@ public class PatientController {
         }
         if (year != null && month != null) {
             if (opName != null) {
-                patients = patientService.findPatientsByOperationTypeName(opName, pageable).stream()
+                patients = patientService.findPatientsByOperationTypeNameContaining(opName, pageable).stream()
                         .filter(patient -> patient.getOperationDate().getYear() == year && patient.getOperationDate().getMonthValue() == month)
                         .toList();
             } else {
