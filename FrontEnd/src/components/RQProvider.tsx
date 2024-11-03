@@ -1,6 +1,5 @@
 import React from 'react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Outlet } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import.meta.env;
@@ -32,7 +31,7 @@ function RQProviders() {
         <QueryClientProvider client={client}>
             <Outlet />
             {/* ReactQueryDevtools 컴포넌트를 사용하여 개발 도구를 활성화합니다. */}
-            <ReactQueryDevtools initialIsOpen={true} />
+            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
         </QueryClientProvider>
     );
 }
