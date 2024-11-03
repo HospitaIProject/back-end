@@ -7,7 +7,6 @@ import PatientDetailModal from './PatientDetailModal';
 import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
-import { useOperationMethodFormatted } from '../../Hooks/useOperationMethodFormatted';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
