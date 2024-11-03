@@ -45,9 +45,6 @@ function MainDateSelectionPage() {
             <div className="mt-2 flex flex-1 flex-col">
                 <div className="flex w-full justify-between bg-white p-3 text-gray-600">
                     <div className="relative cursor-pointer">
-                        <label htmlFor="year-select" className="absolute -top-[0.6px] right-5 font-semibold">
-                            {selectedYear !== '전체' && '년'}
-                        </label>
                         <select
                             id="year-select"
                             onChange={handleChange}
