@@ -78,7 +78,7 @@ public class PatientService {
         return patientRepository.findPatientsByYearAndOpNameContaining(year, operationTypeName,pageable);
     }
 
-    public Slice<Patient> findPatientsByOperationTypeName(String operationName, Pageable pageable) {
+    public Slice<Patient> findPatientsByOperationTypeNameContaining(String operationName, Pageable pageable) {
         return patientRepository.findPatientsByOperationTypeNameContaining(operationName, pageable);
     }
 
