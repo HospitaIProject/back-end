@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Loading from '../components/common/Loading';
 import { useMainDateQuery } from './_lib/mainDateService';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowIcon from '../icons/ArrowIcon';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
 import usePWAInstallPrompt from '../components/PWA/usePWAInstallPrompt';
@@ -10,6 +10,7 @@ import PWAInstallPromptIos from '../components/PWA/PWAInstallPromptIos';
 
 function MainDateSelectionPage() {
     // const thisMonth = String(new Date().getMonth() + 1);
+    // const year = sessionStorage.getItem('year');
     const { deferredPrompt, handleInstall } = usePWAInstallPrompt(); // PWA 설치 프롬프트
 
     const naviate = useNavigate();
@@ -21,9 +22,19 @@ function MainDateSelectionPage() {
         console.log('선택된 년도', e.target.value);
         setSelectedYear(e.target.value);
     };
-    const handleLink = () => {
-        if (selectedYear === '전체') return naviate('/patient');
-        naviate('/patient?year=' + selectedYear);
+    const handleLink = ({ month }: { month?: string }) => {
+        let url = '';
+        if (selectedYear === '전체') url = '/patient';
+        else if (month) url = `/patient?year=${selectedYear}&month=${month}`;
+        else url = `/patient?year=${selectedYear}`;
+
+        if (selectedYear === '전체') {
+            sessionStorage.setItem('year', '');
+        } else {
+            sessionStorage.setItem('year', selectedYear || '');
+        }
+        sessionStorage.setItem('month', month || '');
+        naviate(url);
     };
 
     useEffect(() => {
@@ -64,7 +75,7 @@ function MainDateSelectionPage() {
                 <div className="flex-1 bg-white">
                     <div className="grid grid-cols-3 gap-3 p-3 mobile:grid-cols-4">
                         <button
-                            onClick={handleLink}
+                            onClick={() => handleLink({})}
                             className="relative flex min-h-20 flex-col items-center justify-center gap-1 rounded-md border bg-gray-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1"
                         >
                             <span>전체</span>
@@ -75,8 +86,8 @@ function MainDateSelectionPage() {
                             Object.keys(data[selectedYear])
                                 .reverse()
                                 .map((month) => (
-                                    <Link
-                                        to={`/patient?year=${selectedYear}&month=${month}`}
+                                    <button
+                                        onClick={() => handleLink({ month })}
                                         key={month}
                                         className={`relative flex min-h-20 flex-col items-center justify-center gap-1 rounded-md border bg-blue-100 px-2 shadow-sm transition-all duration-300 hover:-translate-y-1`}
                                     >
@@ -89,7 +100,7 @@ function MainDateSelectionPage() {
                                             명
                                         </span>
                                         <ArrowIcon className="absolute right-0 top-0 h-4 w-4 -rotate-45 text-blue-500" />
-                                    </Link>
+                                    </button>
                                 ))}
                     </div>
                 </div>

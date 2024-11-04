@@ -2,8 +2,11 @@ import { Link, useLocation } from 'react-router-dom';
 import ChangeIcon from '../../icons/ChangeIcon';
 import ArrowTurnIcon from '../../icons/ArrowTurnIcon';
 
-function HeaderDateChangeButton({ year, month }: { year?: string | null; month?: string | null }) {
-    const parameter = (year ? `year=${year}` : '') + (month ? `&month=${month}` : '');
+function HeaderDateChangeButton() {
+    const year_ = sessionStorage.getItem('year');
+    const month_ = sessionStorage.getItem('month');
+    const parameter = (year_ ? `year=${year_}` : '') + (month_ ? `&month=${month_}` : '');
+
     const { pathname } = useLocation();
 
     if (pathname === '/patient')
@@ -12,7 +15,7 @@ function HeaderDateChangeButton({ year, month }: { year?: string | null; month?:
                 {/* <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" /> */}
                 <ChangeIcon className="h-4 w-4" />
                 <span className="text-sm">
-                    {Boolean(year) ? year + '년' : '전체'} {Boolean(month) && month + '월'}
+                    {year_ ? year_ + '년' : '전체'} {month_ && month_ + '월'}
                 </span>
             </Link>
         );
@@ -23,7 +26,7 @@ function HeaderDateChangeButton({ year, month }: { year?: string | null; month?:
                 {/* <ArrowIcon className="w-8 h-8 transform rotate-180 text-inherit" /> */}
                 <ArrowTurnIcon className="h-4 w-4 -rotate-90" />
                 <span className="text-sm">
-                    {Boolean(year) ? year + '년' : '전체'} {Boolean(month) && month + '월'}
+                    {year_ ? year_ + '년' : '전체'} {month_ && month_ + '월'}
                 </span>
             </Link>
         );

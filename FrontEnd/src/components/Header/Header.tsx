@@ -1,5 +1,5 @@
 // import Navbar from './Navbar';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ArrowIcon from '../../icons/ArrowIcon';
 import SearchListIcon from '../../icons/SearchListIcon';
 import FilterHeader from '../common/filterModal/FilterHeader';
@@ -17,15 +17,21 @@ export default function Header() {
         visibleItemHeight: 180,
     });
     const { pathname } = useLocation();
-    const [searchParams] = useSearchParams();
-    const year = searchParams.get('year');
-    const month = searchParams.get('month');
+    // const [searchParams] = useSearchParams();
+    // const year = searchParams.get('year');
+    // const month = searchParams.get('month');
 
     const navigate = useNavigate();
 
     const handleBack = () => {
         navigate(-1);
     }; // 뒤로가기 함수
+    const handleHomeLink = () => {
+        let year = sessionStorage.getItem('year');
+        let month = sessionStorage.getItem('month');
+        let url = '/patient' + (year ? `?year=${year}` : '') + (month ? `&month=${month}` : '');
+        navigate(url);
+    }; // 홈으로 이동하는 함수
 
     const handleFilterToggle = () => {
         setAbsFilter(!absFilter);
@@ -91,7 +97,7 @@ export default function Header() {
                 className={`sticky top-0 z-20 min-w-full transition-all duration-300 ease-in-out ${isVisible ? '' : 'pointer-events-none opacity-20'} ${isPaddingFilter ? 'pb-[115px]' : ''} `}
             >
                 <nav className="relative z-10 flex h-[65px] items-center bg-white px-4">
-                    <HeaderDateChangeButton year={year} month={month} />
+                    <HeaderDateChangeButton />
 
                     <div className="flex flex-grow flex-row items-center justify-end gap-2">
                         {/* <Link
@@ -126,9 +132,9 @@ export default function Header() {
                         <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
-                    <Link to="/" className="px-1">
+                    <button onClick={() => handleHomeLink()}>
                         <HomeIcon className="h-7 w-7 text-gray-600" />
-                    </Link>
+                    </button>
                 </nav>
             </header>
 
