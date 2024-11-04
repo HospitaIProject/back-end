@@ -19,9 +19,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
-            "JOIN o.operationMethods om " +
-            "JOIN om.operationType ot " +
-            "WHERE ot.name = :name")
+            "WHERE o.operationNames = :name")
     Page<Patient> findPatientsByOperationTypeName(@Param("name") String name, Pageable pageable);
 
     @Query("SELECT DISTINCT p FROM Operation o " +
