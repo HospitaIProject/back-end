@@ -60,7 +60,7 @@ function LoginPage() {
             Cookies.set('jwtToken', accessToken, {
                 expires: 7,
                 secure: isProduction,
-                sameSite: isProduction ? 'Strict' : 'None', // 배포 환경에서는 Strict 또는 필요시 None, 로컬에서는 None
+                sameSite: 'Strict', // 배포 환경에서는 Strict 또는 필요시 None, 로컬에서는 None
             });
             alert('로그인 성공');
             navigate('/');
