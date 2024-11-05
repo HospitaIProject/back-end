@@ -46,7 +46,13 @@ public class OperationDTO {
 //                .map(OperationType::getName)
 //                .toList();
 
-        List<String> list = Arrays.asList(operation.getOperationNames().split(", "));
+        List<String> list;
+
+        if (operation.getOperationNames() != null) {
+            list = Arrays.asList(operation.getOperationNames().split(", "));
+        } else {
+            list = List.of();
+        }
 
 
         return OperationDTO.builder()
