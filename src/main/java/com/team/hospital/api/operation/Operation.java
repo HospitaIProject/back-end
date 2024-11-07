@@ -9,7 +9,9 @@ import com.team.hospital.api.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Entity
@@ -103,4 +105,13 @@ public class Operation extends BaseEntity {
     public void updateComplicationStatus(BooleanOption booleanOption) {
         this.complicationStatus = booleanOption;
     }
+
+    //최근 삭제목록에서 자동 삭제까지 남은 일수 계산
+    public Long getDaysUntilDeletion() {
+        if (isDeleted && deletionRequestDate != null) {
+            return ChronoUnit.DAYS.between(LocalDate.now(), deletionRequestDate.plusDays(30));
+        }
+        return null;
+    }
+
 }
