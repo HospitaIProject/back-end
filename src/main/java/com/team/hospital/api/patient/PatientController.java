@@ -47,7 +47,7 @@ public class PatientController {
     @GetMapping("/patient/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 조회", description = "ID로 환자를 조회합니다.")
     public SuccessResponse<PatientDTO> findPatientById(@PathVariable Long patientId) {
-        PatientDTO patientDTO = PatientDTO.createPatientDTO(patientService.findPatientById(patientId));
+        PatientDTO patientDTO = PatientDTO.toEntity(patientService.findPatientById(patientId));
         return SuccessResponse.createSuccess(patientDTO);
     }
 
@@ -204,13 +204,13 @@ public class PatientController {
     }
 
     private PatientWithOperationDateDTOString convertToDtoString(Patient patient) {
-        List<OpDtoString> test = queryRepository.findAllOpDtoByPatientId(patient.getId()).stream().map(opDto -> OpDtoString.toEntity(opDto, PatientDTO.createPatientDTO(patient))).toList();
+        List<OpDtoString> test = queryRepository.findAllOpDtoByPatientId(patient.getId()).stream().map(opDto -> OpDtoString.toEntity(opDto, PatientDTO.toEntity(patient))).toList();
         Operation recentOperation = operationService.findRecentOperationByPatientId(patient.getId());
         boolean checkListCreatedToday = recentOperation != null && checkListService.checkIfAnyCheckListCreatedToday(recentOperation.getId(), patient.getOperationDate());
         return PatientWithOperationDateDTOString.toEntity(patient, test, checkListCreatedToday);
     }
 
-    private static Pageable getPageable(Integer page, Integer size) {
+    public static Pageable getPageable(Integer page, Integer size) {
         int pageNumber = (page != null && page > 0 ? page : 1) - 1;
         int pageSize = (size != null && size > 0 ? size : 10);
 
