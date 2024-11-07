@@ -32,6 +32,7 @@ public class CheckListItem extends BaseEntity {
     private boolean fluidRestriction;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
     private boolean antiNausea;                    // 수술 중 구역구토 방지제 사용 여부
     private boolean painControl;                   // 수술 중 통증 조절을 위한 처치 여부
+    private boolean painControlMethod;             // 수술 중 통증 조절 종류
 
     // 수술 후
     private boolean giStimulant;                   // 위장관 촉진 약 복용 여부
@@ -67,6 +68,7 @@ public class CheckListItem extends BaseEntity {
                 .fluidRestriction(write.isFluidRestriction())
                 .antiNausea(write.isAntiNausea())
                 .painControl(write.isPainControl())
+                .painControlMethod(write.isPainControlMethod())
 
                 // 수술 후
                 .giStimulant(write.isGiStimulant())
@@ -86,16 +88,22 @@ public class CheckListItem extends BaseEntity {
     }
 
     public void updateCheckListItem(WriteCheckListItem write) {
+        // 수술 전
         this.explainedPreOp = write.isExplainedPreOp();
         this.onsPreOp2hr = write.isOnsPreOp2hr();
         this.onsPostBowelPrep = write.isOnsPostBowelPrep();
         this.dvtPrevention = write.isDvtPrevention();
         this.antibioticPreIncision = write.isAntibioticPreIncision();
         this.painMedPreOp = write.isPainMedPreOp();
+
+        // 수술 중
         this.maintainTemp = write.isMaintainTemp();
         this.fluidRestriction = write.isFluidRestriction();
         this.antiNausea = write.isAntiNausea();
         this.painControl = write.isPainControl();
+        this.painControlMethod = write.isPainControlMethod();
+
+        // 수술 후
         this.giStimulant = write.isGiStimulant();
         this.gumChewing = write.isGumChewing();
         this.antiNauseaPostOp = write.isAntiNauseaPostOp();
@@ -104,6 +112,7 @@ public class CheckListItem extends BaseEntity {
         this.jpDrainRemoval = write.isJpDrainRemoval();
         this.catheterRemoval = write.isCatheterRemoval();
         this.ivLineRemoval = write.isIvLineRemoval();
+
         this.podExercise = write.isPodExercise();
         this.podMeal = write.isPodMeal();
         this.podPain = write.isPodPain();

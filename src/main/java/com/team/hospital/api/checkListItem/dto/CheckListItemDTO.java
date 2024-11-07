@@ -23,6 +23,7 @@ public class CheckListItemDTO {
     private boolean fluidRestriction;              // 수술 중 수액 2-4cc/kg/hr 으로 제한 여부
     private boolean antiNausea;                    // 수술 중 구역구토 방지제 사용 여부
     private boolean painControl;                   // 수술 중 통증 조절을 위한 처치 여부
+    private boolean painControlMethod;                   // 수술 중 통증 조절을 위한 처치 여부
 
     // 수술 후
     private boolean giStimulant;                   // 위장관 촉진 약 복용 여부
@@ -57,6 +58,7 @@ public class CheckListItemDTO {
                 .fluidRestriction(checkListItem.isFluidRestriction())
                 .antiNausea(checkListItem.isAntiNausea())
                 .painControl(checkListItem.isPainControl())
+                .painControlMethod(checkListItem.isPainControlMethod())
 
                 // 수술 중
                 .giStimulant(checkListItem.isGiStimulant())
