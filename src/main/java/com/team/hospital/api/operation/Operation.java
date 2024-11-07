@@ -65,6 +65,13 @@ public class Operation extends BaseEntity {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
+    @Setter
+    @Column(nullable = false)
+    private boolean isDeleted; // 삭제 여부
+
+    @Setter
+    private LocalDate deletionRequestDate; // 등록 후 30일 경과 여부를 위한 필드
+
     public static Operation createOperation(WriteOperation write, List<OperationMethod> operationMethods, Patient patient) {
         String operationNames = String.join(", ", write.getOperationTypeNames());
 
