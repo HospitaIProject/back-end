@@ -84,6 +84,14 @@ public class OperationService {
         operationRepository.delete(operation);
     }
 
+    //삭제 복구
+    @Transactional
+    public void restore(Long operationId) {
+        Operation operation = findOperationById(operationId);
+        operation.setDeleted(false);;
+        operation.setUpdatedAt();
+    }
+
     public List<Operation> findAll() {
         return operationRepository.findAll();
     }
