@@ -23,6 +23,27 @@ public class OperationService {
     private final OperationTypeService operationTypeService;
     private final OperationMethodRepository operationMethodRepository;
 
+    // 30일 지난 Operation을 삭제 대기 상태로 전환
+    @Transactional
+    public void markForDeletion() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToMark = operationRepository.findAllByOperationDateBeforeAndIsDeletedFalse(thirtyDaysAgo);
+
+        for (Operation operation : operationsToMark) {
+            operation.setDeleted(true);
+            operation.setDeletionRequestDate(LocalDate.now());
+        }
+    }
+
+    // 최근 삭제 목록에 있는 Operation 중 30일 이상 지난 항목을 완전히 삭제
+    @Transactional
+    public void deletePermanently() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToDelete = operationRepository.findAllByIsDeletedTrueAndDeletionRequestDateBefore(thirtyDaysAgo);
+
+        operationRepository.deleteAll(operationsToDelete);
+    }
+
     @Transactional
     public Long save(WriteOperation write, Long patientId) {
         Patient patient = patientService.findPatientById(patientId);
