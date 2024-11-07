@@ -29,7 +29,7 @@ public class PatientWithOperationDateDTO {
 //    }
 
     public static PatientWithOperationDateDTO toEntity(Patient patient, List<OpDto> opDtos, boolean checkListCreatedToday) {
-        PatientDTO patientDTO = PatientDTO.createPatientDTO(patient);
+        PatientDTO patientDTO = PatientDTO.toEntity(patient);
         return PatientWithOperationDateDTO.builder()
                 .patientDTO(patientDTO)
                 .operationDateDTOs(opDtos)

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,27 @@ public class OperationService {
     private final PatientService patientService;
     private final OperationTypeService operationTypeService;
     private final OperationMethodRepository operationMethodRepository;
+
+    // 30일 지난 Operation을 삭제 대기 상태로 전환
+    @Transactional
+    public void markForDeletion() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToMark = operationRepository.findAllByOperationDateBeforeAndIsDeletedFalse(thirtyDaysAgo);
+
+        for (Operation operation : operationsToMark) {
+            operation.setDeleted(true);
+            operation.setDeletionRequestDate(LocalDate.now());
+        }
+    }
+
+    // 최근 삭제 목록에 있는 Operation 중 30일 이상 지난 항목을 완전히 삭제
+    @Transactional
+    public void deletePermanently() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToDelete = operationRepository.findAllByIsDeletedTrueAndDeletionRequestDateBefore(thirtyDaysAgo);
+
+        operationRepository.deleteAll(operationsToDelete);
+    }
 
     @Transactional
     public Long save(WriteOperation write, Long patientId) {
@@ -48,10 +70,27 @@ public class OperationService {
         operation.updateOperation(writeOperation);
     }
 
+    //삭제시 최근 삭제 목록으로
+    @Transactional
+    public void cashDelete(Long operationId) {
+        Operation operation = findOperationById(operationId);
+        operation.setDeleted(true);
+//        operationRepository.delete(operation);
+    }
+
+    //최근 삭제 목록에 있는 항목 진짜 삭제
     @Transactional
     public void delete(Long operationId) {
         Operation operation = findOperationById(operationId);
         operationRepository.delete(operation);
+    }
+
+    //삭제 복구
+    @Transactional
+    public void restore(Long operationId) {
+        Operation operation = findOperationById(operationId);
+        operation.setDeleted(false);;
+        operation.setUpdatedAt();
     }
 
     public List<Operation> findAll() {
@@ -74,4 +113,9 @@ public class OperationService {
                 .orElse(null);
     }
 
+
+    //최근 삭제목록
+    public List<Operation> findAllMarkedForDeletion() {
+        return operationRepository.findAllMarkedForDeletion();
+    }
 }

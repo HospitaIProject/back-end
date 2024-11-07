@@ -28,7 +28,7 @@ public class CheckListWithOperationDateDTO {
     public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
         return CheckListWithOperationDateDTO.builder()
                 .checkListDTOs(checkLists.stream().map(CheckListDTO::toEntity).toList())
-                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
+                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.toEntity(patient)))
                 .checkListBeforeDTO(checkListBeforeDTO)
                 .checkListDuringDTO(checkListDuringDTO)
                 .checkListAfterDTO(checkListAfterDTO)
@@ -39,7 +39,7 @@ public class CheckListWithOperationDateDTO {
 
     public static CheckListWithOperationDateDTO toEntity(OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
         return CheckListWithOperationDateDTO.builder()
-                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.createPatientDTO(patient)))
+                .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.toEntity(patient)))
                 .checkListBeforeDTO(checkListBeforeDTO)
                 .checkListDuringDTO(checkListDuringDTO)
                 .checkListAfterDTO(checkListAfterDTO)
