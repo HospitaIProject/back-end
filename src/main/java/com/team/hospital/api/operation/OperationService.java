@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,4 +113,9 @@ public class OperationService {
                 .orElse(null);
     }
 
+
+    //최근 삭제목록
+    public List<Operation> findAllMarkedForDeletion() {
+        return operationRepository.findAllMarkedForDeletion();
+    }
 }
