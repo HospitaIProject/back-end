@@ -14,6 +14,7 @@ import CalendarIcon from '../../../icons/CalendarIcon';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import Loading from '../../../components/common/Loading';
 import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
+import ViewInput from '../../../components/common/form/viewInput/ViewInput';
 
 type Props = {
     formValues?: checkListFormType;
@@ -142,24 +143,19 @@ function ConfirmComplianceForm({
                         value={values.painControl}
                         remark={values.painControl_remarks}
                     />
+                    <ViewInput
+                        label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                        value={values.painControlMethod}
+                        remark={values.painControlMethod_remarks}
+                        isRender={true}
+                    />
                 </div>
 
                 <div
                     className={`${dateStatus === 'POST' ? 'grid' : 'hidden'} w-full grid-cols-1 flex-col gap-3 tablet:grid-cols-2 tablet:gap-x-20`}
                 >
                     {/* 수술후 */}
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.giStimulant}
-                        isRender={existFields.giStimulant}
-                        value={values.giStimulant}
-                        remark={values.giStimulant_remarks}
-                    />
-                    <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.gumChewing}
-                        isRender={existFields.gumChewing}
-                        value={values.gumChewing}
-                        remark={values.gumChewing_remarks}
-                    />
+
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
                         isRender={existFields.antiNauseaPostOp}
@@ -167,19 +163,19 @@ function ConfirmComplianceForm({
                         remark={values.antiNauseaPostOp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                        label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD#0)'}
                         isRender={existFields.ivFluidRestrictionPostOp}
                         value={values.ivFluidRestrictionPostOp}
                         remark={values.ivFluidRestrictionPostOp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                        label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD#0)'}
                         isRender={existFields.nonOpioidPainControl}
                         value={values.nonOpioidPainControl}
                         remark={values.nonOpioidPainControl_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
                         isRender={existFields.jpDrainRemoval}
                         value={values.jpDrainRemoval}
                         remark={values.jpDrainRemoval_remarks}
@@ -223,7 +219,7 @@ function ConfirmComplianceForm({
                     />
 
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                        label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                         isRender={existFields.ivLineRemoval}
                         value={values.ivLineRemoval}
                         remark={values.ivLineRemoval_remarks}

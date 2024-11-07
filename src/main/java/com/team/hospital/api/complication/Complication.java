@@ -105,7 +105,7 @@ public class Complication extends BaseEntity {
 
     private double complicationScore;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "operation_id")
     private Operation operation;
 

@@ -375,24 +375,23 @@ public class ExcelExportService {
 
 
                 // 수술 후 정보 처리
-                setIntCellValueSafe(row, 23, () -> checkListAfter.getGiStimulant().getOption().getNum());                       //Laxatives
-                setIntCellValueSafe(row, 24, () -> checkListAfter.getGumChewing().getOption().getNum());                        //chewing gum
+//                 setIntCellValueSafe(row, 23, () -> checkListAfter.getGiStimulant().getOption().getNum());                       //Laxatives
+//                 setIntCellValueSafe(row, 24, () -> checkListAfter.getGumChewing().getOption().getNum());                        //chewing gum
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
                 setIntCellValueSafe(row, 26, () -> checkListAfter.getIvFluidRestrictionPostOp().getOption().getNum());          //fluid 제한
 
-                if(checkListAfter.getNonOpioidPainControl().getOption().getNum() == 1)
-                    setIntCellValueSafe(row, 27, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
-                else
-                    setIntCellValueSafe(row, 27, () -> 1);
+                if (checkListAfter != null) {
+                    if (checkListAfter.getNonOpioidPainControl().getOption().getNum() == 1) setIntCellValueSafe(row, 27, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
+                    else setIntCellValueSafe(row, 27, () -> 1);
 
-
-                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
-                setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
-                setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
-                setIntCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
-                setStringCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
-                setIntCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
-                setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
+                    setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
+                    setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
+                    setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
+                    setIntCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
+                    setStringCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
+                    setIntCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
+                    setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
+                }
 
                 row.createCell(40).setCellValue("모름"); //ERAS 성공 항목수
                 row.createCell(41).setCellValue("모름"); //ERAS 적용한 항목수

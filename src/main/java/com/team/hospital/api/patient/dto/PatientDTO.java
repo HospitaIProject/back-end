@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Builder
@@ -45,7 +44,7 @@ public class PatientDTO {
 
     private int totalHospitalizedDays;          // 총 재원 일수
 
-    public static PatientDTO createPatientDTO(Patient patient) {
+    public static PatientDTO toEntity(Patient patient) {
         return PatientDTO.builder()
                 .patientId(patient.getId())
                 .patientNumber(patient.getPatientNumber())

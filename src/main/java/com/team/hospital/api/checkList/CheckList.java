@@ -117,20 +117,6 @@ public class CheckList extends BaseEntity {
     // 수술 후 3일이내 IV line 제거 여부
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_one_iv_line_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_iv_line_removal_remarks"))
-    })
-    private CheckListFirst podOneIvLineRemoval; // POD 1day 3일이내 IV line 제거 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_two_iv_line_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_iv_line_removal_remarks"))
-    })
-    private CheckListFirst podTwoIvLineRemoval; // POD 2day 3일이내 IV line 제거 여부
-
-    @Embedded
-    @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "pod_three_iv_line_removal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_iv_line_removal_remarks"))
     })
@@ -164,24 +150,24 @@ public class CheckList extends BaseEntity {
             @AttributeOverride(name = "option", column = @Column(name = "pod_one_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_meal_remarks"))
     })
-    private CheckListFirst podOneMeal; // POD 1day 운동
+    private CheckListFirst podOneMeal; // POD 1day 식사
 
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "pod_two_meal")),
             @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_meal_remarks"))
     })
-    private CheckListFirst podTwoMeal; // POD 2day 운동
+    private CheckListFirst podTwoMeal; // POD 2day 식사
 
     // POD Pain
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podOnePain; // POD 1day 운동
+    private DailyPainScore podOnePain; // POD 1day pain score
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podTwoPain; // POD 2day 운동
+    private DailyPainScore podTwoPain; // POD 2day pain score
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore podThreePain; // POD 3day 운동
+    private DailyPainScore podThreePain; // POD 3day pain score
 
     private LocalDate dayOfCheckList;
 
@@ -212,8 +198,6 @@ public class CheckList extends BaseEntity {
                 .podThreeJpDrainRemoval(CheckListFirst.of(write.getPodThreeJpDrainRemoval(), write.getPodThreeJpDrainRemoval_remarks()))
 
                 // IV line 제거 여부
-                .podOneIvLineRemoval(CheckListFirst.of(write.getPodOneIvLineRemoval(), write.getPodOneIvLineRemoval_remarks()))
-                .podTwoIvLineRemoval(CheckListFirst.of(write.getPodTwoIvLineRemoval(), write.getPodTwoIvLineRemoval_remarks()))
                 .podThreeIvLineRemoval(CheckListFirst.of(write.getPodThreeIvLineRemoval(), write.getPodThreeIvLineRemoval_remarks()))
 
                 // POD Exercise
@@ -280,12 +264,6 @@ public class CheckList extends BaseEntity {
         if (write.getPodThreeJpDrainRemoval_remarks() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval_remarks());
 
         // IV line 제거 여부
-        if (write.getPodOneIvLineRemoval() != null) this.podOneIvLineRemoval.update(write.getPodOneIvLineRemoval());
-        if (write.getPodOneIvLineRemoval_remarks() != null) this.podOneIvLineRemoval.update(write.getPodOneIvLineRemoval_remarks());
-
-        if (write.getPodTwoIvLineRemoval() != null) this.podTwoIvLineRemoval.update(write.getPodTwoIvLineRemoval());
-        if (write.getPodTwoIvLineRemoval_remarks() != null) this.podTwoIvLineRemoval.update(write.getPodTwoIvLineRemoval_remarks());
-
         if (write.getPodThreeIvLineRemoval() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval());
         if (write.getPodThreeIvLineRemoval_remarks() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval_remarks());
 

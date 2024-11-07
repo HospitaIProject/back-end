@@ -72,19 +72,26 @@ function CheckListsPage() {
         }
     }, [checkListsError, checkListSetupError]);
 
-    console.log(checkListsData);
-    const totalLength = checkListsData?.checkListDTOs?.length || 0;
+    const totalLength = checkListsData?.checkListDTOs?.length || 0; //체크리스트 총 길이
+
     if (isCheckListsPending || isCheckListSetupPending) return <Loading />;
 
     if (!checkListsData || !checkListSetupData) {
         return;
     }
 
+    const checkListTotalCompelete =
+        checkListsData.checkListDTOs!.filter((item) => item !== null).length +
+        (checkListsData?.checkListAfterDTO ? 1 : 0) +
+        (checkListsData?.checkListBeforeDTO ? 1 : 0) +
+        (checkListsData?.checkListDuringDTO ? 1 : 0);
+    console.log('checkListTotalCompelete', checkListTotalCompelete);
+
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-col items-center w-full gap-3 px-4 py-3 mobile:col-span-2">
-                    <div className="flex flex-row justify-between w-full gap-3">
+            <div className="flex w-full flex-col justify-center">
+                <div className="flex w-full flex-col items-center gap-3 px-4 py-3 mobile:col-span-2">
+                    <div className="flex w-full flex-row justify-between gap-3">
                         <span className="text-gray-600">
                             환자명:&nbsp;<span className="">{patientName}</span>
                         </span>
@@ -104,14 +111,14 @@ function CheckListsPage() {
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison !== 'POST' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 일일 체크리스트는 수술일 다음 날부터 작성 가능합니다.
                             </span>
                         </div>
                     )}
                     {checkListsData.checkListDTOs === null && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 일일 체크리스트는 퇴원일이 입력된 후에 표시됩니다.
                             </span>
@@ -141,6 +148,7 @@ function CheckListsPage() {
                                     order={totalLength - index - 1}
                                     today={index === Math.abs(Number(diffDay)) - 1}
                                     queryDate={addDaysToDate(checkListsData.operationDateDTO.operationDate, index + 1)}
+                                    totalCompleted={checkListTotalCompelete}
                                 />
                             ),
                         )}
@@ -148,7 +156,7 @@ function CheckListsPage() {
 
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison === 'PREV' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술 중, 수술 후 체크리스트는 수술일 당일부터 작성 가능합니다.
                             </span>
@@ -170,6 +178,7 @@ function CheckListsPage() {
                             id={Number(operationId)}
                             name={patientName ?? '알수없음'}
                             operationDate={operationDate}
+                            totalCompleted={checkListTotalCompelete}
                         />
                     )}
 
@@ -189,6 +198,7 @@ function CheckListsPage() {
                             id={Number(operationId)}
                             name={patientName ?? '알수없음'}
                             operationDate={operationDate}
+                            totalCompleted={checkListTotalCompelete}
                         />
                     )}
 
@@ -208,6 +218,7 @@ function CheckListsPage() {
                             id={Number(operationId)}
                             name={patientName ?? '알수없음'}
                             operationDate={operationDate}
+                            totalCompleted={checkListTotalCompelete}
                         />
                     )}
                     <DisplayEmptyData label="작성된 체크리스트 0건" isRender={Boolean(isNoneData)} />

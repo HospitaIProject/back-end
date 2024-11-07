@@ -3,6 +3,7 @@ package com.team.hospital.api.operation;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.ComplianceCalculationService;
 import com.team.hospital.api.complication.ComplicationService;
+import com.team.hospital.api.operation.dto.DeleteOperationDTO;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -58,10 +60,45 @@ public class OperationController {
         return SuccessResponse.createSuccess();
     }
 
+    //Postmapping 으로 수정 필요
     @DeleteMapping("/api/operation/{operationId}")
-    @io.swagger.v3.oas.annotations.Operation(summary = "operation 삭제")
+    @io.swagger.v3.oas.annotations.Operation(summary = "operation 삭제 -> 최근삭제 목록으로")
+    public SuccessResponse<?> cashDeleteOperation(@PathVariable Long operationId) {
+        operationService.cashDelete(operationId);
+        return SuccessResponse.createSuccess();
+    }
+
+    //최근 삭제목록
+    @GetMapping("/api/operation")
+    @io.swagger.v3.oas.annotations.Operation(summary = "최근 삭제된 operation 목록")
+    public SuccessResponse<List<DeleteOperationDTO>> findDeleteOperations() {
+        //Pageable pageable = PatientController.getPageable(page, size);
+
+        List<DeleteOperationDTO> deleteOperationDTOS = operationService.findAllMarkedForDeletion().stream()
+                .map(operation -> {
+                    double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
+                    double compliancePercentage = complianceCalculationService.calculateScore(operation.getId());
+                    return DeleteOperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, compliancePercentage);
+                })
+                .sorted(Comparator.comparing(DeleteOperationDTO::getDaysUntilDeletion, Comparator.reverseOrder())) // 남은 일수 내림차순 정렬
+                .toList();
+
+        return SuccessResponse.createSuccess(deleteOperationDTOS);
+    }
+
+    //최근 삭제 목록에서 진짜 삭제
+    @DeleteMapping("/api/cash/operation/{operationId}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "최근 삭제목록에서 operation 삭제")
     public SuccessResponse<?> deleteOperation(@PathVariable Long operationId) {
         operationService.delete(operationId);
+        return SuccessResponse.createSuccess();
+    }
+
+    //최근 삭제 목록에서 복구
+    @PostMapping("/api/cash/operation/{operationId}")
+    @io.swagger.v3.oas.annotations.Operation(summary = "최근 삭제목록에서 operation 복구")
+    public SuccessResponse<?> restoreOperation(@PathVariable Long operationId) {
+        operationService.restore(operationId);
         return SuccessResponse.createSuccess();
     }
 }

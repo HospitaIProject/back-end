@@ -32,6 +32,7 @@ function SingleSelector<T>({
         <InputContainer<T> isRender={isRender} label={label} htmlFor={htmlFor} isInput={isInput} formik={formik}>
             <div className="flex flex-grow">
                 <Select
+                    menuPlacement="auto" // 자동으로 위아래 공간 파악
                     components={animatedComponents}
                     options={options}
                     isSearchable={false}

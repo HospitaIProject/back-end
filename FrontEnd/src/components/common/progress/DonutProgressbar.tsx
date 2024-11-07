@@ -49,7 +49,7 @@ function DonutProgressbar({
                     <CircularProgressbar
                         value={percentage}
                         strokeWidth={13}
-                        className="progressbar"
+                        className="h-full w-full"
                         styles={buildStyles({
                             strokeLinecap: 'round',
                             pathTransitionDuration: 0.5,

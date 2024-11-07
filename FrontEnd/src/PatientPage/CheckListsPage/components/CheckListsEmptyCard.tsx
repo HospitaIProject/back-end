@@ -7,9 +7,10 @@ type Props = {
     id: number;
     name: string;
     operationDate: string;
+    totalCompleted: number;
 };
 
-function CheckListsEmptyCard({ type, id, name, operationDate }: Props) {
+function CheckListsEmptyCard({ type, id, name, operationDate, totalCompleted }: Props) {
     const navigate = useNavigate();
     let dateComparison = '';
     if (type === 'PREV') {
@@ -21,19 +22,26 @@ function CheckListsEmptyCard({ type, id, name, operationDate }: Props) {
     }
 
     const handleRouteCheckListForm = () => {
+        if (type === 'TODAY' && totalCompleted < 1) {
+            alert('‼️ 이전 체크리스트를 먼저 작성해주세요.');
+            return;
+        } else if (type === 'POST' && totalCompleted < 2) {
+            alert('‼️ 이전 체크리스트를 먼저 작성해주세요.');
+            return;
+        }
         navigate(`/patient/form/compliance?id=${id}&name=${name}&dateStatus=${type}&od=${operationDate}`);
     };
 
     return (
         <>
             <li
-                className="flex flex-row items-center w-full gap-1 px-4 py-3 bg-white cursor-pointer border-y hover:bg-blue-50"
+                className="flex w-full cursor-pointer flex-row items-center gap-1 border-y bg-white px-4 py-3 hover:bg-blue-50"
                 // onClick={handleRouteCheckListForm}
             >
-                <div className="flex flex-row items-center w-full gap-6">
-                    <span className="flex-shrink-0 w-12 font-semibold text-sky-800">{dateComparison}</span>
+                <div className="flex w-full flex-row items-center gap-6">
+                    <span className="w-12 flex-shrink-0 font-semibold text-sky-800">{dateComparison}</span>
                     <div className="flex flex-row items-center justify-center">
-                        <span className="inline-block text-sm text-gray-400 break-words">
+                        <span className="inline-block break-words text-sm text-gray-400">
                             {type === 'PREV' ? '체크리스트 작성 가능' : '체크리스트 작성 가능'}
                         </span>
                     </div>
@@ -43,7 +51,7 @@ function CheckListsEmptyCard({ type, id, name, operationDate }: Props) {
                     className={`mx-1 flex flex-shrink-0 flex-row items-center justify-center gap-1 rounded-lg border p-2 text-gray-400 shadow-sm`}
                 >
                     <span className="text-sm">작성하기</span>
-                    <ArrowIcon className="w-4 h-4 text-inherit" />
+                    <ArrowIcon className="h-4 w-4 text-inherit" />
                 </button>
             </li>
         </>

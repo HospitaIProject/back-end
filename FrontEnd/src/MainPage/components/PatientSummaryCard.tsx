@@ -7,7 +7,6 @@ import PatientDetailModal from './PatientDetailModal';
 import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
-import { useOperationMethodFormatted } from '../../Hooks/useOperationMethodFormatted';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
@@ -33,20 +32,14 @@ function PatientSummaryCard({ userData }: Props) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isOperationData = userData.operationDateDTOs.length > 0; // 수술정보가 있는지 확인
 
-    let operationMethod: string[] = [];
     let operationId = 0;
 
     if (isOperationData) {
-        operationMethod = userData.operationDateDTOs[0].operationTypeNames;
         operationId = userData.operationDateDTOs[0].operationId;
     }
 
     const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(userData.patientDTO.operationDate); // 수술일자 포맷팅
     const { diffDay } = useOperationDayFormat(userData.patientDTO.operationDate); // 수술일자 차이 계산
-
-    const operationMethodFormatted = useOperationMethodFormatted({
-        operationMethod: operationMethod,
-    }); // 수술방법 포맷팅
 
     const SUGERY_STATUS: { [key: string]: JSX.Element | string } = {
         PREV: '',
@@ -146,7 +139,7 @@ function PatientSummaryCard({ userData }: Props) {
                         <span className="inline-block break-words text-sm text-gray-600">
                             <span className="shrink-0">수술명:&nbsp;</span>
                             <span className="text-gray-900">
-                                {operationMethodFormatted ? operationMethodFormatted : '내역없음'}
+                                {userData.operationDateDTOs[0]?.operationTypeNames || '없음'}
                             </span>
                         </span>
                     </div>

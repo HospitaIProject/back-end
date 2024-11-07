@@ -6,11 +6,13 @@ import com.team.hospital.api.checkListAfter.exception.CheckListAfterAlreadyExist
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
+import com.team.hospital.api.operation.OperationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,7 @@ public class CheckListAfterService {
 
     private final CheckListAfterRepository checkListAfterRepository;
     private final CheckListItemService checkListItemService;
+    private final OperationService operationService;
 
     @Transactional
     public void save(WriteCheckListAfter write, Long checkListItemId) {
@@ -56,10 +59,6 @@ public class CheckListAfterService {
         return checkListAfter.get();
     }
 
-    public Optional<CheckListAfter> findCheckListAfterByOpId(Long operationId) {
-        return checkListAfterRepository.findByOperationId(operationId);
-    }
-
     public CheckListAfterDTO findCheckListAfterByOperationId(Long operationId) {
         Optional<CheckListAfter> checkListAfter = checkListAfterRepository.findByOperationId(operationId);
         if (checkListAfter.isEmpty()) throw new CheckListAfterNotFoundException();
@@ -68,6 +67,12 @@ public class CheckListAfterService {
 
     public List<CheckListAfter> findAll() {
         return checkListAfterRepository.findAll();
+    }
+
+    // 수술 D+1 일 때 수술후 체크리스트 작성 + D+1 체크리스트 작성 완료 되었을 시 true 반환.
+    public boolean checkIfCheckListAfterCreatedToday(Long operationId, LocalDate operationDate) {
+        LocalDate today = LocalDate.now();
+        return today.equals(operationDate) && checkListAfterRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {

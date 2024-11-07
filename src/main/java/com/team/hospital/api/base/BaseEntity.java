@@ -21,4 +21,8 @@ public class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;            //수정 날짜
+
+    public void setUpdatedAt() {
+        updatedAt = LocalDateTime.now();
+    }
 }

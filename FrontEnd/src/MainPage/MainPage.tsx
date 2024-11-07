@@ -6,6 +6,7 @@ import { usePatientListQuery } from './_lib/patientService';
 import PatientSummaryCard from './components/PatientSummaryCard';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
 import { useSearchParams } from 'react-router-dom';
+// import PWAInatallPrompt from '../components/PWA/PWAInatallPrompt';
 
 function MainPage() {
     const [searchParams] = useSearchParams();

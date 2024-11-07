@@ -13,6 +13,7 @@ import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
 import CheckListViewGuide from './CheckListViewGuide';
+import SingleSelector from '../../../components/common/form/input/SingleSelector';
 type CombinedType = checkListFormType & DailyCheckListFormType;
 
 const initialValues: CombinedType = {
@@ -43,8 +44,6 @@ const initialValues: CombinedType = {
     painControl_remarks: '',
     //------------------------------수술당일-----------------------------------
 
-    giStimulant: '', //위장관 촉진 약 복용
-    gumChewing: '', //하루 3번 15분동안 껌씹기
     antiNauseaPostOp: '', //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp: '', //수술 후 IV fluid 제한awsas
     nonOpioidPainControl: '', //수술 후 non-opioid pain control 여부
@@ -83,8 +82,6 @@ const initialValues: CombinedType = {
         evening: 0,
         night: 0,
     }, //POD 3day 통증
-    giStimulant_remarks: '',
-    gumChewing_remarks: '',
     antiNauseaPostOp_remarks: '',
     ivFluidRestrictionPostOp_remarks: '',
     nonOpioidPainControl_remarks: '',
@@ -107,7 +104,7 @@ type Button = {
 
 const buttons: Button[] = [
     { day: 'PREV', label: '수술 전' },
-    { day: 'TODAY', label: '수술 당일' },
+    { day: 'TODAY', label: '수술 중' },
     { day: 'POST', label: '수술 후' },
     { day: 'DAILY', label: 'Daily' },
 ];
@@ -173,7 +170,7 @@ function CheckListViewPage() {
                     ))}
                 </div>
                 <CheckListViewGuide patientName={patientName || ''} existFields={existFields} />
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV')}>
                         <YesOrNoButton<checkListFormType>
@@ -242,22 +239,22 @@ function CheckListViewPage() {
                             formik={formik}
                             isRender={existFields.painControl}
                         />
+                        <SingleSelector<checkListFormType>
+                            values={[
+                                { value: 'TAPB', name: 'TAPB' },
+                                { value: 'WI', name: 'WI' },
+                                { value: 'ITM', name: 'ITM' },
+                                { value: 'OTHER', name: 'OTHER' },
+                            ]}
+                            htmlFor="painControlMethod"
+                            label={CHECKLIST_ITEMS_NAME.painControlMethod}
+                            formik={formik}
+                            isRender={true} //수정 필요
+                        />
                     </DropContainer>
 
                     {/* 수술후 */}
                     <DropContainer isOpen={relativeDay.includes('POST')}>
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="giStimulant"
-                            label={CHECKLIST_ITEMS_NAME.giStimulant}
-                            formik={formik}
-                            isRender={existFields.giStimulant}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="gumChewing"
-                            label={CHECKLIST_ITEMS_NAME.gumChewing}
-                            formik={formik}
-                            isRender={existFields.gumChewing}
-                        />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNauseaPostOp"
                             label={CHECKLIST_ITEMS_NAME.antiNauseaPostOp}
@@ -266,19 +263,19 @@ function CheckListViewPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivFluidRestrictionPostOp"
-                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp}
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivFluidRestrictionPostOp}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="nonOpioidPainControl"
-                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl}
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.nonOpioidPainControl}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="jpDrainRemoval"
-                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
                             etcComponent={
@@ -316,7 +313,7 @@ function CheckListViewPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="ivLineRemoval"
-                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval}
+                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                             formik={formik}
                             isRender={existFields.ivLineRemoval}
                             etcComponent={
@@ -359,19 +356,7 @@ function CheckListViewPage() {
 
                         <YesOrNoButton<checkListFormType>
                             htmlFor="podOneExercise"
-                            label={CHECKLIST_ITEMS_NAME.podOneExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podTwoExercise"
-                            label={CHECKLIST_ITEMS_NAME.podTwoExercise}
-                            formik={formik}
-                            isRender={existFields.podExercise}
-                        />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podThreeExercise"
-                            label={CHECKLIST_ITEMS_NAME.podThreeExercise}
+                            label="POD 1~3 day 운동"
                             formik={formik}
                             isRender={existFields.podExercise}
                         />
@@ -380,22 +365,16 @@ function CheckListViewPage() {
 
                         <YesOrNoButton<checkListFormType>
                             htmlFor="podOneMeal"
-                            label={CHECKLIST_ITEMS_NAME.podOneMeal}
+                            label="POD 1~2 day 식사"
                             formik={formik}
                             isRender={existFields.podMeal}
                         />
-                        <YesOrNoButton<checkListFormType>
-                            htmlFor="podTwoMeal"
-                            label={CHECKLIST_ITEMS_NAME.podTwoMeal}
-                            formik={formik}
-                            isRender={existFields.podMeal}
-                        />
-                        {/* ------Day 통증 ------ */}
 
+                        {/* ------Day 통증 ------ */}
                         <PainSelector<checkListFormType>
                             type="number"
                             htmlFor="podOnePain"
-                            label={CHECKLIST_ITEMS_NAME.podOnePain}
+                            label="POD 1~3 day 수술 후 통증"
                             formik={formik}
                             isRender={existFields.podPain}
                             values={[
@@ -404,29 +383,37 @@ function CheckListViewPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="podTwoPain"
-                            label={CHECKLIST_ITEMS_NAME.podTwoPain}
-                            isRender={existFields.podPain}
+                        {/* 추가된 필드 */}
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneGumChewing'}
+                            label={CHECKLIST_ITEMS_NAME.gumChewing + '(POD #1~3)'}
                             formik={formik}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
+                            isRender={existFields.gumChewing}
                         />
-                        <PainSelector<checkListFormType>
-                            type="number"
-                            htmlFor="podThreePain"
-                            label={CHECKLIST_ITEMS_NAME.podThreePain}
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneIvFluidRestriction'}
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD #1~3)'}
                             formik={formik}
-                            isRender={existFields.podPain}
-                            values={[
-                                { value: 'day', label: 'Day' },
-                                { value: 'evening', label: 'Evening' },
-                                { value: 'night', label: 'Night' },
-                            ]}
+                            isRender={existFields.ivFluidRestrictionPostOp}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneNonOpioidPainControl'}
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.nonOpioidPainControl}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneJpDrainRemoval'}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.jpDrainRemoval}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneIvLineRemoval'}
+                            label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD #3)'}
+                            formik={formik}
+                            // isRender={existFields.ivLineRemoval && (isPod1 || isPod2 || isPod3)} //일단은 pod3만 렌더링 되도록 변경
+                            isRender={existFields.ivLineRemoval}
                         />
                     </DropContainer>
                 </form>

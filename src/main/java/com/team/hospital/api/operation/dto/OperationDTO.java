@@ -3,12 +3,11 @@ package com.team.hospital.api.operation.dto;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.enumType.OperationApproach;
-import com.team.hospital.api.operationMethod.OperationMethod;
-import com.team.hospital.api.operationType.OperationType;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -42,14 +41,23 @@ public class OperationDTO {
     private double compliancePercentage;
 
     public static OperationDTO toEntity(Operation operation) {
-        List<String> operationTypeNames = operation.getOperationMethods().stream()
-                .map(OperationMethod::getOperationType)
-                .map(OperationType::getName)
-                .toList();
+//        List<String> operationTypeNames = operation.getOperationMethods().stream()
+//                .map(OperationMethod::getOperationType)
+//                .map(OperationType::getName)
+//                .toList();
+
+        List<String> list;
+
+        if (operation.getOperationNames() != null) {
+            list = Arrays.asList(operation.getOperationNames().split(", "));
+        } else {
+            list = List.of();
+        }
+
 
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationTypeNames(operationTypeNames)
+                .operationTypeNames(list)
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())
@@ -62,14 +70,21 @@ public class OperationDTO {
     }
 
     public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, double compilancePercentage) {
-        List<String> operationTypeNames = operation.getOperationMethods().stream()
-                .map(OperationMethod::getOperationType)
-                .map(OperationType::getName)
-                .toList();
+//        List<String> operationTypeNames = operation.getOperationMethods().stream()
+//                .map(OperationMethod::getOperationType)
+//                .map(OperationType::getName)
+//                .toList();
+
+        List<String> list;
+        if (operation.getOperationNames() != null) {
+            list = Arrays.asList(operation.getOperationNames().split(", "));
+        } else {
+            list = List.of();
+        }
 
         return OperationDTO.builder()
                 .operationId(operation.getId())
-                .operationTypeNames(operationTypeNames)
+                .operationTypeNames(list)
                 .operationApproach(operation.getOperationApproach())
                 .stomaFormation(operation.getStomaFormation())
                 .operationStartTime(operation.getOperationStartTime())

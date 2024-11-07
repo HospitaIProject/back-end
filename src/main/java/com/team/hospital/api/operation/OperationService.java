@@ -4,18 +4,14 @@ import com.team.hospital.api.operation.dto.WriteOperation;
 import com.team.hospital.api.operation.exception.OperationNotFoundException;
 import com.team.hospital.api.operationMethod.OperationMethod;
 import com.team.hospital.api.operationMethod.OperationMethodRepository;
-import com.team.hospital.api.operationType.OperationType;
 import com.team.hospital.api.operationType.OperationTypeService;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +23,27 @@ public class OperationService {
     private final PatientService patientService;
     private final OperationTypeService operationTypeService;
     private final OperationMethodRepository operationMethodRepository;
+
+    // 30일 지난 Operation을 삭제 대기 상태로 전환
+    @Transactional
+    public void markForDeletion() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToMark = operationRepository.findAllByOperationDateBeforeAndIsDeletedFalse(thirtyDaysAgo);
+
+        for (Operation operation : operationsToMark) {
+            operation.setDeleted(true);
+            operation.setDeletionRequestDate(LocalDate.now());
+        }
+    }
+
+    // 최근 삭제 목록에 있는 Operation 중 30일 이상 지난 항목을 완전히 삭제
+    @Transactional
+    public void deletePermanently() {
+        LocalDate thirtyDaysAgo = LocalDate.now().minusDays(30);
+        List<Operation> operationsToDelete = operationRepository.findAllByIsDeletedTrueAndDeletionRequestDateBefore(thirtyDaysAgo);
+
+        operationRepository.deleteAll(operationsToDelete);
+    }
 
     @Transactional
     public Long save(WriteOperation write, Long patientId) {
@@ -41,9 +58,9 @@ public class OperationService {
                 })
                 .toList();
 
+        String result = String.join(", ", write.getOperationTypeNames());  // 구분자는 ", "
         Operation operation = Operation.createOperation(write, operationMethods, patient);
         operationRepository.save(operation);
-
         return operation.getId();
     }
 
@@ -53,15 +70,33 @@ public class OperationService {
         operation.updateOperation(writeOperation);
     }
 
+    //삭제시 최근 삭제 목록으로
+    @Transactional
+    public void cashDelete(Long operationId) {
+        Operation operation = findOperationById(operationId);
+        operation.setDeleted(true);
+//        operationRepository.delete(operation);
+    }
+
+    //최근 삭제 목록에 있는 항목 진짜 삭제
     @Transactional
     public void delete(Long operationId) {
         Operation operation = findOperationById(operationId);
         operationRepository.delete(operation);
     }
 
+    //삭제 복구
+    @Transactional
+    public void restore(Long operationId) {
+        Operation operation = findOperationById(operationId);
+        operation.setDeleted(false);;
+        operation.setUpdatedAt();
+    }
+
     public List<Operation> findAll() {
         return operationRepository.findAll();
     }
+
 
     public Operation findOperationById(Long operationId) {
         Optional<Operation> operation = operationRepository.findById(operationId);
@@ -70,54 +105,17 @@ public class OperationService {
     }
 
     public List<Operation> findAllByPatient(Long patientId) {
-        Patient patient = patientService.findPatientById(patientId);
-        List<Operation> operations = operationRepository.findAllByPatient(patient);
-        operations.sort(Comparator.comparing((Operation operation) -> operation.getPatient().getOperationDate()).reversed());
-        return operations;
-    }
-
-    public List<Operation> findAllByPatientV2(Long patientId) {
-        Patient patient = patientService.findPatientById(patientId);
-        return operationRepository.findAllByPatient(patient);
+        return operationRepository.findOrderedAllByPatientId(patientId);
     }
 
     public Operation findRecentOperationByPatientId(Long patientId) {
-        List<Operation> operations = findAllByPatientV2(patientId);
-        if (!operations.isEmpty()) return operations.get(0);
-        return null;
+        return operationRepository.findFirstOperationByPatientId(patientId)
+                .orElse(null);
     }
 
-    @Transactional(readOnly = true)
-    public Slice<Patient> findPatientsByOperationMethod(String operationMethod, Pageable pageable) {
-        String lowerCaseOperationMethod = operationMethod.toLowerCase();
 
-        // 모든 Operation을 조회한 후 operationMethod와 customOperationMethod를 결합하여 필터링합니다.
-        List<Patient> patients = findAll().stream()
-                .filter(operation -> {
-                    // operationMethod와 customOperationMethod를 하나의 리스트로 결합합니다.
-                    List<String> combinedMethods = operation.getOperationMethods().stream()
-                            .map(OperationMethod::getOperationType)
-                            .map(OperationType::getName)
-                            .toList();
-
-                    // 결합된 리스트에서 검색어를 포함하는지 확인합니다.
-                    return combinedMethods.stream()
-                            .map(String::toLowerCase)
-                            .anyMatch(methodName -> methodName.contains(lowerCaseOperationMethod));
-                })
-                .map(Operation::getPatient)
-                .toList();
-
-        // 페이징 처리
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int start = currentPage * pageSize;
-        int end = Math.min(start + pageSize, patients.size());
-
-        List<Patient> pageContent = patients.subList(start, end);
-        boolean hasNext = patients.size() > end;
-
-        return new SliceImpl<>(pageContent, pageable, hasNext);
+    //최근 삭제목록
+    public List<Operation> findAllMarkedForDeletion() {
+        return operationRepository.findAllMarkedForDeletion();
     }
-
 }

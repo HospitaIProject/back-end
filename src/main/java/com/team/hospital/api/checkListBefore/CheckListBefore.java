@@ -83,11 +83,23 @@ public class CheckListBefore extends BaseEntity {
     }
 
     public void updateCheckListBefore(WriteCheckListBefore write) {
-        this.explainedPreOp.update(write.getExplainedPreOp(), write.getExplainedPreOp_remarks());
-        this.onsPreOp2hr.update(write.getOnsPreOp2hr(), write.getOnsPreOp2hr_remarks());
-        this.onsPostBowelPrep.update(write.getOnsPostBowelPrep(), write.getOnsPostBowelPrep_remarks());
-        this.dvtPrevention.update(write.getDvtPrevention(), write.getDvtPrevention_remarks());
-        this.antibioticPreIncision.update(write.getAntibioticPreIncision(), write.getAntibioticPreIncision_remarks());
-        this.painMedPreOp.update(write.getPainMedPreOp(), write.getPainMedPreOp_remarks());
+        if (write.getExplainedPreOp() != null && this.explainedPreOp != null) {
+            this.explainedPreOp.update(write.getExplainedPreOp(), write.getExplainedPreOp_remarks());
+        }
+        if (write.getOnsPreOp2hr() != null && this.onsPreOp2hr != null) {
+            this.onsPreOp2hr.update(write.getOnsPreOp2hr(), write.getOnsPreOp2hr_remarks());
+        }
+        if (write.getOnsPostBowelPrep() != null && this.onsPostBowelPrep != null) {
+            this.onsPostBowelPrep.update(write.getOnsPostBowelPrep(), write.getOnsPostBowelPrep_remarks());
+        }
+        if (write.getDvtPrevention() != null && this.dvtPrevention != null) {
+            this.dvtPrevention.update(write.getDvtPrevention(), write.getDvtPrevention_remarks());
+        }
+        if (write.getAntibioticPreIncision() != null && this.antibioticPreIncision != null) {
+            this.antibioticPreIncision.update(write.getAntibioticPreIncision(), write.getAntibioticPreIncision_remarks());
+        }
+        if (write.getPainMedPreOp() != null && this.painMedPreOp != null) {
+            this.painMedPreOp.update(write.getPainMedPreOp(), write.getPainMedPreOp_remarks());
+        }
     }
 }

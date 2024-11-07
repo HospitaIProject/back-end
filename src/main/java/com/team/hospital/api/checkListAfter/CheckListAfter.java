@@ -26,20 +26,6 @@ public class CheckListAfter extends BaseEntity {
     // 수술 후
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "gi_stimulant")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "gi_stimulant_remarks"))
-    })
-    private CheckListFirst giStimulant; // 위장관 촉진 약 복용 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "gum_chewing")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "gum_chewing_remarks"))
-    })
-    private CheckListFirst gumChewing; // 하루 3번 15분동안 껌씹기 여부
-
-    @Embedded
-    @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "anti_nausea_post_op")),
             @AttributeOverride(name = "remarks", column = @Column(name = "anti_nausea_post_op_remarks"))
     })
@@ -99,7 +85,7 @@ public class CheckListAfter extends BaseEntity {
     private CheckListFirst postMeal; // Post OP day 운동
 
     @Convert(converter = DailyPainScoreConverter.class)
-    private DailyPainScore postPain; // Post OP day 운동
+    private DailyPainScore postPain; // Post OP day pain score
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "check_list_item_id", nullable = false)
@@ -109,8 +95,6 @@ public class CheckListAfter extends BaseEntity {
         return CheckListAfter.builder()
 
                 // 수술 후
-                .giStimulant(CheckListFirst.of(write.getGiStimulant(), write.getGiStimulant_remarks()))
-                .gumChewing(CheckListFirst.of(write.getGumChewing(), write.getGumChewing_remarks()))
                 .antiNauseaPostOp(CheckListFirst.of(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks()))
                 .ivFluidRestrictionPostOp(CheckListFirst.of(write.getIvFluidRestrictionPostOp(), write.getIvFluidRestrictionPostOp_remarks()))
                 .nonOpioidPainControl(CheckListFirst.of(write.getNonOpioidPainControl(), write.getNonOpioidPainControl_remarks()))
@@ -127,8 +111,6 @@ public class CheckListAfter extends BaseEntity {
     }
 
     public void updateCheckListAfter(WriteCheckListAfter write) {
-        this.giStimulant.update(write.getGiStimulant(), write.getGiStimulant_remarks());
-        this.gumChewing.update(write.getGumChewing(), write.getGumChewing_remarks());
         this.antiNauseaPostOp.update(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks());
         this.ivFluidRestrictionPostOp.update(write.getIvFluidRestrictionPostOp(), write.getIvFluidRestrictionPostOp_remarks());
         this.nonOpioidPainControl.update(write.getNonOpioidPainControl(), write.getNonOpioidPainControl_remarks());
