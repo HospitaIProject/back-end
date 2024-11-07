@@ -9,11 +9,9 @@ import lombok.Getter;
 public class OperationMethodDTO {
 
     private String operationMethodName;
-
     public static OperationMethodDTO toEntity(OperationMethod operationMethod) {
-        OperationMethodDTOBuilder operationMethodDTO = OperationMethodDTO.builder();
-        operationMethodDTO.operationMethodName(operationMethod.getOperationType().getName());
-
-        return operationMethodDTO.build();
+        return OperationMethodDTO.builder().
+                operationMethodName(operationMethod.getOperationType().getName()).
+                build();
     }
 }
