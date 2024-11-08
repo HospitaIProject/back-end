@@ -1,5 +1,6 @@
 package com.team.hospital.api.operation;
 
+import com.team.hospital.api.operation.dto.CashOperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
 import com.team.hospital.api.operation.exception.OperationNotFoundException;
 import com.team.hospital.api.operationMethod.OperationMethod;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,10 +92,12 @@ public class OperationService {
 
     //삭제 복구
     @Transactional
-    public void restore(Long operationId) {
-        Operation operation = findOperationById(operationId);
-        operation.setDeleted(false);;
-        operation.setUpdatedAt();
+    public void restore(CashOperationDTO cashOperationDTO) {
+        for(Long operationId : cashOperationDTO.getOperationIds()) {
+            Operation operation = findOperationById(operationId);
+            operation.setDeleted(false);;
+            operation.setUpdatedAt();
+        }
     }
 
     public List<Operation> findAll() {
