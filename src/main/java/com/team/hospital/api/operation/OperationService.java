@@ -75,14 +75,17 @@ public class OperationService {
     public void cashDelete(Long operationId) {
         Operation operation = findOperationById(operationId);
         operation.setDeleted(true);
-//        operationRepository.delete(operation);
     }
 
     //최근 삭제 목록에 있는 항목 진짜 삭제
     @Transactional
-    public void delete(Long operationId) {
-        Operation operation = findOperationById(operationId);
-        operationRepository.delete(operation);
+    public void delete(CashOperationDTO cashOperationDTO) {
+        List<Operation> ops = new ArrayList<>();
+        for(Long operationId : cashOperationDTO.getOperationIds()) {
+            Operation operation = findOperationById(operationId);
+            ops.add(operation);
+        }
+        operationRepository.deleteAll(ops);
     }
 
     //삭제 복구
