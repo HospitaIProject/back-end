@@ -3,6 +3,7 @@ package com.team.hospital.api.operation;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.ComplianceCalculationService;
 import com.team.hospital.api.complication.ComplicationService;
+import com.team.hospital.api.operation.dto.CashOperationDTO;
 import com.team.hospital.api.operation.dto.DeleteOperationDTO;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
@@ -87,18 +88,18 @@ public class OperationController {
     }
 
     //최근 삭제 목록에서 진짜 삭제
-    @DeleteMapping("/api/cash/operation/{operationId}")
+    @DeleteMapping("/api/operation")
     @io.swagger.v3.oas.annotations.Operation(summary = "최근 삭제목록에서 operation 삭제")
-    public SuccessResponse<?> deleteOperation(@PathVariable Long operationId) {
-        operationService.delete(operationId);
+    public SuccessResponse<?> deleteOperation(@RequestBody CashOperationDTO cashOperationDTO) {
+        operationService.delete(cashOperationDTO);
         return SuccessResponse.createSuccess();
     }
 
     //최근 삭제 목록에서 복구
-    @PostMapping("/api/cash/operation/{operationId}")
+    @PostMapping("/api/operation")
     @io.swagger.v3.oas.annotations.Operation(summary = "최근 삭제목록에서 operation 복구")
-    public SuccessResponse<?> restoreOperation(@PathVariable Long operationId) {
-        operationService.restore(operationId);
+    public SuccessResponse<?> restoreOperation(@RequestBody CashOperationDTO cashOperationDTO) {
+        operationService.restore(cashOperationDTO);
         return SuccessResponse.createSuccess();
     }
 }

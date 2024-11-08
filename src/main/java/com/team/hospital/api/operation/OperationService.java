@@ -1,5 +1,6 @@
 package com.team.hospital.api.operation;
 
+import com.team.hospital.api.operation.dto.CashOperationDTO;
 import com.team.hospital.api.operation.dto.WriteOperation;
 import com.team.hospital.api.operation.exception.OperationNotFoundException;
 import com.team.hospital.api.operationMethod.OperationMethod;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -75,22 +77,27 @@ public class OperationService {
     public void cashDelete(Long operationId) {
         Operation operation = findOperationById(operationId);
         operation.setDeleted(true);
-//        operationRepository.delete(operation);
     }
 
     //최근 삭제 목록에 있는 항목 진짜 삭제
     @Transactional
-    public void delete(Long operationId) {
-        Operation operation = findOperationById(operationId);
-        operationRepository.delete(operation);
+    public void delete(CashOperationDTO cashOperationDTO) {
+        List<Operation> ops = new ArrayList<>();
+        for(Long operationId : cashOperationDTO.getOperationIds()) {
+            Operation operation = findOperationById(operationId);
+            ops.add(operation);
+        }
+        operationRepository.deleteAll(ops);
     }
 
     //삭제 복구
     @Transactional
-    public void restore(Long operationId) {
-        Operation operation = findOperationById(operationId);
-        operation.setDeleted(false);;
-        operation.setUpdatedAt();
+    public void restore(CashOperationDTO cashOperationDTO) {
+        for(Long operationId : cashOperationDTO.getOperationIds()) {
+            Operation operation = findOperationById(operationId);
+            operation.setDeleted(false);;
+            operation.setUpdatedAt();
+        }
     }
 
     public List<Operation> findAll() {
