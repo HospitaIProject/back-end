@@ -85,6 +85,9 @@ function CheckListsPage() {
         (checkListsData?.checkListAfterDTO ? 1 : 0) +
         (checkListsData?.checkListBeforeDTO ? 1 : 0) +
         (checkListsData?.checkListDuringDTO ? 1 : 0);
+    const isPreviousCheckListsComplete = Boolean(
+        checkListsData?.checkListAfterDTO && checkListsData?.checkListBeforeDTO && checkListsData?.checkListDuringDTO,
+    );
     console.log('checkListTotalCompelete', checkListTotalCompelete);
 
     return (
@@ -148,7 +151,7 @@ function CheckListsPage() {
                                     order={totalLength - index - 1}
                                     today={index === Math.abs(Number(diffDay)) - 1}
                                     queryDate={addDaysToDate(checkListsData.operationDateDTO.operationDate, index + 1)}
-                                    totalCompleted={checkListTotalCompelete}
+                                    isPreviousCheckListsComplete={isPreviousCheckListsComplete}
                                 />
                             ),
                         )}
