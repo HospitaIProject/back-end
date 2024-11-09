@@ -2,8 +2,10 @@ package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.converter.DailyPainScoreConverter;
+import com.team.hospital.api.checkList.dto.UpdateIVDate;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
+import com.team.hospital.api.checkList.enumType.CheckListSecond;
 import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
@@ -25,6 +27,28 @@ public class CheckList extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "check_list_id")
     private Long id;
+
+    // 하루 3번 15분동안 껌씹기 여부
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_one_giStimulant")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_giStimulant_remarks"))
+    })
+    private CheckListFirst podOneGiStimulant; // POD 1day 위장관 촉진약 복용 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_two_giStimulant")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_giStimulant_remarks"))
+    })
+    private CheckListFirst podTwoGiStimulant; // POD 2day 위장관 촉진약 복용 여부
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "option", column = @Column(name = "pod_three_giStimulant")),
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_giStimulant_remarks"))
+    })
+    private CheckListFirst podThreeGiStimulant; // POD 3day 위장관 촉진약 복용 여부
 
     // 하루 3번 15분동안 껌씹기 여부
     @Embedded
@@ -93,34 +117,35 @@ public class CheckList extends BaseEntity {
     private CheckListFirst podThreeNonOpioidPainControl; // POD 3day non-opioid pain control 여부
 
     // 수술 후 3일이내 JP drain 제거 여부
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_one_jp_drain_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_jp_drain_removal_remarks"))
-    })
-    private CheckListFirst podOneJpDrainRemoval; // POD 1day 3일이내 JP drain 제거 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_two_jp_drain_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_jp_drain_removal_remarks"))
-    })
-    private CheckListFirst podTwoJpDrainRemoval; // POD 2day 3일이내 JP drain 제거 여부
-
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name = "option", column = @Column(name = "pod_three_jp_drain_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_jp_drain_removal_remarks"))
-    })
-    private CheckListFirst podThreeJpDrainRemoval; // POD 3day 3일이내 JP drain 제거 여부
+//    @Embedded
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "option", column = @Column(name = "pod_one_jp_drain_removal")),
+//            @AttributeOverride(name = "remarks", column = @Column(name = "pod_one_jp_drain_removal_remarks"))
+//    })
+//    private CheckListFirst podOneJpDrainRemoval; // POD 1day 3일이내 JP drain 제거 여부
+//
+//    @Embedded
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "option", column = @Column(name = "pod_two_jp_drain_removal")),
+//            @AttributeOverride(name = "remarks", column = @Column(name = "pod_two_jp_drain_removal_remarks"))
+//    })
+//    private CheckListFirst podTwoJpDrainRemoval; // POD 2day 3일이내 JP drain 제거 여부
+//
+//    @Embedded
+//    @AttributeOverrides({
+//            @AttributeOverride(name = "option", column = @Column(name = "pod_three_jp_drain_removal")),
+//            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_jp_drain_removal_remarks"))
+//    })
+//    private CheckListFirst podThreeJpDrainRemoval; // POD 3day 3일이내 JP drain 제거 여부
 
     // 수술 후 3일이내 IV line 제거 여부
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "option", column = @Column(name = "pod_three_iv_line_removal")),
-            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_iv_line_removal_remarks"))
+            @AttributeOverride(name = "remarks", column = @Column(name = "pod_three_iv_line_removal_remarks")),
+            @AttributeOverride(name = "removedDate", column = @Column(name = "iv_line_removal_removedDate"))
     })
-    private CheckListFirst podThreeIvLineRemoval; // POD 3day 3일이내 IV line 제거 여부
+    private CheckListSecond podThreeIvLineRemoval; // POD 3day 3일이내 IV line 제거 여부
 
     // POD Exercise
     @Embedded
@@ -177,6 +202,11 @@ public class CheckList extends BaseEntity {
 
     public static CheckList createCheckList(WriteCheckList write, CheckListItem checkListItem) {
         return CheckList.builder()
+                // 위장관 촉진 약 복용 여부
+                .podOneGiStimulant(CheckListFirst.of(write.getPodOneGiStimulant(), write.getPodOneGiStimulant_remarks()))
+                .podTwoGiStimulant(CheckListFirst.of(write.getPodTwoGiStimulant(), write.getPodTwoGiStimulant_remarks()))
+                .podThreeGiStimulant(CheckListFirst.of(write.getPodThreeGiStimulant(), write.getPodThreeGiStimulant_remarks()))
+
                 // Gum Chewing 여부
                 .podOneGumChewing(CheckListFirst.of(write.getPodOneGumChewing(), write.getPodOneGumChewing_remarks()))
                 .podTwoGumChewing(CheckListFirst.of(write.getPodTwoGumChewing(), write.getPodTwoGumChewing_remarks()))
@@ -193,12 +223,12 @@ public class CheckList extends BaseEntity {
                 .podThreeNonOpioidPainControl(CheckListFirst.of(write.getPodThreeNonOpioidPainControl(), write.getPodThreeNonOpioidPainControl_remarks()))
 
                 // JP drain 제거 여부
-                .podOneJpDrainRemoval(CheckListFirst.of(write.getPodOneJpDrainRemoval(), write.getPodOneJpDrainRemoval_remarks()))
-                .podTwoJpDrainRemoval(CheckListFirst.of(write.getPodTwoJpDrainRemoval(), write.getPodTwoJpDrainRemoval_remarks()))
-                .podThreeJpDrainRemoval(CheckListFirst.of(write.getPodThreeJpDrainRemoval(), write.getPodThreeJpDrainRemoval_remarks()))
+//                .podOneJpDrainRemoval(CheckListFirst.of(write.getPodOneJpDrainRemoval(), write.getPodOneJpDrainRemoval_remarks()))
+//                .podTwoJpDrainRemoval(CheckListFirst.of(write.getPodTwoJpDrainRemoval(), write.getPodTwoJpDrainRemoval_remarks()))
+//                .podThreeJpDrainRemoval(CheckListFirst.of(write.getPodThreeJpDrainRemoval(), write.getPodThreeJpDrainRemoval_remarks()))
 
                 // IV line 제거 여부
-                .podThreeIvLineRemoval(CheckListFirst.of(write.getPodThreeIvLineRemoval(), write.getPodThreeIvLineRemoval_remarks()))
+                .podThreeIvLineRemoval(CheckListSecond.of(write.getPodThreeIvLineRemoval(), write.getPodThreeIvLineRemoval_remarks()))
 
                 // POD Exercise
                 .podOneExercise(CheckListFirst.of(write.getPodOneExercise(), write.getPodOneExercise_remarks()))
@@ -223,6 +253,16 @@ public class CheckList extends BaseEntity {
     }
 
     public void updateCheckList(WriteCheckList write) {
+        // 위장관 촉진 약 복용 여부
+        if (write.getPodOneGiStimulant() != null) this.podOneGiStimulant.update(write.getPodOneGiStimulant());
+        if (write.getPodOneGiStimulant_remarks() != null) this.podOneGiStimulant.update(write.getPodOneGiStimulant_remarks());
+
+        if (write.getPodTwoGiStimulant() != null) this.podTwoGiStimulant.update(write.getPodTwoGiStimulant());
+        if (write.getPodTwoGiStimulant_remarks() != null) this.podTwoGiStimulant.update(write.getPodOneGiStimulant_remarks());
+
+        if (write.getPodThreeGiStimulant() != null) this.podThreeGiStimulant.update(write.getPodThreeGiStimulant());
+        if (write.getPodThreeGiStimulant_remarks() != null) this.podThreeGiStimulant.update(write.getPodThreeGiStimulant_remarks());
+
         // Gum Chewing 여부
         if (write.getPodOneGumChewing() != null) this.podOneGumChewing.update(write.getPodOneGumChewing());
         if (write.getPodOneGumChewing_remarks() != null) this.podOneGumChewing.update(write.getPodOneGumChewing_remarks());
@@ -254,14 +294,14 @@ public class CheckList extends BaseEntity {
         if (write.getPodThreeNonOpioidPainControl_remarks() != null) this.podThreeNonOpioidPainControl.update(write.getPodThreeNonOpioidPainControl_remarks());
 
         // JP drain 제거 여부
-        if (write.getPodOneJpDrainRemoval() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval());
-        if (write.getPodOneJpDrainRemoval_remarks() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval_remarks());
-
-        if (write.getPodTwoJpDrainRemoval() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval());
-        if (write.getPodTwoJpDrainRemoval_remarks() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval_remarks());
-
-        if (write.getPodThreeJpDrainRemoval() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval());
-        if (write.getPodThreeJpDrainRemoval_remarks() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval_remarks());
+//        if (write.getPodOneJpDrainRemoval() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval());
+//        if (write.getPodOneJpDrainRemoval_remarks() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval_remarks());
+//
+//        if (write.getPodTwoJpDrainRemoval() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval());
+//        if (write.getPodTwoJpDrainRemoval_remarks() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval_remarks());
+//
+//        if (write.getPodThreeJpDrainRemoval() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval());
+//        if (write.getPodThreeJpDrainRemoval_remarks() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval_remarks());
 
         // IV line 제거 여부
         if (write.getPodThreeIvLineRemoval() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval());
@@ -288,6 +328,10 @@ public class CheckList extends BaseEntity {
         if (write.getPodOnePain() != null) this.podOnePain = write.getPodOnePain();
         if (write.getPodTwoPain() != null) this.podTwoPain = write.getPodTwoPain();
         if (write.getPodThreePain() != null) this.podThreePain = write.getPodThreePain();
+    }
+
+    public void updateRemovalDate(UpdateIVDate update) {
+        this.podThreeIvLineRemoval.update(update.getIvLineRemovalDate());
     }
 
     // 한국 시간으로 변환하는 메서드 추가
