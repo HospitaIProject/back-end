@@ -135,11 +135,7 @@ public class ComplianceCalculationService {
                 } else {
                     decrementedFlags[3] = true;
                 }
-                if (BooleanOption.YES.equals(checkListAfter.getIvLineRemoval())) {
-                    count++;
-                } else {
-                    decrementedFlags[4] = true;
-                }
+
 
                 if (BooleanOption.YES.equals(checkListAfter.getPostExercise())) count++;
                 if (BooleanOption.YES.equals(checkListAfter.getPostMeal())) count++;
@@ -155,8 +151,6 @@ public class ComplianceCalculationService {
                         Optional.ofNullable(checkListAfter.getNonOpioidPainControl()).orElse(BooleanOption.NO));
                 log.info("CheckListAfter getJpDrainRemoval = {}",
                         Optional.ofNullable(checkListAfter.getJpDrainRemoval()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getIvLineRemoval = {}",
-                        Optional.ofNullable(checkListAfter.getIvLineRemoval()).orElse(BooleanOption.NO));
                 log.info("CheckListAfter getPostExercise = {}",
                         Optional.ofNullable(checkListAfter.getPostExercise()).orElse(BooleanOption.NO));
                 log.info("CheckListAfter getPostMeal = {}",
@@ -219,9 +213,6 @@ public class ComplianceCalculationService {
             }if (checks.get(0).getPodOneNonOpioidPainControl() != null && checks.get(0).getPodOneNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
-            }if (checks.get(0).getPodOneJpDrainRemoval() != null && checks.get(0).getPodOneJpDrainRemoval().getOption() == NO && !decrementedFlags[3]) {
-                top--;
-                decrementedFlags[3] = true;
             }
 
 
@@ -238,9 +229,6 @@ public class ComplianceCalculationService {
             }if (checks.get(1).getPodTwoNonOpioidPainControl() != null && checks.get(1).getPodTwoNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
-            }if (checks.get(1).getPodTwoJpDrainRemoval() != null && checks.get(1).getPodTwoJpDrainRemoval().getOption() == NO && !decrementedFlags[3]) {
-                top--;
-                decrementedFlags[3] = true;
             }
 
             if (checks.get(1).getPodTwoExercise() != null && checks.get(1).getPodTwoExercise().getOption() == YES) top++;
@@ -256,9 +244,6 @@ public class ComplianceCalculationService {
             }if (checks.get(2).getPodThreeNonOpioidPainControl() != null && checks.get(2).getPodThreeNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
-            }if (checks.get(2).getPodThreeJpDrainRemoval() != null && checks.get(2).getPodThreeJpDrainRemoval().getOption() == NO && !decrementedFlags[3]) {
-                top--;
-                decrementedFlags[3] = true;
             }if (checks.get(2).getPodThreeIvLineRemoval() != null && checks.get(2).getPodThreeIvLineRemoval().getOption() == NO && !decrementedFlags[4]) {
                 top--;
                 decrementedFlags[4] = true;
@@ -286,11 +271,6 @@ public class ComplianceCalculationService {
         if (checkList.getPodOneNonOpioidPainControl() != null && checkList.getPodOneNonOpioidPainControl().getOption() == NO && !flags[2]) {
             top--;
             flags[2] = true;
-        }
-
-        if (checkList.getPodOneJpDrainRemoval() != null && checkList.getPodOneJpDrainRemoval().getOption() == NO && !flags[3]) {
-            top--;
-            flags[3] = true;
         }
 
         return top;
