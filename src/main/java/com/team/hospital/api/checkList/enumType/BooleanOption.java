@@ -1,7 +1,7 @@
 package com.team.hospital.api.checkList.enumType;
 
 public enum BooleanOption {
-    YES(1), NO(2);
+    YES(1), NO(0);
 
     final int num;
     BooleanOption(final int num) {
