@@ -32,9 +32,27 @@ public class CheckListSecond {
                 .build();
     }
 
-    public void update(BooleanOption option, String remarks, LocalDate removedDate){
+    public static CheckListSecond of(BooleanOption option, String remarks){
+        return CheckListSecond.builder()
+                .option(option)
+                .remarks(remarks)
+                .build();
+    }
+
+    public void update(LocalDate removedDate){
+        this.removedDate = removedDate;
+    }
+
+    public void update(BooleanOption option){
+        this.option = option;
+    }
+
+    public void update(String remarks){
+        this.remarks = remarks;
+    }
+
+    public void update(BooleanOption option, String remarks){
         this.option = option;
         this.remarks = remarks;
-        this.removedDate = removedDate;
     }
 }

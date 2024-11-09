@@ -1,6 +1,7 @@
 package com.team.hospital.api.checkListAfter;
 
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
+import com.team.hospital.api.checkListAfter.dto.UpdateDateCheckListAfter;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterAlreadyExistsException;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
@@ -51,6 +52,12 @@ public class CheckListAfterService {
     public void modify(WriteCheckListAfter write, Long checkListAfterId) {
         CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
         checkListAfter.updateCheckListAfter(write);
+    }
+
+    @Transactional
+    public void updateRemovalDate(UpdateDateCheckListAfter date, Long checkListAfterId) {
+        CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
+        checkListAfter.updateRemovalDate(date);
     }
 
     public CheckListAfter findCheckListAfterById(Long checkListAfterId) {

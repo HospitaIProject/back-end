@@ -382,6 +382,7 @@ public class ExcelExportService {
                 // 수술 후 정보 처리
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
 
+
                 setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
                 setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
@@ -416,6 +417,7 @@ public class ExcelExportService {
                 postop_pain_controlList.add(checkListAfter.getNonOpioidPainControl().getOption().getNum()); //이 부분은 no opiod = 1, opopod = 0 임 반대
 
                 for (CheckList c : checkList) {
+
 
                     //첫째날
                     if (c.getPodOneGumChewing() != null) {
