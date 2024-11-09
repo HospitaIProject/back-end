@@ -62,7 +62,7 @@ public class OperationController {
     }
 
     //Postmapping 으로 수정 필요
-    @PostMapping("/api/operation/{operationId}")
+    @PostMapping("/api/operation/cash/{operationId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "operation 삭제 -> 최근삭제 목록으로")
     public SuccessResponse<?> cashDeleteOperation(@PathVariable Long operationId) {
         operationService.cashDelete(operationId);
