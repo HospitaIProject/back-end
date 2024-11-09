@@ -384,11 +384,11 @@ public class ExcelExportService {
                     if (checkListAfter.getNonOpioidPainControl().getOption().getNum() == 1) setIntCellValueSafe(row, 27, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
                     else setIntCellValueSafe(row, 27, () -> 1);
 
-                    setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
+//                    setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                     setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
-                    setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
-                    setIntCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
-                    setStringCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
+//                    setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
+//                    setIntCellValueSafe(row, 31, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
+//                    setStringCellValueSafe(row, 32, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
                     setIntCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
                     setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
                 }
@@ -410,7 +410,7 @@ public class ExcelExportService {
 
                 for (CheckList c : checkList) {
 
-                    setIntCellValueSafe(row, 28, () -> c.getPodOneJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+//                    setIntCellValueSafe(row, 28, () -> c.getPodOneJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
 
                     if (c.getPodOneExercise() != null) {
                         setIntCellValueSafe(row, 34, () -> c.getPodOneExercise().getOption().getNum());
