@@ -22,6 +22,10 @@ public class CheckListDTO {
     private LocalDateTime updatedAt;                            //수정 날짜
 
     // Newly added.
+    private BooleanOption podOneGiStimulant; // POD 1day 위장관 촉진약 복용 여부
+    private BooleanOption podTwoGiStimulant; // POD 2day 위장관 촉진약 복용 여부
+    private BooleanOption podThreeGiStimulant; // POD 3day 위장관 촉진약 복용 여부
+
     private BooleanOption podOneGumChewing;
     private BooleanOption podTwoGumChewing;
     private BooleanOption podThreeGumChewing;
@@ -34,9 +38,9 @@ public class CheckListDTO {
     private BooleanOption podTwoNonOpioidPainControl;
     private BooleanOption podThreeNonOpioidPainControl;
 
-    private BooleanOption podOneJpDrainRemoval;
-    private BooleanOption podTwoJpDrainRemoval;
-    private BooleanOption podThreeJpDrainRemoval;
+//    private BooleanOption podOneJpDrainRemoval;
+//    private BooleanOption podTwoJpDrainRemoval;
+//    private BooleanOption podThreeJpDrainRemoval;
 
     private BooleanOption podThreeIvLineRemoval;
 
@@ -55,6 +59,10 @@ public class CheckListDTO {
     private LocalDate dayOfCheckList;                     // 몇 일차 체크리스트 작성
 
     // Remarks
+    private String podOneGiStimulant_remarks; // POD 1day 위장관 촉진약 복용 여부
+    private String podTwoGiStimulant_remarks; // POD 2day 위장관 촉진약 복용 여부
+    private String podThreeGiStimulant_remarks; // POD 3day 위장관 촉진약 복용 여부
+
     private String podOneGumChewing_remarks;
     private String podTwoGumChewing_remarks;
     private String podThreeGumChewing_remarks;
@@ -67,9 +75,9 @@ public class CheckListDTO {
     private String podTwoNonOpioidPainControl_remarks;
     private String podThreeNonOpioidPainControl_remarks;
 
-    private String podOneJpDrainRemoval_remarks;
-    private String podTwoJpDrainRemoval_remarks;
-    private String podThreeJpDrainRemoval_remarks;
+//    private String podOneJpDrainRemoval_remarks;
+//    private String podTwoJpDrainRemoval_remarks;
+//    private String podThreeJpDrainRemoval_remarks;
 
     private String podThreeIvLineRemoval_remarks;
 
@@ -92,6 +100,20 @@ public class CheckListDTO {
                 .checkListId(checkList.getId())
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt());
+
+        // 추가된 GumChewing 속성
+        if (checkList.getPodOneGiStimulant() != null) {
+            checkListDTO.podOneGiStimulant(checkList.getPodOneGiStimulant().getOption());
+            checkListDTO.podOneGiStimulant_remarks(checkList.getPodOneGiStimulant().getRemarks());
+        }
+        if (checkList.getPodTwoGiStimulant() != null) {
+            checkListDTO.podTwoGiStimulant(checkList.getPodTwoGiStimulant().getOption());
+            checkListDTO.podTwoGiStimulant_remarks(checkList.getPodTwoGiStimulant().getRemarks());
+        }
+        if (checkList.getPodThreeGiStimulant() != null) {
+            checkListDTO.podThreeGiStimulant(checkList.getPodThreeGiStimulant().getOption());
+            checkListDTO.podThreeGiStimulant_remarks(checkList.getPodThreeGiStimulant().getRemarks());
+        }
 
         // 추가된 GumChewing 속성
         if (checkList.getPodOneGumChewing() != null) {
@@ -136,18 +158,18 @@ public class CheckListDTO {
         }
 
         // 추가된 JpDrainRemoval 속성
-        if (checkList.getPodOneJpDrainRemoval() != null) {
-            checkListDTO.podOneJpDrainRemoval(checkList.getPodOneJpDrainRemoval().getOption());
-            checkListDTO.podOneJpDrainRemoval_remarks(checkList.getPodOneJpDrainRemoval().getRemarks());
-        }
-        if (checkList.getPodTwoJpDrainRemoval() != null) {
-            checkListDTO.podTwoJpDrainRemoval(checkList.getPodTwoJpDrainRemoval().getOption());
-            checkListDTO.podTwoJpDrainRemoval_remarks(checkList.getPodTwoJpDrainRemoval().getRemarks());
-        }
-        if (checkList.getPodThreeJpDrainRemoval() != null) {
-            checkListDTO.podThreeJpDrainRemoval(checkList.getPodThreeJpDrainRemoval().getOption());
-            checkListDTO.podThreeJpDrainRemoval_remarks(checkList.getPodThreeJpDrainRemoval().getRemarks());
-        }
+//        if (checkList.getPodOneJpDrainRemoval() != null) {
+//            checkListDTO.podOneJpDrainRemoval(checkList.getPodOneJpDrainRemoval().getOption());
+//            checkListDTO.podOneJpDrainRemoval_remarks(checkList.getPodOneJpDrainRemoval().getRemarks());
+//        }
+//        if (checkList.getPodTwoJpDrainRemoval() != null) {
+//            checkListDTO.podTwoJpDrainRemoval(checkList.getPodTwoJpDrainRemoval().getOption());
+//            checkListDTO.podTwoJpDrainRemoval_remarks(checkList.getPodTwoJpDrainRemoval().getRemarks());
+//        }
+//        if (checkList.getPodThreeJpDrainRemoval() != null) {
+//            checkListDTO.podThreeJpDrainRemoval(checkList.getPodThreeJpDrainRemoval().getOption());
+//            checkListDTO.podThreeJpDrainRemoval_remarks(checkList.getPodThreeJpDrainRemoval().getRemarks());
+//        }
 
         // 추가된 IvLineRemoval 속성
         if (checkList.getPodThreeIvLineRemoval() != null) {

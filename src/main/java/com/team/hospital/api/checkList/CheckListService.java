@@ -1,6 +1,7 @@
 package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.checkList.dto.CheckListDailyDTO;
+import com.team.hospital.api.checkList.dto.UpdateIVDate;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
@@ -49,6 +50,12 @@ public class CheckListService {
     public void delete(Long checkListId) {
         CheckList checkList = findCheckListById(checkListId);
         checkListRepository.delete(checkList);
+    }
+
+    @Transactional
+    public void updateRemovalDate(UpdateIVDate date, Long checkListId) {
+        CheckList checkList = findCheckListById(checkListId);
+        checkList.updateRemovalDate(date);
     }
 
     public List<CheckList> findAllByOperationId(Long operationId) {

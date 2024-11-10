@@ -3,6 +3,7 @@ package com.team.hospital.api.checkListAfter;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterResponse;
+import com.team.hospital.api.checkListAfter.dto.UpdateDateCheckListAfter;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
@@ -40,7 +41,7 @@ public class CheckListAfterController {
 
     @GetMapping("/api/checkListAfter")
     @Operation(summary = "전체 수술 후 체크리스트 조회")
-    public SuccessResponse<List<CheckListAfterDTO>> findAllCheckListBefore() {
+    public SuccessResponse<List<CheckListAfterDTO>> findAllCheckListAfter() {
         List<CheckListAfterDTO> list = checkListAfterService.findAll().stream().map(CheckListAfterDTO::toEntity).toList();
         return SuccessResponse.createSuccess(list);
     }
@@ -71,6 +72,13 @@ public class CheckListAfterController {
     @Operation(summary = "수술 후 체크리스트 삭제")
     public SuccessResponse<?> deleteCheckList(@PathVariable Long checkListAfterId) {
         checkListAfterService.delete(checkListAfterId);
+        return SuccessResponse.createSuccess();
+    }
+
+    @PutMapping("/api/checkListAfter/date/{checkListAfterId}")
+    @Operation(summary = "JP, 소변줄 제거 날짜 수정")
+    public SuccessResponse<?> updateDate(@RequestBody UpdateDateCheckListAfter date, @PathVariable Long checkListAfterId) {
+        checkListAfterService.updateRemovalDate(date, checkListAfterId);
         return SuccessResponse.createSuccess();
     }
 }

@@ -382,11 +382,10 @@ public class ExcelExportService {
                 // 수술 후 정보 처리
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
 
+
                 setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
                 setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
-                setIntCellValueSafe(row, 32, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
-                setStringCellValueSafe(row, 33, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
                 setIntCellValueSafe(row, 34, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
                 setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
 
@@ -417,10 +416,15 @@ public class ExcelExportService {
 
                 for (CheckList c : checkList) {
 
+                    if (c.getPodThreeIvLineRemoval() != null){
+                        setIntCellValueSafe(row, 32, () -> c.getPodThreeIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
+                        setStringCellValueSafe(row, 33, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
+                    }
+
                     //첫째날
                     if (c.getPodOneGumChewing() != null) {
                         gumBooleanList.add(c.getPodOneGumChewing().getOption().getNum());
-                        //laxativesList.add();
+                        laxativesList.add(c.getPodOneGiStimulant().getOption().getNum());
                         fluid_limitList.add(c.getPodOneIvFluidRestriction().getOption().getNum());
                         postop_pain_controlList.add(c.getPodOneNonOpioidPainControl().getOption().getNum());
                     }
@@ -428,7 +432,7 @@ public class ExcelExportService {
                     //둘째날
                     if (c.getPodThreeGumChewing() != null) {
                         gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
-                        //laxativesList.add();
+                        laxativesList.add(c.getPodTwoGiStimulant().getOption().getNum());
                         fluid_limitList.add(c.getPodTwoIvFluidRestriction().getOption().getNum());
                         postop_pain_controlList.add(c.getPodTwoNonOpioidPainControl().getOption().getNum());
                     }
@@ -436,12 +440,12 @@ public class ExcelExportService {
                     //셋째날
                     if (c.getPodThreeGumChewing() != null) {
                         gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
-                        //laxativesList.add();
+                        laxativesList.add(c.getPodThreeGiStimulant().getOption().getNum());
                         fluid_limitList.add(c.getPodThreeIvFluidRestriction().getOption().getNum());
                         postop_pain_controlList.add(c.getPodThreeNonOpioidPainControl().getOption().getNum());
                     }
 
-                    setIntCellValueSafe(row, 28, () -> c.getPodOneJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+                    //setIntCellValueSafe(row, 28, () -> c.getPodThreeJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
 
                     if (c.getPodOneExercise() != null) {
                         setIntCellValueSafe(row, 35, () -> c.getPodOneExercise().getOption().getNum());
@@ -483,7 +487,9 @@ public class ExcelExportService {
                     } //"POD#3 VAS score(아침/점심/저녁)
                 }
 
-                //setIntCellValueSafe(row, 23, "어떤 항목인지");                       //Laxatives
+                setIntCellValueSafe(row, 23, () -> laxativesList.stream()   //Laxatives
+                        .reduce(1, (a, b) -> a & b));
+
                 setIntCellValueSafe(row, 24, () -> gumBooleanList.stream()
                         .reduce(1, (a, b) -> a & b));               //chewing gum
 

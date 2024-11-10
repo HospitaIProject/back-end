@@ -1,10 +1,7 @@
 package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
-import com.team.hospital.api.checkList.dto.CheckListDTO;
-import com.team.hospital.api.checkList.dto.CheckListResponse;
-import com.team.hospital.api.checkList.dto.CheckListWithOperationDateDTO;
-import com.team.hospital.api.checkList.dto.WriteCheckList;
+import com.team.hospital.api.checkList.dto.*;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
@@ -129,6 +126,13 @@ public class CheckListController {
     @Operation(summary = "POD 등록 여부")
     public SuccessResponse<?> checkPodRegistered(@PathVariable Long operationId) {
         return SuccessResponse.createSuccess(checkListService.testV2(operationId));
+    }
+
+    @PutMapping("/api/checkList/date/{checkListId}")
+    @Operation(summary = "IV 제거 날짜 수정")
+    public SuccessResponse<?> updateDate(@RequestBody UpdateIVDate date, @PathVariable Long checkListId) {
+        checkListService.updateRemovalDate(date, checkListId);
+        return SuccessResponse.createSuccess();
     }
 
     private CheckListBeforeDTO getCheckListBeforeDTO(Long operationId) {
