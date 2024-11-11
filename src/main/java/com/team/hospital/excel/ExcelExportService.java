@@ -383,7 +383,8 @@ public class ExcelExportService {
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
 
 
-                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
+//                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
+//                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
                 setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
 
@@ -449,8 +450,10 @@ public class ExcelExportService {
                         postop_pain_controlList.add(c.getPodThreeNonOpioidPainControl().getOption().getNum());
                     }
 
-
-                    //setIntCellValueSafe(row, 28, () -> c.getPodThreeJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+                    if (c.getPodThreeIvLineRemoval() != null) {
+                        setIntCellValueSafe(row, 28, () -> c.getPodThreeIvLineRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+                        setStringCellValueSafe(row, 29, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+                    }
 
                     if (c.getPodOneExercise() != null) {
                         setIntCellValueSafe(row, 35, () -> c.getPodOneExercise().getOption().getNum());
