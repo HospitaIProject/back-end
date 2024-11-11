@@ -426,34 +426,71 @@ public class ExcelExportService {
                         setStringCellValueSafe(row, 33, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
                     }
 
-                    //첫째날
+                    // 32항목이랑 중복 확인부탁
+                    //setIntCellValueSafe(row, 28, () -> c.getPodThreeJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+
+                    //첫째날 gum
                     if (c.getPodOneGumChewing() != null) {
                         gumBooleanList.add(c.getPodOneGumChewing().getOption().getNum());
+                    }
+
+                    //둘째날 gum
+                    if (c.getPodThreeGumChewing() != null) {
+
+                        gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
+                    }
+
+                    //셋째날 gum
+                    if (c.getPodThreeGumChewing() != null) {
+                        gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
+                    }
+
+                    //첫째날 laxa
+                    if (c.getPodOneGiStimulant() != null) {
                         laxativesList.add(c.getPodOneGiStimulant().getOption().getNum());
+                    }
+
+                    //둘째날 laxa
+                    if (c.getPodTwoGiStimulant() != null) {
+                        laxativesList.add(c.getPodTwoGiStimulant().getOption().getNum());
+                    }
+
+                    //셋째날 laxa
+                    if (c.getPodThreeGiStimulant() != null) {
+                        laxativesList.add(c.getPodThreeGiStimulant().getOption().getNum());
+                    }
+
+                    //첫째날 fluid
+                    if (c.getPodOneIvFluidRestriction() != null) {
                         fluid_limitList.add(c.getPodOneIvFluidRestriction().getOption().getNum());
+                    }
+
+                    //둘째날 fluid
+                    if (c.getPodTwoIvFluidRestriction() != null) {
+                        fluid_limitList.add(c.getPodTwoIvFluidRestriction().getOption().getNum());
+                    }
+
+                    //셋째날 fluid
+                    if (c.getPodThreeIvFluidRestriction() != null) {
+                        fluid_limitList.add(c.getPodThreeIvFluidRestriction().getOption().getNum());
+                    }
+
+
+                    //첫째날 postop
+                    if (c.getPodOneNonOpioidPainControl() != null) {
                         postop_pain_controlList.add(c.getPodOneNonOpioidPainControl().getOption().getNum());
                     }
 
-                    //둘째날
-                    if (c.getPodTwoGumChewing() != null) {
-                        gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
-                        laxativesList.add(c.getPodTwoGiStimulant().getOption().getNum());
-                        fluid_limitList.add(c.getPodTwoIvFluidRestriction().getOption().getNum());
+                    //둘째날 postop
+                    if (c.getPodTwoNonOpioidPainControl() != null) {
                         postop_pain_controlList.add(c.getPodTwoNonOpioidPainControl().getOption().getNum());
                     }
 
-                    //셋째날
-                    if (c.getPodThreeGumChewing() != null) {
-                        gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
-                        laxativesList.add(c.getPodThreeGiStimulant().getOption().getNum());
-                        fluid_limitList.add(c.getPodThreeIvFluidRestriction().getOption().getNum());
+                    //셋째날 postop
+                    if (c.getPodThreeNonOpioidPainControl() != null) {
                         postop_pain_controlList.add(c.getPodThreeNonOpioidPainControl().getOption().getNum());
                     }
 
-                    if (c.getPodThreeIvLineRemoval() != null) {
-                        setIntCellValueSafe(row, 28, () -> c.getPodThreeIvLineRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
-                        setStringCellValueSafe(row, 29, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
-                    }
 
                     if (c.getPodOneExercise() != null) {
                         setIntCellValueSafe(row, 35, () -> c.getPodOneExercise().getOption().getNum());
