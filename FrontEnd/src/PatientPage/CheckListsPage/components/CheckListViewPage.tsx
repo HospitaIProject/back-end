@@ -9,7 +9,6 @@ import DropContainer from '../../ComplianceFormPage/components/DropContainer';
 import { useSearchParams } from 'react-router-dom';
 import Loading from '../../../components/common/Loading';
 import PainSelector from '../../../components/common/form/input/PainSelector';
-import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
 import CheckListViewGuide from './CheckListViewGuide';

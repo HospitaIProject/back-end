@@ -15,7 +15,6 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useDateFormatted } from '../../Hooks/useDateFormatted';
 import Loading from '../../components/common/Loading';
 import { useInitialValues } from './utils/useInitialValues';
-import DateInput from '../../components/common/form/input/DateInput';
 import { validateFields } from './utils/validateFields';
 import { pushNotification } from '../../utils/pushNotification';
 import { useFluidRestrictionQuery } from '../_lib/checkListsService';
