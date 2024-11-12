@@ -69,10 +69,10 @@ function OperationSummaryCard({ operationData }: Props) {
         <>
             <li
                 key={operationId}
-                className="flex flex-col w-full gap-3 p-4 bg-white border-y"
+                className="flex w-full flex-col gap-3 border-y bg-white p-4"
                 // onClick={handleOpenModal}
             >
-                <div className="flex flex-row flex-wrap items-center justify-between gap-4 mb-1">
+                <div className="mb-1 flex flex-row flex-wrap items-center justify-between gap-4">
                     <span className="text-lg font-semibold text-sky-800">{operationMethodFormatted}</span>
                     <button
                         onClick={() => {
@@ -83,19 +83,19 @@ function OperationSummaryCard({ operationData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row w-full">
+                <div className="flex w-full flex-row">
                     <div className="flex flex-col gap-1">
-                        <span className="inline-block text-sm text-gray-700 break-words">
+                        <span className="inline-block break-words text-sm text-gray-700">
                             수술 시작 시간:&nbsp;
                             <span className="font-medium text-gray-900">
                                 {operationStartTime ? operationStartTime : '없음'}
                             </span>
                         </span>
-                        <span className="inline-block text-sm text-gray-700 break-words">
+                        <span className="inline-block break-words text-sm text-gray-700">
                             수술 종료 시간:&nbsp;
                             <span className="font-medium text-gray-900">{operationEndTime}</span>
                         </span>
-                        <span className="inline-block text-sm text-gray-700 break-words">
+                        <span className="inline-block break-words text-sm text-gray-700">
                             전체 수술 시간:&nbsp;
                             <span className="font-medium text-gray-900">{totalOperationTime}분</span>
                         </span>
@@ -116,10 +116,10 @@ function OperationSummaryCard({ operationData }: Props) {
                             />
                             <span className="text-[0.65rem] text-red-500">CCI Score</span>
                         </div>
-                        <div className="flex flex-col items-center gap-1 translate-y-1">
+                        <div className="flex translate-y-1 flex-col items-center gap-1">
                             <DonutProgressbar
                                 className="h-[45px] w-[45px]"
-                                percent={Number(operationData.compliancePercentage.toFixed(1))}
+                                percent={Number(operationData.complianceScoreDTO.compliancePercentage.toFixed(1))}
                                 unit="%"
                                 color="Third"
                                 textClassName="text-[0.65rem]"
@@ -131,9 +131,9 @@ function OperationSummaryCard({ operationData }: Props) {
 
                 <div className="w-full border-t" />
 
-                <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
+                <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
                     <div className="flex flex-row items-center gap-2">
-                        <span className="text-gray-600 text-md">합병증여부: </span>
+                        <span className="text-md text-gray-600">합병증여부: </span>
                         <button
                             className={`relative flex h-7 w-[50px] flex-row items-center justify-between rounded-full px-1 ${isComplicationStatus ? 'bg-blue-50' : 'bg-red-50'}`}
                             onClick={handleComplicationStatus}
@@ -153,7 +153,7 @@ function OperationSummaryCard({ operationData }: Props) {
 
                     <div className="flex flex-row gap-3">
                         <div className={`relative ${isComplicationStatus ? '' : 'hidden'}`}>
-                            <button onClick={handleCompliCationSetting} className="p-2 text-sm border rounded-md">
+                            <button onClick={handleCompliCationSetting} className="rounded-md border p-2 text-sm">
                                 {isComplicationRegistered ? '합병증 관리' : '합병증 등록'}
                             </button>
                             <span
@@ -164,7 +164,7 @@ function OperationSummaryCard({ operationData }: Props) {
                         </div>
                         <Link
                             to={`/patient/checkLists?id=${operationId}&name=${patientName}`}
-                            className="p-2 text-sm font-medium border rounded-md hover:bg-blue-50"
+                            className="rounded-md border p-2 text-sm font-medium hover:bg-blue-50"
                         >
                             체크리스트
                         </Link>

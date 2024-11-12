@@ -93,7 +93,7 @@ function CheckListsPage() {
     return (
         <>
             <div className="flex w-full flex-col justify-center">
-                <div className="flex w-full flex-col items-center gap-3 px-4 py-3 mobile:col-span-2">
+                <div className="mb-2 flex w-full flex-col items-center gap-3 border-b bg-blue-50 px-4 py-3 mobile:col-span-2">
                     <div className="flex w-full flex-row justify-between gap-3">
                         <span className="text-gray-600">
                             환자명:&nbsp;<span className="">{patientName}</span>
@@ -107,7 +107,12 @@ function CheckListsPage() {
                         </Link>
                     </div>
                     <div className="w-full">
-                        <HorizontalProgressBar percent={Number(checkListsData.compliancePercentage.toFixed(1))} />
+                        <HorizontalProgressBar
+                            percent={Number(checkListsData.complianceScoreDTO.compliancePercentage.toFixed(1))}
+                            total={checkListsData.complianceScoreDTO.totalCheckListCount}
+                            completed={checkListsData.complianceScoreDTO.totalCheckListCompleted}
+                            checkListTotalCompeleted={checkListTotalCompelete}
+                        />
                     </div>
                 </div>
 
