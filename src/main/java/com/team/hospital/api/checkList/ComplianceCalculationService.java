@@ -1,5 +1,6 @@
 package com.team.hospital.api.checkList;
 
+import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
@@ -33,7 +34,7 @@ public class ComplianceCalculationService {
 
 
     // Compliance
-    public double calculateScore(Long operationId) {
+    public ComplianceScoreDTO calculateScore(Long operationId) {
         Long checkListItemId = checkListItemService.findByOperationId(operationId).getId();
         boolean existsBefore = checkListBeforeService.existsByCheckListItemId(checkListItemId);
         boolean existsDuring = checkListDuringService.existsByCheckListItemId(checkListItemId);
@@ -64,11 +65,8 @@ public class ComplianceCalculationService {
         log.info("Total check list completed: {}", totalCheckListCompleted);
         log.info("Total check list count: {}", totalCheckListCount);
 
-        if (totalCheckListCount > 0) {
-            return ((double) totalCheckListCompleted / totalCheckListCount) * 100;
-        }
-
-        return 0.0;
+        if (totalCheckListCount > 0) return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, ((double) totalCheckListCompleted / totalCheckListCount) * 100);
+        return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, (0.0));
     }
 
     private int checkListCompletedCount(Long operationId, String stage, boolean[] decrementedFlags) {
