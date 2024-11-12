@@ -149,7 +149,14 @@ function ComplianceFormPage() {
     }, [formik.values.podOnePain]);
     useEffect(() => {
         console.log('fluidRestriction', fluidRestriction);
-    }, [fluidRestriction]);
+        if (fluidRestriction && formik.values.fluidRestriction === '') {
+            if (fluidRestriction >= 2 && fluidRestriction <= 4) {
+                formik.setFieldValue('fluidRestriction', 'YES');
+            } else {
+                formik.setFieldValue('fluidRestriction', 'NO');
+            }
+        }
+    }, [fluidRestriction, formik.values.fluidRestriction]);
 
     if (isExistFieldsPending || isInitialValuesPending || isFluidRestrictionPending) {
         return <Loading />;
@@ -240,13 +247,15 @@ function ComplianceFormPage() {
                             isDisabled={dateStatus !== 'TODAY'}
                         />
                         <YesOrNoButton<checkListFormType>
-                            label={`
-                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : ''} cc/kg/hr 으로 제한
-                            `}
+                            label={
+                                <span>
+                                    {CHECKLIST_ITEMS_NAME.fluidRestriction} → {fluidRestriction} cc/kg/hr
+                                </span>
+                            }
                             htmlFor="fluidRestriction"
                             formik={formik}
                             isRender={existFields.fluidRestriction}
-                            isDisabled={dateStatus !== 'TODAY'}
+                            isDisabled={true}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNausea"

@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import InputContainer from './InputContainer';
 
 type Props<T> = {
-    label: string;
+    label: string | React.ReactNode;
     htmlFor: string;
     formik: FormikProps<T>;
     isRender?: boolean;
