@@ -3,6 +3,7 @@ import InputContainer from './InputContainer';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 const options = [
+    { value: '', label: '선택' },
     { value: 0, label: 0 },
     { value: 1, label: 1 },
     { value: 2, label: 2 },
@@ -84,7 +85,7 @@ function PainSelector<T>({
                                         '&:hover': {},
                                         border: isValid
                                             ? '2px solid #e53e3e'
-                                            : '' || state.isFocused
+                                            : state.isFocused
                                               ? '2px solid rgb(96 165 250) '
                                               : '1px solid rgb(209 213 219) ',
                                         cursor: 'pointer',
