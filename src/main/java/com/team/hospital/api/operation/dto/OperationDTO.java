@@ -1,5 +1,6 @@
 package com.team.hospital.api.operation.dto;
 
+import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.enumType.OperationApproach;
@@ -38,7 +39,7 @@ public class OperationDTO {
 
     private double complicationScore;
 
-    private double compliancePercentage;
+    private ComplianceScoreDTO complianceScoreDTO;
 
     public static OperationDTO toEntity(Operation operation) {
 //        List<String> operationTypeNames = operation.getOperationMethods().stream()
@@ -69,7 +70,7 @@ public class OperationDTO {
                 .build();
     }
 
-    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, double compilancePercentage) {
+    public static OperationDTO toEntity(Operation operation, boolean complicationRegistered, double complicationScore, ComplianceScoreDTO complianceScoreDTO) {
 //        List<String> operationTypeNames = operation.getOperationMethods().stream()
 //                .map(OperationMethod::getOperationType)
 //                .map(OperationType::getName)
@@ -96,7 +97,7 @@ public class OperationDTO {
 
                 .complicationRegistered(complicationRegistered)
                 .complicationScore(complicationScore)
-                .compliancePercentage(compilancePercentage)
+                .complianceScoreDTO(complianceScoreDTO)
 
                 .build();
     }

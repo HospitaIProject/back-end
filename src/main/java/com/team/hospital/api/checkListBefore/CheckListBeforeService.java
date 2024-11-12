@@ -22,7 +22,6 @@ public class CheckListBeforeService {
 
     private final CheckListBeforeRepository checkListBeforeRepository;
     private final CheckListItemService checkListItemService;
-    private final OperationService operationService;
 
     @Transactional
     public void save(WriteCheckListBefore write, Long checkListItemId) {

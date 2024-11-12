@@ -107,8 +107,12 @@ public class PatientController {
             }
         }
         patients = filterBySearchType(patients, searchType, query);
+
+        // 불변 리스트를 변경 가능한 리스트로 변환한 후 정렬
+        List<Patient> sortedPatients = new ArrayList<>(patients);
+        sortedPatients.sort(Comparator.comparing(Patient::getCreatedAt).reversed());
 //        List<PatientWithOperationDateDTO> list = patients.stream().map(this::convertToDto).toList();
-        List<PatientWithOperationDateDTOString> list = patients.stream().map(this::convertToDtoString).toList();
+        List<PatientWithOperationDateDTOString> list = sortedPatients.stream().map(this::convertToDtoString).toList();
         return SuccessResponse.createSuccess(list);
     }
 

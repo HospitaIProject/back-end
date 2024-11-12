@@ -54,7 +54,7 @@ public class CheckListController {
     }
 
     @GetMapping("/api/checkLists/{operationId}")
-    @Operation(summary = "operation에 해당하는 체크리스트 목록")
+    @Operation(summary = "Operation Id 에 해당하는 체크리스트 목록")
     public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
@@ -65,7 +65,7 @@ public class CheckListController {
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
         CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
 
-        double score = complianceCalculationService.calculateScore(operationId);
+        ComplianceScoreDTO complianceScoreDTO = complianceCalculationService.calculateScore(operationId);
 
         CheckListWithOperationDateDTO responseDTO;
 
@@ -77,7 +77,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    score);
+                    complianceScoreDTO);
         } else {
             responseDTO = CheckListWithOperationDateDTO.toEntity(
                     checkLists,
@@ -87,7 +87,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    score);
+                    complianceScoreDTO);
         }
 
         return SuccessResponse.createSuccess(responseDTO);

@@ -7,15 +7,6 @@ public class WriteCheckListItemDefault {
 
     private String operationTypeName;
 
-    private boolean giStimulant;
-    private boolean gumChewing;
-    private boolean antiNauseaPostOp;
-    private boolean ivFluidRestrictionPostOp;
-    private boolean nonOpioidPainControl;
-    private boolean jpDrainRemoval;
-    private boolean catheterRemoval;
-    private boolean ivLineRemoval;
-
     // 수술 전
     private boolean explainedPreOp;
     private boolean onsPreOp2hr;
@@ -29,6 +20,19 @@ public class WriteCheckListItemDefault {
     private boolean fluidRestriction;
     private boolean antiNausea;
     private boolean painControl;
+    private boolean painControlMethod;
+
+    // 수술 후
+    private boolean antiNauseaPostOp;
+    private boolean ivFluidRestrictionPostOp;
+    private boolean nonOpioidPainControl;
+    private boolean jpDrainRemoval;
+    private boolean catheterRemoval;
+
+    // 데일리
+    private boolean giStimulant;
+    private boolean gumChewing;
+    private boolean ivLineRemoval;
 
     // POD
     private boolean podExercise;
