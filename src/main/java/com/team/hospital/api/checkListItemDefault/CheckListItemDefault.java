@@ -36,15 +36,18 @@ public class CheckListItemDefault extends BaseEntity {
     private boolean fluidRestriction;
     private boolean antiNausea;
     private boolean painControl;
+    private boolean painControlMethod;
 
     // 수술 후
-    private boolean giStimulant;
-    private boolean gumChewing;
     private boolean antiNauseaPostOp;
     private boolean ivFluidRestrictionPostOp;
     private boolean nonOpioidPainControl;
     private boolean jpDrainRemoval;
     private boolean catheterRemoval;
+
+    // 데일리
+    private boolean giStimulant;
+    private boolean gumChewing;
     private boolean ivLineRemoval;
 
     // POD
@@ -68,6 +71,7 @@ public class CheckListItemDefault extends BaseEntity {
                 .fluidRestriction(write.isFluidRestriction())
                 .antiNausea(write.isAntiNausea())
                 .painControl(write.isPainControl())
+                .painControlMethod(write.isPainControlMethod())
 
                 // 수술 후
                 .giStimulant(write.isGiStimulant())
@@ -101,15 +105,18 @@ public class CheckListItemDefault extends BaseEntity {
         this.fluidRestriction = write.isFluidRestriction();
         this.antiNausea = write.isAntiNausea();
         this.painControl = write.isPainControl();
+        this.painControlMethod = write.isPainControlMethod();
 
         // 수술 후
-        this.giStimulant = write.isGiStimulant();
-        this.gumChewing = write.isGumChewing();
         this.antiNauseaPostOp = write.isAntiNauseaPostOp();
         this.ivFluidRestrictionPostOp = write.isIvFluidRestrictionPostOp();
         this.nonOpioidPainControl = write.isNonOpioidPainControl();
         this.jpDrainRemoval = write.isJpDrainRemoval();
         this.catheterRemoval = write.isCatheterRemoval();
+
+        // 데일리
+        this.giStimulant = write.isGiStimulant();
+        this.gumChewing = write.isGumChewing();
         this.ivLineRemoval = write.isIvLineRemoval();
 
         // POD
