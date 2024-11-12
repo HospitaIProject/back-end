@@ -122,53 +122,20 @@ function DailyCompliancePage() {
                     existFields={existFields}
                 />
                 <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
-                    {/* ------Day 운동  ------ */}
-
                     <YesOrNoButton<DailyCheckListFormType>
-                        htmlFor={isPod1 ? 'podOneExercise' : isPod2 ? 'podTwoExercise' : 'podThreeExercise'}
+                        htmlFor={isPod1 ? 'podOneGiStimulant' : isPod2 ? 'podTwoGiStimulant' : 'podThreeGiStimulant'}
                         label={
-                            isPod1
-                                ? CHECKLIST_ITEMS_NAME.podOneExercise
-                                : isPod2
-                                  ? CHECKLIST_ITEMS_NAME.podTwoExercise
-                                  : CHECKLIST_ITEMS_NAME.podThreeExercise
+                            CHECKLIST_ITEMS_NAME.giStimulant +
+                            podLabel({
+                                isPod1,
+                                isPod2,
+                                isPod3,
+                            })
                         }
                         formik={formik}
-                        isRender={existFields.podExercise && (isPod1 || isPod2 || isPod3)}
+                        isRender={existFields.giStimulant && (isPod1 || isPod2 || isPod3)}
                     />
 
-                    {/* ------Day 식사 ------ */}
-
-                    <YesOrNoButton<DailyCheckListFormType>
-                        htmlFor={isPod1 ? 'podOneMeal' : 'podTwoMeal'}
-                        label={isPod1 ? CHECKLIST_ITEMS_NAME.podOneMeal : CHECKLIST_ITEMS_NAME.podTwoMeal}
-                        formik={formik}
-                        isRender={existFields.podMeal && (isPod1 || isPod2)}
-                    />
-
-                    {/* ------Day 통증 ------ */}
-
-                    <PainSelector<DailyCheckListFormType>
-                        type="number"
-                        htmlFor={isPod1 ? 'podOnePain' : isPod2 ? 'podTwoPain' : 'podThreePain'}
-                        label={
-                            isPod1
-                                ? CHECKLIST_ITEMS_NAME.podOnePain
-                                : isPod2
-                                  ? CHECKLIST_ITEMS_NAME.podTwoPain
-                                  : CHECKLIST_ITEMS_NAME.podThreePain
-                        }
-                        formik={formik}
-                        isRender={existFields.podPain && (isPod1 || isPod2 || isPod3)}
-                        values={[
-                            { value: 'day', label: 'Day' },
-                            { value: 'evening', label: 'Evening' },
-                            { value: 'night', label: 'Night' },
-                        ]}
-                    />
-
-                    {/* ------추가필드(전날 yes,no 체크 여부에 따라 렌더링 결정) ------ */}
-                    {/* ------ 기존 수술후 체크리스트에 no로 체크된경우 데일리 체크리스트 한번더 보여주는 경우 이기때문에 label은 수술후 label과 동일 ------ */}
                     <YesOrNoButton<DailyCheckListFormType>
                         htmlFor={isPod1 ? 'podOneGumChewing' : isPod2 ? 'podTwoGumChewing' : 'podThreeGumChewing'}
                         label={
@@ -220,7 +187,51 @@ function DailyCompliancePage() {
                         formik={formik}
                         isRender={existFields.nonOpioidPainControl && (isPod1 || isPod2 || isPod3)}
                     />
+
                     <YesOrNoButton<DailyCheckListFormType>
+                        htmlFor={isPod1 ? 'podOneExercise' : isPod2 ? 'podTwoExercise' : 'podThreeExercise'}
+                        label={
+                            isPod1
+                                ? CHECKLIST_ITEMS_NAME.podOneExercise
+                                : isPod2
+                                  ? CHECKLIST_ITEMS_NAME.podTwoExercise
+                                  : CHECKLIST_ITEMS_NAME.podThreeExercise
+                        }
+                        formik={formik}
+                        isRender={existFields.podExercise && (isPod1 || isPod2 || isPod3)}
+                    />
+
+                    {/* ------Day 식사 ------ */}
+
+                    <YesOrNoButton<DailyCheckListFormType>
+                        htmlFor={isPod1 ? 'podOneMeal' : 'podTwoMeal'}
+                        label={isPod1 ? CHECKLIST_ITEMS_NAME.podOneMeal : CHECKLIST_ITEMS_NAME.podTwoMeal}
+                        formik={formik}
+                        isRender={existFields.podMeal && (isPod1 || isPod2)}
+                    />
+
+                    {/* ------Day 통증 ------ */}
+
+                    <PainSelector<DailyCheckListFormType>
+                        type="number"
+                        htmlFor={isPod1 ? 'podOnePain' : isPod2 ? 'podTwoPain' : 'podThreePain'}
+                        label={
+                            isPod1
+                                ? CHECKLIST_ITEMS_NAME.podOnePain
+                                : isPod2
+                                  ? CHECKLIST_ITEMS_NAME.podTwoPain
+                                  : CHECKLIST_ITEMS_NAME.podThreePain
+                        }
+                        formik={formik}
+                        isRender={existFields.podPain && (isPod1 || isPod2 || isPod3)}
+                        values={[
+                            { value: 'day', label: 'Day' },
+                            { value: 'evening', label: 'Evening' },
+                            { value: 'night', label: 'Night' },
+                        ]}
+                    />
+
+                    {/* <YesOrNoButton<DailyCheckListFormType>
                         htmlFor={
                             isPod1 ? 'podOneJpDrainRemoval' : isPod2 ? 'podTwoJpDrainRemoval' : 'podThreeJpDrainRemoval'
                         }
@@ -234,7 +245,7 @@ function DailyCompliancePage() {
                         }
                         formik={formik}
                         isRender={existFields.jpDrainRemoval && (isPod1 || isPod2 || isPod3)}
-                    />
+                    /> */}
                     <YesOrNoButton<DailyCheckListFormType>
                         htmlFor={
                             isPod1 ? 'podOneIvLineRemoval' : isPod2 ? 'podTwoIvLineRemoval' : 'podThreeIvLineRemoval'

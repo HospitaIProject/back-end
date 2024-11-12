@@ -69,6 +69,9 @@ export const useDailyInitialValues = ({ existFields }: { existFields?: CheckList
         podOneGumChewing: existFields?.gumChewing && isPod1 ? '' : undefined, //POD 1day 껌씹기
         podTwoGumChewing: existFields?.gumChewing && isPod2 ? '' : undefined, //POD 2day 껌씹기
         podThreeGumChewing: existFields?.gumChewing && isPod3 ? '' : undefined, //POD 3day 껌씹기
+        podOneGiStimulant: existFields?.giStimulant && isPod1 ? '' : undefined, //POD 1day GI stimulant
+        podTwoGiStimulant: existFields?.giStimulant && isPod2 ? '' : undefined, //POD 2day GI stimulant
+        podThreeGiStimulant: existFields?.giStimulant && isPod3 ? '' : undefined, //POD 3day GI stimulant
 
         podOneIvFluidRestriction: existFields?.ivFluidRestrictionPostOp && isPod1 ? '' : undefined, //POD 1day IV fluid 제한
         podTwoIvFluidRestriction: existFields?.ivFluidRestrictionPostOp && isPod2 ? '' : undefined, //POD 2day IV fluid 제한
@@ -88,6 +91,9 @@ export const useDailyInitialValues = ({ existFields }: { existFields?: CheckList
         podOneGumChewing_remarks: isPod1 && existFields?.gumChewing ? '' : undefined,
         podTwoGumChewing_remarks: isPod2 && existFields?.gumChewing ? '' : undefined,
         podThreeGumChewing_remarks: isPod3 && existFields?.gumChewing ? '' : undefined,
+        podOneGiStimulant_remarks: isPod1 && existFields?.giStimulant ? '' : undefined,
+        podTwoGiStimulant_remarks: isPod2 && existFields?.giStimulant ? '' : undefined,
+        podThreeGiStimulant_remarks: isPod3 && existFields?.giStimulant ? '' : undefined,
         podOneIvFluidRestriction_remarks: isPod1 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,
         podTwoIvFluidRestriction_remarks: isPod2 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,
         podThreeIvFluidRestriction_remarks: isPod3 && existFields?.ivFluidRestrictionPostOp ? '' : undefined,

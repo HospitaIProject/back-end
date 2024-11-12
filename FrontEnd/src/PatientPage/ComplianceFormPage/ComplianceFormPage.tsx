@@ -46,7 +46,7 @@ function ComplianceFormPage() {
     const patientName = searchParams.get('name'); //환자명
     const operationId = searchParams.get('id'); //수술ID
     const dateStatus = searchParams.get('dateStatus'); //수술전, 당일, 후인지
-    const operationDate = searchParams.get('od'); //수술날짜
+    // const operationDate = searchParams.get('od'); //수술날짜
 
     const { isVisible } = useScrollHeaderControl({}); //스크롤시 헤더 보이기 여부
 
@@ -273,7 +273,7 @@ function ComplianceFormPage() {
                             htmlFor="painControlMethod"
                             label={CHECKLIST_ITEMS_NAME.painControlMethod}
                             formik={formik}
-                            isRender={true} //수정 필요
+                            isRender={existFields.painControlMethod}
                         />
                     </DropContainer>
 
@@ -302,45 +302,45 @@ function ComplianceFormPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="jpDrainRemoval"
-                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
-                            etcComponent={
-                                <DateInput<checkListFormType>
-                                    label=""
-                                    htmlFor="jpDrainRemovalDate"
-                                    formik={formik}
-                                    placeHolder="제거한날 기입"
-                                    isRender={formik.values.jpDrainRemoval === 'YES'}
-                                    minDate={operationDate ? new Date(operationDate) : undefined}
-                                />
-                            }
+                            // etcComponent={
+                            //     <DateInput<checkListFormType>
+                            //         label=""
+                            //         htmlFor="jpDrainRemovalDate"
+                            //         formik={formik}
+                            //         placeHolder="제거한날 기입"
+                            //         isRender={formik.values.jpDrainRemoval === 'YES'}
+                            //         minDate={operationDate ? new Date(operationDate) : undefined}
+                            //     />
+                            // }
                         />
-
                         <YesOrNoButton<checkListFormType>
                             htmlFor="catheterRemoval"
                             label={CHECKLIST_ITEMS_NAME.catheterRemoval}
                             formik={formik}
                             isRender={existFields.catheterRemoval}
-                            etcComponent={
-                                <DateInput<checkListFormType>
-                                    label=""
-                                    htmlFor="catheterRemovalDate"
-                                    formik={formik}
-                                    placeHolder="제거한날 기입"
-                                    isRender={formik.values.catheterRemoval === 'YES'}
-                                    minDate={operationDate ? new Date(operationDate) : undefined}
-                                />
-                            }
+                            // etcComponent={
+                            //     <DateInput<checkListFormType>
+                            //         label=""
+                            //         htmlFor="catheterRemovalDate"
+                            //         formik={formik}
+                            //         placeHolder="제거한날 기입"
+                            //         isRender={formik.values.catheterRemoval === 'YES'}
+                            //         minDate={operationDate ? new Date(operationDate) : undefined}
+                            //     />
+                            // }
                         />
 
-                        <YesOrNoButton<checkListFormType>
+                        {/* <YesOrNoButton<checkListFormType>
                             htmlFor="catheterReInsertion"
                             label="* Foley cath 재삽입 여부"
                             formik={formik}
                             isRender={existFields.catheterRemoval && formik.values.catheterRemoval === 'YES'}
-                        />
-                        <YesOrNoButton<checkListFormType>
+                        /> */}
+
+                        {/* <YesOrNoButton<checkListFormType>
                             htmlFor="ivLineRemoval"
                             label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                             formik={formik}
@@ -355,7 +355,7 @@ function ComplianceFormPage() {
                                     minDate={operationDate ? new Date(operationDate) : undefined}
                                 />
                             }
-                        />
+                        /> */}
                         <YesOrNoButton
                             htmlFor="postExercise"
                             label={CHECKLIST_ITEMS_NAME.postExercise}
@@ -375,7 +375,7 @@ function ComplianceFormPage() {
                             formik={formik}
                             isRender={existFields.podPain}
                             values={[
-                                { value: 'day', label: 'Day' },
+                                // { value: 'day', label: 'Day' },
                                 { value: 'evening', label: 'Evening' },
                                 { value: 'night', label: 'Night' },
                             ]}
