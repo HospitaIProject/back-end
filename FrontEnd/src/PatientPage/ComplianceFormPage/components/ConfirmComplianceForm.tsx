@@ -9,8 +9,8 @@ import YesOrNoViewButton from '../../../components/common/form/viewInput/YesOrNo
 import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import { useSearchParams } from 'react-router-dom';
 import { CHECKLIST_ITEMS_NAME } from '../../../utils/mappingNames';
-import { useDateFormatted } from '../../../Hooks/useDateFormatted';
-import CalendarIcon from '../../../icons/CalendarIcon';
+// import { useDateFormatted } from '../../../Hooks/useDateFormatted';
+// import CalendarIcon from '../../../icons/CalendarIcon';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import Loading from '../../../components/common/Loading';
 import MultiViewInput from '../../../components/common/form/viewInput/MultiViewInput';
@@ -55,9 +55,9 @@ function ConfirmComplianceForm({
         ...todayValues,
         ...postValues,
     };
-    const { onlyDate: jpDrainRemovalDate } = useDateFormatted(values.jpDrainRemovalDate || '');
-    const { onlyDate: catheterRemovalDate } = useDateFormatted(values.catheterRemovalDate || '');
-    const { onlyDate: ivLineRemovalDate } = useDateFormatted(values.ivLineRemovalDate || '');
+    // const { onlyDate: jpDrainRemovalDate } = useDateFormatted(values.jpDrainRemovalDate || '');
+    // const { onlyDate: catheterRemovalDate } = useDateFormatted(values.catheterRemovalDate || '');
+    // const { onlyDate: ivLineRemovalDate } = useDateFormatted(values.ivLineRemovalDate || '');
 
     if (isFluidRestrictionPending) {
         return <Loading />;
@@ -147,7 +147,7 @@ function ConfirmComplianceForm({
                         label={CHECKLIST_ITEMS_NAME.painControlMethod}
                         value={values.painControlMethod}
                         remark={values.painControlMethod_remarks}
-                        isRender={true}
+                        isRender={existFields.painControlMethod}
                     />
                 </div>
 
@@ -175,50 +175,49 @@ function ConfirmComplianceForm({
                         remark={values.nonOpioidPainControl_remarks}
                     />
                     <YesOrNoViewButton
-                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
-                        isRender={existFields.jpDrainRemoval}
-                        value={values.jpDrainRemoval}
-                        remark={values.jpDrainRemoval_remarks}
-                        etcComponent={
-                            <span
-                                className={`${values.jpDrainRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
-                            >
-                                <span className="text-red-500">*</span>
-                                <CalendarIcon className="h-4 w-4 text-blue-500" />
-                                제거한날: {jpDrainRemovalDate}
-                            </span>
-                        }
-                    />
-
-                    <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.catheterRemoval}
                         isRender={existFields.catheterRemoval}
                         value={values.catheterRemoval}
                         remark={values.catheterRemoval_remarks}
-                        etcComponent={
-                            <>
-                                <span
-                                    className={`${values.catheterRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
-                                >
-                                    <span className="text-red-500">*</span>
-                                    <CalendarIcon className="h-4 w-4 text-blue-500" />
-                                    제거한날: {catheterRemovalDate}
-                                </span>
-                                <div
-                                    className={`${values.catheterRemoval === 'YES' ? 'flex' : 'hidden'} flex flex-row items-center gap-1`}
-                                >
-                                    <span className="text-red-500">*</span>
-                                    <YesOrNoViewButton
-                                        isDivided={false}
-                                        label="Foley cath 재삽입 여부"
-                                        value={values.catheterReInsertion}
-                                    />
-                                </div>
-                            </>
-                        }
+                        // etcComponent={
+                        //     <>
+                        //         <span
+                        //             className={`${values.catheterRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
+                        //         >
+                        //             <span className="text-red-500">*</span>
+                        //             <CalendarIcon className="w-4 h-4 text-blue-500" />
+                        //             제거한날: {catheterRemovalDate}
+                        //         </span>
+                        //         <div
+                        //             className={`${values.catheterRemoval === 'YES' ? 'flex' : 'hidden'} flex flex-row items-center gap-1`}
+                        //         >
+                        //             <span className="text-red-500">*</span>
+                        //             <YesOrNoViewButton
+                        //                 isDivided={false}
+                        //                 label="Foley cath 재삽입 여부"
+                        //                 value={values.catheterReInsertion}
+                        //             />
+                        //         </div>
+                        //     </>
+                        // }
+                    />
+                    <YesOrNoViewButton
+                        label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
+                        isRender={existFields.jpDrainRemoval}
+                        value={values.jpDrainRemoval}
+                        remark={values.jpDrainRemoval_remarks}
+                        // etcComponent={
+                        //     <span
+                        //         className={`${values.jpDrainRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
+                        //     >
+                        //         <span className="text-red-500">*</span>
+                        //         <CalendarIcon className="w-4 h-4 text-blue-500" />
+                        //         제거한날: {jpDrainRemovalDate}
+                        //     </span>
+                        // }
                     />
 
-                    <YesOrNoViewButton
+                    {/* <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                         isRender={existFields.ivLineRemoval}
                         value={values.ivLineRemoval}
@@ -228,11 +227,11 @@ function ConfirmComplianceForm({
                                 className={`${values.ivLineRemoval === 'YES' ? 'flex' : 'hidden'} flex-row items-center gap-2 text-sm text-gray-700`}
                             >
                                 <span className="text-red-500">*</span>
-                                <CalendarIcon className="h-4 w-4 text-blue-500" />
+                                <CalendarIcon className="w-4 h-4 text-blue-500" />
                                 제거한날: {ivLineRemovalDate}
                             </span>
                         }
-                    />
+                    /> */}
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.postExercise}
                         value={values.postExercise}
@@ -249,7 +248,7 @@ function ConfirmComplianceForm({
                         label={CHECKLIST_ITEMS_NAME.postPain}
                         isRender={existFields.podPain}
                         values={[
-                            { value: values.postPain?.day, label: 'Day' },
+                            // { value: values.postPain?.day, label: 'Day' },
                             { value: values.postPain?.evening, label: 'Evening' },
                             { value: values.postPain?.night, label: 'Night' },
                         ]}

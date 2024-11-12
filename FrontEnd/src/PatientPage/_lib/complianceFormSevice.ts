@@ -77,7 +77,11 @@ const postOrPutComplianceForm = async ({
             ivLineRemovalDate: data.ivLineRemoval === 'YES' ? data.ivLineRemovalDate : undefined, //제거한날 기입 yes일때만
             postExercise: data.postExercise,
             postMeal: data.postMeal,
-            postPain: data.postPain,
+            postPain: {
+                evening: undefined,
+                day: data.postPain?.day || undefined,
+                night: data.postPain?.night || undefined,
+            },
 
             antiNauseaPostOp_remarks: data.antiNauseaPostOp_remarks,
             ivFluidRestrictionPostOp_remarks: data.ivFluidRestrictionPostOp_remarks,

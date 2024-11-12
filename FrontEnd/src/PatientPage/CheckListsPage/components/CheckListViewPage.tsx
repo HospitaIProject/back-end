@@ -9,7 +9,6 @@ import DropContainer from '../../ComplianceFormPage/components/DropContainer';
 import { useSearchParams } from 'react-router-dom';
 import Loading from '../../../components/common/Loading';
 import PainSelector from '../../../components/common/form/input/PainSelector';
-import DateInput from '../../../components/common/form/input/DateInput';
 import { useFluidRestrictionQuery } from '../../_lib/checkListsService';
 import { useScrollHeaderControl } from '../../../Hooks/useScrollHeaderControl';
 import CheckListViewGuide from './CheckListViewGuide';
@@ -275,43 +274,43 @@ function CheckListViewPage() {
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="jpDrainRemoval"
-                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD#0)'}
+                            label={CHECKLIST_ITEMS_NAME.jpDrainRemoval}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
-                            etcComponent={
-                                <DateInput<checkListFormType>
-                                    label=""
-                                    htmlFor="jpDrainRemovalDate"
-                                    formik={formik}
-                                    placeHolder="제거한날 기입"
-                                    isRender={formik.values.jpDrainRemoval === 'YES'}
-                                />
-                            }
+                            // etcComponent={
+                            //     <DateInput<checkListFormType>
+                            //         label=""
+                            //         htmlFor="jpDrainRemovalDate"
+                            //         formik={formik}
+                            //         placeHolder="제거한날 기입"
+                            //         isRender={formik.values.jpDrainRemoval === 'YES'}
+                            //     />
+                            // }
                         />
-
                         <YesOrNoButton<checkListFormType>
                             htmlFor="catheterRemoval"
                             label={CHECKLIST_ITEMS_NAME.catheterRemoval}
                             formik={formik}
                             isRender={existFields.catheterRemoval}
-                            etcComponent={
-                                <DateInput<checkListFormType>
-                                    label=""
-                                    htmlFor="catheterRemovalDate"
-                                    formik={formik}
-                                    placeHolder="제거한날 기입"
-                                    isRender={formik.values.catheterRemoval === 'YES'}
-                                />
-                            }
+                            // etcComponent={
+                            //     <DateInput<checkListFormType>
+                            //         label=""
+                            //         htmlFor="catheterRemovalDate"
+                            //         formik={formik}
+                            //         placeHolder="제거한날 기입"
+                            //         isRender={formik.values.catheterRemoval === 'YES'}
+                            //     />
+                            // }
                         />
 
-                        <YesOrNoButton<checkListFormType>
+                        {/* <YesOrNoButton<checkListFormType>
                             htmlFor="catheterReInsertion"
                             label="* Foley cath 재삽입 여부"
                             formik={formik}
                             isRender={existFields.catheterRemoval && formik.values.catheterRemoval === 'YES'}
-                        />
-                        <YesOrNoButton<checkListFormType>
+                        /> */}
+
+                        {/* <YesOrNoButton<checkListFormType>
                             htmlFor="ivLineRemoval"
                             label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD#0)'}
                             formik={formik}
@@ -325,7 +324,7 @@ function CheckListViewPage() {
                                     isRender={formik.values.ivLineRemoval === 'YES'}
                                 />
                             }
-                        />
+                        /> */}
                         <YesOrNoButton<checkListFormType>
                             htmlFor="postExercise"
                             label={CHECKLIST_ITEMS_NAME.postExercise}
@@ -352,8 +351,32 @@ function CheckListViewPage() {
                         />
                     </DropContainer>
                     <DropContainer isOpen={relativeDay.includes('DAILY')}>
-                        {/* ------Day 운동  ------ */}
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneGiStimulant'}
+                            label={CHECKLIST_ITEMS_NAME.giStimulant + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.giStimulant}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneGumChewing'}
+                            label={CHECKLIST_ITEMS_NAME.gumChewing + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.gumChewing}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneIvFluidRestriction'}
+                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.ivFluidRestrictionPostOp}
+                        />
+                        <YesOrNoButton<DailyCheckListFormType>
+                            htmlFor={'podOneNonOpioidPainControl'}
+                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD #1~3)'}
+                            formik={formik}
+                            isRender={existFields.nonOpioidPainControl}
+                        />
 
+                        {/* ------Day 운동  ------ */}
                         <YesOrNoButton<checkListFormType>
                             htmlFor="podOneExercise"
                             label="POD 1~3 day 운동"
@@ -383,31 +406,13 @@ function CheckListViewPage() {
                                 { value: 'night', label: 'Night' },
                             ]}
                         />
-                        {/* 추가된 필드 */}
-                        <YesOrNoButton<DailyCheckListFormType>
-                            htmlFor={'podOneGumChewing'}
-                            label={CHECKLIST_ITEMS_NAME.gumChewing + '(POD #1~3)'}
-                            formik={formik}
-                            isRender={existFields.gumChewing}
-                        />
-                        <YesOrNoButton<DailyCheckListFormType>
-                            htmlFor={'podOneIvFluidRestriction'}
-                            label={CHECKLIST_ITEMS_NAME.ivFluidRestrictionPostOp + '(POD #1~3)'}
-                            formik={formik}
-                            isRender={existFields.ivFluidRestrictionPostOp}
-                        />
-                        <YesOrNoButton<DailyCheckListFormType>
-                            htmlFor={'podOneNonOpioidPainControl'}
-                            label={CHECKLIST_ITEMS_NAME.nonOpioidPainControl + '(POD #1~3)'}
-                            formik={formik}
-                            isRender={existFields.nonOpioidPainControl}
-                        />
-                        <YesOrNoButton<DailyCheckListFormType>
+
+                        {/* <YesOrNoButton<DailyCheckListFormType>
                             htmlFor={'podOneJpDrainRemoval'}
                             label={CHECKLIST_ITEMS_NAME.jpDrainRemoval + '(POD #1~3)'}
                             formik={formik}
                             isRender={existFields.jpDrainRemoval}
-                        />
+                        /> */}
                         <YesOrNoButton<DailyCheckListFormType>
                             htmlFor={'podOneIvLineRemoval'}
                             label={CHECKLIST_ITEMS_NAME.ivLineRemoval + '(POD #3)'}

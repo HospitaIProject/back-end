@@ -16,11 +16,10 @@ export const CHECKLIST_ITEMS_NAME: {
     painControlMethod: '수술 중 통증 조절 종류',
     //-------------------------수술중
 
-    gumChewing: '하루 3번 15분동안 껌씹기',
     antiNauseaPostOp: '수술 후 구역구토방지제 사용 여부',
     ivFluidRestrictionPostOp: '수술 후 IV fluid 제한',
     nonOpioidPainControl: '수술 후 non-opioid pain control 여부',
-    jpDrainRemoval: '수술 후 3일이내 JP drain 제거 여부',
+    jpDrainRemoval: '수술 후 1일이내 JP drain 제거 여부',
     catheterRemoval: '수술 후 수술장에서 소변줄 제거 여부',
     ivLineRemoval: '수술 후 3일이내 IV line 제거 여부',
     postExercise: 'Post OP day 운동',
@@ -28,6 +27,8 @@ export const CHECKLIST_ITEMS_NAME: {
     postPain: 'Post OP day 수술 후 통증',
 
     //-------------------------수술후
+    gumChewing: '하루 3번 15분동안 껌씹기',
+    giStimulant: '위장관 촉진약 복용 여부',
     podOneExercise: 'POD 1 day 운동',
     podTwoExercise: 'POD 2 day 운동',
     podThreeExercise: 'POD 3 day 운동',

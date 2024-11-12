@@ -32,9 +32,11 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title, isPe
         fluidRestriction: true, //수술 중 수액  2-4cc/kg/hr 으로 제한
         antiNausea: true, //수술 중 구역구토 방지제 사용 여부
         painControl: true, //수술 중 통증 조절을 위한 처치 여부
+        painControlMethod: true, //수수술 중 통증 조절 종류
         //-------------------------수술당일
 
         gumChewing: true, //하루 3번 15분동안 껌씹기
+        giStimulant: true, //수술 후 GI stimulant 사용 여부
         antiNauseaPostOp: true, //수술 후 구역구토방지제 사용 여부
         ivFluidRestrictionPostOp: true, //수술 후 IV fluid 제한
         nonOpioidPainControl: true, //수술 후 non-opioid pain control 여부
@@ -53,6 +55,7 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title, isPe
     };
     useEffect(() => {
         setCheckListSetup(values);
+        console.log('valuessss', values);
     }, [values]); //초기 값 설정
 
     return (

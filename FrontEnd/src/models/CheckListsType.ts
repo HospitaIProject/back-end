@@ -15,9 +15,11 @@ export type CheckListSetupType = {
     fluidRestriction: boolean; //수술 중 수액  2-4cc/kg/hr 으로 제한
     antiNausea: boolean; //수술 중 구역구토 방지제 사용 여부
     painControl: boolean; //수술 중 통증 조절을 위한 처치 여부
+    painControlMethod: boolean; //수술 중 통증 조절 종류
     //-------------------------수술당일
 
     gumChewing: boolean; //하루 3번 15분동안 껌씹기
+    giStimulant: boolean; //위장관 촉진약 복용 여부
     antiNauseaPostOp: boolean; //수술 후 구역구토방지제 사용 여부
     ivFluidRestrictionPostOp: boolean; //수술 후 IV fluid 제한
     nonOpioidPainControl: boolean; //수술 후 non-opioid pain control 여부
@@ -38,7 +40,7 @@ export const CHECKLIST_SECTION_KEYS = {
         'antibioticPreIncision',
         'painMedPreOp',
     ],
-    TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl'],
+    TODAY: ['maintainTemp', 'fluidRestriction', 'antiNausea', 'painControl', 'painControlMethod'],
 
     POST: [
         'antiNauseaPostOp',
@@ -46,7 +48,7 @@ export const CHECKLIST_SECTION_KEYS = {
         'nonOpioidPainControl',
         'jpDrainRemoval',
         'catheterRemoval',
-        'ivLineRemoval',
+        // 'ivLineRemoval',
         'podExercise',
         'podMeal',
         'podPain',
@@ -90,12 +92,12 @@ export type checkListFormType = {
     ivFluidRestrictionPostOp?: 'YES' | 'NO' | ''; //수술 후 IV fluid 제한
     nonOpioidPainControl?: 'YES' | 'NO' | ''; //수술 후 non-opioid pain control 여부
     jpDrainRemoval?: 'YES' | 'NO' | ''; //수술 후 3일이내 JP drain 제거 여부
-    jpDrainRemovalDate?: Date | ''; //제거한날 기입 *비고
+    // jpDrainRemovalDate?: Date | ''; //제거한날 기입 *비고
     catheterRemoval?: 'YES' | 'NO' | ''; //수술 후 수술장에서 소변줄 제거 여부
-    catheterRemovalDate?: Date | ''; //제거한날 기입
-    catheterReInsertion?: 'YES' | 'NO' | ''; //Foley cath 재삽입 여부
-    ivLineRemoval?: 'YES' | 'NO' | ''; //수술 후 3일이내 IV line 제거 여부
-    ivLineRemovalDate?: Date | ''; //제거한날 기입
+    // catheterRemovalDate?: Date | ''; //제거한날 기입
+    // catheterReInsertion?: 'YES' | 'NO' | ''; //Foley cath 재삽입 여부
+    // ivLineRemoval?: 'YES' | 'NO' | ''; //수술 후 3일이내 IV line 제거 여부
+    // ivLineRemovalDate?: Date | ''; //제거한날 기입
     postExercise?: 'YES' | 'NO' | ''; //Post OP day 운동
     postMeal?: 'YES' | 'NO' | ''; //Post OP day 식사
     postPain?: PostPainType; //수술 후 통증
@@ -119,7 +121,7 @@ export type checkListFormType = {
     nonOpioidPainControl_remarks?: string;
     jpDrainRemoval_remarks?: string;
     catheterRemoval_remarks?: string;
-    ivLineRemoval_remarks?: string;
+    // ivLineRemoval_remarks?: string;
     postExercise_remarks?: string;
     postMeal_remarks?: string;
 }; // 체크리스트 폼
@@ -148,6 +150,10 @@ export type DailyCheckListFormType = {
     podTwoGumChewing?: 'YES' | 'NO' | '';
     podThreeGumChewing?: 'YES' | 'NO' | '';
 
+    podOneGiStimulant?: 'YES' | 'NO' | '';
+    podTwoGiStimulant?: 'YES' | 'NO' | '';
+    podThreeGiStimulant?: 'YES' | 'NO' | '';
+
     podOneIvFluidRestriction?: 'YES' | 'NO' | '';
     podTwoIvFluidRestriction?: 'YES' | 'NO' | '';
     podThreeIvFluidRestriction?: 'YES' | 'NO' | '';
@@ -156,9 +162,9 @@ export type DailyCheckListFormType = {
     podTwoNonOpioidPainControl?: 'YES' | 'NO' | '';
     podThreeNonOpioidPainControl?: 'YES' | 'NO' | '';
 
-    podOneJpDrainRemoval?: 'YES' | 'NO' | '';
-    podTwoJpDrainRemoval?: 'YES' | 'NO' | '';
-    podThreeJpDrainRemoval?: 'YES' | 'NO' | '';
+    // podOneJpDrainRemoval?: 'YES' | 'NO' | '';
+    // podTwoJpDrainRemoval?: 'YES' | 'NO' | '';
+    // podThreeJpDrainRemoval?: 'YES' | 'NO' | '';
 
     podOneIvLineRemoval?: 'YES' | 'NO' | '';
     podTwoIvLineRemoval?: 'YES' | 'NO' | '';
@@ -167,15 +173,18 @@ export type DailyCheckListFormType = {
     podOneGumChewing_remarks?: string;
     podTwoGumChewing_remarks?: string;
     podThreeGumChewing_remarks?: string;
+    podOneGiStimulant_remarks?: string;
+    podTwoGiStimulant_remarks?: string;
+    podThreeGiStimulant_remarks?: string;
     podOneIvFluidRestriction_remarks?: string;
     podTwoIvFluidRestriction_remarks?: string;
     podThreeIvFluidRestriction_remarks?: string;
     podOneNonOpioidPainControl_remarks?: string;
     podTwoNonOpioidPainControl_remarks?: string;
     podThreeNonOpioidPainControl_remarks?: string;
-    podOneJpDrainRemoval_remarks?: string;
-    podTwoJpDrainRemoval_remarks?: string;
-    podThreeJpDrainRemoval_remarks?: string;
+    // podOneJpDrainRemoval_remarks?: string;
+    // podTwoJpDrainRemoval_remarks?: string;
+    // podThreeJpDrainRemoval_remarks?: string;
     podOneIvLineRemoval_remarks?: string;
     podTwoIvLineRemoval_remarks?: string;
     podThreeIvLineRemoval_remarks?: string;
@@ -239,13 +248,13 @@ export type CheckListsAfterItemType = {
     antiNauseaPostOp?: 'YES' | 'NO';
     ivFluidRestrictionPostOp?: 'YES' | 'NO'; //수술 후 IV fluid 제한
     nonOpioidPainControl?: 'YES' | 'NO'; //수술 후 non-opioid pain control 여부
-    jpDrainRemoval?: 'YES' | 'NO'; //수술 후 3일이내 JP drain 제거 여부
-    jpDrainRemovalDate?: Date; //제거한날 기입 *비고
+    jpDrainRemoval?: 'YES' | 'NO'; //수술 후 1일이내 JP drain 제거 여부
+    // jpDrainRemovalDate?: Date; //제거한날 기입 *비고
     catheterRemoval?: 'YES' | 'NO'; //수술 후 수술장에서 소변줄 제거 여부
-    catheterRemovalDate?: Date; //제거한날 기입
-    catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
-    ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
-    ivLineRemovalDate?: Date; //제거한날 기입
+    // catheterRemovalDate?: Date; //제거한날 기입
+    // catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
+    // ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
+    // ivLineRemovalDate?: Date; //제거한날 기입
     postExercise?: 'YES' | 'NO'; //Post OP day 운동
     postMeal?: 'YES' | 'NO'; //Post OP day 식사
     postPain?: PostPainType; //수술 후 통증
@@ -255,7 +264,7 @@ export type CheckListsAfterItemType = {
     nonOpioidPainControl_remarks?: string;
     jpDrainRemoval_remarks?: string;
     catheterRemoval_remarks?: string;
-    ivLineRemoval_remarks?: string;
+    // ivLineRemoval_remarks?: string;
     postExercise_remarks?: string;
     postMeal_remarks?: string;
 };
@@ -287,6 +296,10 @@ export type CheckListsDailyItemType = {
     podTwoGumChewing?: 'YES' | 'NO';
     podThreeGumChewing?: 'YES' | 'NO';
 
+    podOneGiStimulant?: 'YES' | 'NO';
+    podTwoGiStimulant?: 'YES' | 'NO';
+    podThreeGiStimulant?: 'YES' | 'NO';
+
     podOneIvFluidRestriction?: 'YES' | 'NO';
     podTwoIvFluidRestriction?: 'YES' | 'NO';
     podThreeIvFluidRestriction?: 'YES' | 'NO';
@@ -295,9 +308,9 @@ export type CheckListsDailyItemType = {
     podTwoNonOpioidPainControl?: 'YES' | 'NO';
     podThreeNonOpioidPainControl?: 'YES' | 'NO';
 
-    podOneJpDrainRemoval?: 'YES' | 'NO';
-    podTwoJpDrainRemoval?: 'YES' | 'NO';
-    podThreeJpDrainRemoval?: 'YES' | 'NO';
+    // podOneJpDrainRemoval?: 'YES' | 'NO';
+    // podTwoJpDrainRemoval?: 'YES' | 'NO';
+    // podThreeJpDrainRemoval?: 'YES' | 'NO';
 
     podOneIvLineRemoval?: 'YES' | 'NO';
     podTwoIvLineRemoval?: 'YES' | 'NO';
@@ -306,15 +319,18 @@ export type CheckListsDailyItemType = {
     podOneGumChewing_remarks?: string;
     podTwoGumChewing_remarks?: string;
     podThreeGumChewing_remarks?: string;
+    podOneGiStimulant_remarks?: string;
+    podTwoGiStimulant_remarks?: string;
+    podThreeGiStimulant_remarks?: string;
     podOneIvFluidRestriction_remarks?: string;
     podTwoIvFluidRestriction_remarks?: string;
     podThreeIvFluidRestriction_remarks?: string;
     podOneNonOpioidPainControl_remarks?: string;
     podTwoNonOpioidPainControl_remarks?: string;
     podThreeNonOpioidPainControl_remarks?: string;
-    podOneJpDrainRemoval_remarks?: string;
-    podTwoJpDrainRemoval_remarks?: string;
-    podThreeJpDrainRemoval_remarks?: string;
+    // podOneJpDrainRemoval_remarks?: string;
+    // podTwoJpDrainRemoval_remarks?: string;
+    // podThreeJpDrainRemoval_remarks?: string;
     podOneIvLineRemoval_remarks?: string;
     podTwoIvLineRemoval_remarks?: string;
     podThreeIvLineRemoval_remarks?: string;
@@ -327,7 +343,11 @@ export type ResponseCheckListsType = {
     checkListAfterDTO?: CheckListsAfterItemType;
     checkListDTOs?: CheckListsDailyItemType[];
     checkListCreatedToday: boolean;
-    compliancePercentage: number;
+    complianceScoreDTO: {
+        totalCheckListCompleted: number;
+        totalCheckListCount: number;
+        compliancePercentage: number;
+    };
     operationDateDTO: {
         operationId: number;
         operationMethod: string[];

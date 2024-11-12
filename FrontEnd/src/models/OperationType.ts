@@ -43,5 +43,9 @@ export type OperationItemType = {
     complicationStatus: 'YES' | 'NO'; //합병증 여부
     complicationRegistered: boolean;
     complicationScore: number;
-    compliancePercentage: number;
+    complianceScoreDTO: {
+        totalCheckListCompleted: number;
+        totalCheckListCount: number;
+        compliancePercentage: number;
+    };
 };

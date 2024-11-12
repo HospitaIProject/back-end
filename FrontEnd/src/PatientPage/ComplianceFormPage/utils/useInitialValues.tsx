@@ -139,19 +139,19 @@ export const useInitialValues = ({
         ivFluidRestrictionPostOp: existFields?.ivFluidRestrictionPostOp ? '' : undefined, //수술 후 IV fluid 제한awsas
         nonOpioidPainControl: existFields?.nonOpioidPainControl ? '' : undefined, //수술 후 non-opioid pain control 여부
         jpDrainRemoval: existFields?.jpDrainRemoval ? '' : undefined, //수술 후 3일이내 JP drain 제거 여부
-        jpDrainRemovalDate: existFields?.jpDrainRemoval ? '' : undefined, //제거한날 기입
+        // jpDrainRemovalDate: existFields?.jpDrainRemoval ? '' : undefined, //제거한날 기입
         catheterRemoval: existFields?.catheterRemoval ? '' : undefined, //수술 후 수술장에서 소변줄 제거 여부
-        catheterRemovalDate: existFields?.catheterRemoval ? '' : undefined, //제거한날 기입
-        catheterReInsertion: existFields?.catheterRemoval ? '' : undefined, //Foley cath 재삽입 여부
-        ivLineRemoval: existFields?.ivLineRemoval ? '' : undefined, //수술 후 3일이내 IV line 제거 여부
-        ivLineRemovalDate: existFields?.ivLineRemoval ? '' : undefined, //제거한날 기입
+        // catheterRemovalDate: existFields?.catheterRemoval ? '' : undefined, //제거한날 기입
+        // catheterReInsertion: existFields?.catheterRemoval ? '' : undefined, //Foley cath 재삽입 여부
+        // ivLineRemoval: existFields?.ivLineRemoval ? '' : undefined, //수술 후 3일이내 IV line 제거 여부
+        // ivLineRemovalDate: existFields?.ivLineRemoval ? '' : undefined, //제거한날 기입
         postExercise: existFields?.podExercise ? '' : undefined, //Post OP day 운동
         postMeal: existFields?.podMeal ? '' : undefined, //Post OP day 식사
         postPain: existFields?.podPain
             ? {
-                  day: 0,
-                  evening: 0,
-                  night: 0,
+                  day: '',
+                  evening: '',
+                  night: '',
               }
             : undefined,
         //수술 후 통증
@@ -203,18 +203,18 @@ export const useInitialValues = ({
         initialValues.ivFluidRestrictionPostOp = checkListAfter?.ivFluidRestrictionPostOp;
         initialValues.nonOpioidPainControl = checkListAfter?.nonOpioidPainControl;
         initialValues.jpDrainRemoval = checkListAfter?.jpDrainRemoval;
-        initialValues.jpDrainRemovalDate = checkListAfter.jpDrainRemovalDate
-            ? new Date(checkListAfter?.jpDrainRemovalDate ?? '')
-            : '';
+        // initialValues.jpDrainRemovalDate = checkListAfter.jpDrainRemovalDate
+        //     ? new Date(checkListAfter?.jpDrainRemovalDate ?? '')
+        //     : '';
         initialValues.catheterRemoval = checkListAfter?.catheterRemoval;
-        initialValues.catheterRemovalDate = checkListAfter.catheterRemovalDate
-            ? new Date(checkListAfter?.catheterRemovalDate ?? '')
-            : '';
-        initialValues.catheterReInsertion = checkListAfter?.catheterReInsertion;
-        initialValues.ivLineRemoval = checkListAfter?.ivLineRemoval;
-        initialValues.ivLineRemovalDate = checkListAfter.ivLineRemovalDate
-            ? new Date(checkListAfter.ivLineRemovalDate ?? '')
-            : '';
+        // initialValues.catheterRemovalDate = checkListAfter.catheterRemovalDate
+        //     ? new Date(checkListAfter?.catheterRemovalDate ?? '')
+        //     : '';
+        // initialValues.catheterReInsertion = checkListAfter?.catheterReInsertion;
+        // initialValues.ivLineRemoval = checkListAfter?.ivLineRemoval;
+        // initialValues.ivLineRemovalDate = checkListAfter.ivLineRemovalDate
+        //     ? new Date(checkListAfter.ivLineRemovalDate ?? '')
+        //     : '';
         initialValues.postExercise = checkListAfter?.postExercise;
         initialValues.postMeal = checkListAfter?.postMeal;
         initialValues.postPain = checkListAfter?.postPain;
@@ -224,7 +224,7 @@ export const useInitialValues = ({
         initialValues.nonOpioidPainControl_remarks = checkListAfter?.nonOpioidPainControl_remarks;
         initialValues.jpDrainRemoval_remarks = checkListAfter?.jpDrainRemoval_remarks;
         initialValues.catheterRemoval_remarks = checkListAfter?.catheterRemoval_remarks;
-        initialValues.ivLineRemoval_remarks = checkListAfter?.ivLineRemoval_remarks;
+        // initialValues.ivLineRemoval_remarks = checkListAfter?.ivLineRemoval_remarks;
         initialValues.postExercise_remarks = checkListAfter?.postExercise_remarks;
         initialValues.postMeal_remarks = checkListAfter?.postMeal_remarks;
     }
