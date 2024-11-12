@@ -125,13 +125,13 @@ export const useInitialValues = ({
         fluidRestriction: existFields?.fluidRestriction ? '' : undefined, //수술 중 수액  2-4cc/kg/hr 으로 제한 *별도 수치 디스플레이 필요
         antiNausea: existFields?.antiNausea ? '' : undefined, //수술 중 구역구토 방지제 사용 여부
         painControl: existFields?.painControl ? '' : undefined, //수술 중 통증 조절을 위한 처치 여부
-        painControlMethod: true ? '' : undefined, //수술 중 통증 조절을 위한 처치 방법
+        painControlMethod: existFields?.painControlMethod ? '' : undefined, //수술 중 통증 조절을 위한 처치 방법
 
         maintainTemp_remarks: existFields?.maintainTemp ? '' : undefined,
         fluidRestriction_remarks: existFields?.fluidRestriction ? '' : undefined,
         antiNausea_remarks: existFields?.antiNausea ? '' : undefined,
         painControl_remarks: existFields?.painControl ? '' : undefined,
-        painControlMethod_remarks: true ? '' : undefined,
+        painControlMethod_remarks: existFields?.painControlMethod ? '' : undefined,
 
         //------------------------------수술중-----------------------------------
 

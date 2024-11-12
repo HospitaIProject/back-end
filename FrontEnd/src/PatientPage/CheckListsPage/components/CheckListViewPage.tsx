@@ -146,6 +146,17 @@ function CheckListViewPage() {
         }
     }, [formik.values.jpDrainRemoval, formik.values.catheterRemoval, formik.values.ivLineRemoval]);
 
+    useEffect(() => {
+        console.log('fluidRestriction', fluidRestriction);
+        if (fluidRestriction && formik.values.fluidRestriction === '') {
+            if (fluidRestriction >= 2 && fluidRestriction <= 4) {
+                formik.setFieldValue('fluidRestriction', 'YES');
+            } else {
+                formik.setFieldValue('fluidRestriction', 'NO');
+            }
+        }
+    }, [fluidRestriction, formik.values.fluidRestriction]);
+
     if (isExistFieldsPending || isFluidRestrictionPending) {
         return <Loading />;
     }
@@ -210,7 +221,7 @@ function CheckListViewPage() {
                         />
                     </DropContainer>
 
-                    {/* 수술당일 */}
+                    {/* 수술중 */}
                     <DropContainer isOpen={relativeDay.includes('TODAY')}>
                         <YesOrNoButton<checkListFormType>
                             htmlFor="maintainTemp"
@@ -219,12 +230,17 @@ function CheckListViewPage() {
                             isRender={existFields.maintainTemp}
                         />
                         <YesOrNoButton<checkListFormType>
-                            label={`
-                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : ''} cc/kg/hr 으로 제한
-                            `}
+                            label={
+                                <span>
+                                    {CHECKLIST_ITEMS_NAME.fluidRestriction}
+                                    <br />
+                                    <span className="text-blue-500">{'→ ' + fluidRestriction + 'cc/kg/hr'}</span>
+                                </span>
+                            }
                             htmlFor="fluidRestriction"
                             formik={formik}
                             isRender={existFields.fluidRestriction}
+                            isDisabled={true}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNausea"

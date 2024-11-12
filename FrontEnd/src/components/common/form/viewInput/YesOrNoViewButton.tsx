@@ -1,7 +1,7 @@
 import InputViewContainer from './InputViewContainer';
 
 type Props = {
-    label: string;
+    label: string | React.ReactNode;
     value: 'YES' | 'NO' | '' | undefined;
     remark?: string;
     isRender?: boolean;
@@ -19,7 +19,7 @@ function YesOrNoViewButton({ label, value, remark, isRender, etcComponent, isDiv
             etcComponent={etcComponent}
         >
             <div className={`flex flex-grow justify-end`}>
-                <div className="flex flex-row w-20">
+                <div className="flex w-20 flex-row">
                     <button
                         type="button"
                         className={`h-6 flex-1 rounded-l-md border-r border-gray-300 text-sm ${value === 'YES' ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-600'}`}

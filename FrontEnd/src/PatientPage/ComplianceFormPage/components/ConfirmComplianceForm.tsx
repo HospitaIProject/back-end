@@ -116,7 +116,7 @@ function ConfirmComplianceForm({
                 <div
                     className={`${dateStatus === 'TODAY' ? 'grid' : 'hidden'} w-full grid-cols-1 gap-3 tablet:grid-cols-2 tablet:gap-x-20`}
                 >
-                    {/* 수술당일 */}
+                    {/* 수술중 */}
                     <YesOrNoViewButton
                         label={CHECKLIST_ITEMS_NAME.maintainTemp}
                         isRender={existFields.maintainTemp}
@@ -124,9 +124,13 @@ function ConfirmComplianceForm({
                         remark={values.maintainTemp_remarks}
                     />
                     <YesOrNoViewButton
-                        label={`
-                                수술 중 수액 ${fluidRestriction ? `${fluidRestriction.toFixed(2)}` : `${(fluidRestrictionData ?? 0).toFixed(2)}`} cc/kg/hr 으로 제한
-                            `}
+                        label={
+                            <>
+                                {CHECKLIST_ITEMS_NAME.fluidRestriction}
+                                <br />
+                                <span className="text-blue-500">{'→ ' + fluidRestrictionData + 'cc/kg/hr'}</span>
+                            </>
+                        }
                         isRender={existFields.fluidRestriction}
                         value={values.fluidRestriction}
                         remark={values.fluidRestriction_remarks}

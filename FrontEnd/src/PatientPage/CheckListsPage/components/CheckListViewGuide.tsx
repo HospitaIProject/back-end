@@ -62,7 +62,7 @@ function CheckListViewGuide({
                         ))}
                 </div>
                 <div className={`flex flex-col items-center text-sm text-gray-700 ${isDailyPage ? 'hidden' : ''}`}>
-                    <span className="mb-1 bg-yellow-100 px-1 font-semibold">수술당일</span>
+                    <span className="mb-1 bg-yellow-100 px-1 font-semibold">수술중</span>
                     {Object.keys(existFields)
                         .filter((key) => CHECKLIST_SECTION_KEYS.TODAY.includes(key) && !existFields[key])
                         .map((patientKey, index, array) => (
