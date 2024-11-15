@@ -437,7 +437,7 @@ public class ExcelExportService {
                     //둘째날 gum
                     if (c.getPodThreeGumChewing() != null) {
 
-                        gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
+                        gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
                     }
 
                     //셋째날 gum
