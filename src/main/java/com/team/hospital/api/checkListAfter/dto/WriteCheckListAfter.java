@@ -4,8 +4,12 @@ import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkList.enumType.DailyPainScore;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 public class WriteCheckListAfter {
+
+    private LocalDate operationDate;
 
     // 수술 후
 //    private BooleanOption giStimulant;                   // 위장관 촉진 약 복용 여부
