@@ -11,9 +11,10 @@ type Props = {
     onSubmit?: () => void;
     onClose: () => void;
     existFields: CheckListSetupType;
+    od: string;
 };
 
-function CheckListsDailyDetailModal({ values, onSubmit, onClose, existFields }: Props) {
+function CheckListsDailyDetailModal({ values, onSubmit, onClose, existFields, od }: Props) {
     const navigation = useNavigate();
     const [searchParams] = useSearchParams();
     const diffDay = searchParams.get('diffDay');
@@ -30,7 +31,7 @@ function CheckListsDailyDetailModal({ values, onSubmit, onClose, existFields }: 
     const updateHandler = () => {
         //일일
         navigation(
-            `/patient/form/compliance/daily/edit/${checkListId}?id=${operationId}&diffDay=${diffDay}&name=${name}`,
+            `/patient/form/compliance/daily/edit/${checkListId}?id=${operationId}&diffDay=${diffDay}&name=${name}&od=${od}`,
         );
     };
 

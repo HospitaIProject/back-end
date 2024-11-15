@@ -6,7 +6,7 @@ import { debounce } from 'lodash';
 import InfoIcons from '../../../../icons/InfoIcons';
 
 type Props<T> = {
-    label: string;
+    label: string | React.ReactNode;
     htmlFor: string;
     children: React.ReactNode;
     isInput: boolean;
@@ -44,7 +44,7 @@ function InputContainer<T>({ label, htmlFor, children, isInput, formik, isRender
         <div
             className={`${isRender ? '' : 'hidden'} mx-auto flex w-full max-w-screen-mobile flex-col items-center px-2`}
         >
-            <div className="flex flex-col w-full gap-2 mb-2 mobile:flex-row">
+            <div className="mb-2 flex w-full flex-col gap-2 mobile:flex-row">
                 <label
                     className={`flex items-center gap-2 pr-2 text-sm mobile:w-72 mobile:flex-shrink-0 ${isInput ? 'text-blue-500' : 'text-gray-700'}`}
                     htmlFor={htmlFor}
@@ -56,12 +56,12 @@ function InputContainer<T>({ label, htmlFor, children, isInput, formik, isRender
                         />
                     }
                 </label>
-                <div className="flex flex-row w-full gap-2 mobile:justify-between">
-                    <div className="flex flex-col flex-grow gap-1 pr-2">
+                <div className="flex w-full flex-row gap-2 mobile:justify-between">
+                    <div className="flex flex-grow flex-col gap-1 pr-2">
                         {children}
                         {isValid && (
                             <div className="flex flex-row items-center gap-1 px-2 text-red-500">
-                                <InfoIcons className="w-4 h-4 text-inherit" />
+                                <InfoIcons className="h-4 w-4 text-inherit" />
                                 <small className="text-xs text-inherit">{isValid}</small>
                             </div>
                         )}

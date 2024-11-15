@@ -12,9 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 public class CheckListDuringDTO {
 
-    private Long patientId;                                     //환자 ID
-    private String patientName;                                 //환자 이름
-    private Long patientNumber;                                 //환자 번호
+//    private Long patientId;                                     //환자 ID
+//    private String patientName;                                 //환자 이름
+//    private Long patientNumber;                                 //환자 번호
     private Long checkListDuringId;                             //checkListDuringId
 
     private LocalDateTime createAt;                             //생성 날짜
@@ -36,9 +36,9 @@ public class CheckListDuringDTO {
 
     public static CheckListDuringDTO toEntity(CheckListDuring checkListDuring) {
         CheckListDuringDTOBuilder checkListDuringDTO = CheckListDuringDTO.builder()
-                .patientId(checkListDuring.getCheckListItem().getOperation().getPatient().getId())
-                .patientName(checkListDuring.getCheckListItem().getOperation().getPatient().getName())
-                .patientNumber(checkListDuring.getCheckListItem().getOperation().getPatient().getPatientNumber())
+//                .patientId(checkListDuring.getCheckListItem().getOperation().getPatient().getId())
+//                .patientName(checkListDuring.getCheckListItem().getOperation().getPatient().getName())
+//                .patientNumber(checkListDuring.getCheckListItem().getOperation().getPatient().getPatientNumber())
                 .checkListDuringId(checkListDuring.getId())
                 .createAt(checkListDuring.getCreatedAt())
                 .updatedAt(checkListDuring.getUpdatedAt());

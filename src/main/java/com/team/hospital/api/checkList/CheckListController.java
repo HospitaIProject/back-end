@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -54,7 +55,7 @@ public class CheckListController {
     }
 
     @GetMapping("/api/checkLists/{operationId}")
-    @Operation(summary = "operation에 해당하는 체크리스트 목록")
+    @Operation(summary = "Operation Id 에 해당하는 체크리스트 목록")
     public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
@@ -65,7 +66,7 @@ public class CheckListController {
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
         CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
 
-        double score = complianceCalculationService.calculateScore(operationId);
+        ComplianceScoreDTO complianceScoreDTO = complianceCalculationService.calculateScore(operationId);
 
         CheckListWithOperationDateDTO responseDTO;
 
@@ -77,7 +78,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    score);
+                    complianceScoreDTO);
         } else {
             responseDTO = CheckListWithOperationDateDTO.toEntity(
                     checkLists,
@@ -87,7 +88,7 @@ public class CheckListController {
                     checkListAfterDTO,
                     patient,
                     createdToday,
-                    score);
+                    complianceScoreDTO);
         }
 
         return SuccessResponse.createSuccess(responseDTO);
@@ -130,7 +131,7 @@ public class CheckListController {
 
     @PutMapping("/api/checkList/date/{checkListId}")
     @Operation(summary = "IV 제거 날짜 수정")
-    public SuccessResponse<?> updateDate(@RequestBody UpdateIVDate date, @PathVariable Long checkListId) {
+    public SuccessResponse<?> updateDate(@RequestParam LocalDate date, @PathVariable Long checkListId) {
         checkListService.updateRemovalDate(date, checkListId);
         return SuccessResponse.createSuccess();
     }

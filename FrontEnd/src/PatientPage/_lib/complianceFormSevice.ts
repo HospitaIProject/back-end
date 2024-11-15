@@ -16,12 +16,14 @@ const postOrPutComplianceForm = async ({
     data,
     type,
     submitType,
+    od,
 }: {
     operationId?: number;
     checkListId?: number;
     data: checkListFormType;
     type: 'PREV' | 'TODAY' | 'POST';
     submitType: 'post' | 'put';
+    od?: string | null;
 }) => {
     let url = '';
     if (type === 'PREV') {
@@ -65,19 +67,24 @@ const postOrPutComplianceForm = async ({
         };
     } else {
         processedChecklistData = {
+            operationDate: od,
             antiNauseaPostOp: data.antiNauseaPostOp,
             ivFluidRestrictionPostOp: data.ivFluidRestrictionPostOp,
             nonOpioidPainControl: data.nonOpioidPainControl,
             jpDrainRemoval: data.jpDrainRemoval,
-            jpDrainRemovalDate: data.jpDrainRemoval === 'YES' ? data.jpDrainRemovalDate : undefined, //제거한날 기입 yes일때만
+            // jpDrainRemovalDate: data.jpDrainRemoval === 'YES' ? data.jpDrainRemovalDate : undefined, //제거한날 기입 yes일때만
             catheterRemoval: data.catheterRemoval,
-            catheterRemovalDate: data.catheterRemoval === 'YES' ? data.catheterRemovalDate : undefined, //제거한날 기입 yes일때만
-            catheterReInsertion: data.catheterRemoval === 'YES' ? data.catheterReInsertion : undefined, //Foley cath 재삽입 여부 yes일때만
-            ivLineRemoval: data.ivLineRemoval,
-            ivLineRemovalDate: data.ivLineRemoval === 'YES' ? data.ivLineRemovalDate : undefined, //제거한날 기입 yes일때만
+            // catheterRemovalDate: data.catheterRemoval === 'YES' ? data.catheterRemovalDate : undefined, //제거한날 기입 yes일때만
+            // catheterReInsertion: data.catheterRemoval === 'YES' ? data.catheterReInsertion : undefined, //Foley cath 재삽입 여부 yes일때만
+            // ivLineRemoval: data.ivLineRemoval,
+            // ivLineRemovalDate: data.ivLineRemoval === 'YES' ? data.ivLineRemovalDate : undefined, //제거한날 기입 yes일때만
             postExercise: data.postExercise,
             postMeal: data.postMeal,
-            postPain: data.postPain,
+            postPain: {
+                evening: undefined,
+                day: data.postPain?.day || undefined,
+                night: data.postPain?.night || undefined,
+            },
 
             antiNauseaPostOp_remarks: data.antiNauseaPostOp_remarks,
             ivFluidRestrictionPostOp_remarks: data.ivFluidRestrictionPostOp_remarks,
@@ -139,6 +146,7 @@ export const useComplianceFormMutation = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
+    const od = searchParams.get('od');
     const mutation = useMutation({
         mutationFn: (parameter: { operationId: number; data: checkListFormType; type: 'PREV' | 'TODAY' | 'POST' }) =>
             postOrPutComplianceForm({
@@ -146,6 +154,7 @@ export const useComplianceFormMutation = () => {
                 data: parameter.data,
                 type: parameter.type,
                 submitType: 'post',
+                od: od,
             }),
 
         onError: (error: AxiosError<ErrorResponseType>) => {
@@ -172,6 +181,8 @@ export const useComplianceFormUpdateMutation = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name');
+    const od = searchParams.get('od');
+
     const operationId = Number(searchParams.get('id'));
     const mutation = useMutation({
         mutationFn: (parameter: { checkListId: number; data: checkListFormType; type: 'PREV' | 'TODAY' | 'POST' }) =>
@@ -180,6 +191,7 @@ export const useComplianceFormUpdateMutation = () => {
                 data: parameter.data,
                 type: parameter.type,
                 submitType: 'put',
+                od: od,
             }),
 
         onError: (error: AxiosError<ErrorResponseType>) => {

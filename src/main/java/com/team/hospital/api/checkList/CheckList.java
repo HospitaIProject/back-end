@@ -2,7 +2,6 @@ package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.converter.DailyPainScoreConverter;
-import com.team.hospital.api.checkList.dto.UpdateIVDate;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
 import com.team.hospital.api.checkList.enumType.CheckListSecond;
@@ -306,6 +305,7 @@ public class CheckList extends BaseEntity {
         // IV line 제거 여부
         if (write.getPodThreeIvLineRemoval() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval());
         if (write.getPodThreeIvLineRemoval_remarks() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemoval_remarks());
+//        if (write.getPodThreeIvLineRemovalDate() != null) this.podThreeIvLineRemoval.update(write.getPodThreeIvLineRemovalDate());
 
         // POD Exercise
         if (write.getPodOneExercise() != null) this.podOneExercise.update(write.getPodOneExercise());
@@ -330,8 +330,8 @@ public class CheckList extends BaseEntity {
         if (write.getPodThreePain() != null) this.podThreePain = write.getPodThreePain();
     }
 
-    public void updateRemovalDate(UpdateIVDate update) {
-        this.podThreeIvLineRemoval.update(update.getIvLineRemovalDate());
+    public void updateRemovalDate(LocalDate update) {
+        this.podThreeIvLineRemoval.update(update);
     }
 
     // 한국 시간으로 변환하는 메서드 추가

@@ -1,22 +1,12 @@
 package com.team.hospital.api.checkListItemDefault.dto;
 
 import com.team.hospital.api.checkListItemDefault.CheckListItemDefault;
-import com.team.hospital.api.operationMethod.OperationMethod;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
 public class CheckListItemDefaultResponse {
-
-    private boolean giStimulant;
-    private boolean gumChewing;
-    private boolean antiNauseaPostOp;
-    private boolean ivFluidRestrictionPostOp;
-    private boolean nonOpioidPainControl;
-    private boolean jpDrainRemoval;
-    private boolean catheterRemoval;
-    private boolean ivLineRemoval;
 
     // 수술 전
     private boolean explainedPreOp;
@@ -31,6 +21,19 @@ public class CheckListItemDefaultResponse {
     private boolean fluidRestriction;
     private boolean antiNausea;
     private boolean painControl;
+    private boolean painControlMethod;
+
+    // 수술 후
+    private boolean antiNauseaPostOp;
+    private boolean ivFluidRestrictionPostOp;
+    private boolean nonOpioidPainControl;
+    private boolean jpDrainRemoval;
+    private boolean catheterRemoval;
+
+    // 데일리
+    private boolean giStimulant;
+    private boolean gumChewing;
+    private boolean ivLineRemoval;
 
     // POD
     private boolean podExercise;
@@ -55,6 +58,7 @@ public class CheckListItemDefaultResponse {
                 .fluidRestriction(checkListItemDefault.isFluidRestriction())
                 .antiNausea(checkListItemDefault.isAntiNausea())
                 .painControl(checkListItemDefault.isPainControl())
+                .painControlMethod(checkListItemDefault.isPainControlMethod())
 
                 // 수술 후
                 .giStimulant(checkListItemDefault.isGiStimulant())

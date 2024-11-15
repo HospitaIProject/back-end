@@ -9,15 +9,23 @@ type Props = {
     order: number;
     today?: boolean;
     queryDate: string;
-    totalCompleted: number;
+    isPreviousCheckListsComplete: boolean;
 };
 
-function CheckListsPostEmptyCard({ day, id, name, order, today = false, queryDate, totalCompleted }: Props) {
+function CheckListsPostEmptyCard({
+    day,
+    id,
+    name,
+    order,
+    today = false,
+    queryDate,
+    isPreviousCheckListsComplete,
+}: Props) {
     const navigate = useNavigate();
     const dateComparison = `D+${day}`;
 
     const handleRouteCheckListForm = () => {
-        if (day + 2 > totalCompleted) {
+        if (!isPreviousCheckListsComplete) {
             alert('‼️ 이전 체크리스트를 먼저 작성해주세요.');
             return;
         }

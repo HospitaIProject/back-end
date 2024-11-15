@@ -3,7 +3,6 @@ package com.team.hospital.api.checkListAfter;
 import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterResponse;
-import com.team.hospital.api.checkListAfter.dto.UpdateDateCheckListAfter;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
@@ -13,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -75,10 +75,17 @@ public class CheckListAfterController {
         return SuccessResponse.createSuccess();
     }
 
-    @PutMapping("/api/checkListAfter/date/{checkListAfterId}")
-    @Operation(summary = "JP, 소변줄 제거 날짜 수정")
-    public SuccessResponse<?> updateDate(@RequestBody UpdateDateCheckListAfter date, @PathVariable Long checkListAfterId) {
-        checkListAfterService.updateRemovalDate(date, checkListAfterId);
+    @PutMapping("/api/checkListAfter/jp/{checkListAfterId}")
+    @Operation(summary = "JP 제거 날짜 수정")
+    public SuccessResponse<?> updateJpRemovalDate(@RequestParam LocalDate jpRemovalDate, @PathVariable Long checkListAfterId) {
+        checkListAfterService.updateJpRemovalDate(jpRemovalDate, checkListAfterId);
+        return SuccessResponse.createSuccess();
+    }
+
+    @PutMapping("/api/checkListAfter/cath/{checkListAfterId}")
+    @Operation(summary = "Catheter 제거 날짜 수정")
+    public SuccessResponse<?> updateCatheterDate(@RequestParam LocalDate catheRemovalDate, @PathVariable Long checkListAfterId) {
+        checkListAfterService.updateCatheterRemovalDate(catheRemovalDate, checkListAfterId);
         return SuccessResponse.createSuccess();
     }
 }

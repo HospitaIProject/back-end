@@ -383,7 +383,8 @@ public class ExcelExportService {
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
 
 
-                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
+//                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
+//                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
                 setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
 
@@ -436,7 +437,7 @@ public class ExcelExportService {
                     //둘째날 gum
                     if (c.getPodThreeGumChewing() != null) {
 
-                        gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
+                        gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
                     }
 
                     //셋째날 gum
@@ -473,6 +474,7 @@ public class ExcelExportService {
                     if (c.getPodThreeIvFluidRestriction() != null) {
                         fluid_limitList.add(c.getPodThreeIvFluidRestriction().getOption().getNum());
                     }
+
 
                     //첫째날 postop
                     if (c.getPodOneNonOpioidPainControl() != null) {

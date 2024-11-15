@@ -81,6 +81,10 @@ function PatientSummaryCard({ userData }: Props) {
             // 체크리스트가 이미 작성된 경우 체크리스트 목록 이동후 최신 체크리스트 열기
         } else {
             if (dateComparison === 'POST') {
+                if (Math.abs(Number(diffDay)) > 3) {
+                    navigation(`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`);
+                    return;
+                } //임시수정 테스트
                 if (Math.abs(Number(diffDay)) === 1) {
                     alert('작성 가능한 Daily 체크리스트가 2건이므로 체크리스트 목록 페이지로 이동됩니다.');
                     navigation(`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`);

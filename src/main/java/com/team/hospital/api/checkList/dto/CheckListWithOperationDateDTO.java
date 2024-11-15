@@ -23,9 +23,9 @@ public class CheckListWithOperationDateDTO {
     private CheckListDuringDTO checkListDuringDTO;
     private CheckListAfterDTO checkListAfterDTO;
     private boolean checkListCreatedToday;
-    private double compliancePercentage;
+    private ComplianceScoreDTO complianceScoreDTO;
 
-    public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
+    public static CheckListWithOperationDateDTO toEntity(List<CheckList> checkLists, OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, ComplianceScoreDTO complianceScoreDTO) {
         return CheckListWithOperationDateDTO.builder()
                 .checkListDTOs(checkLists.stream().map(CheckListDTO::toEntity).toList())
                 .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.toEntity(patient)))
@@ -33,18 +33,18 @@ public class CheckListWithOperationDateDTO {
                 .checkListDuringDTO(checkListDuringDTO)
                 .checkListAfterDTO(checkListAfterDTO)
                 .checkListCreatedToday(checkListCreatedToday)
-                .compliancePercentage(compilancePercentage)
+                .complianceScoreDTO(complianceScoreDTO)
                 .build();
     }
 
-    public static CheckListWithOperationDateDTO toEntity(OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, double compilancePercentage) {
+    public static CheckListWithOperationDateDTO toEntity(OperationDTO operationDTO, CheckListBeforeDTO checkListBeforeDTO, CheckListDuringDTO checkListDuringDTO, CheckListAfterDTO checkListAfterDTO, Patient patient, boolean checkListCreatedToday, ComplianceScoreDTO complianceScoreDTO) {
         return CheckListWithOperationDateDTO.builder()
                 .operationDateDTO(OperationDateDTO.toEntity(operationDTO, PatientDTO.toEntity(patient)))
                 .checkListBeforeDTO(checkListBeforeDTO)
                 .checkListDuringDTO(checkListDuringDTO)
                 .checkListAfterDTO(checkListAfterDTO)
                 .checkListCreatedToday(checkListCreatedToday)
-                .compliancePercentage(compilancePercentage)
+                .complianceScoreDTO(complianceScoreDTO)
                 .build();
     }
 }

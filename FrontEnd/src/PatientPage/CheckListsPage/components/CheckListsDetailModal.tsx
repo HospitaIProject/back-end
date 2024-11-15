@@ -18,9 +18,10 @@ type Props = {
     prevValues?: CheckListsBeforeItemType;
     todayValues?: CheckListsDuringItemType;
     postValues?: CheckListsAfterItemType;
+    od: string;
 };
 
-function CheckListsDetailModal({ prevValues, todayValues, postValues, onSubmit, onClose, setupData }: Props) {
+function CheckListsDetailModal({ prevValues, todayValues, postValues, onSubmit, onClose, setupData, od }: Props) {
     const navigation = useNavigate();
     const [searchParams] = useSearchParams();
     const name = searchParams.get('name'); //환자 이름
@@ -38,13 +39,19 @@ function CheckListsDetailModal({ prevValues, todayValues, postValues, onSubmit, 
     const updateHandler = () => {
         if (type === 'PREV') {
             //수술전
-            navigation(`/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=PREV&name=${name}`);
+            navigation(
+                `/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=PREV&name=${name}&od=${od}`,
+            );
         } else if (type === 'TODAY') {
             //수술당일
-            navigation(`/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=TODAY&name=${name}`);
+            navigation(
+                `/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=TODAY&name=${name}&od=${od}`,
+            );
         } else if (type === 'POST') {
             //수술후
-            navigation(`/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=POST&name=${name}`);
+            navigation(
+                `/patient/form/compliance/edit/${checkListId}?id=${operationId}&dateStatus=POST&name=${name}&od=${od}`,
+            );
         }
     };
     useEffect(() => {

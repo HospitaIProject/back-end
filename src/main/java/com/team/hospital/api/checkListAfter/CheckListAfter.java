@@ -2,14 +2,16 @@ package com.team.hospital.api.checkListAfter;
 
 import com.team.hospital.api.base.BaseEntity;
 import com.team.hospital.api.checkList.converter.DailyPainScoreConverter;
+import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkList.enumType.CheckListFirst;
 import com.team.hospital.api.checkList.enumType.CheckListSecond;
 import com.team.hospital.api.checkList.enumType.DailyPainScore;
-import com.team.hospital.api.checkListAfter.dto.UpdateDateCheckListAfter;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -62,14 +64,6 @@ public class CheckListAfter extends BaseEntity {
     })
     private CheckListSecond catheterRemoval; // 수술 후 수술장에서 소변줄 제거 여부
 
-//    @Embedded
-//    @AttributeOverrides({
-//            @AttributeOverride(name = "option", column = @Column(name = "iv_line_removal")),
-//            @AttributeOverride(name = "remarks", column = @Column(name = "iv_line_removal_remarks")),
-//            @AttributeOverride(name = "removedDate", column = @Column(name = "iv_line_removal_removedDate"))
-//    })
-//    private CheckListSecond ivLineRemoval; // 수술 후 3일이내 IV line 제거 여부
-
     ///
     @Embedded
     @AttributeOverrides({
@@ -93,8 +87,8 @@ public class CheckListAfter extends BaseEntity {
     private CheckListItem checkListItem;
 
     public static CheckListAfter toEntity(WriteCheckListAfter write, CheckListItem checkListItem) {
-        return CheckListAfter.builder()
-
+        CheckListAfterBuilder builder = CheckListAfter.builder();
+        builder
                 // 수술 후
                 .antiNauseaPostOp(CheckListFirst.of(write.getAntiNauseaPostOp(), write.getAntiNauseaPostOp_remarks()))
                 .ivFluidRestrictionPostOp(CheckListFirst.of(write.getIvFluidRestrictionPostOp(), write.getIvFluidRestrictionPostOp_remarks()))
@@ -105,12 +99,20 @@ public class CheckListAfter extends BaseEntity {
 //                .catheterRemoval(CheckListThird.of(write.getCatheterRemoval(), write.getCatheterRemoval_remarks(), write.getCatheterRemovalDate(), write.getCatheterReInsertion()))
 //                .ivLineRemoval(CheckListSecond.of(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate()))
 
+
+
                 .postExercise(CheckListFirst.of(write.getPostExercise(), write.getPostExercise_remarks()))
                 .postMeal(CheckListFirst.of(write.getPostMeal(), write.getPostMeal_remarks()))
                 .postPain(write.getPostPain())
 
-                .checkListItem(checkListItem)
-                .build();
+                .checkListItem(checkListItem);
+
+        return builder.build();
+    }
+
+    public void updateRemovalDate(WriteCheckListAfter write) {
+        updateJpRemovalDate(write.getJpDrainRemoval() == BooleanOption.YES ? write.getOperationDate() : null);
+        updateCatheterRemovalDate(write.getCatheterRemoval() == BooleanOption.YES ? write.getOperationDate() : null);
     }
 
     public void updateCheckListAfter(WriteCheckListAfter write) {
@@ -119,15 +121,20 @@ public class CheckListAfter extends BaseEntity {
         this.nonOpioidPainControl.update(write.getNonOpioidPainControl(), write.getNonOpioidPainControl_remarks());
         this.jpDrainRemoval.update(write.getJpDrainRemoval(), write.getJpDrainRemoval_remarks());
         this.catheterRemoval.update(write.getCatheterRemoval(), write.getCatheterRemoval_remarks());
-//        this.ivLineRemoval.update(write.getIvLineRemoval(), write.getIvLineRemoval_remarks(), write.getIvLineRemovalDate());
+
+        updateJpRemovalDate(write.getJpDrainRemoval() == BooleanOption.YES ? write.getOperationDate() : null);
+        updateCatheterRemovalDate(write.getCatheterRemoval() == BooleanOption.YES ? write.getOperationDate() : null);
 
         this.postExercise.update(write.getPostExercise(), write.getPostExercise_remarks());
         this.postMeal.update(write.getPostMeal(), write.getPostMeal_remarks());
         this.postPain = write.getPostPain();
     }
 
-    public void updateRemovalDate(UpdateDateCheckListAfter update) {
-        this.jpDrainRemoval.update(update.getJpDrainRemovalDate());
-        this.catheterRemoval.update(update.getCatheterRemovalDate());
+    public void updateJpRemovalDate(LocalDate jpRemovalDate) {
+        this.jpDrainRemoval.update(jpRemovalDate);
+    }
+
+    public void updateCatheterRemovalDate(LocalDate catheterRemovalDate) {
+        this.catheterRemoval.update(catheterRemovalDate);
     }
 }

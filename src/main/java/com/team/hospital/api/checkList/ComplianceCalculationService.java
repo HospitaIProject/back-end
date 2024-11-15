@@ -1,5 +1,6 @@
 package com.team.hospital.api.checkList;
 
+import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.checkList.enumType.BooleanOption;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
@@ -14,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.team.hospital.api.checkList.enumType.BooleanOption.NO;
 import static com.team.hospital.api.checkList.enumType.BooleanOption.YES;
@@ -33,7 +33,7 @@ public class ComplianceCalculationService {
 
 
     // Compliance
-    public double calculateScore(Long operationId) {
+    public ComplianceScoreDTO calculateScore(Long operationId) {
         Long checkListItemId = checkListItemService.findByOperationId(operationId).getId();
         boolean existsBefore = checkListBeforeService.existsByCheckListItemId(checkListItemId);
         boolean existsDuring = checkListDuringService.existsByCheckListItemId(checkListItemId);
@@ -64,11 +64,8 @@ public class ComplianceCalculationService {
         log.info("Total check list completed: {}", totalCheckListCompleted);
         log.info("Total check list count: {}", totalCheckListCount);
 
-        if (totalCheckListCount > 0) {
-            return ((double) totalCheckListCompleted / totalCheckListCount) * 100;
-        }
-
-        return 0.0;
+        if (totalCheckListCount > 0) return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, Math.round(((double) totalCheckListCompleted / totalCheckListCount) * 100 * 100.0) / 100.0);
+        return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, (0.0));
     }
 
     private int checkListCompletedCount(Long operationId, String stage, boolean[] decrementedFlags) {
@@ -84,18 +81,18 @@ public class ComplianceCalculationService {
                 if (BooleanOption.YES.equals(checkListBefore.getAntibioticPreIncision())) count++;
                 if (BooleanOption.YES.equals(checkListBefore.getPainMedPreOp())) count++;
 
-                log.info("CheckListBefore ExplainedPreOP = {}",
-                        Optional.ofNullable(checkListBefore.getExplainedPreOp()).orElse(BooleanOption.NO));
-                log.info("CheckListBefore getOnsPreOp2hr = {}",
-                        Optional.ofNullable(checkListBefore.getOnsPreOp2hr()).orElse(BooleanOption.NO));
-                log.info("CheckListBefore getOnsPostBowelPrep = {}",
-                        Optional.ofNullable(checkListBefore.getOnsPostBowelPrep()).orElse(BooleanOption.NO));
-                log.info("CheckListBefore getDvtPrevention = {}",
-                        Optional.ofNullable(checkListBefore.getDvtPrevention()).orElse(BooleanOption.NO));
-                log.info("CheckListBefore getAntibioticPreIncision = {}",
-                        Optional.ofNullable(checkListBefore.getAntibioticPreIncision()).orElse(BooleanOption.NO));
-                log.info("CheckListBefore getPainMedPreOp = {}",
-                        Optional.ofNullable(checkListBefore.getPainMedPreOp()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore ExplainedPreOP = {}",
+//                        Optional.ofNullable(checkListBefore.getExplainedPreOp()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore getOnsPreOp2hr = {}",
+//                        Optional.ofNullable(checkListBefore.getOnsPreOp2hr()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore getOnsPostBowelPrep = {}",
+//                        Optional.ofNullable(checkListBefore.getOnsPostBowelPrep()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore getDvtPrevention = {}",
+//                        Optional.ofNullable(checkListBefore.getDvtPrevention()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore getAntibioticPreIncision = {}",
+//                        Optional.ofNullable(checkListBefore.getAntibioticPreIncision()).orElse(BooleanOption.NO));
+//                log.info("CheckListBefore getPainMedPreOp = {}",
+//                        Optional.ofNullable(checkListBefore.getPainMedPreOp()).orElse(BooleanOption.NO));
                 break;
 
             case "during":
@@ -105,14 +102,14 @@ public class ComplianceCalculationService {
                 if (BooleanOption.YES.equals(checkListDuring.getAntiNausea())) count++;
                 if (BooleanOption.YES.equals(checkListDuring.getPainControl())) count++;
 
-                log.info("CheckListDuring getMaintainTemp = {}",
-                        Optional.ofNullable(checkListDuring.getMaintainTemp()).orElse(BooleanOption.NO));
-                log.info("CheckListDuring getFluidRestriction = {}",
-                        Optional.ofNullable(checkListDuring.getFluidRestriction()).orElse(BooleanOption.NO));
-                log.info("CheckListDuring getAntiNausea = {}",
-                        Optional.ofNullable(checkListDuring.getAntiNausea()).orElse(BooleanOption.NO));
-                log.info("CheckListDuring getPainControl = {}",
-                        Optional.ofNullable(checkListDuring.getPainControl()).orElse(BooleanOption.NO));
+//                log.info("CheckListDuring getMaintainTemp = {}",
+//                        Optional.ofNullable(checkListDuring.getMaintainTemp()).orElse(BooleanOption.NO));
+//                log.info("CheckListDuring getFluidRestriction = {}",
+//                        Optional.ofNullable(checkListDuring.getFluidRestriction()).orElse(BooleanOption.NO));
+//                log.info("CheckListDuring getAntiNausea = {}",
+//                        Optional.ofNullable(checkListDuring.getAntiNausea()).orElse(BooleanOption.NO));
+//                log.info("CheckListDuring getPainControl = {}",
+//                        Optional.ofNullable(checkListDuring.getPainControl()).orElse(BooleanOption.NO));
                 break;
 
             case "after":
@@ -141,20 +138,20 @@ public class ComplianceCalculationService {
                 if (BooleanOption.YES.equals(checkListAfter.getPostMeal())) count++;
 
                 // "after" 섹션
-                log.info("CheckListAfter getAntiNauseaPostOp = {}",
-                        Optional.ofNullable(checkListAfter.getAntiNauseaPostOp()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getCatheterRemoval = {}",
-                        Optional.ofNullable(checkListAfter.getCatheterRemoval()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getIvFluidRestrictionPostOp = {}",
-                        Optional.ofNullable(checkListAfter.getIvFluidRestrictionPostOp()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getNonOpioidPainControl = {}",
-                        Optional.ofNullable(checkListAfter.getNonOpioidPainControl()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getJpDrainRemoval = {}",
-                        Optional.ofNullable(checkListAfter.getJpDrainRemoval()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getPostExercise = {}",
-                        Optional.ofNullable(checkListAfter.getPostExercise()).orElse(BooleanOption.NO));
-                log.info("CheckListAfter getPostMeal = {}",
-                        Optional.ofNullable(checkListAfter.getPostMeal()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getAntiNauseaPostOp = {}",
+//                        Optional.ofNullable(checkListAfter.getAntiNauseaPostOp()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getCatheterRemoval = {}",
+//                        Optional.ofNullable(checkListAfter.getCatheterRemoval()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getIvFluidRestrictionPostOp = {}",
+//                        Optional.ofNullable(checkListAfter.getIvFluidRestrictionPostOp()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getNonOpioidPainControl = {}",
+//                        Optional.ofNullable(checkListAfter.getNonOpioidPainControl()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getJpDrainRemoval = {}",
+//                        Optional.ofNullable(checkListAfter.getJpDrainRemoval()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getPostExercise = {}",
+//                        Optional.ofNullable(checkListAfter.getPostExercise()).orElse(BooleanOption.NO));
+//                log.info("CheckListAfter getPostMeal = {}",
+//                        Optional.ofNullable(checkListAfter.getPostMeal()).orElse(BooleanOption.NO));
                 break;
         }
 

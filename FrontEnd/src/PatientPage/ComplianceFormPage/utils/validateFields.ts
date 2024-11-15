@@ -25,7 +25,7 @@ const validationRules = {
         'catheterRemoval',
         // 'catheterRemovalDate', //별도
         // 'catheterReInsertion', //별도
-        'ivLineRemoval',
+        // 'ivLineRemoval',
         // 'ivLineRemovalDate', //별도
         'postExercise',
         'postMeal',
@@ -48,27 +48,27 @@ export const validateFields = ({ formik, type, values }: Props) => {
         }
     });
     if (type === 'POST') {
-        if (values['jpDrainRemoval'] === 'YES' && values['jpDrainRemovalDate'] === '') {
-            formik.setFieldError('jpDrainRemovalDate', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (
-            values['catheterRemoval'] === 'YES' &&
-            values['catheterRemovalDate'] === '' &&
-            values['catheterReInsertion'] === ''
-        ) {
-            formik.setFieldError('catheterRemovalDate', '필수 입력 항목입니다.');
-            formik.setFieldError('catheterReInsertion', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (values['ivLineRemoval'] === 'YES' && values['ivLineRemovalDate'] === '') {
-            formik.setFieldError('ivLineRemovalDate', '필수 입력 항목입니다.');
-            isError = true;
-        }
-        if (values['postPain']?.day === '' || values['postPain']?.evening === '' || values['postPain']?.night === '') {
-            formik.setFieldError('postPain', '필수 입력 항목입니다.');
-            isError = true;
-        }
+        // if (values['jpDrainRemoval'] === 'YES' && values['jpDrainRemovalDate'] === '') {
+        //     formik.setFieldError('jpDrainRemovalDate', '필수 입력 항목입니다.');
+        //     isError = true;
+        // }
+        // if (
+        //     values['catheterRemoval'] === 'YES' &&
+        //     values['catheterRemovalDate'] === '' &&
+        //     values['catheterReInsertion'] === ''
+        // ) {
+        //     formik.setFieldError('catheterRemovalDate', '필수 입력 항목입니다.');
+        //     formik.setFieldError('catheterReInsertion', '필수 입력 항목입니다.');
+        //     isError = true;
+        // }
+        // if (values['ivLineRemoval'] === 'YES' && values['ivLineRemovalDate'] === '') {
+        //     formik.setFieldError('ivLineRemovalDate', '필수 입력 항목입니다.');
+        //     isError = true;
+        // }
+        // if (values['postPain']?.day === '' || values['postPain']?.evening === '' || values['postPain']?.night === '') {
+        //     formik.setFieldError('postPain', '필수 입력 항목입니다.');
+        //     isError = true;
+        // }
     }
 
     return isError;

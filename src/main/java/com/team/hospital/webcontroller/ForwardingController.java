@@ -17,10 +17,10 @@ public class ForwardingController {
         int port = request.getServerPort();   // 포트 번호
         String scheme = request.getScheme();  // HTTP 또는 HTTPS
 
-        log.info("Request URI = {}", requestURI);
-        log.info("Host = {}", host);
-        log.info("Port = {}", port);
-        log.info("Scheme = {}", scheme);
+//        log.info("Request URI = {}", requestURI);
+//        log.info("Host = {}", host);
+//        log.info("Port = {}", port);
+//        log.info("Scheme = {}", scheme);
 
         if (requestURI.startsWith("/hc") || requestURI.startsWith("/env")) {
             return "forward:" + requestURI;
