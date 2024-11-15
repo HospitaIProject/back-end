@@ -1,7 +1,6 @@
 package com.team.hospital.api.checkListAfter;
 
 import com.team.hospital.api.checkListAfter.dto.CheckListAfterDTO;
-import com.team.hospital.api.checkListAfter.dto.UpdateDateCheckListAfter;
 import com.team.hospital.api.checkListAfter.dto.WriteCheckListAfter;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterAlreadyExistsException;
 import com.team.hospital.api.checkListAfter.exception.CheckListAfterNotFoundException;
@@ -30,6 +29,7 @@ public class CheckListAfterService {
         try {
             CheckListItem checkListItem = checkListItemService.findCheckListItemById(checkListItemId);
             CheckListAfter checkListAfter = CheckListAfter.toEntity(write, checkListItem);
+            checkListAfter.updateRemovalDate(write);
             checkListAfterRepository.save(checkListAfter);
         } catch (DataIntegrityViolationException e) {
             throw new CheckListAfterAlreadyExistsException();
@@ -52,12 +52,21 @@ public class CheckListAfterService {
     public void modify(WriteCheckListAfter write, Long checkListAfterId) {
         CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
         checkListAfter.updateCheckListAfter(write);
+
+        System.out.println("JP removedDate = " + checkListAfter.getJpDrainRemoval().getRemovedDate());
+        System.out.println("Catheter removedDate1 = " + checkListAfter.getCatheterRemoval().getRemovedDate());
     }
 
     @Transactional
-    public void updateRemovalDate(UpdateDateCheckListAfter date, Long checkListAfterId) {
+    public void updateJpRemovalDate(LocalDate jpRemovalDate, Long checkListAfterId) {
         CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
-        checkListAfter.updateRemovalDate(date);
+        checkListAfter.updateJpRemovalDate(jpRemovalDate);
+    }
+
+    @Transactional
+    public void updateCatheterRemovalDate(LocalDate catheterRemovalDate, Long checkListAfterId) {
+        CheckListAfter checkListAfter = findCheckListAfterById(checkListAfterId);
+        checkListAfter.updateCatheterRemovalDate(catheterRemovalDate);
     }
 
     public CheckListAfter findCheckListAfterById(Long checkListAfterId) {
