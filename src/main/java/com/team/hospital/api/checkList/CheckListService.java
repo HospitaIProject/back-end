@@ -1,7 +1,6 @@
 package com.team.hospital.api.checkList;
 
 import com.team.hospital.api.checkList.dto.CheckListDailyDTO;
-import com.team.hospital.api.checkList.dto.UpdateIVDate;
 import com.team.hospital.api.checkList.dto.WriteCheckList;
 import com.team.hospital.api.checkList.exception.CheckListNotFoundException;
 import com.team.hospital.api.checkListAfter.CheckListAfterService;
@@ -53,7 +52,7 @@ public class CheckListService {
     }
 
     @Transactional
-    public void updateRemovalDate(UpdateIVDate date, Long checkListId) {
+    public void updateRemovalDate(LocalDate date, Long checkListId) {
         CheckList checkList = findCheckListById(checkListId);
         checkList.updateRemovalDate(date);
     }

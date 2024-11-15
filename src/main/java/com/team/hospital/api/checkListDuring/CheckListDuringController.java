@@ -95,7 +95,6 @@ public class CheckListDuringController {
 
     private double calculateFluidRestriction(double totalFluids, double weight, int operationTimeInMinutes) {
         double operationTimeInHours = operationTimeInMinutes / 60.0; // 시간 단위로 변환
-        double restriction = Math.round((totalFluids / weight / operationTimeInHours) * 100) / 100.0; // 계산 및 반올림
-        return Math.max(2.0, Math.min(4.0, restriction));
+        return Math.round((totalFluids / weight / operationTimeInHours) * 100) / 100.0; // 계산 및 반올림
     }
 }

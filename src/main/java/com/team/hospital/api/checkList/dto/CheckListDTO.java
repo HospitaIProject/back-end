@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Getter
 public class CheckListDTO {
 
-    private Long patientId;                                     //환자 ID
-    private String patientName;                                 //환자 이름
-    private Long patientNumber;                                 //환자 번호
+//    private Long patientId;                                     //환자 ID
+//    private String patientName;                                 //환자 이름
+//    private Long patientNumber;                                 //환자 번호
     private Long checkListId;                                   //checkListId
 
     private LocalDateTime createAt;                             //생성 날짜
@@ -43,6 +43,7 @@ public class CheckListDTO {
 //    private BooleanOption podThreeJpDrainRemoval;
 
     private BooleanOption podThreeIvLineRemoval;
+    private LocalDate podThreeIvLineRemovalDate;
 
     // POD Exercise
     private BooleanOption podOneExercise;                // 식사
@@ -94,9 +95,9 @@ public class CheckListDTO {
         if (checkList == null) return null;
 
         CheckListDTOBuilder checkListDTO = CheckListDTO.builder()
-                .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
-                .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
-                .patientNumber(checkList.getCheckListItem().getOperation().getPatient().getPatientNumber())
+//                .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
+//                .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
+//                .patientNumber(checkList.getCheckListItem().getOperation().getPatient().getPatientNumber())
                 .checkListId(checkList.getId())
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt());
@@ -175,7 +176,11 @@ public class CheckListDTO {
         if (checkList.getPodThreeIvLineRemoval() != null) {
             checkListDTO.podThreeIvLineRemoval(checkList.getPodThreeIvLineRemoval().getOption());
             checkListDTO.podThreeIvLineRemoval_remarks(checkList.getPodThreeIvLineRemoval().getRemarks());
+            if (checkList.getPodThreeIvLineRemoval().getRemovedDate() != null) {
+                checkListDTO.podThreeIvLineRemovalDate(checkList.getPodThreeIvLineRemoval().getRemovedDate());
+            }
         }
+
 
         if (checkList.getPodOneExercise() != null) {
             checkListDTO.podOneExercise(checkList.getPodOneExercise().getOption());

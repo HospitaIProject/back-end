@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -130,7 +131,7 @@ public class CheckListController {
 
     @PutMapping("/api/checkList/date/{checkListId}")
     @Operation(summary = "IV 제거 날짜 수정")
-    public SuccessResponse<?> updateDate(@RequestBody UpdateIVDate date, @PathVariable Long checkListId) {
+    public SuccessResponse<?> updateDate(@RequestParam LocalDate date, @PathVariable Long checkListId) {
         checkListService.updateRemovalDate(date, checkListId);
         return SuccessResponse.createSuccess();
     }
