@@ -22,6 +22,7 @@ function DatePickerModal({ initialDate, onClose, onSelectDate, minDate, descript
     const handleChangeDate = () => {
         if (selectDate === null) return;
         onSelectDate(selectDate);
+        onClose();
     };
 
     useEffect(() => {

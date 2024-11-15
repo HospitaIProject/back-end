@@ -16,11 +16,11 @@ const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({
     const isOverHalf = percent >= 15;
     return (
         <div className="flex flex-col items-center gap-2">
-            <div className="h-5 w-full overflow-hidden rounded-full bg-blue-200">
+            <div className="w-full h-5 overflow-hidden bg-blue-200 rounded-full">
                 {percent !== 0 && (
                     <div
                         style={{ width: `${percent}%` }}
-                        className="relative flex h-full items-center justify-end rounded-full bg-blue-600 pr-3 text-center text-xs font-medium text-blue-100"
+                        className="relative flex items-center justify-end h-full pr-3 text-xs font-medium text-center text-blue-100 bg-blue-600 rounded-full"
                     >
                         <span className={`${isOverHalf ? '' : 'hidden'}`}>{percent}%</span>
                         <span
@@ -31,7 +31,7 @@ const HorizontalProgressBar: React.FC<HorizontalProgressBarProps> = ({
                     </div>
                 )}
                 {percent === 0 && (
-                    <div className="flex h-full w-full items-center justify-center rounded-full text-center text-xs font-medium text-gray-700">
+                    <div className="flex items-center justify-center w-full h-full text-xs font-medium text-center text-gray-700 rounded-full">
                         <span>0%</span>
                     </div>
                 )}

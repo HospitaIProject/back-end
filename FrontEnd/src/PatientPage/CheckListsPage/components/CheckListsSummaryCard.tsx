@@ -42,6 +42,7 @@ function CheckListsSummaryCard({
     todayValues,
     postValues,
     dailyValues,
+    operationDateDTO,
 
     checkListData,
     setupData,
@@ -161,10 +162,16 @@ function CheckListsSummaryCard({
                     postValues={postValues}
                     setupData={setupData}
                     onClose={() => closeModal()}
+                    od={operationDateDTO.operationDate}
                 />
             )}
             {isDailyModalOpen && dailyValues && (
-                <CheckListsDailyDetailModal values={dailyValues} onClose={closeModal} existFields={setupData} />
+                <CheckListsDailyDetailModal
+                    values={dailyValues}
+                    onClose={closeModal}
+                    existFields={setupData}
+                    od={operationDateDTO.operationDate}
+                />
             )}
         </>
     );
