@@ -73,6 +73,8 @@ type PostPainType = {
 export type checkListFormType = {
     [key: string]: 'YES' | 'NO' | '' | number | string | Date | undefined | PostPainType;
 
+    operationDate?: ''; //수술일
+
     explainedPreOp?: 'YES' | 'NO' | ''; // EAS 수술전 설명
     onsPreOp2hr?: 'YES' | 'NO' | ''; // 수술 2시간 전 ONS 복용여부
     onsPostBowelPrep?: 'YES' | 'NO' | ''; // Bowel preparation 후 ONS 경장영양액 복용여부
@@ -249,9 +251,9 @@ export type CheckListsAfterItemType = {
     ivFluidRestrictionPostOp?: 'YES' | 'NO'; //수술 후 IV fluid 제한
     nonOpioidPainControl?: 'YES' | 'NO'; //수술 후 non-opioid pain control 여부
     jpDrainRemoval?: 'YES' | 'NO'; //수술 후 1일이내 JP drain 제거 여부
-    // jpDrainRemovalDate?: Date; //제거한날 기입 *비고
+    jpDrainRemovalDate?: string; //제거한날 기입 *비고
     catheterRemoval?: 'YES' | 'NO'; //수술 후 수술장에서 소변줄 제거 여부
-    // catheterRemovalDate?: Date; //제거한날 기입
+    catheterRemovalDate?: string; //제거한날 기입
     // catheterReInsertion?: 'YES' | 'NO'; //Foley cath 재삽입 여부
     // ivLineRemoval?: 'YES' | 'NO'; //수술 후 3일이내 IV line 제거 여부
     // ivLineRemovalDate?: Date; //제거한날 기입
@@ -315,6 +317,7 @@ export type CheckListsDailyItemType = {
     podOneIvLineRemoval?: 'YES' | 'NO';
     podTwoIvLineRemoval?: 'YES' | 'NO';
     podThreeIvLineRemoval?: 'YES' | 'NO';
+    podThreeIvLineRemovalDate?: string;
 
     podOneGumChewing_remarks?: string;
     podTwoGumChewing_remarks?: string;
