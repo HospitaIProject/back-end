@@ -10,13 +10,13 @@ type Props = {
 function MultiViewInput({ label, values, remark, isRender }: Props) {
     return (
         <InputViewContainer label={label} remark={remark} isRender={isRender}>
-            <div className="flex flex-grow flex-col gap-1">
+            <div className="flex flex-col flex-grow gap-1">
                 {values?.map((value, index) => {
                     return (
                         <div key={index} className="flex flex-row items-center gap-2 text-sm">
                             <span className="text-gray-700">{value.label}</span>
                             <span className="font-medium text-blue-700">
-                                {value.value === '' ? '미선택' : value.value}
+                                {value.value === '' || value.value === null ? '미선택' : value.value}
                             </span>
                         </div>
                     );
