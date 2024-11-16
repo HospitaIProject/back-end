@@ -391,8 +391,6 @@ public class ExcelExportService {
                 setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
                 setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));
 
-
-
 //                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
 //                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
