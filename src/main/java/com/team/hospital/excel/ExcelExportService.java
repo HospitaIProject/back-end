@@ -2,6 +2,8 @@ package com.team.hospital.excel;
 
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.CheckListRepository;
+import com.team.hospital.api.checkList.ComplianceCalculationService;
+import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.checkListAfter.CheckListAfter;
 import com.team.hospital.api.checkListAfter.CheckListAfterRepository;
 import com.team.hospital.api.checkListBefore.CheckListBefore;
@@ -43,8 +45,8 @@ public class ExcelExportService {
     private final CheckListBeforeRepository checkListBeforeRepository;
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListAfterRepository checkListAfterRepository;
-    private final ComplicationRepository complicationRepository;
     private final CheckListRepository checkListRepository;
+    private final ComplianceCalculationService complianceCalculationService;
 
 
     public ByteArrayInputStream exportToExcel() throws IOException {
@@ -346,9 +348,15 @@ public class ExcelExportService {
                 if (checkListBefore == null || checkListDuring == null || checkListAfter == null || checkList.size() < 3)
                     continue;
 
+                Cell cell;
 
-                row.createCell(0).setCellValue(rowIndex);                                                                                  //NO
+                cell = row.createCell(0);//NO
+                cell.setCellValue(rowIndex);
+                cell.setCellStyle(cellStyle);
+
                 row.createCell(1).setCellValue(p.getName());                                                                              //환자이름
+                row.setRowStyle(cellStyle);
+
                 row.createCell(2).setCellValue(p.getPatientNumber());                                                                    //환자번호
                 row.createCell(3).setCellValue(convertDateToString(p.getHospitalizedDate()));                                           //입원일
                 row.createCell(4).setCellValue(convertDateToString(p.getOperationDate()));                                             //수술일
@@ -381,6 +389,9 @@ public class ExcelExportService {
 
                 // 수술 후 정보 처리
                 setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
+                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
+                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));
+
 
 
 //                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
@@ -392,15 +403,17 @@ public class ExcelExportService {
 //                setStringCellValueSafe(row, 33, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
 
                 setIntCellValueSafe(row, 34, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
-                setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
+                setIntCellValueSafe(row, 38, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
 
-                row.createCell(41).setCellValue("모름"); //ERAS 성공 항목수
-                row.createCell(42).setCellValue(checkListItemRepository.countTrueFields(op)); //ERAS 적용한 항목수
+                ComplianceScoreDTO compliance = complianceCalculationService.calculateScore(op.getId());
+                row.createCell(41).setCellValue(compliance.getTotalCheckListCompleted()); //ERAS 성공 항목수
+                row.createCell(42).setCellValue(compliance.getTotalCheckListCount()); //ERAS 적용한 항목수
+                row.createCell(43).setCellValue(compliance.getCompliancePercentage());
 
                 // 합병증 정보 처리 (Complication)
-                complicationRepository.findByOperationId(op.getId()).ifPresent(complication -> {
-                    row.createCell(43).setCellValue(complication.getComplicationScore());  //Compliance rate (성공수/적용수)*100
-                });
+//                complicationRepository.findByOperationId(op.getId()).ifPresent(complication -> {
+//                    row.createCell(43).setCellValue(complication.getComplicationScore());  //Compliance rate (성공수/적용수)*100
+//                });
 
                 setIntCellValueSafe(row, 44, () -> checkListAfter.getPostPain().getEvening());  //OP day VAS score (점심)
                 setIntCellValueSafe(row, 45, () -> checkListAfter.getPostPain().getNight());//OP day VAS score (저녁)
@@ -427,7 +440,7 @@ public class ExcelExportService {
                     }
 
                     // 32항목이랑 중복 확인부탁
-                    //setIntCellValueSafe(row, 28, () -> c.getPodThreeJpDrainRemoval().getOption().getNum());       //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
+                          //POD#3 -> 로 변경 POD#1 이후 JP 제거했는지
 
                     //첫째날 gum
                     if (c.getPodOneGumChewing() != null) {
@@ -435,9 +448,8 @@ public class ExcelExportService {
                     }
 
                     //둘째날 gum
-                    if (c.getPodThreeGumChewing() != null) {
-
-                        gumBooleanList.add(c.getPodThreeGumChewing().getOption().getNum());
+                    if (c.getPodTwoGumChewing() != null) {
+                        gumBooleanList.add(c.getPodTwoGumChewing().getOption().getNum());
                     }
 
                     //셋째날 gum
@@ -474,8 +486,6 @@ public class ExcelExportService {
                     if (c.getPodThreeIvFluidRestriction() != null) {
                         fluid_limitList.add(c.getPodThreeIvFluidRestriction().getOption().getNum());
                     }
-
-
                     //첫째날 postop
                     if (c.getPodOneNonOpioidPainControl() != null) {
                         postop_pain_controlList.add(c.getPodOneNonOpioidPainControl().getOption().getNum());
@@ -504,12 +514,14 @@ public class ExcelExportService {
                         setIntCellValueSafe(row, 37, () -> c.getPodThreeExercise().getOption().getNum());
                     } //POD#3 운동 1 = YES 0 = No
 
+
+
                     if (c.getPodOneMeal() != null) {
-                        setIntCellValueSafe(row, 38, () -> c.getPodOneMeal().getOption().getNum());
+                        setIntCellValueSafe(row, 39, () -> c.getPodOneMeal().getOption().getNum());
                     } //POD#1 Diet 1 = YES 0 = No
 
                     if (c.getPodTwoMeal() != null) {
-                        setIntCellValueSafe(row, 39, () -> c.getPodTwoMeal().getOption().getNum());
+                        setIntCellValueSafe(row, 40, () -> c.getPodTwoMeal().getOption().getNum());
                     } //POD#2 Diet 1 = YES 0 = No
 
 
