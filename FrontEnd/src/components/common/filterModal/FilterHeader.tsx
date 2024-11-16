@@ -71,7 +71,7 @@ function FilterHeader({ isRender }: { isRender: boolean }) {
             <div
                 className={`${isRender ? 'h-[115px] border-b border-blue-200 py-2 opacity-100' : 'h-0 overflow-hidden opacity-0'} absolute left-0 top-[65px] flex w-full flex-col items-center gap-1 bg-white px-4 transition-all duration-300`}
             >
-                <div className="mt-1 flex w-full flex-row items-center justify-between gap-2">
+                <div className="flex flex-row items-center justify-between w-full gap-2 mt-1">
                     {FILTER_ITEMS.map((item) => (
                         <button
                             key={item.value}
@@ -84,7 +84,7 @@ function FilterHeader({ isRender }: { isRender: boolean }) {
                     <div className="flex flex-grow">
                         <select
                             onChange={(event) => handleOperation(event.target.value)}
-                            className="w-full rounded-md border border-gray-300 px-2 py-2 text-xs"
+                            className={`w-full ${searchParams.get('operationMethod') ? 'border border-blue-500 text-blue-500' : 'border border-transparent bg-gray-100 text-gray-700'} rounded-lg border px-2 py-2 text-xs font-medium outline-none`}
                             value={searchParams.get('operationMethod') || 'all'}
                         >
                             <option value="all">전체(수술명)</option>
@@ -96,7 +96,7 @@ function FilterHeader({ isRender }: { isRender: boolean }) {
                         </select>
                     </div>
                 </div>
-                <div className="flex w-full flex-row gap-3 py-1">
+                <div className="flex flex-row w-full gap-3 py-1">
                     <CategorySearch />
                     <button onClick={openFilterModal} className="relative">
                         <FilterIcon className="h-[30px] w-[30px] text-gray-600" />
