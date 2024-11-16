@@ -12,7 +12,6 @@ import com.team.hospital.api.checkListDuring.CheckListDuring;
 import com.team.hospital.api.checkListDuring.CheckListDuringRepository;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemRepository;
-import com.team.hospital.api.complication.ComplicationRepository;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operationMethod.OperationMethod;
@@ -513,8 +512,6 @@ public class ExcelExportService {
                     if (c.getPodThreeExercise() != null) {
                         setIntCellValueSafe(row, 37, () -> c.getPodThreeExercise().getOption().getNum());
                     } //POD#3 운동 1 = YES 0 = No
-
-
 
                     if (c.getPodOneMeal() != null) {
                         setIntCellValueSafe(row, 39, () -> c.getPodOneMeal().getOption().getNum());
