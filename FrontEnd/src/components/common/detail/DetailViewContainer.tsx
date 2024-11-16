@@ -22,7 +22,7 @@ function DetailViewContainer({ children, deleteHandler, updateHandler }: Props) 
                     </button>
                 </div>
             </div>
-            <div className="flex flex-col w-full p-4 bg-white">{children}</div>
+            <div className="flex flex-col w-full px-4 py-2 bg-white">{children}</div>
         </div>
     );
 }

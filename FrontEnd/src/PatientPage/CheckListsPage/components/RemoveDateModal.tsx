@@ -1,5 +1,4 @@
 import ModalFullScreenContainer from '../../../components/common/ModalFullScreenContainer';
-import FixedSubmitButton from '../../../components/common/form/FixedSubmitButton';
 import {
     usePutCathRemovalDateMutation,
     usePutIvLineRemovalDateMutation,
@@ -53,7 +52,7 @@ function RemoveDateModal({
         <>
             <ModalFullScreenContainer
                 maxWidthClassName="max-w-screen-tablet"
-                maxHeightClassName="max-h-[500px]"
+                maxHeightClassName="max-h-[60dvh]"
                 title="제거일 등록"
                 onClose={onClose}
             >
@@ -126,7 +125,6 @@ function RemoveDateModal({
                                 />
                             </div>
                         </div>
-                        <FixedSubmitButton onClick={onClose} className="" label="닫기" type="submit" />
                     </div>
                 </div>
             </ModalFullScreenContainer>
