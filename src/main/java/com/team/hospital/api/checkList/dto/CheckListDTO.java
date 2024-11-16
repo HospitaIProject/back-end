@@ -95,9 +95,6 @@ public class CheckListDTO {
         if (checkList == null) return null;
 
         CheckListDTOBuilder checkListDTO = CheckListDTO.builder()
-//                .patientId(checkList.getCheckListItem().getOperation().getPatient().getId())
-//                .patientName(checkList.getCheckListItem().getOperation().getPatient().getName())
-//                .patientNumber(checkList.getCheckListItem().getOperation().getPatient().getPatientNumber())
                 .checkListId(checkList.getId())
                 .createAt(checkList.getCreatedAt())
                 .updatedAt(checkList.getUpdatedAt());

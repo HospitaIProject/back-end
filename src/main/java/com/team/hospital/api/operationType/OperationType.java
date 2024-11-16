@@ -31,24 +31,33 @@ public class OperationType extends BaseEntity {
 
     public static OperationType toEntity(WriteOperationType write) {
         CheckListItemDefault defaultChecklist = CheckListItemDefault.builder()
+                // 수술 전
                 .explainedPreOp(true)
                 .onsPreOp2hr(true)
                 .onsPostBowelPrep(true)
                 .dvtPrevention(true)
                 .antibioticPreIncision(true)
                 .painMedPreOp(true)
+
+                // 수술 중
                 .maintainTemp(true)
                 .fluidRestriction(true)
                 .antiNausea(true)
                 .painControl(true)
-                .giStimulant(true)
-                .gumChewing(true)
+                .painControlMethod(true)
+
+                // 수술 후
                 .antiNauseaPostOp(true)
                 .ivFluidRestrictionPostOp(true)
                 .nonOpioidPainControl(true)
                 .jpDrainRemoval(true)
                 .catheterRemoval(true)
+
+                // 데일리
+                .giStimulant(true)
+                .gumChewing(true)
                 .ivLineRemoval(true)
+
                 .podExercise(true)
                 .podMeal(true)
                 .podPain(true)

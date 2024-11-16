@@ -12,7 +12,6 @@ import com.team.hospital.api.checkListDuring.CheckListDuring;
 import com.team.hospital.api.checkListDuring.CheckListDuringRepository;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemRepository;
-import com.team.hospital.api.complication.ComplicationRepository;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operationMethod.OperationMethod;
@@ -392,8 +391,6 @@ public class ExcelExportService {
                 setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
                 setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));
 
-
-
 //                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
 //                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
                 setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
@@ -513,8 +510,6 @@ public class ExcelExportService {
                     if (c.getPodThreeExercise() != null) {
                         setIntCellValueSafe(row, 37, () -> c.getPodThreeExercise().getOption().getNum());
                     } //POD#3 운동 1 = YES 0 = No
-
-
 
                     if (c.getPodOneMeal() != null) {
                         setIntCellValueSafe(row, 39, () -> c.getPodOneMeal().getOption().getNum());
