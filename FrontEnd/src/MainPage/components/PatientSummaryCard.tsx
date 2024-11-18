@@ -30,12 +30,12 @@ type Props = {
 function PatientSummaryCard({ userData }: Props) {
     const navigation = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const isOperationData = userData.operationDateDTOs.length > 0; // 수술정보가 있는지 확인
+    const isOperationData = Boolean(userData.operationDateDTO.operationId); // 수술정보가 있는지 확인
 
     let operationId = 0;
 
     if (isOperationData) {
-        operationId = userData.operationDateDTOs[0].operationId;
+        operationId = userData.operationDateDTO.operationId;
     }
 
     const { onlyDate: formattedOperationDate, dateComparison } = useDateFormatted(userData.patientDTO.operationDate); // 수술일자 포맷팅
@@ -106,11 +106,20 @@ function PatientSummaryCard({ userData }: Props) {
             }
         }
     };
+    const handleRouteChecklists = (e: React.MouseEvent | React.TouchEvent) => {
+        e.stopPropagation();
+
+        if (!isOperationData) {
+            alert('수술정보를 먼저 등록해주세요.');
+            return;
+        }
+        navigation(`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`);
+    };
 
     return (
         <>
             <li
-                className="flex w-full cursor-pointer flex-col gap-3 bg-white px-4 py-4"
+                className="flex flex-col w-full gap-3 px-4 py-4 bg-white cursor-pointer"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
                 <div className="flex flex-row flex-wrap items-center justify-between gap-4">
@@ -124,13 +133,13 @@ function PatientSummaryCard({ userData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex w-full flex-row items-center justify-between">
+                <div className="flex flex-row items-center justify-between w-full">
                     <div className="flex flex-col gap-[2px]">
-                        <span className="flex flex-wrap break-words text-sm text-gray-700">
+                        <span className="flex flex-wrap text-sm text-gray-700 break-words">
                             <span className="shrink-0">등록번호:&nbsp;</span>
                             <span className="text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
-                        <span className="my-0 inline-block break-words text-sm text-gray-700">
+                        <span className="inline-block my-0 text-sm text-gray-700 break-words">
                             <span className="shrink-0">수술일:&nbsp;</span>
                             <span className="text-gray-900">
                                 {formattedOperationDate ? formattedOperationDate : '내역없음'}
@@ -140,14 +149,14 @@ function PatientSummaryCard({ userData }: Props) {
                                 {SUGERY_STATUS[dateComparison]}
                             </span> */}
                         </span>
-                        <span className="inline-block break-words text-sm text-gray-600">
+                        <span className="inline-block text-sm text-gray-600 break-words">
                             <span className="shrink-0">수술명:&nbsp;</span>
                             <span className="text-gray-900">
-                                {userData.operationDateDTOs[0]?.operationTypeNames || '없음'}
+                                {userData.operationDateDTO.operationTypeNames || '없음'}
                             </span>
                         </span>
                     </div>
-                    <div className="flex shrink-0 flex-col justify-center gap-1">
+                    <div className="flex flex-col justify-center gap-1 shrink-0">
                         {isOperationData && (
                             <div className="relative">
                                 <button
@@ -194,7 +203,7 @@ function PatientSummaryCard({ userData }: Props) {
 
                 <div className="w-full border-t border-gray-100" />
 
-                <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
+                <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
                     {/* <button className="px-2 text-sm font-medium border rounded-md hover:bg-blue-50">체크리스트</button> */}
 
                     <button
@@ -204,16 +213,16 @@ function PatientSummaryCard({ userData }: Props) {
                         {SUGERY_STATUS[dateComparison]}
                     </button>
                     <div className="flex flex-row gap-2">
-                        <Link
-                            to={`/patient/checkLists?id=${operationId}&name=${userData.patientDTO.name}`}
-                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
+                        <button
+                            onClick={handleRouteChecklists}
+                            className="p-2 text-sm text-gray-500 border rounded-xl hover:bg-blue-50"
                         >
                             체크리스트
-                        </Link>
+                        </button>
 
                         <Link
                             to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
-                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
+                            className="p-2 text-sm text-gray-500 border rounded-xl hover:bg-blue-50"
                         >
                             수술정보관리
                         </Link>
