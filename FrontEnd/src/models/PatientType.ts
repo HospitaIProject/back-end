@@ -51,13 +51,13 @@ export type PatientWithOperationDtoType = {
         dischargedDate: string; // 퇴원일
         totalHospitalizedDays: number; // 총 재원 일수
     };
-    operationDateDTOs: {
+    operationDateDTO: {
         operationId: number; // 수술ID
         operationTypeNames: string; // 수술명
         operationDate: string; // 수술일자
         hospitalizedDate: string; // 입원일자
         dischargedDate: string; // 퇴원일자
-    }[];
+    };
 };
 export type PageInfoPatientListType = {
     patients: PatientWithOperationDtoType[];
