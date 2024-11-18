@@ -6,13 +6,11 @@ import com.team.hospital.api.checkListBefore.exception.CheckListBeforeAlreadyExi
 import com.team.hospital.api.checkListBefore.exception.CheckListBeforeNotFoundException;
 import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemService;
-import com.team.hospital.api.operation.OperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,10 +60,9 @@ public class CheckListBeforeService {
         return checkListBeforeRepository.findAll();
     }
 
-    public boolean checkIfCheckListBeforeCreatedToday(Long operationId, LocalDate operationDate) {
-        LocalDate today = LocalDate.now();
+    public boolean checkListBeforeExistsByOperationId(Long operationId) {
         // 오늘 날짜가 수술 날짜보다 같거나 이후일 경우 false 반환
-        return today.isBefore(operationDate) || checkListBeforeRepository.existsByOperationId(operationId);
+        return checkListBeforeRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {

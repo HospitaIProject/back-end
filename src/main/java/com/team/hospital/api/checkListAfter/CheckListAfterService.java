@@ -86,9 +86,8 @@ public class CheckListAfterService {
     }
 
     // 수술 D+1 일 때 수술후 체크리스트 작성 + D+1 체크리스트 작성 완료 되었을 시 true 반환.
-    public boolean checkIfCheckListAfterCreatedToday(Long operationId, LocalDate operationDate) {
-        LocalDate today = LocalDate.now();
-        return today.equals(operationDate) && checkListAfterRepository.existsByOperationId(operationId);
+    public boolean checkListAfterExistsByOperationId(Long operationId) {
+        return checkListAfterRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {

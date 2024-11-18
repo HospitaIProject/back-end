@@ -21,4 +21,13 @@ public interface CheckListRepository extends JpaRepository<CheckList, Long> {
             @Param("operationId") Long operationId,
             @Param("operationDate") LocalDate operationDate);
 
+    @Query("SELECT cl.dayOfCheckList FROM CheckList cl " +
+            "JOIN cl.checkListItem ci " +
+            "JOIN ci.operation o " +
+            "WHERE o.id = :operationId " +
+            "AND FUNCTION('DATEDIFF', cl.dayOfCheckList, :operationDate) IN (1, 2, 3)")
+    List<LocalDate> findCheckListsForNextThreeDays(
+            @Param("operationId") Long operationId,
+            @Param("operationDate") LocalDate operationDate);
+
 }

@@ -27,11 +27,31 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
             "WHERE o.operationNames LIKE CONCAT('%', :name, '%')")
     Page<Patient> findPatientsByOperationTypeNameContaining(@Param("name") String name, Pageable pageable);
 
+    @Query("SELECT DISTINCT p FROM Operation o " +
+            "JOIN o.patient p " +
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%') " +
+            "AND (:year IS NULL OR YEAR(p.operationDate) = :year)")
+    Page<Patient> findPatientsByOperationTypeNameContainingAndYear(
+            @Param("name") String name,
+            @Param("year") Integer year,
+            Pageable pageable);
+
+    @Query("SELECT DISTINCT p FROM Operation o " +
+            "JOIN o.patient p " +
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%') " +
+            "AND (:year IS NULL OR YEAR(p.operationDate) = :year) " +
+            "AND (:month IS NULL OR MONTH(p.operationDate) = :month)")
+    Page<Patient> findPatientsByOperationTypeNameContainingAndYearAndMonth(
+            @Param("name") String name,
+            @Param("year") Integer year,
+            @Param("month") Integer month,
+            Pageable pageable);
+
     @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year AND MONTH(p.operationDate) = :month")
-    Page<Patient> findByYearAndMonth(@Param("year") int year, @Param("month") int month, Pageable pageable);
+    Page<Patient> findPatientsByOperationYearAndMonth(@Param("year") int year, @Param("month") int month, Pageable pageable);
 
     @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year")
-    Page<Patient> findByYear(@Param("year") int year, Pageable pageable);
+    Page<Patient> findPatientsByOperationYear(@Param("year") int year, Pageable pageable);
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
