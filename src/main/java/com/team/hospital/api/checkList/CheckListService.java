@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -82,13 +79,21 @@ public class CheckListService {
         int daysBetween = (int) ChronoUnit.DAYS.between(operationDate, LocalDate.now());
         boolean createdToday = checkListRepository.existsCheckListWithExactDaysBetween(operationId, operationDate);
         // daysBetween 값이 1~3 범위에 있는지 확인하고 해당 index의 체크리스트가 존재하는지 확인
-        return daysBetween >= 1 && daysBetween <= 3 && createdToday;
+        List<LocalDate> nextThreeDays = checkListRepository.findCheckListsForNextThreeDays(operationId, operationDate);
+        boolean allNextDaysExist = new HashSet<>(nextThreeDays).containsAll(List.of(
+                operationDate.plusDays(1),
+                operationDate.plusDays(2),
+                operationDate.plusDays(3)
+        ));
+
+        return (daysBetween >= 1 && daysBetween <= 3 && createdToday) || (daysBetween > 3 && allNextDaysExist);
     }
 
     public boolean checkIfAnyCheckListCreatedToday(Long operationId, LocalDate operationDate) {
-        return checkListBeforeService.checkIfCheckListBeforeCreatedToday(operationId, operationDate) ||
-                (checkListDuringService.checkIfCheckListDuringCreatedToday(operationId, operationDate) && checkListAfterService.checkIfCheckListAfterCreatedToday(operationId, operationDate)) ||
-                checkIfCheckListCreatedToday(operationId, operationDate);
+        LocalDate today = LocalDate.now();
+        if (today.isBefore(operationDate) && checkListBeforeService.checkListBeforeExistsByOperationId(operationId)) return true;
+        if (today.equals(operationDate) && checkListDuringService.checkListDuringExistsByOperationId(operationId) && checkListAfterService.checkListAfterExistsByOperationId(operationId)) return true;
+        return checkIfCheckListCreatedToday(operationId, operationDate);
     }
 
     public List<CheckList> checks(Long operationId) {
