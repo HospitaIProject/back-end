@@ -37,19 +37,23 @@ public class OpDtoString {
     }
 
     public static OpDtoString toEntity(OpDto opDto, PatientDTO patientDTO) {
-        OpDtoStringBuilder builder = OpDtoString.builder();
-
+        if (opDto == null) {
+            return OpDtoString.builder()
+                    .operationDate(patientDTO.getOperationDate())
+                    .hospitalizedDate(patientDTO.getHospitalizedDate())
+                    .dischargedDate(patientDTO.getDischargedDate() != null ? patientDTO.getDischargedDate() : null)
+                    .build();
+        }
         String result = String.join(", ", opDto.getOperationTypeNames());
-
-        builder
+        return OpDtoString.builder()
                 .operationId(opDto.getOperationId())
                 .operationTypeNames(result)
                 .operationDate(patientDTO.getOperationDate())
-                .created_at(opDto.getCreated_at());
+                .hospitalizedDate(patientDTO.getHospitalizedDate())
+                .dischargedDate(patientDTO.getDischargedDate() != null ? patientDTO.getDischargedDate() : null)
+                .created_at(opDto.getCreated_at())
+                .build();
 
-        if (patientDTO.getOperationDate() != null) builder.hospitalizedDate(patientDTO.getHospitalizedDate());
-        if (patientDTO.getDischargedDate() != null) builder.hospitalizedDate(patientDTO.getDischargedDate());
 
-        return builder.build();
     }
 }
