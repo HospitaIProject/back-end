@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Axios from '../../utils/axiosInstance';
-import { PatientWithOperationDtoType } from '../../models/PatientType';
+import { PageInfoPatientListType, PatientWithOperationDtoType } from '../../models/PatientType';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { AxiosError } from 'axios';
 import { pushNotification } from '../../utils/pushNotification';
@@ -53,7 +53,7 @@ const getPatientList = async ({
 
     opDate: string;
     checkListStatus: string;
-}): Promise<PatientWithOperationDtoType[]> => {
+}): Promise<PageInfoPatientListType> => {
     const params = {
         year: Number(year) || undefined,
         month: Number(month) || undefined,
@@ -76,7 +76,7 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
     const q = searchParams.get('q') || ''; //검색 키워드
     const sc = searchParams.get('sc') || ''; //검색 카테고리
     const page = Number(searchParams.get('page')) || 1; //페이지
-    const size = Number(searchParams.get('size')) || 30; //페이지 사이즈
+    const size = Number(searchParams.get('size')) || 7; //페이지 사이즈
     const year = searchParams.get('year') || ''; //수술일 기준 년도
     const month = searchParams.get('month') || ''; //수술일 기준 월
     const operationMethod = searchParams.get('operationMethod') || ''; //수술명
@@ -86,7 +86,7 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
 
     // const sort = searchParams.get('sort') || '';
 
-    const query = useQuery<PatientWithOperationDtoType[], AxiosError<ErrorResponseType>>({
+    const query = useQuery<PageInfoPatientListType, AxiosError<ErrorResponseType>>({
         queryKey: ['patient', 'list', q, sc, page, size, year, month, operationMethod],
         queryFn: () =>
             getPatientList({
