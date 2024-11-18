@@ -59,3 +59,12 @@ export type PatientWithOperationDtoType = {
         dischargedDate: string; // 퇴원일자
     }[];
 };
+export type PageInfoPatientListType = {
+    patients: PatientWithOperationDtoType[];
+    pageInfo: {
+        page: number;
+        size: number;
+        totalElements: number;
+        totalPages: number;
+    };
+};
