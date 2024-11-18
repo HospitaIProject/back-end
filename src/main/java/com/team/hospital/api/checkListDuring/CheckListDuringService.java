@@ -11,7 +11,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,10 +67,9 @@ public class CheckListDuringService {
         return checkListDuringRepository.findAll();
     }
 
-    public boolean checkIfCheckListDuringCreatedToday(Long operationId, LocalDate operationDate) {
+    public boolean checkListDuringExistsByOperationId(Long operationId) {
         // 오늘이 수술 날일 경우, 수술중 체크리스트가 오늘 등록되었다면 true 반환.
-        LocalDate today = LocalDate.now();
-        return operationDate.equals(today) && checkListDuringRepository.existsByOperationId(operationId);
+        return checkListDuringRepository.existsByOperationId(operationId);
     }
 
     public boolean existsByCheckListItemId(Long checkListItemId) {
