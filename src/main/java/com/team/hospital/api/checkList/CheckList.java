@@ -338,15 +338,6 @@ public class CheckList extends BaseEntity {
         if (write.getPodThreeNonOpioidPainControl_remarks() != null && this.podThreeNonOpioidPainControl != null) {
             this.podThreeNonOpioidPainControl.update(write.getPodThreeNonOpioidPainControl_remarks());
         }
-        // JP drain 제거 여부
-//        if (write.getPodOneJpDrainRemoval() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval());
-//        if (write.getPodOneJpDrainRemoval_remarks() != null) this.podOneJpDrainRemoval.update(write.getPodOneJpDrainRemoval_remarks());
-//
-//        if (write.getPodTwoJpDrainRemoval() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval());
-//        if (write.getPodTwoJpDrainRemoval_remarks() != null) this.podTwoJpDrainRemoval.update(write.getPodTwoJpDrainRemoval_remarks());
-//
-//        if (write.getPodThreeJpDrainRemoval() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval());
-//        if (write.getPodThreeJpDrainRemoval_remarks() != null) this.podThreeJpDrainRemoval.update(write.getPodThreeJpDrainRemoval_remarks());
 
         // IV line 제거 여부
         if (write.getPodThreeIvLineRemoval() != null && this.podThreeIvLineRemoval != null) {
