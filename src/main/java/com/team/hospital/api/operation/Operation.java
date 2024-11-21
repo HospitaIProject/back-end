@@ -88,6 +88,7 @@ public class Operation extends BaseEntity {
                 .bloodLoss(write.getBloodLoss())
                 .operationNames(operationNames)
                 .patient(patient)
+                .isDeleted(false)
                 .build();
     }
 
