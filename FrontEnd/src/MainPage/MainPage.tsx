@@ -19,7 +19,7 @@ function MainPage() {
     useEffect(() => {
         console.log(searchParams);
     }, [searchParams]);
-    const isNoneData = isSuccess && patientListData.length === 0; // data가 없을때
+    const isNoneData = isSuccess && patientListData.patients.length === 0; // data가 없을때
 
     useEffect(() => {
         console.log(error?.message);
@@ -29,13 +29,13 @@ function MainPage() {
 
     return (
         <>
-            <div className="flex w-full flex-col justify-center">
-                <div className="my-2 flex w-full flex-grow flex-col bg-white">
+            <div className="flex flex-col justify-center w-full">
+                <div className="flex flex-col flex-grow w-full my-2 bg-white">
                     <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
                     <ul className="grid grid-cols-1 gap-x-8 mobile:grid-cols-2 mobile:px-2">
                         {isSuccess &&
-                            patientListQuery.data.map((data) => (
-                                <div key={data.patientDTO.patientId} className="flex w-full flex-col">
+                            patientListQuery.data.patients.map((data) => (
+                                <div key={data.patientDTO.patientId} className="flex flex-col w-full">
                                     <PatientSummaryCard userData={data} />
                                     <div className={`w-full border-t border-gray-200`} />
                                 </div>
@@ -43,7 +43,7 @@ function MainPage() {
                     </ul>
                 </div>
 
-                <ResponsivePagination pageSize={1} />
+                <ResponsivePagination pageSize={patientListQuery.data?.pageInfo.totalPages} />
             </div>
         </>
     );

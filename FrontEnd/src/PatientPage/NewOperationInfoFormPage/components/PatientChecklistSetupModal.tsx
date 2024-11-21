@@ -61,10 +61,13 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title, isPe
     return (
         <ModalFullScreenContainer
             maxWidthClassName="max-w-screen-tablet"
+            maxHeightClassName="max-h-[100dvh]"
             title={`
             ${title ? title : '체크리스트 설정'}
         `}
             onClose={onClose}
+            isDraggable={false}
+            roundedClassName=""
         >
             {isPending && <Loading />}
             <DisplayEmptyData
@@ -73,7 +76,7 @@ function PatientChecklistSetupModal({ handleSubmit, values, onClose, title, isPe
                 ${error?.response?.data.message || '에러가 발생했습니다. 잠시후에 다시 시도해주세요.'}
                 `}
             />
-            <div className={`mx-auto flex flex-1 flex-col px-6`}>
+            <div className={`mx-auto flex flex-1 flex-col p-6`}>
                 <DropBoxCheckListSetupContainer label="수술전">
                     <div
                         className={`grid w-full grid-cols-1 gap-1 ${isEditPage ? '' : 'pointer-events-none'} py-4 mobile:grid-cols-2`}

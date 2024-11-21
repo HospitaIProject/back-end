@@ -18,6 +18,10 @@ public interface OperationRepository extends JpaRepository<Operation, Long>  {
 
     List<Operation> findAll();
 
+    // @Query 사용 (선택 사항)
+    @Query("SELECT o FROM Operation o WHERE o.id IN :ids AND o.isDeleted = false")
+    List<Operation> findActiveOperationsByIds(List<Long> ids);
+
     @Query("SELECT o FROM Operation o WHERE o.patient.id = :patientId AND o.isDeleted = false ORDER BY o.createdAt DESC")
     List<Operation> findOrderedAllByPatientId(Long patientId);
 

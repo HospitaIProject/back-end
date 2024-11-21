@@ -30,8 +30,6 @@ public class ComplianceCalculationService {
     private final CheckListDuringService checkListDuringService;
     private final CheckListAfterService checkListAfterService;
 
-
-
     // Compliance
     public ComplianceScoreDTO calculateScore(Long operationId) {
         Long checkListItemId = checkListItemService.findByOperationId(operationId).getId();
@@ -64,7 +62,8 @@ public class ComplianceCalculationService {
         log.info("Total check list completed: {}", totalCheckListCompleted);
         log.info("Total check list count: {}", totalCheckListCount);
 
-        if (totalCheckListCount > 0) return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, Math.round(((double) totalCheckListCompleted / totalCheckListCount) * 100 * 100.0) / 100.0);
+        if (totalCheckListCount > 0)
+            return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, Math.round(((double) totalCheckListCompleted / totalCheckListCount) * 100 * 100.0) / 100.0);
         return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, (0.0));
     }
 
@@ -80,19 +79,6 @@ public class ComplianceCalculationService {
                 if (BooleanOption.YES.equals(checkListBefore.getDvtPrevention())) count++;
                 if (BooleanOption.YES.equals(checkListBefore.getAntibioticPreIncision())) count++;
                 if (BooleanOption.YES.equals(checkListBefore.getPainMedPreOp())) count++;
-
-//                log.info("CheckListBefore ExplainedPreOP = {}",
-//                        Optional.ofNullable(checkListBefore.getExplainedPreOp()).orElse(BooleanOption.NO));
-//                log.info("CheckListBefore getOnsPreOp2hr = {}",
-//                        Optional.ofNullable(checkListBefore.getOnsPreOp2hr()).orElse(BooleanOption.NO));
-//                log.info("CheckListBefore getOnsPostBowelPrep = {}",
-//                        Optional.ofNullable(checkListBefore.getOnsPostBowelPrep()).orElse(BooleanOption.NO));
-//                log.info("CheckListBefore getDvtPrevention = {}",
-//                        Optional.ofNullable(checkListBefore.getDvtPrevention()).orElse(BooleanOption.NO));
-//                log.info("CheckListBefore getAntibioticPreIncision = {}",
-//                        Optional.ofNullable(checkListBefore.getAntibioticPreIncision()).orElse(BooleanOption.NO));
-//                log.info("CheckListBefore getPainMedPreOp = {}",
-//                        Optional.ofNullable(checkListBefore.getPainMedPreOp()).orElse(BooleanOption.NO));
                 break;
 
             case "during":
@@ -101,22 +87,12 @@ public class ComplianceCalculationService {
                 if (BooleanOption.YES.equals(checkListDuring.getFluidRestriction())) count++;
                 if (BooleanOption.YES.equals(checkListDuring.getAntiNausea())) count++;
                 if (BooleanOption.YES.equals(checkListDuring.getPainControl())) count++;
-
-//                log.info("CheckListDuring getMaintainTemp = {}",
-//                        Optional.ofNullable(checkListDuring.getMaintainTemp()).orElse(BooleanOption.NO));
-//                log.info("CheckListDuring getFluidRestriction = {}",
-//                        Optional.ofNullable(checkListDuring.getFluidRestriction()).orElse(BooleanOption.NO));
-//                log.info("CheckListDuring getAntiNausea = {}",
-//                        Optional.ofNullable(checkListDuring.getAntiNausea()).orElse(BooleanOption.NO));
-//                log.info("CheckListDuring getPainControl = {}",
-//                        Optional.ofNullable(checkListDuring.getPainControl()).orElse(BooleanOption.NO));
                 break;
 
             case "after":
                 CheckListAfterDTO checkListAfter = checkListAfterService.findCheckListAfterByOperationId(operationId);
                 if (BooleanOption.YES.equals(checkListAfter.getAntiNauseaPostOp())) count++;
                 if (BooleanOption.YES.equals(checkListAfter.getCatheterRemoval())) count++;
-
                 if (BooleanOption.YES.equals(checkListAfter.getIvFluidRestrictionPostOp())) {
                     count++;
                 } else {
@@ -132,26 +108,8 @@ public class ComplianceCalculationService {
                 } else {
                     decrementedFlags[3] = true;
                 }
-
-
                 if (BooleanOption.YES.equals(checkListAfter.getPostExercise())) count++;
                 if (BooleanOption.YES.equals(checkListAfter.getPostMeal())) count++;
-
-                // "after" 섹션
-//                log.info("CheckListAfter getAntiNauseaPostOp = {}",
-//                        Optional.ofNullable(checkListAfter.getAntiNauseaPostOp()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getCatheterRemoval = {}",
-//                        Optional.ofNullable(checkListAfter.getCatheterRemoval()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getIvFluidRestrictionPostOp = {}",
-//                        Optional.ofNullable(checkListAfter.getIvFluidRestrictionPostOp()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getNonOpioidPainControl = {}",
-//                        Optional.ofNullable(checkListAfter.getNonOpioidPainControl()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getJpDrainRemoval = {}",
-//                        Optional.ofNullable(checkListAfter.getJpDrainRemoval()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getPostExercise = {}",
-//                        Optional.ofNullable(checkListAfter.getPostExercise()).orElse(BooleanOption.NO));
-//                log.info("CheckListAfter getPostMeal = {}",
-//                        Optional.ofNullable(checkListAfter.getPostMeal()).orElse(BooleanOption.NO));
                 break;
         }
 
@@ -178,15 +136,17 @@ public class ComplianceCalculationService {
                 if (checkListItem.isPainControl()) count++;
                 break;
             case "after":
-                if (checkListItem.isGiStimulant()) count++;
+                // POD0
                 if (checkListItem.isAntiNauseaPostOp()) count++;
                 if (checkListItem.isCatheterRemoval()) count++;
-
-                if (checkListItem.isGumChewing()) count++;
                 if (checkListItem.isIvFluidRestrictionPostOp()) count++;
                 if (checkListItem.isNonOpioidPainControl()) count++;
                 if (checkListItem.isJpDrainRemoval()) count++;
                 if (checkListItem.isIvLineRemoval()) count++;
+
+                // POD1
+                if (checkListItem.isGiStimulant()) count++;
+                if (checkListItem.isGumChewing()) count++;
 
                 if (checkListItem.isPodExercise()) count++;
                 if (checkListItem.isPodMeal()) count++;
@@ -204,49 +164,57 @@ public class ComplianceCalculationService {
             if (checks.get(0).getPodOneGumChewing() != null && checks.get(0).getPodOneGumChewing().getOption() == NO && !decrementedFlags[0]) {
                 top--;
                 decrementedFlags[0] = true;
-            }if (checks.get(0).getPodOneIvFluidRestriction() != null && checks.get(0).getPodOneIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
+            }
+            if (checks.get(0).getPodOneIvFluidRestriction() != null && checks.get(0).getPodOneIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
                 top--;
                 decrementedFlags[1] = true;
-            }if (checks.get(0).getPodOneNonOpioidPainControl() != null && checks.get(0).getPodOneNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
+            }
+            if (checks.get(0).getPodOneNonOpioidPainControl() != null && checks.get(0).getPodOneNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
             }
-
-
-            if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES) top++;
+            if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES)
+                top++;
             if (checks.get(0).getPodOneMeal() != null && checks.get(0).getPodOneMeal().getOption() == YES) top++;
         }
         if (checks.size() > 1 && checks.get(1) != null) {
             if (checks.get(1).getPodTwoGumChewing() != null && checks.get(1).getPodTwoGumChewing().getOption() == NO && !decrementedFlags[0]) {
                 top--;
                 decrementedFlags[0] = true;
-            }if (checks.get(1).getPodTwoIvFluidRestriction() != null && checks.get(1).getPodTwoIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
+            }
+            if (checks.get(1).getPodTwoIvFluidRestriction() != null && checks.get(1).getPodTwoIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
                 top--;
                 decrementedFlags[1] = true;
-            }if (checks.get(1).getPodTwoNonOpioidPainControl() != null && checks.get(1).getPodTwoNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
+            }
+            if (checks.get(1).getPodTwoNonOpioidPainControl() != null && checks.get(1).getPodTwoNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
             }
 
-            if (checks.get(1).getPodTwoExercise() != null && checks.get(1).getPodTwoExercise().getOption() == YES) top++;
+            if (checks.get(1).getPodTwoExercise() != null && checks.get(1).getPodTwoExercise().getOption() == YES)
+                top++;
             if (checks.get(1).getPodTwoMeal() != null && checks.get(1).getPodTwoMeal().getOption() == YES) top++;
         }
         if (checks.size() > 2 && checks.get(2) != null) {
             if (checks.get(2).getPodThreeGumChewing() != null && checks.get(2).getPodThreeGumChewing().getOption() == NO && !decrementedFlags[0]) {
                 top--;
                 decrementedFlags[0] = true;
-            }if (checks.get(2).getPodThreeIvFluidRestriction() != null && checks.get(2).getPodThreeIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
+            }
+            if (checks.get(2).getPodThreeIvFluidRestriction() != null && checks.get(2).getPodThreeIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
                 top--;
                 decrementedFlags[1] = true;
-            }if (checks.get(2).getPodThreeNonOpioidPainControl() != null && checks.get(2).getPodThreeNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
+            }
+            if (checks.get(2).getPodThreeNonOpioidPainControl() != null && checks.get(2).getPodThreeNonOpioidPainControl().getOption() == NO && !decrementedFlags[2]) {
                 top--;
                 decrementedFlags[2] = true;
-            }if (checks.get(2).getPodThreeIvLineRemoval() != null && checks.get(2).getPodThreeIvLineRemoval().getOption() == NO && !decrementedFlags[4]) {
+            }
+            if (checks.get(2).getPodThreeIvLineRemoval() != null && checks.get(2).getPodThreeIvLineRemoval().getOption() == NO && !decrementedFlags[4]) {
                 top--;
                 decrementedFlags[4] = true;
             }
 
-            if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES) top++;
+            if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES)
+                top++;
         }
         return top;
     }
@@ -275,6 +243,7 @@ public class ComplianceCalculationService {
 
     /**
      * CheckList의 각 필드 값에 따라 top을 증가시키는 로직을 처리
+     *
      * @param podNumber 현재 POD (Day) 숫자 (1, 2, 3 등)
      */
     private int handleIncrement(CheckList checkList, int top, int podNumber) {
@@ -288,7 +257,8 @@ public class ComplianceCalculationService {
                 if (checkList.getPodTwoMeal() != null && checkList.getPodTwoMeal().getOption() == YES) top++;
                 break;
             case 3:
-                if (checkList.getPodThreeExercise() != null && checkList.getPodThreeExercise().getOption() == YES) top++;
+                if (checkList.getPodThreeExercise() != null && checkList.getPodThreeExercise().getOption() == YES)
+                    top++;
                 break;
             default:
                 break;

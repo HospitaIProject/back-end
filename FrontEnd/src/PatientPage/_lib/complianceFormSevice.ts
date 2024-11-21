@@ -81,8 +81,8 @@ const postOrPutComplianceForm = async ({
             postExercise: data.postExercise,
             postMeal: data.postMeal,
             postPain: {
-                evening: undefined,
-                day: data.postPain?.day || undefined,
+                day: undefined,
+                evening: data.postPain?.evening || undefined,
                 night: data.postPain?.night || undefined,
             },
 
