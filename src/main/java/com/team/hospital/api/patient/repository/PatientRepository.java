@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface PatientRepository extends JpaRepository<Patient, Long>, PatientRepositoryCustom {
 
     Slice<Patient> findByNameContaining(String name, Pageable pageable);
@@ -29,12 +31,25 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%')")
+    List<Patient> findPatientsByOperationTypeNameContaining(@Param("name") String name);
+
+    @Query("SELECT DISTINCT p FROM Operation o " +
+            "JOIN o.patient p " +
             "WHERE o.operationNames LIKE CONCAT('%', :name, '%') " +
             "AND (:year IS NULL OR YEAR(p.operationDate) = :year)")
     Page<Patient> findPatientsByOperationTypeNameContainingAndYear(
             @Param("name") String name,
             @Param("year") Integer year,
             Pageable pageable);
+
+    @Query("SELECT DISTINCT p FROM Operation o " +
+            "JOIN o.patient p " +
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%') " +
+            "AND (:year IS NULL OR YEAR(p.operationDate) = :year)")
+    List<Patient> findPatientsByOperationTypeNameContainingAndYear(
+            @Param("name") String name,
+            @Param("year") Integer year);
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
@@ -47,11 +62,27 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
             @Param("month") Integer month,
             Pageable pageable);
 
+    @Query("SELECT DISTINCT p FROM Operation o " +
+            "JOIN o.patient p " +
+            "WHERE o.operationNames LIKE CONCAT('%', :name, '%') " +
+            "AND (:year IS NULL OR YEAR(p.operationDate) = :year) " +
+            "AND (:month IS NULL OR MONTH(p.operationDate) = :month)")
+    List<Patient> findPatientsByOperationTypeNameContainingAndYearAndMonth(
+            @Param("name") String name,
+            @Param("year") Integer year,
+            @Param("month") Integer month);
+
     @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year AND MONTH(p.operationDate) = :month")
     Page<Patient> findPatientsByOperationYearAndMonth(@Param("year") int year, @Param("month") int month, Pageable pageable);
 
+    @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year AND MONTH(p.operationDate) = :month")
+    List<Patient> findPatientsByOperationYearAndMonth(@Param("year") int year, @Param("month") int month);
+
     @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year")
     Page<Patient> findPatientsByOperationYear(@Param("year") int year, Pageable pageable);
+
+    @Query("SELECT p FROM Patient p WHERE YEAR(p.operationDate) = :year")
+    List<Patient> findPatientsByOperationYear(@Param("year") int year);
 
     @Query("SELECT DISTINCT p FROM Operation o " +
             "JOIN o.patient p " +
