@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
-public class OpDtoString {
+public class OpSummary {
 
     private Long operationId;
 
@@ -25,7 +25,7 @@ public class OpDtoString {
 
     private LocalDateTime created_at;
 
-    public OpDtoString(Long operationId, String operationTypeNames, LocalDate operationDate, LocalDate hospitalizedDate, LocalDate dischargedDate, LocalDateTime created_at) {
+    public OpSummary(Long operationId, String operationTypeNames, LocalDate operationDate, LocalDate hospitalizedDate, LocalDate dischargedDate, LocalDateTime created_at) {
 //        String result = String.join(", ", operationTypeNames);
 
         this.operationId = operationId;
@@ -36,16 +36,16 @@ public class OpDtoString {
         this.created_at = created_at;
     }
 
-    public static OpDtoString toEntity(OpDto opDto, PatientDTO patientDTO) {
+    public static OpSummary toEntity(OpDto opDto, PatientDTO patientDTO) {
         if (opDto == null) {
-            return OpDtoString.builder()
+            return OpSummary.builder()
                     .operationDate(patientDTO.getOperationDate())
                     .hospitalizedDate(patientDTO.getHospitalizedDate())
                     .dischargedDate(patientDTO.getDischargedDate() != null ? patientDTO.getDischargedDate() : null)
                     .build();
         }
         String result = String.join(", ", opDto.getOperationTypeNames());
-        return OpDtoString.builder()
+        return OpSummary.builder()
                 .operationId(opDto.getOperationId())
                 .operationTypeNames(result)
                 .operationDate(patientDTO.getOperationDate())
