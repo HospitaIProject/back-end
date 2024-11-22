@@ -32,7 +32,7 @@ public class QueryRepository {
                 .getResultList();
     }
 
-    public OpDto findLatestOpDtoByPatientId(Long patientId) {
+    public OpDto findRecentOpByPatientId(Long patientId) {
         try {
             return em.createQuery(
                             "select new com.team.hospital.api.operation.dto.OpDto(o.id, o.operationNames, o.patient.operationDate, " +

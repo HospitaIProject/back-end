@@ -44,12 +44,12 @@ public class PatientService {
         return patient.get();
     }
 
-    public List<Patient> findAll() {
-        return patientRepository.findAll();
-    }
-
     public Page<Patient> findAll(Pageable pageable) {
         return patientRepository.findAll(pageable);
+    }
+
+    public List<Patient> findAll() {
+        return patientRepository.findAll();
     }
 
     public Page<Patient> findPatientsByOperationYear(int year, Pageable pageable) {
@@ -57,21 +57,45 @@ public class PatientService {
         return patientRepository.findPatientsByOperationYear(year, pageable);
     }
 
+    public List<Patient> findPatientsByOperationYear(int year) {
+        if (year <= 0) throw new IllegalArgumentException("올바른 년을 입력해주십시오");
+        return patientRepository.findPatientsByOperationYear(year);
+    }
+
     public Page<Patient> findPatientsByOperationYearAndMonth(int year, int month, Pageable pageable) {
         if (year <= 0 || month <= 0 || month > 12) throw new IllegalArgumentException("올바른 년도와 월을 입력해주십시오");
         return patientRepository.findPatientsByOperationYearAndMonth(year, month, pageable);
     }
 
+    public List<Patient> findPatientsByOperationYearAndMonth(int year, int month) {
+        if (year <= 0 || month <= 0 || month > 12) throw new IllegalArgumentException("올바른 년도와 월을 입력해주십시오");
+        return patientRepository.findPatientsByOperationYearAndMonth(year, month);
+    }
+
     public Page<Patient> findPatientsByOperationTypeNameContaining(String operationName, Pageable pageable) {
+        System.out.println("실행");
         return patientRepository.findPatientsByOperationTypeNameContaining(operationName, pageable);
+    }
+
+    public List<Patient> findPatientsByOperationTypeNameContaining(String operationName) {
+        System.out.println("실행");
+        return patientRepository.findPatientsByOperationTypeNameContaining(operationName);
     }
 
     public Page<Patient> findPatientsByOperationTypeNameContainingAndYear(String operationName, Integer year, Pageable pageable) {
         return patientRepository.findPatientsByOperationTypeNameContainingAndYear(operationName, year, pageable);
     }
 
+    public List<Patient> findPatientsByOperationTypeNameContainingAndYear(String operationName, Integer year) {
+        return patientRepository.findPatientsByOperationTypeNameContainingAndYear(operationName, year);
+    }
+
     public Page<Patient> findPatientsByOperationTypeNameContainingAndYearAndMonth(String operationName, Integer year, Integer month, Pageable pageable) {
         return patientRepository.findPatientsByOperationTypeNameContainingAndYearAndMonth(operationName, year, month, pageable);
+    }
+
+    public List<Patient> findPatientsByOperationTypeNameContainingAndYearAndMonth(String operationName, Integer year, Integer month) {
+        return patientRepository.findPatientsByOperationTypeNameContainingAndYearAndMonth(operationName, year, month);
     }
 
     boolean existsByPatientNumber(Long patientNumber) {

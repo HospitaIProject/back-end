@@ -60,7 +60,7 @@ public class CheckListController {
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
         List<CheckList> checkLists = checkListService.checks(operationId);
-        boolean createdToday = checkListService.checkIfAnyCheckListCreatedToday(operationId, patient.getOperationDate());
+        boolean createdToday = checkListService.checkListCreatedToday(operationId, patient.getOperationDate());
 
         CheckListBeforeDTO checkListBeforeDTO = getCheckListBeforeDTO(operationId);
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
