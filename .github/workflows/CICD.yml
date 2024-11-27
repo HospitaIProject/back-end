@@ -55,18 +55,17 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            # Exit script on any error
-            set -e
-            # Check if port 8080 is in use and stop the running application
-            echo "Checking if port 8080 is in use..."
-            PORT_IN_USE=$(sudo lsof -t -i:8080 || true)
-            if [ ! -z "$PORT_IN_USE" ]; then
-              echo "Port 8080 is in use by process $PORT_IN_USE. Stopping the process..."
-              sudo kill -9 $PORT_IN_USE
-            else
-              echo "Port 8080 is not in use."
-            fi
+            # # Check if port 8080 is in use and stop the running application
+            # echo "Checking if port 8080 is in use..."
+            # PORT_IN_USE=$(sudo lsof -t -i:8080 || true)
+            # if [ ! -z "$PORT_IN_USE" ]; then
+            #   echo "Port 8080 is in use by process $PORT_IN_USE. Stopping the process..."
+            #   sudo kill -9 $PORT_IN_USE
+            # else
+            #   echo "Port 8080 is not in use."
+            # fi
 
+            set -e
             # Docker logout (if previously logged in)
             docker logout || true
 
