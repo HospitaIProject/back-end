@@ -92,6 +92,7 @@ public class PatientController {
         List<PatientOpDTO> patientOps = paginated.stream()
                 .map(this::toPatientOp)
                 .toList();
+        log.info("테스트 완료");
         return SuccessResponse.createSuccess(PatientResponse.toEntity(patientOps, paginated));
     }
 
