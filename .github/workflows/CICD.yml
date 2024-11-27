@@ -21,6 +21,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # 3. Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # 4. Install React dependencies
+      - name: Install React dependencies
+        run: |
+          cd FrontEnd
+          npm install
+
       # 3. Build the application using Gradle
       - name: Build with Gradle Wrapper
         run: |
