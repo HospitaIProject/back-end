@@ -59,8 +59,8 @@ public class ComplianceCalculationService {
         totalCheckListCompleted += top(operationId, decrementedFlags);
         totalCheckListCount += bottom(operationId);
 
-        log.info("Total check list completed: {}", totalCheckListCompleted);
-        log.info("Total check list count: {}", totalCheckListCount);
+//        log.info("Total check list completed: {}", totalCheckListCompleted);
+//        log.info("Total check list count: {}", totalCheckListCount);
 
         if (totalCheckListCount > 0)
             return new ComplianceScoreDTO(totalCheckListCompleted, totalCheckListCount, Math.round(((double) totalCheckListCompleted / totalCheckListCount) * 100 * 100.0) / 100.0);
