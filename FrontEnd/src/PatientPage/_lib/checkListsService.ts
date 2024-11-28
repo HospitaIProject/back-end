@@ -12,30 +12,30 @@ import { pushNotification } from '../../utils/pushNotification';
 import { useSearchParams } from 'react-router-dom';
 
 const getCheckListBefore = async (operationId: number): Promise<CheckListsBeforeItemType> => {
-    const response = await Axios.get(`api/checkListBeforeDetail/${operationId}`);
+    const response = await Axios.get(`/api/checkListBeforeDetail/${operationId}`);
     return response.data.data.checkListBeforeDTO;
 }; // 수술전 체크리스트
 
 const getCheckListDuring = async (operationId: number): Promise<CheckListsDuringItemType> => {
-    const response = await Axios.get(`api/checkListDuringDetail/${operationId}`);
+    const response = await Axios.get(`/api/checkListDuringDetail/${operationId}`);
     return response.data.data.checkListDuringDTO;
 }; // 수술당일 체크리스트
 const getCheckListAfter = async (operationId: number): Promise<CheckListsAfterItemType> => {
-    const response = await Axios.get(`api/checkListAfterDetail/${operationId}`);
+    const response = await Axios.get(`/api/checkListAfterDetail/${operationId}`);
     return response.data.data.checkListAfterDTO;
 }; // 수술후 체크리스트
 const getCheckListDaily = async (checkListId: number): Promise<CheckListsAfterItemType> => {
-    const response = await Axios.get(`api/checkList/${checkListId}`);
+    const response = await Axios.get(`/api/checkList/${checkListId}`);
     return response.data.data.checkListDTO;
 }; // 일일 체크리스트
 
 const getCheckLists = async (operationId: number): Promise<ResponseCheckListsType> => {
-    const response = await Axios.get(`api/checkLists/${operationId}`);
+    const response = await Axios.get(`/api/checkLists/${operationId}`);
     return response.data.data;
 }; // 전체 체크리스트
 
 const getFluidRestriction = async (operationId: number): Promise<number> => {
-    const response = await Axios.get(`api/checkListDuring/${operationId}/fluid-restriction`);
+    const response = await Axios.get(`/api/checkListDuring/${operationId}/fluid-restriction`);
     return response.data.data;
 }; //수술 중 수액 용량 제한 조회
 
