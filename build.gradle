@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.hospital'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 
 java {
 	toolchain {
@@ -24,12 +24,27 @@ repositories {
 }
 
 dependencies {
+	//QueryDsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// Spring WebFlux 추가 (WebClient를 사용하기 위해 필요)
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// Apache POI
+	implementation 'org.apache.poi:poi-ooxml:5.2.3'
+
+	//mysql
+	implementation 'mysql:mysql-connector-java:8.0.28'
+
 	// sqlite
 	implementation 'org.xerial:sqlite-jdbc:3.34.0'
 	implementation 'org.hibernate.orm:hibernate-community-dialects'
 
 	// swagger
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'	//Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -42,8 +57,72 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//jwt
+	implementation 'com.auth0:java-jwt:3.18.1'
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+//task copyEnv(type: Copy) {
+//	def profile = System.getProperty('spring.profiles.active', 'local')
+//	println "Using profile: ${profile}"
+//
+//	from "${rootDir}/frontend/.env.${profile}"
+//	into "${rootDir}/frontend"
+//	rename { String fileName -> '.env' }
+//}
+//
+//processResources.dependsOn copyEnv
+
+task createStaticDir {
+	doLast {
+		def staticDir = file("${projectDir}/src/main/resources/static")
+		if (!staticDir.exists()) {
+			staticDir.mkdirs()
+			println "Static directory created: ${staticDir}"
+		} else {
+			println "Static directory already exists: ${staticDir}"
+		}
+	}
+}
+
+task cleanReactBuild(type: Delete) {
+	delete fileTree(dir: "${projectDir}/src/main/resources/static").matching {
+		include '**/*'
+	}
+}
+
+task buildReact(type: Exec) {
+	workingDir "${projectDir}/FrontEnd"
+	commandLine "./node_modules/.bin/npm", 'run', 'build'
+}
+
+task copyReactBuild(type: Copy) {
+	from "${projectDir}/FrontEnd/dist"
+	into "${rootDir}/src/main/resources/static"
+}
+
+cleanReactBuild.mustRunAfter createStaticDir
+copyReactBuild.dependsOn buildReact, createStaticDir
+copyReactBuild.mustRunAfter cleanReactBuild
+
+// :processResources 작업에 의존성을 명시적으로 추가
+processResources.dependsOn copyReactBuild
+
+bootJar {
+	dependsOn cleanReactBuild, copyReactBuild
+	enabled = true
+}
+
+jar {
+	enabled = false
 }

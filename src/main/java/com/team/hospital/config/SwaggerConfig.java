@@ -1,16 +1,31 @@
 package com.team.hospital.config;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration    // 스프링 실행시 설정파일 읽어드리기 위한 어노테이션
+
+@SecurityScheme(
+        name = "Bearer Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "Bearer"
+)
+@OpenAPIDefinition(
+        servers = {
+                @Server(url = "https://stmary.site", description = "개발 서버"),
+                @Server(url = "http://localhost:8080", description = "로컬 서버")
+        })
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
+
         return new OpenAPI()
                 .components(new Components())
                 .info(apiInfo());

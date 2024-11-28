@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite';
+import {defineConfig} from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import { VitePWA } from 'vite-plugin-pwa';
+import {VitePWA} from 'vite-plugin-pwa';
 import fs from 'fs';
 import path from 'path';
 
@@ -60,13 +60,17 @@ export default defineConfig({
             workbox: {
                 runtimeCaching: [
                     {
+
                         urlPattern: /.*/, // 모든 요청에 대해 적용
+
                         handler: 'NetworkFirst', // 네트워크 우선 전략
                         options: {
                             cacheName: 'dynamic-cache',
                             expiration: {
                                 maxEntries: 50, // 최대 캐시 항목 수
+
                                 maxAgeSeconds: 24 * 60 * 60, // 캐시 유지 시간 (1일)
+
                             },
                         },
                     },
