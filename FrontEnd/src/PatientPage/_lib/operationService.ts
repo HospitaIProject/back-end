@@ -33,16 +33,16 @@ const postOrPutOperationInfoNewForm = async ({
 
     console.log('requestOperationData', requestOperationData);
     if (submitType === 'post') {
-        const patientResponse = await Axios.post(`api/operation/${patientId}`, requestOperationData); //먼저 수술 정보를 등록하고
+        const patientResponse = await Axios.post(`/api/operation/${patientId}`, requestOperationData); //먼저 수술 정보를 등록하고
         const operationId = patientResponse.data.data; //등록된 수술 정보의 id를 가져옴
 
-        const response = await Axios.post(`api/checkListItem/${operationId}`, setupData); //등록된 수술 정보에 체크리스트를 등록
+        const response = await Axios.post(`/api/checkListItem/${operationId}`, setupData); //등록된 수술 정보에 체크리스트를 등록
 
         return response;
     } else {
-        await Axios.put(`api/operation/${operationId}`, requestOperationData); //먼저 수술 정보를 등록하고
+        await Axios.put(`/api/operation/${operationId}`, requestOperationData); //먼저 수술 정보를 등록하고
 
-        const checkListResponse = await Axios.put(`api/checkListItem/${operationId}`, setupData); //등록된 수술 정보에 체크리스트를 등록
+        const checkListResponse = await Axios.put(`/api/checkListItem/${operationId}`, setupData); //등록된 수술 정보에 체크리스트를 등록
 
         return checkListResponse;
     }

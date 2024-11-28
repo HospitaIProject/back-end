@@ -27,11 +27,11 @@ const postOrPutComplianceForm = async ({
 }) => {
     let url = '';
     if (type === 'PREV') {
-        submitType === 'post' ? (url = 'api/checkListBefore/operation/') : (url = 'api/checkListBefore/');
+        submitType === 'post' ? (url = '/api/checkListBefore/operation/') : (url = '/api/checkListBefore/');
     } else if (type === 'TODAY') {
-        submitType === 'post' ? (url = 'api/checkListDuring/operation/') : (url = 'api/checkListDuring/');
+        submitType === 'post' ? (url = '/api/checkListDuring/operation/') : (url = '/api/checkListDuring/');
     } else {
-        submitType === 'post' ? (url = 'api/checkListAfter/operation/') : (url = 'api/checkListAfter/');
+        submitType === 'post' ? (url = '/api/checkListAfter/operation/') : (url = '/api/checkListAfter/');
     } //체크리스트 제출 url(수술전, 당일, 후)
 
     let processedChecklistData;
@@ -134,10 +134,10 @@ const postDailyComplianceForm = async ({
     console.log('processedChecklistData', processedChecklistData);
 
     if (submitType === 'post') {
-        const response = await Axios.post(`api/checkList/operation/${operationId}`, processedChecklistData);
+        const response = await Axios.post(`/api/checkList/operation/${operationId}`, processedChecklistData);
         return response;
     } else {
-        const response = await Axios.put(`api/checkList/${checkListId}`, processedChecklistData);
+        const response = await Axios.put(`/api/checkList/${checkListId}`, processedChecklistData);
         return response;
     }
 };
