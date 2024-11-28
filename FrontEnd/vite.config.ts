@@ -25,6 +25,7 @@ export default defineConfig({
                 theme_color: '#ffffff',
                 background_color: '#ffffff',
                 start_url: '/',
+                scope: '/',
                 icons: [
                     {
                         src: '/pwa-64x64.png',
@@ -59,13 +60,17 @@ export default defineConfig({
             workbox: {
                 runtimeCaching: [
                     {
-                        urlPattern: /./, // 모든 요청에 대해 적용
+
+                        urlPattern: /.*/, // 모든 요청에 대해 적용
+
                         handler: 'NetworkFirst', // 네트워크 우선 전략
                         options: {
                             cacheName: 'dynamic-cache',
                             expiration: {
                                 maxEntries: 50, // 최대 캐시 항목 수
-                                maxAgeSeconds: 24 * 60 * 60 // 캐시 유지 시간 (1일)
+
+                                maxAgeSeconds: 24 * 60 * 60, // 캐시 유지 시간 (1일)
+
                             },
                         },
                     },
