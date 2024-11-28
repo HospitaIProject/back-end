@@ -41,7 +41,7 @@ const transformObject = (data: ComplicationFormType) => {
 const postComplicationForm = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
     const transformData = transformObject(data);
     console.log('transformData', transformData);
-    const response = await Axios.post(`api/complication/${operationId}`, transformData);
+    const response = await Axios.post(`/api/complication/${operationId}`, transformData);
     return response.data.data;
 };
 
@@ -61,26 +61,26 @@ const postComplicationStatus = async ({
     if (isComplicationRegistered) {
         // 합병증 등록 여부가 true일 경우
         const results = await Promise.all([
-            Axios.post(`api/complication/status/${operationId}`, {}, { params }),
-            Axios.delete(`api/complication/${operationId}`),
+            Axios.post(`/api/complication/status/${operationId}`, {}, { params }),
+            Axios.delete(`/api/complication/${operationId}`),
         ]);
         return {
             postResult: results[0].data.data, // 첫 번째 요청(post)의 결과
             deleteResult: results[1].data.data, // 두 번째 요청(delete)의 결과
         };
     } else {
-        const response = await Axios.post(`api/complication/status/${operationId}`, {}, { params });
+        const response = await Axios.post(`/api/complication/status/${operationId}`, {}, { params });
         return response.data;
     }
 };
 
 const getComplication = async (operationId: number): Promise<ComplicationFormType> => {
-    const response = await Axios.get(`api/complication/${operationId}`);
+    const response = await Axios.get(`/api/complication/${operationId}`);
     return response.data.data;
 };
 const putComplication = async ({ data, operationId }: { data: ComplicationFormType; operationId: number }) => {
     const transformData = transformObject(data);
-    const response = await Axios.put(`api/complication/${operationId}`, transformData);
+    const response = await Axios.put(`/api/complication/${operationId}`, transformData);
     return response.data.data;
 };
 
