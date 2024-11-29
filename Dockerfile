@@ -9,6 +9,9 @@ COPY build/libs/*.jar app.jar
 FROM openjdk:17
 WORKDIR /app
 
+# 기존 데이터 제거 (필요 시 추가)
+RUN rm -rf /app/*
+
 # Final 이미지에 JAR 파일 복사
 COPY --from=build /build/app.jar /app/app.jar
 
