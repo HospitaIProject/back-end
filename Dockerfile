@@ -1,8 +1,21 @@
-# Docker 이미지의 베이스로 openjdk 17 사용
-FROM openjdk:17
+# Base 이미지 설정
+FROM openjdk:17 AS build
 
-# 애플리케이션의 JAR 파일을 Docker 이미지로 복사
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} hospital-0.0.2-SNAPSHOT.jar
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# Gradle 빌드 및 React 빌드 파일 복사
+COPY build/libs/*.jar hospital-0.0.2-SNAPSHOT.jar
+
+# Final 실행 레이어
+FROM openjdk:17
+WORKDIR /app
+
+# JAR 파일 복사
+COPY --from=build /app/hospital-0.0.2-SNAPSHOT.jar app.jar
+
+# 포트 노출
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/hospital-0.0.2-SNAPSHOT.jar"]
+
+# 애플리케이션 실행
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
