@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hospital-app-blue
+  labels:
+    app: hospital-app
+    version: blue
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hospital-app
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: hospital-app
+        version: blue
+    spec:
+      containers:
+        - name: hospital-app
+          image: jonghyunleee/stmary:blue
+          ports:
+            - containerPort: 8080
