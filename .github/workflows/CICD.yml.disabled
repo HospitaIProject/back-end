@@ -63,7 +63,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # 9. Build and Push Docker Image with Cache Optimization
+      # 9. Prune Docker system before build
+      - name: Prune Docker system
+        run: |
+          docker system prune -a --volumes -f
+
+      # 10. Build and Push Docker Image with Cache Optimization
       - name: Build and Push Docker Image
         run: |
           docker buildx create --use
@@ -74,7 +79,7 @@ jobs:
             --push \
             --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest .
 
-      # 10. Deploy to EC2
+      # 11. Deploy to EC2
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -85,7 +90,5 @@ jobs:
             set -e
             docker logout || true
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-            docker-compose -f /home/ubuntu/compose/docker-compose.yml down --rmi all --remove-orphans
-            docker network prune -f
             docker-compose -f /home/ubuntu/compose/docker-compose.yml pull
             docker-compose -f /home/ubuntu/compose/docker-compose.yml up -d
