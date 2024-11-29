@@ -85,5 +85,7 @@ jobs:
             set -e
             docker logout || true
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+            docker-compose -f /home/ubuntu/compose/docker-compose.yml down --rmi all --remove-orphans
+            docker network prune -f
             docker-compose -f /home/ubuntu/compose/docker-compose.yml pull
             docker-compose -f /home/ubuntu/compose/docker-compose.yml up -d
