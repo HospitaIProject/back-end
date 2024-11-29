@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout the source code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Cache Gradle packages
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
@@ -21,6 +23,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      # 3. Cache Node.js dependencies
       - name: Cache Node.js dependencies
         uses: actions/cache@v3
         with:
@@ -29,40 +32,49 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      # 4. Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
+      # 5. Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
+      # 6. Build React and Backend
       - name: Build React and Backend
         run: |
           chmod +x ./gradlew
           cd FrontEnd && npm ci && npm run build && cd ..
           ./gradlew clean build
 
+      # 7. Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # 8. Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      # 9. Build and Push Docker Image with Cache Optimization
       - name: Build and Push Docker Image
         run: |
           docker buildx create --use
           docker buildx build \
             --platform linux/amd64,linux/arm64/v8 \
+            --cache-from=type=registry,ref=${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:cache \
+            --cache-to=type=inline \
             --push \
             --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest .
 
+      # 10. Deploy to EC2
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
@@ -80,54 +92,58 @@ jobs:
 # on:
 #   push:
 #     branches:
-#       - main  # Trigger when pushed to main
+#       - main
 
 # jobs:
 #   build-and-deploy:
 #     runs-on: ubuntu-latest
 
 #     steps:
-#       # 1. Checkout the source code
 #       - name: Checkout code
 #         uses: actions/checkout@v4
 
-#       # 2. Set up JDK 17
+#       - name: Cache Gradle packages
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.gradle/caches
+#           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+#           restore-keys: |
+#             ${{ runner.os }}-gradle-
+
+#       - name: Cache Node.js dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#           restore-keys: |
+#             ${{ runner.os }}-node-
+
 #       - name: Set up JDK 17
 #         uses: actions/setup-java@v4
 #         with:
 #           java-version: '17'
 #           distribution: 'temurin'
 
-#       # 3. Set up Node.js
 #       - name: Set up Node.js
 #         uses: actions/setup-node@v3
 #         with:
 #           node-version: '18'
 
-#       # 4. Install React dependencies
-#       - name: Install React dependencies
-#         run: |
-#           cd FrontEnd
-#           npm install
-
-#       # 3. Build the application using Gradle
-#       - name: Build with Gradle Wrapper
+#       - name: Build React and Backend
 #         run: |
 #           chmod +x ./gradlew
+#           cd FrontEnd && npm ci && npm run build && cd ..
 #           ./gradlew clean build
 
-#       # 4. Log in to Docker Hub
 #       - name: Log in to Docker Hub
 #         uses: docker/login-action@v2
 #         with:
 #           username: ${{ secrets.DOCKER_USERNAME }}
 #           password: ${{ secrets.DOCKER_PASSWORD }}
 
-#       # 5. Set up Docker Buildx
 #       - name: Set up Docker Buildx
 #         uses: docker/setup-buildx-action@v2
 
-#       # 6. Build and push the Docker image to Docker Hub
 #       - name: Build and Push Docker Image
 #         run: |
 #           docker buildx create --use
@@ -136,7 +152,6 @@ jobs:
 #             --push \
 #             --tag ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest .
 
-#       # 7. Deploy the application to the EC2 server
 #       - name: Deploy to EC2
 #         uses: appleboy/ssh-action@master
 #         with:
@@ -144,29 +159,8 @@ jobs:
 #           username: ubuntu
 #           key: ${{ secrets.EC2_PRIVATE_KEY }}
 #           script: |
-#             # # Check if port 8080 is in use and stop the running application
-#             # echo "Checking if port 8080 is in use..."
-#             # PORT_IN_USE=$(sudo lsof -t -i:8080 || true)
-#             # if [ ! -z "$PORT_IN_USE" ]; then
-#             #   echo "Port 8080 is in use by process $PORT_IN_USE. Stopping the process..."
-#             #   sudo kill -9 $PORT_IN_USE
-#             # else
-#             #   echo "Port 8080 is not in use."
-#             # fi
-
 #             set -e
-#             # Docker logout (if previously logged in)
 #             docker logout || true
-
-#             # Log in to Docker Hub
 #             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-#             # Stop existing Docker containers and clean up
-#             docker-compose -f /home/ubuntu/compose/docker-compose.yml down --rmi all --remove-orphans
-#             docker network prune -f
-
-#             # Pull the latest Docker image
-#             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:latest
-
-#             # Start the application with Docker Compose
+#             docker-compose -f /home/ubuntu/compose/docker-compose.yml pull
 #             docker-compose -f /home/ubuntu/compose/docker-compose.yml up -d
