@@ -131,7 +131,7 @@ jobs:
             docker-compose -f /home/ubuntu/compose/docker-compose.yml stop app-blue
             docker-compose -f /home/ubuntu/compose/docker-compose.yml rm -f app-blue
 
-      # # 11. Deploy to EC2
+      # 11. Deploy to EC2
       # - name: Deploy to EC2
       #   uses: appleboy/ssh-action@master
       #   with:
