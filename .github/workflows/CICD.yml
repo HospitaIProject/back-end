@@ -123,7 +123,7 @@ jobs:
 
             # 3. Update Nginx to route traffic to Green
             echo "Updating Nginx configuration to Green..."
-            sudo sed -i 's/server localhost:8080;/# server localhost:8080;\\n    server localhost:8081;/' /etc/nginx/sites-available/stmary
+            sudo sed -i 's/server localhost:8080;/# server localhost:8080;\\n    server localhost:8081;/' /etc/nginx/sites-available/stmary.site
             sudo systemctl restart nginx
 
             # 4. Stop Blue container
