@@ -67,7 +67,7 @@ jobs:
       - name: Determine Current Environment
         id: current-env
         run: |
-          current_env=$(ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_PRIVATE_KEY }} ubuntu@${{ secrets.EC2_HOST }} \
+          current_env=$(ssh -o StrictHostKeyChecking=no -i ${{ secrets.KEY }} ubuntu@${{ secrets.EC2_HOST }} \
             "grep -oP '(?<=proxy_pass http://)\w+' /etc/nginx/sites-available/stmary.site | head -1")
           echo "Current environment is: $current_env"
 
