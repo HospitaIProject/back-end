@@ -63,11 +63,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      # 2. Set up SSH private key
+      - name: Set up SSH private key
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+
       # 9. Determine the current environment
       - name: Determine Current Environment
         id: current-env
         run: |
-          current_env=$(ssh -o StrictHostKeyChecking=no -i ${{ secrets.KEY }} ubuntu@${{ secrets.EC2_HOST }} \
+          current_env=$(ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.EC2_HOST }} \
             "grep -oP '(?<=proxy_pass http://)\w+' /etc/nginx/sites-available/stmary.site | head -1")
           echo "Current environment is: $current_env"
 
