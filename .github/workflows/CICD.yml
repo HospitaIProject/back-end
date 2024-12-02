@@ -75,7 +75,7 @@ jobs:
         run: |
           current_env=$(ssh -o StrictHostKeyChecking=no -i private_key.pem ubuntu@${{ secrets.EC2_HOST }} \
             "grep -oP '(?<=proxy_pass http://)\w+' /etc/nginx/sites-available/stmary.site | head -1")
-          echo "Current environment is: $current_env"
+          echo "current_env=$current_env" >> $GITHUB_ENV
 
           if [ "$current_env" == "blue" ]; then
               echo "new_env=green" >> $GITHUB_ENV
