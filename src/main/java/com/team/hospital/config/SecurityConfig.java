@@ -60,7 +60,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**").permitAll() //swagger
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/webjars/**", "/swagger-resources/**", "/actuator/health").permitAll() //swagger
                         .requestMatchers("/api/account", "/api/signIn").permitAll()  //다른 권한은 로그인한 유저만 추후 바꿔야함
                         .requestMatchers("/api/**").authenticated()
 //                        .requestMatchers("/api/**").permitAll()
