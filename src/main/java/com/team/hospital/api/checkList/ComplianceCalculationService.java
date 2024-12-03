@@ -40,7 +40,7 @@ public class ComplianceCalculationService {
         int totalCheckListCount = 0;
         int totalCheckListCompleted = 0;
 
-        boolean[] decrementedFlags = new boolean[5];
+        boolean[] decrementedFlags = new boolean[4];
 
         // 수술전이 등록 됐을 경우.
         if (existsBefore) {
@@ -56,6 +56,7 @@ public class ComplianceCalculationService {
             totalCheckListCount += countCheckListItems(operationId, "after");
         }
 
+//        log.info("totalCheckListCompleted={}", totalCheckListCompleted);
         totalCheckListCompleted += top(operationId, decrementedFlags);
         totalCheckListCount += bottom(operationId);
 
@@ -93,6 +94,10 @@ public class ComplianceCalculationService {
                 CheckListAfterDTO checkListAfter = checkListAfterService.findCheckListAfterByOperationId(operationId);
                 if (BooleanOption.YES.equals(checkListAfter.getAntiNauseaPostOp())) count++;
                 if (BooleanOption.YES.equals(checkListAfter.getCatheterRemoval())) count++;
+                if (BooleanOption.YES.equals(checkListAfter.getJpDrainRemoval())) count++;
+                if (BooleanOption.YES.equals(checkListAfter.getPostExercise())) count++;
+                if (BooleanOption.YES.equals(checkListAfter.getPostMeal())) count++;
+
                 if (BooleanOption.YES.equals(checkListAfter.getIvFluidRestrictionPostOp())) {
                     count++;
                 } else {
@@ -103,13 +108,6 @@ public class ComplianceCalculationService {
                 } else {
                     decrementedFlags[2] = true;
                 }
-                if (BooleanOption.YES.equals(checkListAfter.getJpDrainRemoval())) {
-                    count++;
-                } else {
-                    decrementedFlags[3] = true;
-                }
-                if (BooleanOption.YES.equals(checkListAfter.getPostExercise())) count++;
-                if (BooleanOption.YES.equals(checkListAfter.getPostMeal())) count++;
                 break;
         }
 
@@ -142,17 +140,13 @@ public class ComplianceCalculationService {
                 if (checkListItem.isIvFluidRestrictionPostOp()) count++;
                 if (checkListItem.isNonOpioidPainControl()) count++;
                 if (checkListItem.isJpDrainRemoval()) count++;
-                if (checkListItem.isIvLineRemoval()) count++;
-
-                // POD1
-                if (checkListItem.isGiStimulant()) count++;
-                if (checkListItem.isGumChewing()) count++;
 
                 if (checkListItem.isPodExercise()) count++;
                 if (checkListItem.isPodMeal()) count++;
                 break;
         }
 
+        log.info("stage={}, count={}", stage, count);
         return count;
     }
 
@@ -161,10 +155,17 @@ public class ComplianceCalculationService {
         int top = 0;
 
         if (!checks.isEmpty() && checks.get(0) != null) {
-            if (checks.get(0).getPodOneGumChewing() != null && checks.get(0).getPodOneGumChewing().getOption() == NO && !decrementedFlags[0]) {
-                top--;
+            if (checks.get(0).getPodOneGumChewing() != null && checks.get(0).getPodOneGumChewing().getOption() == YES) {
+                top++;
+            } else {
                 decrementedFlags[0] = true;
             }
+            if (checks.get(0).getPodOneGiStimulant() != null && checks.get(0).getPodOneGiStimulant().getOption() == YES) {
+                top++;
+            } else {
+                decrementedFlags[3] = true; // 이거 인덱스 조심
+            }
+
             if (checks.get(0).getPodOneIvFluidRestriction() != null && checks.get(0).getPodOneIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
                 top--;
                 decrementedFlags[1] = true;
@@ -173,14 +174,20 @@ public class ComplianceCalculationService {
                 top--;
                 decrementedFlags[2] = true;
             }
-            if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES)
-                top++;
+
+            if (checks.get(0).getPodOneExercise() != null && checks.get(0).getPodOneExercise().getOption() == YES) top++;
             if (checks.get(0).getPodOneMeal() != null && checks.get(0).getPodOneMeal().getOption() == YES) top++;
+//            log.info("Day 1 checkList complete count={}", top);
         }
         if (checks.size() > 1 && checks.get(1) != null) {
             if (checks.get(1).getPodTwoGumChewing() != null && checks.get(1).getPodTwoGumChewing().getOption() == NO && !decrementedFlags[0]) {
                 top--;
                 decrementedFlags[0] = true;
+            }
+            if (checks.get(1).getPodOneGiStimulant() != null && checks.get(0).getPodOneGiStimulant().getOption() == YES) {
+                top--;
+            } else {
+                decrementedFlags[3] = true; // 이거 인덱스 조심
             }
             if (checks.get(1).getPodTwoIvFluidRestriction() != null && checks.get(1).getPodTwoIvFluidRestriction().getOption() == NO && !decrementedFlags[1]) {
                 top--;
@@ -208,65 +215,18 @@ public class ComplianceCalculationService {
                 top--;
                 decrementedFlags[2] = true;
             }
-            if (checks.get(2).getPodThreeIvLineRemoval() != null && checks.get(2).getPodThreeIvLineRemoval().getOption() == NO && !decrementedFlags[4]) {
+            if (checks.get(2).getPodOneGiStimulant() != null && checks.get(0).getPodOneGiStimulant().getOption() == YES) {
                 top--;
-                decrementedFlags[4] = true;
+            } else {
+                decrementedFlags[3] = true; // 이거 인덱스 조심
             }
 
-            if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES)
-                top++;
+
+            if (checks.get(2).getPodThreeExercise() != null && checks.get(2).getPodThreeExercise().getOption() == YES) top++;
+            if (checks.get(2).getPodThreeIvLineRemoval() != null && checks.get(2).getPodThreeIvLineRemoval().getOption() == YES) top++;
         }
         return top;
     }
-
-    /**
-     * CheckList의 각 필드 값에 따라 top을 감소시키는 로직을 처리
-     */
-    private int handleDecrement(CheckList checkList, int top, boolean[] flags) {
-        if (checkList.getPodOneGumChewing() != null && checkList.getPodOneGumChewing().getOption() == NO && !flags[0]) {
-            top--;
-            flags[0] = true;
-        }
-
-        if (checkList.getPodOneIvFluidRestriction() != null && checkList.getPodOneIvFluidRestriction().getOption() == NO && !flags[1]) {
-            top--;
-            flags[1] = true;
-        }
-
-        if (checkList.getPodOneNonOpioidPainControl() != null && checkList.getPodOneNonOpioidPainControl().getOption() == NO && !flags[2]) {
-            top--;
-            flags[2] = true;
-        }
-
-        return top;
-    }
-
-    /**
-     * CheckList의 각 필드 값에 따라 top을 증가시키는 로직을 처리
-     *
-     * @param podNumber 현재 POD (Day) 숫자 (1, 2, 3 등)
-     */
-    private int handleIncrement(CheckList checkList, int top, int podNumber) {
-        switch (podNumber) {
-            case 1:
-                if (checkList.getPodOneExercise() != null && checkList.getPodOneExercise().getOption() == YES) top++;
-                if (checkList.getPodOneMeal() != null && checkList.getPodOneMeal().getOption() == YES) top++;
-                break;
-            case 2:
-                if (checkList.getPodTwoExercise() != null && checkList.getPodTwoExercise().getOption() == YES) top++;
-                if (checkList.getPodTwoMeal() != null && checkList.getPodTwoMeal().getOption() == YES) top++;
-                break;
-            case 3:
-                if (checkList.getPodThreeExercise() != null && checkList.getPodThreeExercise().getOption() == YES)
-                    top++;
-                break;
-            default:
-                break;
-        }
-
-        return top;
-    }
-
     private int bottom(Long operationId) {
         List<CheckList> checks = checkListService.checks(operationId);
         CheckListItem checkListItem = checkListItemService.findCheckListItemByOperation(operationId);
@@ -276,6 +236,8 @@ public class ComplianceCalculationService {
         if (!checks.isEmpty() && checks.get(0) != null) {
             if (checkListItem.isPodExercise()) bottom++;
             if (checkListItem.isPodMeal()) bottom++;
+            if (checkListItem.isGumChewing()) bottom++;
+            if (checkListItem.isGiStimulant()) bottom++;
         }
         if (checks.size() > 1 && checks.get(1) != null) {
             if (checkListItem.isPodExercise()) bottom++;
@@ -283,6 +245,7 @@ public class ComplianceCalculationService {
         }
         if (checks.size() > 2 && checks.get(2) != null) {
             if (checkListItem.isPodExercise()) bottom++;
+            if (checkListItem.isIvLineRemoval()) bottom++;
         }
         return bottom;
     }
