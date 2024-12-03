@@ -22,12 +22,12 @@ const postPatientNewForm = async ({ data }: { data: PatientFormType }) => {
 
     console.log('operationDataTransformed', operationDataTransformed);
 
-    const response = await Axios.post(`api/patient`, operationDataTransformed);
+    const response = await Axios.post(`/api/patient`, operationDataTransformed);
     return response;
 }; //환자 정보 등록 폼 서비스
 
 const getPatientDetail = async ({ patientId }: { patientId: number }): Promise<PatientFormType> => {
-    const response = await Axios.get(`api/patient/${patientId}`);
+    const response = await Axios.get(`/api/patient/${patientId}`);
     return response.data.data;
 }; //환자 정보 상세보기 서비스
 
@@ -44,11 +44,11 @@ const putPatientForm = async ({ data, patientId }: { data: PatientFormType; pati
     };
     console.log('operationDataTransformed', operationDataTransformed);
 
-    const response = await Axios.put(`api/patient/${patientId}`, operationDataTransformed);
+    const response = await Axios.put(`/api/patient/${patientId}`, operationDataTransformed);
     return response;
 };
 const deletePatientForm = async ({ patientId }: { patientId: number }) => {
-    const response = await Axios.delete(`api/patient/${patientId}`);
+    const response = await Axios.delete(`/api/patient/${patientId}`);
     return response;
 };
 

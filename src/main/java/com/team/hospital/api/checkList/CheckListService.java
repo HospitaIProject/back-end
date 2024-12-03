@@ -89,7 +89,7 @@ public class CheckListService {
         return (daysBetween >= 1 && daysBetween <= 3 && createdToday) || (daysBetween > 3 && allNextDaysExist);
     }
 
-    public boolean checkIfAnyCheckListCreatedToday(Long operationId, LocalDate operationDate) {
+    public boolean checkListCreatedToday(Long operationId, LocalDate operationDate) {
         LocalDate today = LocalDate.now();
         if (today.isBefore(operationDate) && checkListBeforeService.checkListBeforeExistsByOperationId(operationId)) return true;
         if (today.equals(operationDate) && checkListDuringService.checkListDuringExistsByOperationId(operationId) && checkListAfterService.checkListAfterExistsByOperationId(operationId)) return true;

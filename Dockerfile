@@ -1,14 +1,22 @@
-# Docker 이미지의 베이스로 openjdk 17 사용
+# Build 레이어
+FROM openjdk:17 AS build
+WORKDIR /build
+
+# Gradle 빌드 아티팩트 복사
+COPY build/libs/*.jar app.jar
+
+# Final 실행 레이어
 FROM openjdk:17
+WORKDIR /app
 
-# 애플리케이션의 JAR 파일을 Docker 이미지로 복사
-ARG JAR_FILE=build/libs/*.jar
-ARG PROFILES
-ARG ENV
+# 기존 데이터 제거 (필요 시 추가)
+RUN rm -rf /app/*
 
-COPY ${JAR_FILE} hospital-0.0.1-SNAPSHOT.jar
+# Final 이미지에 JAR 파일 복사
+COPY --from=build /build/app.jar /app/app.jar
 
-# 애플리케이션 실행을 위한 명령어 설정
-ENTRYPOINT ["java", "-Dspring.profiles.active=${PROFILES}", "-Dserver.env=${ENV}", "-jar","hospital-0.0.1-SNAPSHOT.jar"]
-# java -Dspring.profiles.active=blue -Dserver.env=blue -jar hospital-0.0.1-SNAPSHOT.jar
-# nohup java -jar hospital-0.0.1-SNAPSHOT.jar > hospital.log 2>&1 &
+# 포트 노출
+EXPOSE 8080
+
+# 애플리케이션 실행
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

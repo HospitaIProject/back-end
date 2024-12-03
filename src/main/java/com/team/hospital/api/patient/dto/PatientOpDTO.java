@@ -1,23 +1,23 @@
 package com.team.hospital.api.patient.dto;
 
-import com.team.hospital.api.operation.dto.OpDtoString;
+import com.team.hospital.api.operation.dto.OpSummary;
 import com.team.hospital.api.patient.Patient;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class PatientWithOperationDateDTOString {
+public class PatientOpDTO {
 
     private PatientDTO patientDTO;
-    private OpDtoString operationDateDTO;   // 가장 최근 수술 이름.
+    private OpSummary operationDateDTO;   // 가장 최근 수술 이름.
     private boolean checkListCreatedToday;
 
-    public static PatientWithOperationDateDTOString toEntity(Patient patient, OpDtoString opDtoString, boolean checkListCreatedToday) {
+    public static PatientOpDTO toEntity(Patient patient, OpSummary opSummary, boolean checkListCreatedToday) {
         PatientDTO patientDTO = PatientDTO.toEntity(patient);
-        return PatientWithOperationDateDTOString.builder()
+        return PatientOpDTO.builder()
                 .patientDTO(patientDTO)
-                .operationDateDTO(opDtoString)
+                .operationDateDTO(opSummary)
                 .checkListCreatedToday(checkListCreatedToday)
                 .build();
     }
