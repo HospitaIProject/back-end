@@ -1,60 +1,58 @@
-# 수술 환자 관리 시스템
+# 가톨릭대학교 성모병원 대장항문외과 환자 관리 시스템
 
+---
 [English Version](README.en.md)
 
-![image](https://github.com/user-attachments/assets/bd613b85-edd0-4a7b-a2ca-4f527a0caaac)
 
-- 프로젝트 기간 : 24.07
+
+- 프로젝트 기간 : 24.06 ~ 24.10
 - 개발인원
   - Back-end : 2명
   - Front-end : 1명
 
 ---
-# 프로젝트 소개 및 기능
-- 실제 성모병원 내에서 사용되는 수술/입원 환자 관리 시스템 입니다.
-- 인증된 관리자만 모든 시스템을 접근하고 관리할 수 있습니다.
-- 환자를 등록합니다.
-- 환자에 대한 수술 날짜와 수술 종류를 입력합니다.
-- 수술 종류에 따라 CheckList 항목을 선택합니다.
-- 선택된 항목에 수술 전/중/후 별로 퇴원일 까지 작성합니다.
-- 병원 관계자는 환자별, 날짜별로 수술/입원에 대한 정보를 관리할 수 있습니다.
-- 병원 관계자는 작성한 모든 항목을 수정/삭제가 가능합니다.
-- 정리된 기록을 Excel 파일로 추출할 수 있습니다.
+## 프로젝트 기획의도
+
+> 기존 가톨릭대학교 성모병원 대장항문외과에서 환자에 대한 입원 및 수술에 대한 관리 정보를 수기로 작성하여 불편을 겪고 있던 상황을
+> 쉽고 편리하게 관리할 수 있는 환경을 제공하기 위해 기확하게 되었습니다.
 
 ---
-# 순서도
-![순서도 저장](https://github.com/user-attachments/assets/738dc6ff-a3e4-4c60-987e-2b08799ece60)
 
-
+# 프로젝트 기능
+- 허용된 관리자만 애플리케이션에 접근할 수 있습니다.
+- 환자를 등록하고, 수술 날짜와 수술 종류를 입력합니다.
+- 수술 종류에 따라 체크해야 할 항목을 다르게 할 수 있습니다.
+- 환자에 대한 체크 항목을 수술 전/중/후 별로 구분해 퇴원일까지 체크합니다.
+- 체크된 목록을 토대로 환자별, 날짜별등 필터를 토대로 정보를 수집 및 관리할 수 있습니다.
+- 환자별로 체크한 항목에 대한 기록을 Excel 파일로 추출 할 수 있습니다.
 
 ---
+
 ## 사용 기술
-Back-End : 
-- <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
-- <img src="https://img.shields.io/badge/spring%20security-6DB33F?style=for-the-badge&logo=spring%20security&logoColor=white">
-- <img src="https://img.shields.io/badge/json%20web%20tokens-000000?style=for-the-badge&logo=json%20web%20tokens&logoColor=white">
-- <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-- <img src="https://img.shields.io/badge/amazon%20ec2-FF9900?style=for-the-badge&logo=amazon%20ec2&logoColor=white">
-- <img src="https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=white">
-- <img src="https://img.shields.io/badge/nginx-85EA2D?style=for-the-badge&logo=nginx&logoColor=white">
+- Back-End & Infra
+  - Spring Boot, Spring Security, JPA, QueryDSL, MySQL  
+  - AWS(EC2), Nginx, Docker
+  
 
-
-Front-End :
-- <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
-- <img src="https://img.shields.io/badge/react%20query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white">
-- <img src="https://img.shields.io/badge/tailwind%20css-06B6D4?style=for-the-badge&logo=tailwind%20css&logoColor=white">
-- <img src="https://img.shields.io/badge/zustand-000000?style=for-the-badge&logo=next&logoColor=white">
-
-Tools :
-- <img src="https://img.shields.io/badge/visual%20studio%20code%20studio-007ACC?style=for-the-badge&logo=visual%20studio%20code&logoColor=white">
-- <img src="https://img.shields.io/badge/intellij%20idea-000000?style=for-the-badge&logo=intellij%20idea&logoColor=white">
-
-Collaboration :
-- <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
-
-etc:
-- <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+- Front-End 
+  - React, React Query, Tailwind CSS, Zustand
 ---
+
+## 개발과정
+- 계속해서 추가 및 변경되는 요구사항에 맞춘 발빠른 대처 
+
+- 다량의 데이터에 맞춰 적절한 지연로딩 전략을 사용해 불필요한 데이터 로드 감소
+
+- 필요한 Entity의 컬럼만을 조회해 조회 쿼리 성능 개선
+
+- 데이터 삭제에 대한 복구 기능 (소프트 딜리트)
+
+- @Scheduled를 사용해 오래된 데이터 자동 소프트 딜리트
+
+- Apache POI 라이브러리의 XSSFWorkbook를 사용해 저장된 데이터에 대한 엑셀 추출 기능 추가
+
+---
+
 ## Architecture
 ![image](https://github.com/user-attachments/assets/885c6cca-30f3-4e58-bbc4-2256e9695e03)
 
