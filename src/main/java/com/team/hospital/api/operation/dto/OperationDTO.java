@@ -42,11 +42,6 @@ public class OperationDTO {
     private ComplianceScoreDTO complianceScoreDTO;
 
     public static OperationDTO toEntity(Operation operation) {
-//        List<String> operationTypeNames = operation.getOperationMethods().stream()
-//                .map(OperationMethod::getOperationType)
-//                .map(OperationType::getName)
-//                .toList();
-
         List<String> list;
 
         if (operation.getOperationNames() != null) {
