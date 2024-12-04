@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,10 +72,13 @@ public class ExcelExportController {
 
     @GetMapping("/api/excels")
     @io.swagger.v3.oas.annotations.Operation(summary = "엑셀화 가능한 환자 및 수술 모두 출력")
-    public SuccessResponse<?> findPatientsForExcel()  {
+    public SuccessResponse<?> findPatientsForExcel(@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                   @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)  {
         List<PatientToExcelDTO> list = new ArrayList<>();
 
-        List<Patient> patients = patientService.findAll();
+        List<Patient> patients = (startDate == null || endDate == null)
+                ? patientService.findAll()
+                : patientService.findAllByLocalDate(startDate, endDate);
 
         for (Patient p : patients) {
             // 한 환자당 여러 수술이 있을 수 있으므로 수술 정보마다 새 행을 생성
