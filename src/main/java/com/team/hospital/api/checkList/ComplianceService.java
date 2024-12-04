@@ -22,7 +22,7 @@ import static com.team.hospital.api.checkList.enumType.BooleanOption.YES;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ComplianceCalculationService {
+public class ComplianceService {
 
     private final CheckListService checkListService;
     private final CheckListItemService checkListItemService;
