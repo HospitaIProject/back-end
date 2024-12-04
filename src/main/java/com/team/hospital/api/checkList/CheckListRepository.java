@@ -12,6 +12,9 @@ public interface CheckListRepository extends JpaRepository<CheckList, Long> {
     @Query("SELECT ck FROM CheckList ck WHERE ck.checkListItem.operation.id = :operationId")
     List<CheckList> findAllByOperationId(@Param("operationId") Long operationId);
 
+    @Query("SELECT COUNT(ck) FROM CheckList ck WHERE ck.checkListItem.operation.id = :operationId")
+    Long countAllByOperationId(@Param("operationId") Long operationId);
+
     @Query("SELECT COUNT(cl) > 0 FROM CheckList cl " +
             "JOIN cl.checkListItem ci " +
             "JOIN ci.operation o " +

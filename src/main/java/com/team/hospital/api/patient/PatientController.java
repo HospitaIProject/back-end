@@ -5,6 +5,7 @@ import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.operation.dto.OpSummary;
 import com.team.hospital.api.operation.dto.QueryRepository;
 import com.team.hospital.api.patient.dto.*;
+import com.team.hospital.api.patient.enumType.CheckListStatus;
 import com.team.hospital.api.patient.enumType.SearchType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -92,7 +93,6 @@ public class PatientController {
         List<PatientOpDTO> patientOps = paginated.stream()
                 .map(this::toPatientOp)
                 .toList();
-        log.info("테스트 완료");
         return SuccessResponse.createSuccess(PatientResponse.toEntity(patientOps, paginated));
     }
 
@@ -121,8 +121,8 @@ public class PatientController {
 
     private PatientOpDTO toPatientOp(Patient patient) {
         OpSummary recentOp = OpSummary.toEntity(queryRepository.findRecentOpByPatientId(patient.getId()), PatientDTO.toEntity(patient));
-        boolean createdToday = recentOp != null && checkListService.checkListCreatedToday(recentOp.getOperationId(), patient.getOperationDate());
-        return PatientOpDTO.toEntity(patient, recentOp, createdToday);
+        CheckListStatus checkListStatus = checkListService.checkListCreatedToday(recentOp.getOperationId(), patient.getOperationDate());
+        return PatientOpDTO.toEntity(patient, recentOp, checkListStatus);
     }
 
     @GetMapping("/patients/operationDates")

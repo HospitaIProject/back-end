@@ -16,6 +16,7 @@ import com.team.hospital.api.checkListItem.CheckListItemService;
 import com.team.hospital.api.operation.OperationService;
 import com.team.hospital.api.operation.dto.OperationDTO;
 import com.team.hospital.api.patient.Patient;
+import com.team.hospital.api.patient.enumType.CheckListStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +38,7 @@ public class CheckListController {
     private final CheckListDuringService checkListDuringService;
     private final CheckListAfterService checkListAfterService;
     private final OperationService operationService;
-    private final ComplianceCalculationService complianceCalculationService;
+    private final ComplianceService complianceService;
 
     @PostMapping("/api/checkList/{checkListItemId}")
     @Operation(summary = "세팅한 체크리스트에 대하여 체크리스트 등록")
@@ -56,42 +57,27 @@ public class CheckListController {
 
     @GetMapping("/api/checkLists/{operationId}")
     @Operation(summary = "Operation Id 에 해당하는 체크리스트 목록")
-    public SuccessResponse<CheckListWithOperationDateDTO> findCheckListByOperationId(@PathVariable Long operationId) {
+    public SuccessResponse<CheckListOpDate> findCheckListByOperationId(@PathVariable Long operationId) {
         com.team.hospital.api.operation.Operation operation = operationService.findOperationById(operationId);
         Patient patient = operation.getPatient();
         List<CheckList> checkLists = checkListService.checks(operationId);
-        boolean createdToday = checkListService.checkListCreatedToday(operationId, patient.getOperationDate());
-
+        CheckListStatus createdToday = checkListService.checkListCreatedToday(operationId, patient.getOperationDate());
         CheckListBeforeDTO checkListBeforeDTO = getCheckListBeforeDTO(operationId);
         CheckListDuringDTO checkListDuringDTO = getCheckListDuringDTO(operationId);
         CheckListAfterDTO checkListAfterDTO = getCheckListAfterDTO(operationId);
+        ComplianceScoreDTO complianceScoreDTO = complianceService.calculateScore(operationId);
 
-        ComplianceScoreDTO complianceScoreDTO = complianceCalculationService.calculateScore(operationId);
+        CheckListOpDate checkListDTO = CheckListOpDate.toEntity(
+                OperationDTO.toEntity(operation),
+                patient,
+                checkLists,
+                createdToday,
+                checkListBeforeDTO,
+                checkListDuringDTO,
+                checkListAfterDTO,
+                complianceScoreDTO);
 
-        CheckListWithOperationDateDTO responseDTO;
-
-        if (checkLists == null) {
-            responseDTO = CheckListWithOperationDateDTO.toEntity(
-                    OperationDTO.toEntity(operation),
-                    checkListBeforeDTO,
-                    checkListDuringDTO,
-                    checkListAfterDTO,
-                    patient,
-                    createdToday,
-                    complianceScoreDTO);
-        } else {
-            responseDTO = CheckListWithOperationDateDTO.toEntity(
-                    checkLists,
-                    OperationDTO.toEntity(operation),
-                    checkListBeforeDTO,
-                    checkListDuringDTO,
-                    checkListAfterDTO,
-                    patient,
-                    createdToday,
-                    complianceScoreDTO);
-        }
-
-        return SuccessResponse.createSuccess(responseDTO);
+        return SuccessResponse.createSuccess(checkListDTO);
     }
 
     @GetMapping("/api/checkLists")

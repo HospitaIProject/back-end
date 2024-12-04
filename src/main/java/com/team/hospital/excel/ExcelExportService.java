@@ -2,7 +2,7 @@ package com.team.hospital.excel;
 
 import com.team.hospital.api.checkList.CheckList;
 import com.team.hospital.api.checkList.CheckListRepository;
-import com.team.hospital.api.checkList.ComplianceCalculationService;
+import com.team.hospital.api.checkList.ComplianceService;
 import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.checkListAfter.CheckListAfter;
 import com.team.hospital.api.checkListAfter.CheckListAfterRepository;
@@ -40,7 +40,7 @@ public class ExcelExportService {
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListAfterRepository checkListAfterRepository;
     private final CheckListRepository checkListRepository;
-    private final ComplianceCalculationService complianceCalculationService;
+    private final ComplianceService complianceService;
 
 
     public ByteArrayInputStream exportToExcel(List<Long> operationIds) throws IOException {
@@ -389,7 +389,7 @@ public class ExcelExportService {
             setIntCellValueSafe(row, 34, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
             setIntCellValueSafe(row, 38, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
 
-            ComplianceScoreDTO compliance = complianceCalculationService.calculateScore(op.getId());
+            ComplianceScoreDTO compliance = complianceService.calculateScore(op.getId());
             row.createCell(41).setCellValue(compliance.getTotalCheckListCompleted()); //ERAS 성공 항목수
             row.createCell(42).setCellValue(compliance.getTotalCheckListCount()); //ERAS 적용한 항목수
             row.createCell(43).setCellValue(compliance.getCompliancePercentage());
