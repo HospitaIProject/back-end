@@ -33,7 +33,7 @@ export type PatientFormType = {
 };
 
 export type PatientWithOperationDtoType = {
-    checkListCreatedToday: boolean;
+    checkListCreatedToday: 'NOT_YET_CREATED' | 'COMPLETED_TODAY' | 'EXTRACTION_READY';
     patientDTO: {
         patientId: number; // 환자ID
         patientNumber: number; // 환자번호
