@@ -2,6 +2,7 @@ package com.team.hospital.api.patient.dto;
 
 import com.team.hospital.api.operation.dto.OpSummary;
 import com.team.hospital.api.patient.Patient;
+import com.team.hospital.api.patient.enumType.CheckListStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,9 +12,9 @@ public class PatientOpDTO {
 
     private PatientDTO patientDTO;
     private OpSummary operationDateDTO;   // 가장 최근 수술 이름.
-    private boolean checkListCreatedToday;
+    private CheckListStatus checkListCreatedToday;
 
-    public static PatientOpDTO toEntity(Patient patient, OpSummary opSummary, boolean checkListCreatedToday) {
+    public static PatientOpDTO toEntity(Patient patient, OpSummary opSummary, CheckListStatus checkListCreatedToday) {
         PatientDTO patientDTO = PatientDTO.toEntity(patient);
         return PatientOpDTO.builder()
                 .patientDTO(patientDTO)
