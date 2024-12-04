@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +51,10 @@ public class PatientService {
 
     public List<Patient> findAll() {
         return patientRepository.findAll();
+    }
+
+    public List<Patient> findAllByLocalDate(LocalDate startDate, LocalDate endDate) {
+        return patientRepository.findAllByLocalDate(startDate, endDate);
     }
 
     public Page<Patient> findPatientsByOperationYear(int year, Pageable pageable) {
