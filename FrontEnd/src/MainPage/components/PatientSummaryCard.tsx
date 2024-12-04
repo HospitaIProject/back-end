@@ -63,7 +63,7 @@ function PatientSummaryCard({ userData }: Props) {
             alert('수술정보를 먼저 등록해주세요.');
             return;
         }
-        if (userData.checkListCreatedToday) {
+        if (userData.checkListCreatedToday !== 'NOT_YET_CREATED') {
             if (dateComparison === 'POST') {
                 if (Math.abs(Number(diffDay)) === 1) {
                     alert('작성된 Daily 체크리스트가 2건이므로 체크리스트 목록 페이지로 이동됩니다.');
@@ -119,7 +119,7 @@ function PatientSummaryCard({ userData }: Props) {
     return (
         <>
             <li
-                className="flex flex-col w-full gap-3 px-4 py-4 bg-white cursor-pointer"
+                className="flex w-full cursor-pointer flex-col gap-3 bg-white px-4 py-4"
                 onClick={() => setIsModalOpen(true)} //임시 수정 테스트
             >
                 <div className="flex flex-row flex-wrap items-center justify-between gap-4">
@@ -133,13 +133,13 @@ function PatientSummaryCard({ userData }: Props) {
                         상세정보
                     </button>
                 </div>
-                <div className="flex flex-row items-center justify-between w-full">
+                <div className="flex w-full flex-row items-center justify-between">
                     <div className="flex flex-col gap-[2px]">
-                        <span className="flex flex-wrap text-sm text-gray-700 break-words">
+                        <span className="flex flex-wrap break-words text-sm text-gray-700">
                             <span className="shrink-0">등록번호:&nbsp;</span>
                             <span className="text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
-                        <span className="inline-block my-0 text-sm text-gray-700 break-words">
+                        <span className="my-0 inline-block break-words text-sm text-gray-700">
                             <span className="shrink-0">수술일:&nbsp;</span>
                             <span className="text-gray-900">
                                 {formattedOperationDate ? formattedOperationDate : '내역없음'}
@@ -149,38 +149,44 @@ function PatientSummaryCard({ userData }: Props) {
                                 {SUGERY_STATUS[dateComparison]}
                             </span> */}
                         </span>
-                        <span className="inline-block text-sm text-gray-600 break-words">
+                        <span className="inline-block break-words text-sm text-gray-600">
                             <span className="shrink-0">수술명:&nbsp;</span>
                             <span className="text-gray-900">
                                 {userData.operationDateDTO.operationTypeNames || '없음'}
                             </span>
                         </span>
                     </div>
-                    <div className="flex flex-col justify-center gap-1 shrink-0">
+                    <div className="flex shrink-0 flex-col justify-center gap-1">
                         {isOperationData && (
                             <div className="relative">
                                 <button
                                     onClick={handleRouteCheckList}
                                     className={` ${
-                                        userData.checkListCreatedToday ? 'opacity-50' : ''
+                                        userData.checkListCreatedToday !== 'NOT_YET_CREATED' ? 'opacity-50' : ''
                                     } mx-1 flex flex-row items-center gap-2 rounded-lg border bg-blue-50 p-2 text-blue-700 shadow-sm`}
                                 >
                                     <CheckListIcon className={`h-5 w-5 text-inherit`} />
                                     <span className="text-sm font-semibold">
-                                        {userData.checkListCreatedToday ? '작성완료' : '작성'}
+                                        {userData.checkListCreatedToday === 'COMPLETED_TODAY'
+                                            ? '작성완료'
+                                            : userData.checkListCreatedToday === 'EXTRACTION_READY'
+                                              ? '추출가능'
+                                              : '작성'}
                                     </span>
                                     <ArrowIcon
-                                        className={`h-4 w-4 text-inherit ${userData.checkListCreatedToday ? 'hidden' : ''}`}
+                                        className={`h-4 w-4 text-inherit ${userData.checkListCreatedToday !== 'NOT_YET_CREATED' ? 'hidden' : ''}`}
                                     />
                                 </button>
                                 <span
                                     className={`absolute -top-2 rounded-full px-1 text-sm ${
-                                        userData.checkListCreatedToday
+                                        userData.checkListCreatedToday === 'COMPLETED_TODAY'
                                             ? '-right-2 font-medium text-green-500'
-                                            : '-right-1 flex h-[18px] w-[18px] items-center justify-center bg-yellow-200 text-center text-red-500'
+                                            : userData.checkListCreatedToday === 'EXTRACTION_READY'
+                                              ? '-right-2 font-medium text-purple-400'
+                                              : '-right-1 flex h-[18px] w-[18px] items-center justify-center bg-yellow-200 text-center text-red-500'
                                     }`}
                                 >
-                                    {userData.checkListCreatedToday ? (
+                                    {userData.checkListCreatedToday !== 'NOT_YET_CREATED' ? (
                                         <CheckBoxIcon isChecked={true} checkedClassName="w-5 h-5" />
                                     ) : (
                                         <span className="">!</span>
@@ -203,7 +209,7 @@ function PatientSummaryCard({ userData }: Props) {
 
                 <div className="w-full border-t border-gray-100" />
 
-                <div className="flex flex-row items-center justify-between w-full gap-2 text-gray-600">
+                <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
                     {/* <button className="px-2 text-sm font-medium border rounded-md hover:bg-blue-50">체크리스트</button> */}
 
                     <button
@@ -215,14 +221,14 @@ function PatientSummaryCard({ userData }: Props) {
                     <div className="flex flex-row gap-2">
                         <button
                             onClick={handleRouteChecklists}
-                            className="p-2 text-sm text-gray-500 border rounded-xl hover:bg-blue-50"
+                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
                         >
                             체크리스트
                         </button>
 
                         <Link
                             to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
-                            className="p-2 text-sm text-gray-500 border rounded-xl hover:bg-blue-50"
+                            className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
                         >
                             수술정보관리
                         </Link>

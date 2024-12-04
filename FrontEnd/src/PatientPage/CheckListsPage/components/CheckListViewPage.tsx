@@ -240,7 +240,6 @@ function CheckListViewPage() {
                             htmlFor="fluidRestriction"
                             formik={formik}
                             isRender={existFields.fluidRestriction}
-                            isDisabled={true}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNausea"

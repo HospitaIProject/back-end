@@ -132,9 +132,13 @@ export default function Header() {
                         <ArrowIcon className="h-8 w-8 rotate-180 transform text-inherit" />
                         {label ? label : '뒤로가기'}
                     </button>
-                    <button onClick={() => handleHomeLink()}>
-                        <HomeIcon className="h-7 w-7 text-gray-600" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                        <HeaderSettingButton />
+                        <div className="h-6 border-l border-gray-300" />
+                        <button onClick={() => handleHomeLink()}>
+                            <HomeIcon className="h-7 w-7 text-gray-600" />
+                        </button>
+                    </div>
                 </nav>
             </header>
 
