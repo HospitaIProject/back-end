@@ -14,8 +14,9 @@ import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemRepository;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationRepository;
+import com.team.hospital.api.operation.dto.QueryRepository;
+import com.team.hospital.api.operationMethod.dto.OpmDTO;
 import com.team.hospital.api.patient.Patient;
-import com.team.hospital.excel.dto.PatientToExcelDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -40,6 +41,7 @@ public class ExcelExportService {
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListAfterRepository checkListAfterRepository;
     private final CheckListRepository checkListRepository;
+    private final QueryRepository queryRepository;
     private final ComplianceCalculationService complianceCalculationService;
 
 
@@ -323,7 +325,7 @@ public class ExcelExportService {
 
             Row row = sheet.createRow(rowIndex); // 각 수술마다 새로운 행 생성
 
-            String result = PatientToExcelDTO.getOperationMethod(op);
+            OpmDTO opmDTO = queryRepository.findOpmByOperationId(op.getId());
 
             // CheckList 처리 (Before, During, After)
             CheckListItem checkListItem = checkListItemRepository.findCheckListItemByOperation(op);
@@ -350,7 +352,7 @@ public class ExcelExportService {
             row.createCell(6).setCellValue(p.getTotalHospitalizedDays());                                                        //POD(일)
 
             row.createCell(7).setCellValue(p.getDiagnosis().getNum());                                                          //진단명
-            row.createCell(8).setCellValue(result);                                                                     //수술명 -> 숫자 필요
+            row.createCell(8).setCellValue(opmDTO.getOperationTypeNames().toString());                                                                     //수술명 -> 숫자 필요
 
             row.createCell(9).setCellValue(p.getLocation().getNum());                                                         // 암 Location 1: colon 2: rctum
             row.createCell(10).setCellValue(op.getOperationApproach().getNum());                                              //수술 approah CP 1: colon 2: rectum
