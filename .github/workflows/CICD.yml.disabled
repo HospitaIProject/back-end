@@ -122,6 +122,7 @@ jobs:
             echo "Pulling the latest Docker image for ${{ env.new_env }}..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ env.new_env }}
 
+
             # Start the new environment container
             echo "Starting $new_env container..."
             docker-compose -f compose/docker-compose.yml up -d app-$new_env
