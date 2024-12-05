@@ -5,6 +5,7 @@ import ExelDatePicker from './components/ExelDatePicker';
 import ExelTable from './components/ExelTable';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import DownLoadIcon from '../icons/DownLoadIcon';
 
 function ExcelListPage() {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -142,9 +143,10 @@ function ExcelListPage() {
                 <div className="flex flex-row gap-2">
                     <button
                         onClick={handleDownload}
-                        className="flex-shrink-0 rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-white"
+                        className="flex flex-shrink-0 items-center gap-1 rounded-md bg-blue-400 px-4 py-2 text-sm font-medium text-white"
                     >
-                        다운로드
+                        Excel
+                        <DownLoadIcon className="h-5 w-5" />
                     </button>
                 </div>
             </div>
