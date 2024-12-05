@@ -69,7 +69,7 @@ function ExcelListPage() {
     };
     const handleRangeChange = (range: number) => {
         if (range === -1) {
-            setStartDate(new Date('1900-01-01'));
+            setStartDate(new Date('1999-08-10'));
             setEndDate(new Date());
             return;
         }
