@@ -74,21 +74,21 @@ export default function Header() {
     } else if (pathname.startsWith('/patient/new/info')) {
         label = '환자 정보등록';
     } else if (pathname.startsWith('/patient/operation/list')) {
-        label = '환자 수술이력';
+        label = '환자 수술 이력';
     } else if (pathname.startsWith('/patient/new/operation/')) {
-        label = '환자 수술정보수정';
+        label = '환자 수술 정보수정';
     } else if (pathname.startsWith('/patient/new/operation')) {
-        label = '환자 수술정보등록';
+        label = '환자 수술 정보등록';
     } else if (pathname.startsWith('/patient/new/complication')) {
-        label = '환자 합병증등록';
+        label = '환자 합병증 등록';
     } else if (pathname.startsWith('/patient/checkLists/preview')) {
         label = '체크리스트 항목';
     } else if (pathname.startsWith('/patient/checkLists')) {
         label = '체크리스트 목록';
     } else if (pathname.startsWith('/operation-checkList/default-setting')) {
-        label = '수술별 체크리스트 기본설정';
+        label = '수술 별 체크리스트 기본설정';
     } else if (pathname.startsWith('/summary/excel')) {
-        label = '환자 데이터 액셀 다운로드';
+        label = '환자 데이터 액셀 파일 추출';
     }
 
     if (pathname === '/' || pathname === '/patient') {
