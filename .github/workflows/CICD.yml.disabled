@@ -113,6 +113,14 @@ jobs:
             if [ "$new_env" == "green" ]; then
               new_port=8081
             fi
+            
+            # Login to Docker Hub on EC2
+            echo "Logging into Docker Hub on EC2..."
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            
+            # Pull the latest Docker image
+            echo "Pulling the latest Docker image for ${{ env.new_env }}..."
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ env.new_env }}
 
             # Start the new environment container
             echo "Starting $new_env container..."
