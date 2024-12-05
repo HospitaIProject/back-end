@@ -9,6 +9,8 @@ interface DatePickerProps {
     increaseMonth: () => void;
     prevMonthButtonDisabled: boolean;
     nextMonthButtonDisabled: boolean;
+    startYear: number;
+    endYear: number;
 }
 
 const DatePickerHeader: React.FC<DatePickerProps> = ({
@@ -19,6 +21,8 @@ const DatePickerHeader: React.FC<DatePickerProps> = ({
     increaseMonth,
     prevMonthButtonDisabled,
     nextMonthButtonDisabled,
+    startYear,
+    endYear,
 }) => {
     return (
         <div className="mb-6 flex w-full flex-row justify-center">
@@ -30,8 +34,7 @@ const DatePickerHeader: React.FC<DatePickerProps> = ({
                 value={date.getFullYear()}
                 onChange={({ target: { value } }) => changeYear(Number(value))}
             >
-                {[...Array(20)].map((_, i) => {
-                    const year = new Date().getFullYear() - 10 + i;
+                {Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i).map((year) => {
                     return (
                         <option key={year} value={year}>
                             {year}년
