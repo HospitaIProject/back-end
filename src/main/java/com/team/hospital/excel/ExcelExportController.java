@@ -13,6 +13,7 @@ import com.team.hospital.api.checkListItem.CheckListItem;
 import com.team.hospital.api.checkListItem.CheckListItemRepository;
 import com.team.hospital.api.operation.Operation;
 import com.team.hospital.api.operation.OperationService;
+import com.team.hospital.api.operation.dto.QueryRepository;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.PatientService;
 import com.team.hospital.excel.dto.PatientToExcelDTO;
@@ -49,6 +50,7 @@ public class ExcelExportController {
     private final CheckListDuringRepository checkListDuringRepository;
     private final CheckListAfterRepository checkListAfterRepository;
     private final CheckListRepository checkListRepository;
+    private final QueryRepository queryRepository;
 
 
     // 이 부분은 operationID로 출력해야함
@@ -72,7 +74,7 @@ public class ExcelExportController {
 
     @GetMapping("/api/excels")
     @io.swagger.v3.oas.annotations.Operation(summary = "엑셀화 가능한 환자 및 수술 모두 출력")
-    public SuccessResponse<?> findPatientsForExcel(@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+    public SuccessResponse<List<PatientToExcelDTO>> findPatientsForExcel(@RequestParam(value = "startDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                                    @RequestParam(value = "endDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate)  {
         List<PatientToExcelDTO> list = new ArrayList<>();
 
@@ -94,7 +96,7 @@ public class ExcelExportController {
                 if (checkListBefore == null || checkListDuring == null || checkListAfter == null || checkList.size() < 3)
                     continue;
 
-                list.add(PatientToExcelDTO.toEntity(p, op));
+                list.add(PatientToExcelDTO.toEntity(p, op, queryRepository.findOpmByOperationId(op.getId())));
             }
         }
 
