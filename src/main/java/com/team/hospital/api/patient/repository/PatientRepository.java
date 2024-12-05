@@ -96,7 +96,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, Patient
             @Param("name") String name,
             Pageable pageable);
 
-    @Query("SELECT p FROM Patient p WHERE p.operationDate BETWEEN :startDate AND :endDate")
+    @Query("SELECT p FROM Patient p WHERE p.operationDate BETWEEN :startDate AND :endDate ORDER BY p.operationDate DESC")
     List<Patient> findAllByLocalDate(@Param("startDate") LocalDate startDate,
                                      @Param("endDate") LocalDate endDate);
 
