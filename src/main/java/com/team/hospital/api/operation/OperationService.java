@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -60,7 +59,6 @@ public class OperationService {
                 })
                 .toList();
 
-        String result = String.join(", ", write.getOperationTypeNames());  // 구분자는 ", "
         Operation operation = Operation.createOperation(write, operationMethods, patient);
         operationRepository.save(operation);
         return operation.getId();
@@ -106,9 +104,8 @@ public class OperationService {
 
 
     public Operation findOperationById(Long operationId) {
-        Optional<Operation> operation = operationRepository.findById(operationId);
-        if (operation.isEmpty()) throw new OperationNotFoundException();
-        return operation.get();
+        return operationRepository.findById(operationId)
+                .orElseThrow(OperationNotFoundException::new);
     }
 
     public List<Operation> findAllByPatient(Long patientId) {

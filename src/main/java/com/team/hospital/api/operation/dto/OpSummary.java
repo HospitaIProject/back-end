@@ -25,17 +25,6 @@ public class OpSummary {
 
     private LocalDateTime created_at;
 
-    public OpSummary(Long operationId, String operationTypeNames, LocalDate operationDate, LocalDate hospitalizedDate, LocalDate dischargedDate, LocalDateTime created_at) {
-//        String result = String.join(", ", operationTypeNames);
-
-        this.operationId = operationId;
-        this.operationTypeNames = operationTypeNames;
-        this.operationDate = operationDate;
-        this.hospitalizedDate = hospitalizedDate;
-        this.dischargedDate = dischargedDate;
-        this.created_at = created_at;
-    }
-
     public static OpSummary toEntity(OpDto opDto, PatientDTO patientDTO) {
         if (opDto == null) {
             return OpSummary.builder()
@@ -53,7 +42,5 @@ public class OpSummary {
                 .dischargedDate(patientDTO.getDischargedDate() != null ? patientDTO.getDischargedDate() : null)
                 .created_at(opDto.getCreated_at())
                 .build();
-
-
     }
 }

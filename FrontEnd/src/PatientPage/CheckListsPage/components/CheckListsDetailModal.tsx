@@ -61,7 +61,7 @@ function CheckListsDetailModal({ prevValues, todayValues, postValues, onSubmit, 
     }, [deleteCheckListMutation.isSuccess]);
     return (
         <ModalFullScreenContainer title="확인" onClose={onClose}>
-            <DetailViewContainer deleteHandler={deleteHandler} updateHandler={updateHandler}>
+            <DetailViewContainer deleteButton={false} deleteHandler={deleteHandler} updateHandler={updateHandler}>
                 <ConfirmComplianceForm
                     existFields={setupData}
                     prevValues={prevValues}

@@ -187,7 +187,7 @@ function ComplianceFormPage() {
                     existFields={existFields}
                 />
 
-                <form className="flex flex-col w-full gap-6 p-4 mx-auto rounded">
+                <form className="mx-auto flex w-full flex-col gap-6 rounded p-4">
                     {/* 수술전 */}
                     <DropContainer isOpen={relativeDay.includes('PREV') || relativeDay.includes('ALL')}>
                         <YesOrNoButton<checkListFormType>
@@ -255,7 +255,7 @@ function ComplianceFormPage() {
                             htmlFor="fluidRestriction"
                             formik={formik}
                             isRender={existFields.fluidRestriction}
-                            isDisabled={true}
+                            isDisabled={dateStatus !== 'TODAY'}
                         />
                         <YesOrNoButton<checkListFormType>
                             htmlFor="antiNausea"

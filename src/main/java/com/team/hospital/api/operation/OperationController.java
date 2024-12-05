@@ -1,7 +1,7 @@
 package com.team.hospital.api.operation;
 
 import com.team.hospital.api.apiResponse.SuccessResponse;
-import com.team.hospital.api.checkList.ComplianceCalculationService;
+import com.team.hospital.api.checkList.ComplianceService;
 import com.team.hospital.api.checkList.dto.ComplianceScoreDTO;
 import com.team.hospital.api.complication.ComplicationService;
 import com.team.hospital.api.operation.dto.CashOperationDTO;
@@ -24,7 +24,7 @@ public class OperationController {
 
     private final OperationService operationService;
     private final ComplicationService complicationService;
-    private final ComplianceCalculationService complianceCalculationService;;
+    private final ComplianceService complianceService;;
 
     @GetMapping("/api/operation/{operationId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 id값에 대한 operation 상세 조회", description = "입력한 operationID 값에 해당하는 operation 상세 조회")
@@ -46,7 +46,7 @@ public class OperationController {
         List<OperationDTO> operationDTOS = operationService.findAllByPatient(patientId).stream()
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
-                    ComplianceScoreDTO complianceScoreDTO = complianceCalculationService.calculateScore(operation.getId());
+                    ComplianceScoreDTO complianceScoreDTO = complianceService.calculateScore(operation.getId());
                     return OperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, complianceScoreDTO);
                 })
                 .toList();
@@ -79,7 +79,7 @@ public class OperationController {
         List<DeleteOperationDTO> deleteOperationDTOS = operationService.findAllMarkedForDeletion().stream()
                 .map(operation -> {
                     double score = complicationService.calculateAndUpdateComplicationScore(operation.getId());
-                    ComplianceScoreDTO complianceScoreDTO = complianceCalculationService.calculateScore(operation.getId());
+                    ComplianceScoreDTO complianceScoreDTO = complianceService.calculateScore(operation.getId());
                     return DeleteOperationDTO.toEntity(operation, complicationService.existsByOperation(operation), score, complianceScoreDTO);
                 })
                 .sorted(Comparator.comparing(DeleteOperationDTO::getDaysUntilDeletion, Comparator.reverseOrder())) // 남은 일수 내림차순 정렬
