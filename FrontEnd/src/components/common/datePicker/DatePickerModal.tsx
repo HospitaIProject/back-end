@@ -31,7 +31,7 @@ function DatePickerModal({ initialDate, onClose, onSelectDate, minDate, descript
 
     return (
         <ModalFullScreenContainer title="날짜 선택" onClose={onClose} maxWidthClassName="max-w-[650px]">
-            <div className="flex flex-col w-full">
+            <div className="flex w-full flex-col">
                 <DatePicker
                     selected={selectDate}
                     locale={ko}
@@ -60,16 +60,18 @@ function DatePickerModal({ initialDate, onClose, onSelectDate, minDate, descript
                             increaseMonth={increaseMonth}
                             prevMonthButtonDisabled={prevMonthButtonDisabled}
                             nextMonthButtonDisabled={nextMonthButtonDisabled}
+                            startYear={new Date().getFullYear() - 20}
+                            endYear={new Date().getFullYear() + 5}
                         />
                     )}
                 />
-                <div className="p-5 mx-auto text-sm text-gray-400">{description}</div>
+                <div className="mx-auto p-5 text-sm text-gray-400">{description}</div>
 
-                <div className="sticky bottom-0 flex justify-end w-full p-5 mt-auto bg-white">
+                <div className="sticky bottom-0 mt-auto flex w-full justify-end bg-white p-5">
                     <button
                         onClick={handleChangeDate}
                         type="button"
-                        className="px-8 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+                        className="rounded-md bg-blue-500 px-8 py-2 text-white hover:bg-blue-600"
                     >
                         선택하기
                     </button>
