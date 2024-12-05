@@ -1,5 +1,6 @@
 package com.team.hospital.api.operation.dto;
 
+import com.team.hospital.api.operationMethod.dto.OpmDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
@@ -58,4 +59,17 @@ public class QueryRepository {
     }
 
 
+    public OpmDTO findOpmByOperationId(Long operationId) {
+        try {
+            return em.createQuery(
+                            "select new com.team.hospital.api.operationMethod.dto.OpmDTO(o.operationNames) " +
+                                    "from Operation o " +
+                                    "where o.id = :operationId ", OpmDTO.class)
+                    .setParameter("operationId", operationId)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;  // 결과가 없을 경우 null 반환
+        }
+    }
 }
