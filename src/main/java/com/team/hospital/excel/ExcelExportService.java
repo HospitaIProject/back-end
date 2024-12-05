@@ -43,7 +43,7 @@ public class ExcelExportService {
     private final CheckListRepository checkListRepository;
 
     private final QueryRepository queryRepository;
-    private final ComplianceCalculationService complianceCalculationService;
+    private final ComplianceService complianceService;
 
 
 
