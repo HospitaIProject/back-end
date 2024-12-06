@@ -1,6 +1,5 @@
 package com.team.hospital.api.patient.dto;
 
-import com.team.hospital.api.patient.Patient;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,7 @@ public class PageInfo {
     private int totalElements;
     private int totalPages;
 
-    public static PageInfo toEntity(Page<Patient> page) {
+    public static PageInfo toEntity(Page<PatientOpDTO> page) {
         return PageInfo.builder()
                 .page(page.getNumber() + 1)
                 .size(page.getSize())
