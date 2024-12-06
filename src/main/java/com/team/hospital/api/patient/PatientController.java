@@ -4,8 +4,12 @@ import com.team.hospital.api.apiResponse.SuccessResponse;
 import com.team.hospital.api.checkList.CheckListService;
 import com.team.hospital.api.operation.dto.OpSummary;
 import com.team.hospital.api.operation.dto.QueryRepository;
-import com.team.hospital.api.patient.dto.*;
+import com.team.hospital.api.patient.dto.PatientDTO;
+import com.team.hospital.api.patient.dto.PatientOpDTO;
+import com.team.hospital.api.patient.dto.PatientResponse;
+import com.team.hospital.api.patient.dto.RegisterPatient;
 import com.team.hospital.api.patient.enumType.CheckListStatus;
+import com.team.hospital.api.patient.enumType.OpDateOrder;
 import com.team.hospital.api.patient.enumType.SearchType;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -68,6 +72,8 @@ public class PatientController {
     public SuccessResponse<?> findPatientsByYearAndMonth(@RequestParam(required = false) Integer year,
                                                          @RequestParam(required = false) Integer month,
                                                          @RequestParam(required = false) SearchType searchType,
+                                                         @RequestParam(required = false) CheckListStatus status,
+                                                         @RequestParam(defaultValue = "NEWER") OpDateOrder order,
                                                          @RequestParam(required = false) String opName,
                                                          @RequestParam(required = false) String query,
                                                          @RequestParam(required = false) Integer page,
@@ -88,35 +94,43 @@ public class PatientController {
                     : patientService.findPatientsByOperationYearAndMonth(year, month);
         }
 
-        patients = sortAndFilt(patients, searchType, query);
-        Page<Patient> paginated = paginate(patients, page, size);
-        List<PatientOpDTO> patientOps = paginated.stream()
+        patients = sortAndFilt(patients, searchType, query, order);
+        List<PatientOpDTO> patientOps = patients.stream()
                 .map(this::toPatientOp)
+                .filter(patientOpDTO -> status == null || patientOpDTO.getCheckListCreatedToday() == status)
                 .toList();
-        return SuccessResponse.createSuccess(PatientResponse.toEntity(patientOps, paginated));
+        Page<PatientOpDTO> paginate = paginate(patientOps, page, size);
+        return SuccessResponse.createSuccess(PatientResponse.toEntity(patientOps, paginate));
     }
 
-    private List<Patient> sortAndFilt(List<Patient> patients, SearchType searchType, String query) {
+    private List<Patient> sortAndFilt(List<Patient> patients, SearchType searchType, String query, OpDateOrder order) {
+        Comparator<Patient> comparator = Comparator.comparing(Patient::getCreatedAt);
+        if (order == OpDateOrder.NEWER) comparator = comparator.reversed();
+
         if (searchType == null || query == null || query.isBlank()) {
-            return patients.stream().sorted(Comparator.comparing(Patient::getCreatedAt).reversed()).toList();
+            return patients.stream().sorted(comparator).toList();
         }
+
+
         return patients.stream()
                 .filter(patient -> {
-                    if (searchType == SearchType.PATIENT_NAME) return patient.getName().contains(query);
-                    else return patient.getPatientNumber().toString().contains(query);
+                    if (searchType == SearchType.PATIENT_NAME) {
+                        return patient.getName().contains(query);
+                    } else {
+                        return patient.getPatientNumber().toString().contains(query);
+                    }
                 })
-                .sorted(Comparator.comparing(Patient::getCreatedAt).reversed())
-                .toList();
+                .sorted(comparator).toList();
     }
 
-    private Page<Patient> paginate(List<Patient> patients, Integer page, Integer size) {
+    private Page<PatientOpDTO> paginate(List<PatientOpDTO> patients, Integer page, Integer size) {
         int pageNumber = (page != null && page > 0 ? page : 1) - 1;
         int pageSize = (size != null && size > 0 ? size : 10);
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         int start = Math.min((int) pageable.getOffset(), patients.size());
         int end = Math.min(start + pageable.getPageSize(), patients.size());
-        List<Patient> pagedPatients = patients.subList(start, end);
-        return new PageImpl<>(pagedPatients, pageable, patients.size());
+        List<PatientOpDTO> pagedItems = patients.subList(start, end);
+        return new PageImpl<>(pagedItems, pageable, patients.size());
     }
 
     private PatientOpDTO toPatientOp(Patient patient) {
@@ -124,7 +138,6 @@ public class PatientController {
         CheckListStatus checkListStatus = checkListService.checkListCreatedToday(recentOp.getOperationId(), patient.getOperationDate());
         return PatientOpDTO.toEntity(patient, recentOp, checkListStatus);
     }
-
     @GetMapping("/patients/operationDates")
     @io.swagger.v3.oas.annotations.Operation(
             summary = "연도 및 월별 환자 조회",
@@ -146,45 +159,3 @@ public class PatientController {
 
 
 }
-
-
-//@GetMapping("/patients")
-//@io.swagger.v3.oas.annotations.Operation(summary = "필터 환자 조회", description = "필터를 이용해 환자를 조회합니다.")
-//public SuccessResponse<?> findPatients(@RequestParam(required = false) SearchType searchType,
-//                                       @RequestParam(required = false) String query,
-//
-//                                       @RequestParam(required = false) Integer page,
-//                                       @RequestParam(required = false) Integer size,
-//
-//                                       @RequestParam(defaultValue = "DEFAULT") Opdate opDate,
-//                                       @RequestParam(defaultValue = "ALL") CheckListStatus checkListStatus) {
-//    Pageable pageable = getPageable(page, size);
-//
-//    List<PatientWithOperationDateDTO> patientDTOs;
-//    boolean queryPresent = StringUtils.hasText(query) && searchType != null;
-//
-//    List<Patient> patients = queryPresent ? findFilteredPatients(searchType, query, pageable).getContent()
-//            : patientService.findAll(pageable).getContent();
-//
-//    List<PatientWithOperationDateDTO> patientWithOperationDateDTOStream = patients.stream()
-//            .sorted(patientComparator(opDate))
-//            .map(this::convertToDto).toList();
-//
-//    patientDTOs = patients.stream()
-//            .sorted(patientComparator(opDate))
-//            .map(this::convertToDto)
-//            .filter(dto -> filterByCheckListStatus(dto, checkListStatus))
-//            .toList();
-//
-//    return SuccessResponse.createSuccess(patientDTOs);
-//}
-//
-//
-//private Comparator<Patient> patientComparator(Opdate opDate) {
-//    Comparator<Patient> comparator;
-//    if (opDate == Opdate.NEWER) comparator = Comparator.comparing(Patient::getOperationDate).reversed();
-//    else if (opDate == Opdate.OLDER) comparator = Comparator.comparing(Patient::getOperationDate);
-//    else comparator = Comparator.comparing(Patient::getUpdatedAt).reversed();
-//
-//    return comparator;
-//}
