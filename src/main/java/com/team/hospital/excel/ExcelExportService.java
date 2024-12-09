@@ -43,7 +43,7 @@ public class ExcelExportService {
     private final CheckListRepository checkListRepository;
 
     private final QueryRepository queryRepository;
-    private final ComplianceCalculationService complianceCalculationService;
+    private final ComplianceService complianceService;
 
 
 
@@ -115,10 +115,6 @@ public class ExcelExportService {
                         "4: Robotic_multiport\n" +
                         "5: Robotic_singleport\n" +
                         "6: open conversion ",           //10   K
-
-                "적용한 CP\n" +
-                        "1: colon\n" +
-                        "2: rectum",           //11 L
 
                 "ERAS설명\n" +
                         "1 = YES\n" +
@@ -300,7 +296,6 @@ public class ExcelExportService {
                         "(저녁)",             //54
 
                 "blood loss",               //55
-                "urine output",                   //56
                 "op time",               //57
 
 //                "D1 Neu", "D1 Lym", "D1 CRP", "D1 Alb",
@@ -317,7 +312,6 @@ public class ExcelExportService {
         }
 
         List<Operation> operations = operationRepository.findActiveOperationsByIds(operationIds);
-
         int rowIndex = 1;
 
         for (Operation op : operations) {
@@ -326,7 +320,6 @@ public class ExcelExportService {
             List<CheckList> checkList = checkListRepository.findAllByOperationId(op.getId());
 
             Row row = sheet.createRow(rowIndex); // 각 수술마다 새로운 행 생성
-
             OpmDTO opmDTO = queryRepository.findOpmByOperationId(op.getId());
 
             // CheckList 처리 (Before, During, After)
@@ -345,8 +338,6 @@ public class ExcelExportService {
             cell.setCellStyle(cellStyle);
 
             row.createCell(1).setCellValue(p.getName());                                                                              //환자이름
-            row.setRowStyle(cellStyle);
-
             row.createCell(2).setCellValue(p.getPatientNumber());                                                                    //환자번호
             row.createCell(3).setCellValue(convertDateToString(p.getHospitalizedDate()));                                           //입원일
             row.createCell(4).setCellValue(convertDateToString(p.getOperationDate()));                                             //수술일
@@ -354,61 +345,52 @@ public class ExcelExportService {
             row.createCell(6).setCellValue(p.getTotalHospitalizedDays());                                                        //POD(일)
 
             row.createCell(7).setCellValue(p.getDiagnosis().getNum());                                                          //진단명
-            row.createCell(8).setCellValue(opmDTO.getOperationTypeNames().toString());                                                                     //수술명 -> 숫자 필요
+            row.createCell(8).setCellValue(
+                    String.join(", ", opmDTO.getOperationTypeNames()) // 콤마로 구분하여 출력
+            );                                                                     //수술명 -> 숫자 필요
 
             row.createCell(9).setCellValue(p.getLocation().getNum());                                                         // 암 Location 1: colon 2: rctum
             row.createCell(10).setCellValue(op.getOperationApproach().getNum());                                              //수술 approah CP 1: colon 2: rectum
-            row.createCell(11).setCellValue("모름");                                                           //적용한 CP
+            //row.createCell(11).setCellValue("모름");                                                           //적용한 CP
 
 
             // 수술 전 정보 처리
-            setIntCellValueSafe(row, 12, () -> checkListBefore.getExplainedPreOp().getOption().getNum());       //ERAS
-            setIntCellValueSafe(row, 13, () -> checkListBefore.getOnsPreOp2hr().getOption().getNum());//수술전 ONS
-            setIntCellValueSafe(row, 14, () -> checkListBefore.getOnsPostBowelPrep().getOption().getNum());//엔커버
-            setIntCellValueSafe(row, 15, () -> checkListBefore.getDvtPrevention().getOption().getNum());   //DVT
-            setIntCellValueSafe(row, 16, () -> checkListBefore.getAntibioticPreIncision().getOption().getNum()); //예방적 항생제
-            setIntCellValueSafe(row, 17, () -> checkListBefore.getPainMedPreOp().getOption().getNum());//수술전 통증 조절약
+            setIntCellValueSafe(row, 11, () -> checkListBefore.getExplainedPreOp().getOption().getNum());       //ERAS
+            setIntCellValueSafe(row, 12, () -> checkListBefore.getOnsPreOp2hr().getOption().getNum());//수술전 ONS
+            setIntCellValueSafe(row, 13, () -> checkListBefore.getOnsPostBowelPrep().getOption().getNum());//엔커버
+            setIntCellValueSafe(row, 14, () -> checkListBefore.getDvtPrevention().getOption().getNum());   //DVT
+            setIntCellValueSafe(row, 15, () -> checkListBefore.getAntibioticPreIncision().getOption().getNum()); //예방적 항생제
+            setIntCellValueSafe(row, 16, () -> checkListBefore.getPainMedPreOp().getOption().getNum());//수술전 통증 조절약
 
             // 수술 중 정보 처리
-            setIntCellValueSafe(row, 18, () -> checkListDuring.getMaintainTemp().getOption().getNum());//Hypothermia 예방
-            setIntCellValueSafe(row, 19, () -> checkListDuring.getFluidRestriction().getOption().getNum()); //수술중 volume 2~4
-            setIntCellValueSafe(row, 20, () -> checkListDuring.getAntiNausea().getOption().getNum()); //수술중 PONV
-            setIntCellValueSafe(row, 21, () -> checkListDuring.getPainControl().getOption().getNum()); //수술중 pain control 유무
-            setIntCellValueSafe(row, 22, () -> checkListDuring.getPainControlMethod().getPainControlMethod().getNum()); //5. 수술 중 통증 종류도 항목화 해주세요 (서술 아닙니다.)
+            setIntCellValueSafe(row, 17, () -> checkListDuring.getMaintainTemp().getOption().getNum());//Hypothermia 예방
+            setIntCellValueSafe(row, 18, () -> checkListDuring.getFluidRestriction().getOption().getNum()); //수술중 volume 2~4
+            setIntCellValueSafe(row, 19, () -> checkListDuring.getAntiNausea().getOption().getNum()); //수술중 PONV
+            setIntCellValueSafe(row, 20, () -> checkListDuring.getPainControl().getOption().getNum()); //수술중 pain control 유무
+            setIntCellValueSafe(row, 21, () -> checkListDuring.getPainControlMethod().getPainControlMethod().getNum()); //5. 수술 중 통증 종류도 항목화 해주세요 (서술 아닙니다.)
 
 
             // 수술 후 정보 처리
-            setIntCellValueSafe(row, 25, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
-            setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
-            setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));
+            setIntCellValueSafe(row, 24, () -> checkListAfter.getAntiNauseaPostOp().getOption().getNum());                  //수술 후 당일 PONV 예방
+            setIntCellValueSafe(row, 27, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
+            setStringCellValueSafe(row, 28, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));
+            setIntCellValueSafe(row, 29, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
+            setStringCellValueSafe(row, 30, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
 
-//                setIntCellValueSafe(row, 28, () -> checkListAfter.getJpDrainRemoval().getOption().getNum());
-//                setStringCellValueSafe(row, 29, () -> convertDateToString(checkListAfter.getJpDrainRemoval().getRemovedDate()));      //JP drain 제거일
-            setIntCellValueSafe(row, 30, () -> checkListAfter.getCatheterRemoval().getOption().getNum());                   //Urinary catheter 수술실에서 제거
-            setStringCellValueSafe(row, 31, () -> convertDateToString(checkListAfter.getCatheterRemoval().getRemovedDate()));     //Urinary catheter 제거 날짜
-
-//                setIntCellValueSafe(row, 32, () -> checkListAfter.getIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
-//                setStringCellValueSafe(row, 33, () -> convertDateToString(checkListAfter.getIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
-
-            setIntCellValueSafe(row, 34, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
-            setIntCellValueSafe(row, 38, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
+            setIntCellValueSafe(row, 33, () -> checkListAfter.getPostExercise().getOption().getNum());                      //OP day 운동
+            setIntCellValueSafe(row, 37, () -> checkListAfter.getPostMeal().getOption().getNum()); //OP day Diet
 
             ComplianceScoreDTO compliance = complianceService.calculateScore(op.getId());
-            row.createCell(41).setCellValue(compliance.getTotalCheckListCompleted()); //ERAS 성공 항목수
-            row.createCell(42).setCellValue(compliance.getTotalCheckListCount()); //ERAS 적용한 항목수
-            row.createCell(43).setCellValue(compliance.getCompliancePercentage());
+            row.createCell(40).setCellValue(compliance.getTotalCheckListCompleted()); //ERAS 성공 항목수
+            row.createCell(41).setCellValue(compliance.getTotalCheckListCount()); //ERAS 적용한 항목수
+            row.createCell(42).setCellValue(compliance.getCompliancePercentage());
 
-            // 합병증 정보 처리 (Complication)
-//                complicationRepository.findByOperationId(op.getId()).ifPresent(complication -> {
-//                    row.createCell(43).setCellValue(complication.getComplicationScore());  //Compliance rate (성공수/적용수)*100
-//                });
+            setIntCellValueSafe(row, 43, () -> checkListAfter.getPostPain().getEvening());  //OP day VAS score (점심)
+            setIntCellValueSafe(row, 44, () -> checkListAfter.getPostPain().getNight());//OP day VAS score (저녁)
 
-            setIntCellValueSafe(row, 44, () -> checkListAfter.getPostPain().getEvening());  //OP day VAS score (점심)
-            setIntCellValueSafe(row, 45, () -> checkListAfter.getPostPain().getNight());//OP day VAS score (저녁)
-
-            row.createCell(55).setCellValue(op.getBloodLoss()); //blood loss
-            row.createCell(56).setCellValue("모름"); //urine output
-            row.createCell(57).setCellValue(op.getTotalOperationTime()); //op time
+            row.createCell(54).setCellValue(op.getBloodLoss()); //blood loss
+            //row.createCell(55).setCellValue("모름"); //urine output
+            row.createCell(55).setCellValue(op.getTotalOperationTime()); //op time
 
             List<Integer> gumBooleanList = new ArrayList<>();
             List<Integer> laxativesList = new ArrayList<>();
@@ -423,8 +405,8 @@ public class ExcelExportService {
             for (CheckList c : checkList) {
 
                 if (c.getPodThreeIvLineRemoval() != null) {
-                    setIntCellValueSafe(row, 32, () -> c.getPodThreeIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
-                    setStringCellValueSafe(row, 33, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
+                    setIntCellValueSafe(row, 31, () -> c.getPodThreeIvLineRemoval().getOption().getNum());                     //POD#3 이후 IV 라인제거
+                    setStringCellValueSafe(row, 32, () -> convertDateToString(c.getPodThreeIvLineRemoval().getRemovedDate()));        //IV 라인 제거 날짜
                 }
 
                 // 32항목이랑 중복 확인부탁
@@ -491,59 +473,59 @@ public class ExcelExportService {
 
 
                 if (c.getPodOneExercise() != null) {
-                    setIntCellValueSafe(row, 35, () -> c.getPodOneExercise().getOption().getNum());
+                    setIntCellValueSafe(row, 34, () -> c.getPodOneExercise().getOption().getNum());
                 } ///POD#1 운동 1 = YES 0 = No
 
                 if (c.getPodTwoExercise() != null) {
-                    setIntCellValueSafe(row, 36, () -> c.getPodTwoExercise().getOption().getNum());
+                    setIntCellValueSafe(row, 35, () -> c.getPodTwoExercise().getOption().getNum());
                 } //POD#2 운동 1 = YES 0 = No
 
                 if (c.getPodThreeExercise() != null) {
-                    setIntCellValueSafe(row, 37, () -> c.getPodThreeExercise().getOption().getNum());
+                    setIntCellValueSafe(row, 36, () -> c.getPodThreeExercise().getOption().getNum());
                 } //POD#3 운동 1 = YES 0 = No
 
                 if (c.getPodOneMeal() != null) {
-                    setIntCellValueSafe(row, 39, () -> c.getPodOneMeal().getOption().getNum());
+                    setIntCellValueSafe(row, 38, () -> c.getPodOneMeal().getOption().getNum());
                 } //POD#1 Diet 1 = YES 0 = No
 
                 if (c.getPodTwoMeal() != null) {
-                    setIntCellValueSafe(row, 40, () -> c.getPodTwoMeal().getOption().getNum());
+                    setIntCellValueSafe(row, 39, () -> c.getPodTwoMeal().getOption().getNum());
                 } //POD#2 Diet 1 = YES 0 = No
 
 
                 if (c.getPodOnePain() != null) {
-                    setIntCellValueSafe(row, 46, () -> c.getPodOnePain().getDay());
-                    setIntCellValueSafe(row, 47, () -> c.getPodOnePain().getEvening());
-                    setIntCellValueSafe(row, 48, () -> c.getPodOnePain().getNight());
+                    setIntCellValueSafe(row, 45, () -> c.getPodOnePain().getDay());
+                    setIntCellValueSafe(row, 46, () -> c.getPodOnePain().getEvening());
+                    setIntCellValueSafe(row, 47, () -> c.getPodOnePain().getNight());
                 } //POD#1 VAS score(아침/점심/저녁)
 
                 if (c.getPodTwoPain() != null) {
-                    setIntCellValueSafe(row, 49, () -> c.getPodTwoPain().getDay());
-                    setIntCellValueSafe(row, 50, () -> c.getPodTwoPain().getEvening());
-                    setIntCellValueSafe(row, 51, () -> c.getPodTwoPain().getNight());
+                    setIntCellValueSafe(row, 48, () -> c.getPodTwoPain().getDay());
+                    setIntCellValueSafe(row, 49, () -> c.getPodTwoPain().getEvening());
+                    setIntCellValueSafe(row, 50, () -> c.getPodTwoPain().getNight());
                 } //"POD#2 VAS score(아침/점심/저녁)
 
                 if (c.getPodThreePain() != null) {
-                    setIntCellValueSafe(row, 52, () -> c.getPodThreePain().getDay());
-                    setIntCellValueSafe(row, 53, () -> c.getPodThreePain().getEvening());
-                    setIntCellValueSafe(row, 54, () -> c.getPodThreePain().getNight());
+                    setIntCellValueSafe(row, 51, () -> c.getPodThreePain().getDay());
+                    setIntCellValueSafe(row, 52, () -> c.getPodThreePain().getEvening());
+                    setIntCellValueSafe(row, 53, () -> c.getPodThreePain().getNight());
                 } //"POD#3 VAS score(아침/점심/저녁)
             }
 
-            setIntCellValueSafe(row, 23, () -> laxativesList.stream()   //Laxatives
+            setIntCellValueSafe(row, 22, () -> laxativesList.stream()   //Laxatives
                     .reduce(1, (a, b) -> a & b));
 
-            setIntCellValueSafe(row, 24, () -> gumBooleanList.stream()
+            setIntCellValueSafe(row, 23, () -> gumBooleanList.stream()
                     .reduce(1, (a, b) -> a & b));               //chewing gum
 
-            setIntCellValueSafe(row, 26, () -> fluid_limitList.stream()
+            setIntCellValueSafe(row, 25, () -> fluid_limitList.stream()
                     .reduce(1, (a, b) -> a & b));          //fluid 제한
 
             int postop_Result = postop_pain_controlList.stream().reduce(1, (a, b) -> a & b);
 
             if (postop_Result == 1)
-                setIntCellValueSafe(row, 27, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
-            else setIntCellValueSafe(row, 27, () -> 1);
+                setIntCellValueSafe(row, 26, () -> 0);          //postop pain control 1 = noOpioid 0 = opioid -> 이 부분은 반대임
+            else setIntCellValueSafe(row, 26, () -> 1);
 
 
 /*
@@ -587,9 +569,9 @@ public class ExcelExportService {
 
         }
 
-        // Auto size columns
-        for (int i = 0; i < headerRow.getPhysicalNumberOfCells(); i++) {
-            sheet.autoSizeColumn(i);
+        // Adjust column widths
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i); // Adjust column width to fit content
         }
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -606,7 +588,7 @@ public class ExcelExportService {
                 row.createCell(cellIndex).setCellValue(value);
             }
         } catch (Exception e) {
-            row.createCell(cellIndex).setCellValue("-");
+            row.createCell(cellIndex).setCellValue("");
         }
     }
 
@@ -617,7 +599,7 @@ public class ExcelExportService {
                 row.createCell(cellIndex).setCellValue(value);
             }
         } catch (Exception e) {
-            row.createCell(cellIndex).setCellValue("-");
+            row.createCell(cellIndex).setCellValue("");
         }
     }
 
