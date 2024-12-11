@@ -6,14 +6,10 @@ import SubmitButton from '../form/SubmitButton';
 const CATEGORY_ITEMS_SORT = [
     {
         value: '',
-        title: '등록순',
-    },
-    {
-        value: 'newest',
         title: '최신순',
     },
     {
-        value: 'oldest',
+        value: 'OLDER',
         title: '오래된순',
     },
     // {
@@ -27,11 +23,15 @@ const CATEGORY_ITEMS_CHECKLIST = [
         title: '전체',
     },
     {
-        value: 'done',
-        title: '완료',
+        value: 'EXTRACTION_READY',
+        title: '추출가능',
     },
     {
-        value: 'notDone',
+        value: 'COMPLETED_TODAY',
+        title: '작성완료',
+    },
+    {
+        value: 'NOT_YET_CREATED',
         title: '미작성',
     },
 ];
@@ -53,6 +53,7 @@ function FilterModal({ onClose, isOpen }: Props) {
         } else {
             params.set(param, value);
         }
+        params.delete('page');
         navigate(pathname + '?' + params.toString(), { replace: true });
     };
     const handelReset = () => {
@@ -64,8 +65,8 @@ function FilterModal({ onClose, isOpen }: Props) {
 
     return (
         <FilterModalContainer isOpen={isOpen} onClose={onClose} handleReset={handelReset}>
-            <div className="flex flex-col w-full h-full">
-                <div className="flex flex-col w-full h-full gap-6 p-4">
+            <div className="flex h-full w-full flex-col">
+                <div className="flex h-full w-full flex-col gap-6 p-4">
                     {/* <div className="flex flex-col gap-2">
                         <span className="font-semibold text-gray-700 text">기간 조회</span>
                         <div className="flex flex-row gap-4 px-3 py-2 overflow-hidden border-2 rounded-full w-fit">
@@ -88,8 +89,8 @@ function FilterModal({ onClose, isOpen }: Props) {
                             {CATEGORY_ITEMS_SORT.map((item) => (
                                 <CategoryItemContainer
                                     key={item.value}
-                                    onClick={() => handleFilter({ param: 'sort', value: item.value })}
-                                    isActive={(searchParams.get('sort') || '') === item.value}
+                                    onClick={() => handleFilter({ param: 'order', value: item.value })}
+                                    isActive={(searchParams.get('order') || '') === item.value}
                                 >
                                     {item.title}
                                 </CategoryItemContainer>
@@ -102,8 +103,8 @@ function FilterModal({ onClose, isOpen }: Props) {
                             {CATEGORY_ITEMS_CHECKLIST.map((item) => (
                                 <CategoryItemContainer
                                     key={item.value}
-                                    onClick={() => handleFilter({ param: 'checklist', value: item.value })}
-                                    isActive={(searchParams.get('checklist') || '') === item.value}
+                                    onClick={() => handleFilter({ param: 'status', value: item.value })}
+                                    isActive={(searchParams.get('status') || '') === item.value}
                                 >
                                     {item.title}
                                 </CategoryItemContainer>

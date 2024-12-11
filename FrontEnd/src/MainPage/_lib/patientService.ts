@@ -39,9 +39,8 @@ const getPatientList = async ({
     q,
     page,
     size,
-
-    // opDate,
-    // checkListStatus,
+    order,
+    status,
 }: {
     q: string;
     sc: string;
@@ -50,9 +49,8 @@ const getPatientList = async ({
     year: string;
     month: string;
     operationMethod: string;
-
-    opDate: string;
-    checkListStatus: string;
+    order: string;
+    status: string;
 }): Promise<PageInfoPatientListType> => {
     const params = {
         year: Number(year) || undefined,
@@ -62,6 +60,8 @@ const getPatientList = async ({
         query: q || undefined,
         page: page,
         size: size,
+        order: order,
+        status: status,
 
         // opDate: OP_DATE_MATCH_ITEMS[opDate],
         // checkListStatus: CHECKLIST_STATUS_MATCH_ITEMS[checkListStatus],
@@ -81,13 +81,11 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
     const month = searchParams.get('month') || ''; //수술일 기준 월
     const operationMethod = searchParams.get('operationMethod') || ''; //수술명
 
-    const opDate = searchParams.get('sort') || 'default'; //수술일 기준 최신,오래된 (boolean)
-    const checkListStatus = searchParams.get('checklist') || 'all'; //체크리스트 작성여부
-
-    // const sort = searchParams.get('sort') || '';
+    const order = searchParams.get('order') || ''; //정렬순서
+    const status = searchParams.get('status') || ''; //체크리스트 상태
 
     const query = useQuery<PageInfoPatientListType, AxiosError<ErrorResponseType>>({
-        queryKey: ['patient', 'list', q, sc, page, size, year, month, operationMethod],
+        queryKey: ['patient', 'list', q, sc, page, size, year, month, operationMethod, order, status],
         queryFn: () =>
             getPatientList({
                 q,
@@ -97,8 +95,8 @@ export const usePatientListQuery = (searchParams: URLSearchParams) => {
                 year,
                 month,
                 operationMethod,
-                opDate: opDate,
-                checkListStatus: checkListStatus,
+                order,
+                status,
             }),
     });
 
