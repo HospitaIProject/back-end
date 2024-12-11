@@ -100,7 +100,7 @@ public class PatientController {
                 .filter(patientOpDTO -> status == null || patientOpDTO.getCheckListCreatedToday() == status)
                 .toList();
         Page<PatientOpDTO> paginate = paginate(patientOps, page, size);
-        return SuccessResponse.createSuccess(PatientResponse.toEntity(patientOps, paginate));
+        return SuccessResponse.createSuccess(PatientResponse.toEntity(paginate.toList(), paginate));
     }
 
     private List<Patient> sortAndFilt(List<Patient> patients, SearchType searchType, String query, OpDateOrder order) {
