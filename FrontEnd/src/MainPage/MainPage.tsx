@@ -6,12 +6,20 @@ import { usePatientListQuery } from './_lib/patientService';
 import PatientSummaryCard from './components/PatientSummaryCard';
 import DisplayEmptyData from '../components/common/DisplayEmptyData';
 import { useSearchParams } from 'react-router-dom';
+import { useRefreshAtSpecificTime } from '../Hooks/useRefreshAtSpecificTime';
 // import PWAInatallPrompt from '../components/PWA/PWAInatallPrompt';
 
 function MainPage() {
     const [searchParams] = useSearchParams();
     const patientListQuery = usePatientListQuery(searchParams);
-    const { data: patientListData, isPending, isSuccess, error } = patientListQuery;
+    const { data: patientListData, isPending, isSuccess, error, refetch } = patientListQuery;
+
+    useRefreshAtSpecificTime({
+        refetch,
+        targetHour: 0,
+        targetMinute: 0,
+        text: '자정이 되어 데이터를 새로 요청합니다.',
+    }); // 자정에 데이터를 새로 요청
 
     useEffect(() => {
         console.log(patientListData);
@@ -29,13 +37,13 @@ function MainPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-col flex-grow w-full my-2 bg-white">
+            <div className="flex w-full flex-col justify-center">
+                <div className="my-2 flex w-full flex-grow flex-col bg-white">
                     <DisplayEmptyData label="환자 데이터가 없습니다." isRender={isNoneData} />
                     <ul className="grid grid-cols-1 gap-x-8 mobile:grid-cols-2 mobile:px-2">
                         {isSuccess &&
                             patientListQuery.data.patients.map((data) => (
-                                <div key={data.patientDTO.patientId} className="flex flex-col w-full">
+                                <div key={data.patientDTO.patientId} className="flex w-full flex-col">
                                     <PatientSummaryCard userData={data} />
                                     <div className={`w-full border-t border-gray-200`} />
                                 </div>

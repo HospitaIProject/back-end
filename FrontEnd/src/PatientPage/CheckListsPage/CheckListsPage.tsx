@@ -14,6 +14,7 @@ import HorizontalProgressBar from '../../components/common/progress/HorizontalPr
 import dayjs from 'dayjs';
 import PencilIcon from '../../icons/PencilIcon';
 import RemoveDateModal from './components/RemoveDateModal';
+import { useRefreshAtSpecificTime } from '../../Hooks/useRefreshAtSpecificTime';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // day.js로 날짜를 파싱하고 일수를 더함
@@ -45,7 +46,14 @@ function CheckListsPage() {
         isPending: isCheckListsPending,
         isSuccess: isCheckListsSuccess,
         error: checkListsError,
+        refetch: checkListsRefetch,
     } = checkListsQuery; //체크리스트 목록 데이터
+    useRefreshAtSpecificTime({
+        refetch: checkListsRefetch,
+        targetHour: 0,
+        targetMinute: 0,
+        text: '자정이 되어 데이터를 새로 요청합니다.',
+    }); // 자정에 데이터를 새로 요청
 
     const { diffDay } = useOperationDayFormat(checkListsData?.operationDateDTO.operationDate || ''); //수술일로부터 몇일이 지났는지
     const { dateComparison } = useDateFormatted(checkListsData?.operationDateDTO.operationDate || ''); //수술일과 현재날짜 비교
@@ -94,9 +102,9 @@ function CheckListsPage() {
 
     return (
         <>
-            <div className="flex flex-col justify-center w-full">
-                <div className="flex flex-col items-center w-full gap-3 px-4 py-3 mb-2 border-b bg-blue-50 mobile:col-span-2">
-                    <div className="flex flex-row justify-between w-full gap-3">
+            <div className="flex w-full flex-col justify-center">
+                <div className="mb-2 flex w-full flex-col items-center gap-3 border-b bg-blue-50 px-4 py-3 mobile:col-span-2">
+                    <div className="flex w-full flex-row justify-between gap-3">
                         <span className="text-gray-600">
                             환자명:&nbsp;<span className="">{patientName}</span>
                         </span>
@@ -120,14 +128,14 @@ function CheckListsPage() {
                 <DisplayEmptyData label="세팅된 체크리스트가 존재하지 않습니다." isRender={isNoneSeupData} />
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison !== 'POST' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 일일 체크리스트는 수술일 다음 날부터 작성 가능합니다.
                             </span>
                         </div>
                     )}
                     {checkListsData.checkListDTOs === null && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 일일 체크리스트는 퇴원일이 입력된 후에 표시됩니다.
                             </span>
@@ -164,7 +172,7 @@ function CheckListsPage() {
                 </ul>
                 <ul className="grid grid-cols-1 gap-2 pb-2 mobile:grid-cols-2 mobile:px-2">
                     {dateComparison === 'PREV' && (
-                        <div className="flex justify-center w-full p-4 bg-white border-y mobile:col-span-2">
+                        <div className="flex w-full justify-center border-y bg-white p-4 mobile:col-span-2">
                             <span className="text-sm text-gray-700">
                                 수술 중, 수술 후 체크리스트는 수술일 당일부터 작성 가능합니다.
                             </span>
@@ -231,14 +239,14 @@ function CheckListsPage() {
                     )}
                     <DisplayEmptyData label="작성된 체크리스트 0건" isRender={Boolean(isNoneData)} />
                 </ul>
-                <div className="flex flex-col items-center w-full px-4 py-3 mt-auto bg-white border-t mobile:col-span-2">
+                <div className="mt-auto flex w-full flex-col items-center border-t bg-white px-4 py-3 mobile:col-span-2">
                     <button
                         onClick={() => setIsRemoveDateModalOpen(true)}
                         type="button"
-                        className="flex items-center justify-center w-full gap-2 p-2 text-white bg-blue-400 rounded-lg shadow-sm"
+                        className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-400 p-2 text-white shadow-sm"
                     >
                         <span>제거일 등록</span>
-                        <PencilIcon className="w-4 h-4" />
+                        <PencilIcon className="h-4 w-4" />
                     </button>
                 </div>
             </div>
