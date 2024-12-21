@@ -37,6 +37,23 @@ function MainDateSelectionPage() {
         naviate(url);
     };
 
+    if (
+        process.env.NODE_ENV === 'production' &&
+        location.href.startsWith(import.meta.env.BASE_URL) &&
+        !location.href.startsWith(`${import.meta.env.BASE_URL}/swagger-ui/`)
+    ) {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('/sw.js')
+                .then(() => {
+                    console.log('Service Worker registered successfully.');
+                })
+                .catch((err) => {
+                    console.error('Service Worker registration failed:', err);
+                });
+        }
+    }
+
     useEffect(() => {
         if (data) {
             console.log('환자 년월 목록', data);
