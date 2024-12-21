@@ -13,12 +13,8 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
-            registerType:
-                process.env.NODE_ENV === 'production' &&
-                window.location.href.startsWith('https://stmary.site/') &&
-                !window.location.href.startsWith('https://stmary.site/swagger-ui/')
-                    ? 'autoUpdate'
-                    : undefined,
+            registerType: undefined,
+
             includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon-180x180.png'], // 필수 자산 파일
             manifest: {
                 name: '환자 ERAS',
