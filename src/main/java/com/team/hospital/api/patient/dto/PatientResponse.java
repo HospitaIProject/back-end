@@ -1,13 +1,14 @@
 package com.team.hospital.api.patient.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Getter
 @Builder
+@AllArgsConstructor // 전체 매개변수 생성자
+@NoArgsConstructor
 public class PatientResponse {
     private List<PatientOpDTO> patients;
     private PageInfo pageInfo;

@@ -1,11 +1,15 @@
 package com.team.hospital.api.patient.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PageInfo {
     private int page;
     private int size;
