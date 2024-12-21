@@ -38,6 +38,7 @@ public class PatientController {
     private final CheckListService checkListService;
     private final QueryRepository queryRepository;
 
+//    @CacheEvict(value = "patientCache", allEntries = true)
     @PostMapping("/patient")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 등록", description = "새로운 환자를 등록합니다.")
     public SuccessResponse<?> join(@RequestBody RegisterPatient registerPatient) {
@@ -52,6 +53,7 @@ public class PatientController {
         return SuccessResponse.createSuccess(patientDTO);
     }
 
+//    @CacheEvict(value = "patientCache", allEntries = true)
     @PutMapping("/patient/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 수정")
     public SuccessResponse<?> modifyPatientById(@RequestBody RegisterPatient registerPatient,
@@ -60,6 +62,7 @@ public class PatientController {
         return SuccessResponse.createSuccess();
     }
 
+//    @CacheEvict(value = "patientCache", allEntries = true)
     @DeleteMapping("/patient/{patientId}")
     @io.swagger.v3.oas.annotations.Operation(summary = "환자 삭제")
     public SuccessResponse<?> deletePatientById(@PathVariable Long patientId) {
@@ -67,17 +70,23 @@ public class PatientController {
         return SuccessResponse.createSuccess();
     }
 
+//    @Cacheable(
+//            value = "patientCache",  // 캐시 이름
+//            key = "{#year, #month, #searchType, #status, #order, #opName, #query, #page, #size}", // 캐시 키
+//            unless = "#result.data.patients == null || #result.data.patients.isEmpty()" // 캐시 조건
+////            unless = "#result == null || #result.isEmpty()"
+//    )
     @GetMapping("/patients/monthly")
     @io.swagger.v3.oas.annotations.Operation(summary = "특정 월의 환자 조회", description = "입력된 년, 월에 해당하는 환자 리스트를 조회합니다.")
-    public SuccessResponse<?> findPatientsByYearAndMonth(@RequestParam(required = false) Integer year,
-                                                         @RequestParam(required = false) Integer month,
-                                                         @RequestParam(required = false) SearchType searchType,
-                                                         @RequestParam(required = false) CheckListStatus status,
-                                                         @RequestParam(defaultValue = "NEWER") OpDateOrder order,
-                                                         @RequestParam(required = false) String opName,
-                                                         @RequestParam(required = false) String query,
-                                                         @RequestParam(required = false) Integer page,
-                                                         @RequestParam(required = false) Integer size) {
+    public SuccessResponse<PatientResponse> findPatientsByYearAndMonth(@RequestParam(required = false) Integer year,
+                                                                       @RequestParam(required = false) Integer month,
+                                                                       @RequestParam(required = false) SearchType searchType,
+                                                                       @RequestParam(required = false) CheckListStatus status,
+                                                                       @RequestParam(defaultValue = "NEWER") OpDateOrder order,
+                                                                       @RequestParam(required = false) String opName,
+                                                                       @RequestParam(required = false) String query,
+                                                                       @RequestParam(required = false) Integer page,
+                                                                       @RequestParam(required = false) Integer size) {
         List<Patient> patients;
         if (year == null && month != null) throw new IllegalArgumentException("올바른 년과 월을 입력해주세요.");
         if (year == null) {
@@ -106,19 +115,13 @@ public class PatientController {
     private List<Patient> sortAndFilt(List<Patient> patients, SearchType searchType, String query, OpDateOrder order) {
         Comparator<Patient> comparator = Comparator.comparing(Patient::getCreatedAt);
         if (order == OpDateOrder.NEWER) comparator = comparator.reversed();
-
-        if (searchType == null || query == null || query.isBlank()) {
+        if (searchType == null || query == null || query.isBlank())
             return patients.stream().sorted(comparator).toList();
-        }
-
 
         return patients.stream()
                 .filter(patient -> {
-                    if (searchType == SearchType.PATIENT_NAME) {
-                        return patient.getName().contains(query);
-                    } else {
-                        return patient.getPatientNumber().toString().contains(query);
-                    }
+                    if (searchType == SearchType.PATIENT_NAME) return patient.getName().contains(query);
+                    else return patient.getPatientNumber().toString().contains(query);
                 })
                 .sorted(comparator).toList();
     }
@@ -138,6 +141,7 @@ public class PatientController {
         CheckListStatus checkListStatus = checkListService.checkListCreatedToday(recentOp.getOperationId(), patient.getOperationDate());
         return PatientOpDTO.toEntity(patient, recentOp, checkListStatus);
     }
+
     @GetMapping("/patients/operationDates")
     @io.swagger.v3.oas.annotations.Operation(
             summary = "연도 및 월별 환자 조회",
@@ -156,6 +160,5 @@ public class PatientController {
 
         return SuccessResponse.createSuccess(result);
     }
-
 
 }
