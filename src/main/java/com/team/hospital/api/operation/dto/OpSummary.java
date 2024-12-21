@@ -1,9 +1,7 @@
 package com.team.hospital.api.operation.dto;
 
 import com.team.hospital.api.patient.dto.PatientDTO;
-import lombok.Builder;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,6 +9,8 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class OpSummary {
 
     private Long operationId;

@@ -5,13 +5,17 @@ import com.team.hospital.api.operation.enumType.Diagnosis;
 import com.team.hospital.api.operation.enumType.Location;
 import com.team.hospital.api.patient.Patient;
 import com.team.hospital.api.patient.enumType.Sex;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Getter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientDTO {
 
     private Long patientId;

@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,6 @@ import java.util.List;
 public class ExcelExportController {
 
     private final ExcelExportService excelExportService;
-
     private final PatientService patientService;
     private final OperationService operationService;
     private final CheckListItemRepository checkListItemRepository;
@@ -52,25 +53,28 @@ public class ExcelExportController {
     private final CheckListRepository checkListRepository;
     private final QueryRepository queryRepository;
 
-
-    // 이 부분은 operationID로 출력해야함
     @GetMapping("/api/excel")
-    @io.swagger.v3.oas.annotations.Operation(summary = "엑셀 추출 (List는 operationID 입력바람")
     public ResponseEntity<InputStreamResource> exportToExcel(@RequestParam List<Long> operationIds) throws IOException {
+        // 엑셀 데이터를 생성
         ByteArrayInputStream in = excelExportService.exportToExcel(operationIds);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=hospital_data.xlsx");
+        // 파일명 설정 (예: 날짜 포함)
+        String fileName = "hospital_data_" + LocalDate.now() + ".xlsx";
 
+        // HTTP 헤더에 파일명 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=\"" + fileName + "\"; filename*=UTF-8''" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        // 응답 반환
         return ResponseEntity
                 .ok()
                 .headers(headers)
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(new InputStreamResource(in));
     }
-
-
-
 
     @GetMapping("/api/excels")
     @io.swagger.v3.oas.annotations.Operation(summary = "엑셀화 가능한 환자 및 수술 모두 출력")
