@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
-import fs from 'fs';
-import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,7 +13,12 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
-            registerType: 'autoUpdate',
+            registerType:
+                process.env.NODE_ENV === 'production' &&
+                window.location.href.startsWith('https://stmary.site/') &&
+                !window.location.href.startsWith('https://stmary.site/swagger-ui/')
+                    ? 'autoUpdate'
+                    : undefined,
             includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon-180x180.png'], // 필수 자산 파일
             manifest: {
                 name: '환자 ERAS',
