@@ -13,8 +13,10 @@ pipeline {
         stage('Setup Tools') {
             steps {
                 // Install required tools
+                sh '''
                 sudo apt-get update
                 sudo apt-get install -y unzip curl
+                '''
                 
                 // Install Node.js dynamically
                 sh '''
