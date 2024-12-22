@@ -22,7 +22,7 @@ pipeline {
 
                 # Install Gradle dynamically in home directory
                 wget https://services.gradle.org/distributions/gradle-8.8-bin.zip -P /tmp
-                unzip -d /home/ubuntu/gradle /tmp/gradle-8.8-bin.zip
+                sudo unzip -d /opt/gradle /tmp/gradle-8.8-bin.zip
                 export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH
                 gradle -v
                 '''
