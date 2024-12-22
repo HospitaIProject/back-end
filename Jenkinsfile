@@ -24,7 +24,7 @@ pipeline {
                 sudo chown -R jenkins:jenkins /opt/gradle
                 sudo chmod -R 755 /opt/gradle
                 
-                export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH
+                export PATH=/opt/gradle/gradle-8.8/bin:$PATH
                 gradle -v
                 '''
             }
