@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Setup Tools') {
             steps {
-                # Install required tools
+                // Install required tools
                 sudo apt-get update
                 sudo apt-get install -y unzip curl
                 
