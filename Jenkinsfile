@@ -36,20 +36,14 @@ pipeline {
             }
         }
 
-        stage('Cache and Setup') {
-            steps {
-                sh '''
-                chmod +x ./gradlew
-                ./gradlew clean
-                cd FrontEnd && npm ci && cd ..
-                '''
-            }
-        }
-
         stage('Build React and Backend') {
             steps {
                 sh '''
-                cd FrontEnd && npm run build && cd ..
+                cd FrontEnd
+                export NODE_ENV=production
+                npm ci
+                npm run build
+                cd ..
                 ./gradlew build
                 '''
             }
