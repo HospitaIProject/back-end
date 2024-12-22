@@ -12,6 +12,10 @@ pipeline {
     stages {
         stage('Setup Tools') {
             steps {
+                # Install required tools
+                sudo apt-get update
+                sudo apt-get install -y unzip curl
+                
                 // Install Node.js dynamically
                 sh '''
                 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
