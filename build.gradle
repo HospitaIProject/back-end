@@ -29,9 +29,9 @@ dependencies {
 	implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
 
 	// Redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
-	testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	// implementation 'com.fasterxml.jackson.core:jackson-databind'
+	// testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 	// actuator for health check
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
