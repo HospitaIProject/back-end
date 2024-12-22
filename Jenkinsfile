@@ -12,28 +12,19 @@ pipeline {
     stages {
         stage('Setup Tools') {
             steps {
-                // Install required tools
                 sh '''
                 sudo apt-get update
                 sudo apt-get install -y unzip curl
-                '''
-                
-                // Install Node.js dynamically
-                sh '''
+
+                # Install Node.js dynamically
                 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
                 sudo apt-get install -y nodejs
-                '''
-                // Verify Node.js and npm versions
-                sh '''
-                node -v
-                npm -v
-                '''
 
-                // Install Gradle dynamically
-                sh '''
+                # Install Gradle dynamically in home directory
                 wget https://services.gradle.org/distributions/gradle-8.8-bin.zip -P /tmp
-                unzip -d /opt/gradle /tmp/gradle-8.8-bin.zip
-                export PATH=/opt/gradle/gradle-8.8/bin:$PATH
+                unzip -d /home/ubuntu/gradle /tmp/gradle-8.8-bin.zip
+                echo "export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH" >> ~/.bashrc
+                export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH
                 gradle -v
                 '''
             }
@@ -47,7 +38,6 @@ pipeline {
 
         stage('Cache and Setup') {
             steps {
-                // Clean Gradle and install Node.js dependencies
                 sh '''
                 chmod +x ./gradlew
                 ./gradlew clean
@@ -58,7 +48,6 @@ pipeline {
 
         stage('Build React and Backend') {
             steps {
-                // Build Frontend and Backend
                 sh '''
                 cd FrontEnd && npm run build && cd ..
                 ./gradlew build
@@ -68,7 +57,6 @@ pipeline {
 
         stage('Docker Login') {
             steps {
-                // Login to Docker Hub
                 sh '''
                 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                 '''
@@ -93,13 +81,15 @@ pipeline {
                     } else {
                         error('Unable to determine the current environment.')
                     }
+
+                    echo "Current environment: ${currentEnv}"
+                    echo "New environment: ${env.NEW_ENV}"
                 }
             }
         }
 
         stage('Build and Push Docker Image') {
             steps {
-                // Build and Push Docker Image
                 sh '''
                 docker buildx create --use
                 docker buildx build --platform linux/amd64,linux/arm64/v8 \
@@ -122,37 +112,36 @@ pipeline {
                         new_port=8081
                     fi
 
-                    # Docker Hub 로그인 및 이미지 가져오기
+                    echo "Current environment: $current_env"
+                    echo "New environment: $new_env"
+
                     echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                     docker pull $DOCKER_USERNAME/$DOCKER_REPOSITORY:$new_env
 
-                    # 새로운 환경 컨테이너 실행
-                    docker-compose -f compose/docker-compose.yml up -d app-$new_env
+                    cd compose
+                    docker-compose up -d app-$new_env
 
-                    # 헬스 체크
-                    for i in {1..10}; do
+                    for i in {1..20}; do
                         response=$(curl -s http://localhost:$new_port/actuator/health | jq -r '.status')
                         if [ "$response" == "UP" ]; then
                             echo "$new_env is healthy. Updating traffic..."
                             break
                         else
                             echo "Waiting for $new_env to become healthy..."
-                            sleep 10
+                            sleep 15
                         fi
 
-                        if [ $i -eq 10 ]; then
+                        if [ $i -eq 20 ]; then
                             echo "$new_env failed health check."
                             exit 1
                         fi
                     done
 
-                    # Nginx 업데이트
                     sudo sed -i "s|proxy_pass http://$current_env;|proxy_pass http://$new_env;|g" /etc/nginx/sites-available/stmary.site
                     sudo systemctl reload nginx
 
-                    # 이전 환경 종료
-                    docker-compose -f compose/docker-compose.yml stop app-$current_env
-                    docker-compose -f compose/docker-compose.yml rm -f app-$current_env
+                    docker-compose stop app-$current_env
+                    docker-compose rm -f app-$current_env
                     '''
                 }
             }
