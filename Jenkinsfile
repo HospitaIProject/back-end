@@ -16,6 +16,10 @@ pipeline {
                 sudo apt-get update
                 sudo apt-get install -y unzip curl
 
+                # Create gradle directory and set permissions
+                sudo mkdir -p /home/ubuntu/gradle
+                sudo chown -R $(whoami):$(whoami) /home/ubuntu/gradle
+
                 # Install Node.js dynamically
                 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
                 sudo apt-get install -y nodejs
