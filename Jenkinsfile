@@ -10,7 +10,30 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Setup Tools') {
+            steps {
+                // Install Node.js dynamically
+                sh '''
+                curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+                sudo apt-get install -y nodejs
+                '''
+                // Verify Node.js and npm versions
+                sh '''
+                node -v
+                npm -v
+                '''
+
+                // Install Gradle dynamically
+                sh '''
+                wget https://services.gradle.org/distributions/gradle-8.8-bin.zip -P /tmp
+                unzip -d /opt/gradle /tmp/gradle-8.8-bin.zip
+                export PATH=/opt/gradle/gradle-8.8/bin:$PATH
+                gradle -v
+                '''
+            }
+        }
+
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
@@ -18,6 +41,7 @@ pipeline {
 
         stage('Cache and Setup') {
             steps {
+                // Clean Gradle and install Node.js dependencies
                 sh '''
                 chmod +x ./gradlew
                 ./gradlew clean
@@ -28,6 +52,7 @@ pipeline {
 
         stage('Build React and Backend') {
             steps {
+                // Build Frontend and Backend
                 sh '''
                 cd FrontEnd && npm run build && cd ..
                 ./gradlew build
@@ -37,6 +62,7 @@ pipeline {
 
         stage('Docker Login') {
             steps {
+                // Login to Docker Hub
                 sh '''
                 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                 '''
@@ -67,7 +93,7 @@ pipeline {
 
         stage('Build and Push Docker Image') {
             steps {
-                // Docker Build 및 Push
+                // Build and Push Docker Image
                 sh '''
                 docker buildx create --use
                 docker buildx build --platform linux/amd64,linux/arm64/v8 \
@@ -82,7 +108,6 @@ pipeline {
                     sh '''
                     set -e
 
-                    # 현재 환경과 새로운 환경 파악
                     current_env=$(grep -oP '(?<=proxy_pass http://)\\w+' /etc/nginx/sites-available/stmary.site | head -1)
                     new_env=$NEW_ENV
                     new_port=8080
