@@ -23,6 +23,12 @@ pipeline {
                 # Install Gradle dynamically in home directory
                 wget https://services.gradle.org/distributions/gradle-8.8-bin.zip -P /tmp
                 sudo unzip -d /opt/gradle /tmp/gradle-8.8-bin.zip
+
+                # Set permissions for Jenkins user
+                sudo chown -R jenkins:jenkins /home/ubuntu/gradle
+                sudo chmod -R 755 /home/ubuntu/gradle
+                sudo chmod +x /home/ubuntu/gradle/gradle-8.8/bin/gradle
+                
                 export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH
                 gradle -v
                 '''
