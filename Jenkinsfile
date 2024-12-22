@@ -17,6 +17,7 @@ pipeline {
                 sudo apt-get install -y unzip curl
 
                 # Create gradle directory and set permissions
+                sudo rm -rf /home/ubuntu/gradle
                 sudo mkdir -p /home/ubuntu/gradle
                 sudo chown -R $(whoami):$(whoami) /home/ubuntu/gradle
                 sudo chmod -R 755 /home/ubuntu/gradle
