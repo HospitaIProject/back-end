@@ -20,14 +20,9 @@ pipeline {
                 curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
                 sudo apt-get install -y nodejs
 
-                # Install Gradle dynamically in home directory
-                wget https://services.gradle.org/distributions/gradle-8.8-bin.zip -P /tmp
-                sudo unzip -o -d /opt/gradle /tmp/gradle-8.8-bin.zip
-
                 # Set permissions for Jenkins user
-                sudo chown -R jenkins:jenkins /home/ubuntu/gradle
-                sudo chmod -R 755 /home/ubuntu/gradle
-                sudo chmod +x /home/ubuntu/gradle/gradle-8.8/bin/gradle
+                sudo chown -R jenkins:jenkins /opt/gradle
+                sudo chmod -R 755 /opt/gradle
                 
                 export PATH=/home/ubuntu/gradle/gradle-8.8/bin:$PATH
                 gradle -v
