@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 )
 @OpenAPIDefinition(
         servers = {
-                @Server(url = "http://52.79.136.7", description = "테스트 서버"),
                 @Server(url = "https://stmary.site", description = "개발 서버"),
                 @Server(url = "http://localhost:8080", description = "로컬 서버")
         })

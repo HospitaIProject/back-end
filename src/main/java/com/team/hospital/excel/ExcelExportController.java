@@ -64,6 +64,7 @@ public class ExcelExportController {
         // HTTP 헤더에 파일명 설정
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "attachment; filename=\"" + fileName + "\"; filename*=UTF-8''" + URLEncoder.encode(fileName, StandardCharsets.UTF_8));
+        headers.add("Access-Control-Expose-Headers", "Content-Disposition");
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
         headers.add("Pragma", "no-cache");
         headers.add("Expires", "0");
