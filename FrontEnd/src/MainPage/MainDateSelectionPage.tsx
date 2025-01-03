@@ -37,22 +37,18 @@ function MainDateSelectionPage() {
         naviate(url);
     };
 
-    if (
-        process.env.NODE_ENV === 'production' &&
-        location.href.startsWith(import.meta.env.BASE_URL) &&
-        !location.href.startsWith(`${import.meta.env.BASE_URL}/swagger-ui/`)
-    ) {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('/sw.js')
-                .then(() => {
-                    console.log('Service Worker registered successfully.');
-                })
-                .catch((err) => {
-                    console.error('Service Worker registration failed:', err);
-                });
-        }
-    }
+    // if (process.env.NODE_ENV === 'production' && location.href.startsWith('https://stmary.site/')) {
+    //     if ('serviceWorker' in navigator) {
+    //         navigator.serviceWorker
+    //             .register('/sw.js')
+    //             .then(() => {
+    //                 console.log('Service Worker registered successfully.');
+    //             })
+    //             .catch((err) => {
+    //                 console.error('Service Worker registration failed:', err);
+    //             });
+    //     }
+    // }
 
     useEffect(() => {
         if (data) {
