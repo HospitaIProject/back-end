@@ -13,7 +13,8 @@ export default defineConfig({
     plugins: [
         react(),
         VitePWA({
-            registerType: undefined,
+            registerType: 'autoUpdate',
+            injectRegister: null,
 
             includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon-180x180.png'], // 필수 자산 파일
             manifest: {
@@ -59,7 +60,7 @@ export default defineConfig({
             workbox: {
                 runtimeCaching: [
                     {
-                        urlPattern: /.*/, // 모든 요청에 대해 적용
+                        urlPattern: /^https:\/\/stmary.site\.com\//, // 특정 도메인에 대해서만
                         handler: 'NetworkOnly', // 네트워크에서만 요청 처리
                     },
                 ],
