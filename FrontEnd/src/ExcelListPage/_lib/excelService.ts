@@ -4,10 +4,26 @@ import { AxiosError } from 'axios';
 import { ErrorResponseType } from '../../models/AxiosResponseType';
 import { ExelType } from '../../models/ExelType';
 
-const getExcel = async ({ operationIds }: { operationIds: number[] }): Promise<Blob> => {
+export type ExcelResponseType = {
+    data: Blob;
+    fileName: string;
+};
+
+const getExcel = async ({ operationIds }: { operationIds: number[] }): Promise<ExcelResponseType> => {
     const params = operationIds.map((id) => `operationIds=${id}`).join('&'); // operationIds=3&operationIds=10&operationIds=19
     const response = await Axios.get(`/api/excel?${params}`, { responseType: 'blob' });
-    return response.data;
+    // Content-Disposition 헤더 값 확인
+    const contentDisposition = response.headers['content-disposition'];
+
+    // 1. filename 추출 (일반적인 파일 이름)
+    const filenameMatch = /filename="([^"]+)"/.exec(contentDisposition);
+    const filename = filenameMatch ? filenameMatch[1] : 'default_filename.xlsx';
+
+    const reponseData = {
+        data: response.data,
+        fileName: filename,
+    };
+    return reponseData;
 };
 const getExcels = async ({ startDate, endDate }: { startDate: string; endDate: string }): Promise<ExelType[]> => {
     const params = {
@@ -20,7 +36,7 @@ const getExcels = async ({ startDate, endDate }: { startDate: string; endDate: s
 
 //----------------------------------------------hooks----------------------------------------------
 export const useExcelQuery = ({ enabled = false, operationIds }: { enabled: boolean; operationIds: number[] }) => {
-    const query = useQuery<Blob, AxiosError<ErrorResponseType>>({
+    const query = useQuery<ExcelResponseType, AxiosError<ErrorResponseType>>({
         queryKey: ['excel'],
         queryFn: () => getExcel({ operationIds }),
         enabled: enabled,

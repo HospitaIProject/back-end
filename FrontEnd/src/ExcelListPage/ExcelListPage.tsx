@@ -35,12 +35,14 @@ function ExcelListPage() {
         const { data } = await refetch();
 
         if (data) {
-            const blob = new Blob([data], {
+            const excelData = data.data;
+            const fileName = data.fileName;
+            const blob = new Blob([excelData], {
                 type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             });
 
-            saveAs(blob, 'data.xlsx');
-            // console.log(data);
+            saveAs(blob, fileName);
+            console.log(data);
         }
     };
 
