@@ -7,6 +7,7 @@ import PatientDetailModal from './PatientDetailModal';
 import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
+import { useTranslation } from 'react-i18next';
 
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
@@ -28,6 +29,8 @@ type Props = {
 };
 
 function PatientSummaryCard({ userData }: Props) {
+    const { t } = useTranslation();
+
     const navigation = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const isOperationData = Boolean(userData.operationDateDTO.operationId); // 수술정보가 있는지 확인
@@ -223,14 +226,14 @@ function PatientSummaryCard({ userData }: Props) {
                             onClick={handleRouteChecklists}
                             className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
                         >
-                            체크리스트
+                            {t('checkList')}
                         </button>
 
                         <Link
                             to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}&od=${formattedOperationDate}`}
                             className="rounded-xl border p-2 text-sm text-gray-500 hover:bg-blue-50"
                         >
-                            수술정보관리
+                            {t('operationManage')}
                         </Link>
                     </div>
                 </div>
