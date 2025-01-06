@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
+// import { visualizer } from 'rollup-plugin-visualizer';
 
-// https://vitejs.dev/config/
 export default defineConfig({
     // server: {
     //     https: {
@@ -12,6 +12,7 @@ export default defineConfig({
     // },
     plugins: [
         react(),
+        // visualizer({ filename: './dist/report.html', open: true, brotliSize: true }),
         VitePWA({
             registerType: 'autoUpdate',
             injectRegister: null,
@@ -70,11 +71,25 @@ export default defineConfig({
     build: {
         rollupOptions: {
             output: {
-                manualChunks: (id) => {
-                    if (id.includes('node_modules')) {
-                        const moduleParts = id.split('node_modules/').pop()?.split('/');
-                        const moduleName = moduleParts ? moduleParts[0] : '';
-                        return `vendor-${moduleName}`;
+                manualChunks: (id: string) => {
+                    if (id.includes('react-datepicker')) {
+                        return '@vendor-react-datepicker';
+                    }
+                    if (id.includes('lodash')) {
+                        return '@vendor-lodash';
+                    }
+
+                    if (id.includes('axios')) {
+                        return '@vendor-axios';
+                    }
+                    if (id.includes('react-select')) {
+                        return '@vendor-react-select';
+                    }
+                    if (id.includes('framer-motion')) {
+                        return '@vendor-framer-motion-';
+                    }
+                    if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+                        return '@vendor-react';
                     }
                 },
             },
