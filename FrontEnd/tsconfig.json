@@ -10,5 +10,6 @@
     ],
     "compilerOptions": {
         "types": ["vite/client"] //설정없이 import.meta.env 사용 시 TS error 발생
-    }
+    },
+    
 }
