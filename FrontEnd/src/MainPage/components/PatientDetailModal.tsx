@@ -7,12 +7,15 @@ import DetailViewContainer from '../../components/common/detail/DetailViewContai
 import { useDeletePatientFormMutation } from '../../PatientPage/_lib/patientService';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+
 type Props = {
     values: PatientWithOperationDtoType;
     onClose: () => void;
 };
 
 function PatientDetailModal({ values, onClose }: Props) {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { patientDTO } = values;
 
@@ -36,22 +39,22 @@ function PatientDetailModal({ values, onClose }: Props) {
     }, [deletePatientFormMutation.isSuccess]);
 
     return (
-        <ModalFullScreenContainer title="환자 상세정보" onClose={onClose}>
+        <ModalFullScreenContainer title={t("patientDetails")} onClose={onClose}>
             <DetailViewContainer deleteHandler={deleteHandler} updateHandler={updateHandler}>
-                <ViewInput label="환자이름" value={patientDTO.name} />
-                <NumberViewInput label="등록번호" value={patientDTO.patientNumber} />
-                <ViewInput label="성별" value={patientDTO.sex} />
-                <NumberViewInput label="나이" value={patientDTO.age} />
-                <NumberViewInput unit="cm" label="키" value={patientDTO.height} />
-                <NumberViewInput unit="kg" label="몸무게" value={patientDTO.weight} />
+                <ViewInput label={t("patientName")} value={patientDTO.name} />
+                <NumberViewInput label={t("patientNumber")} value={patientDTO.patientNumber} />
+                <ViewInput label={t("sex")} value={patientDTO.sex} />
+                <NumberViewInput label={t("age")} value={patientDTO.age} />
+                <NumberViewInput unit="cm" label={t("height")} value={patientDTO.height} />
+                <NumberViewInput unit="kg" label={t("weight")} value={patientDTO.weight} />
                 <NumberViewInput unit="kg/m²" label="BMI" value={patientDTO.bmi} />
                 <ViewInput label="ASA score" value={patientDTO.asaScore} />
-                <ViewInput label="위치" value={patientDTO.location} />
-                <ViewInput label="진단명" value={patientDTO.diagnosis} />
-                <ViewInput label="입원일" value={hospitalizedDate} />
-                <ViewInput label="수술일" value={operationDate} />
-                <ViewInput label="퇴원일" value={dischargedDate} />
-                <NumberViewInput unit="일" label="총 재원 일수" value={patientDTO.totalHospitalizedDays} />
+                <ViewInput label={t("location")} value={patientDTO.location} />
+                <ViewInput label={t("diagnosis")} value={patientDTO.diagnosis} />
+                <ViewInput label={t("hospitalizedDate")} value={hospitalizedDate} />
+                <ViewInput label={t("operationDate")} value={operationDate} />
+                <ViewInput label={t("dischargedDate")} value={dischargedDate} />
+                <NumberViewInput unit={t("totalHospitalizedDateUnit")} label={t("totalHospitalizedDate")} value={patientDTO.totalHospitalizedDays} />
             </DetailViewContainer>
         </ModalFullScreenContainer>
     );

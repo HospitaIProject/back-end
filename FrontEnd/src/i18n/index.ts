@@ -15,7 +15,7 @@ i18n.use(initReactI18next).init({
         },
     },
     // default 언어 설정 (default undefined)
-    lng: 'ko',
+    lng: 'en',
     // react-i18next 처리 로그 콘솔 출력 설정 (default false)
     debug: true,
     // 동적인 데이터 값 할당 설정

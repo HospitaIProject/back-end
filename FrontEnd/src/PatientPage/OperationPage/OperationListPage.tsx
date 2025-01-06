@@ -7,10 +7,13 @@ import { useOperationListQuery } from '../_lib/operationService';
 import { Link, useSearchParams } from 'react-router-dom';
 import DisplayEmptyData from '../../components/common/DisplayEmptyData';
 import PlusIcon from '../../icons/PlusIcon';
+import { useTranslation } from 'react-i18next';
 
 function OperationListPage() {
     // const [searchParams] = useSearchParams();
     // const page = Number(searchParams.get('page')) || 1;
+    const { t } = useTranslation();
+
     const [searchParams] = useSearchParams();
     const patientId = searchParams.get('id');
     const patientName = searchParams.get('name');
@@ -33,13 +36,13 @@ function OperationListPage() {
             <div className="flex flex-col w-full">
                 <div className="flex flex-row items-center justify-between w-full gap-3 px-4 py-3 mobile:col-span-2">
                     <span className="text-gray-600">
-                        환자명:&nbsp;<span className="">{patientName}</span>
+                    {t("patientName")}:&nbsp;<span className="">{patientName}</span>
                     </span>
                     <Link
                         to={`/patient/new/operation?name=${patientName}&id=${patientId}`}
                         className="flex flex-row items-center gap-2 p-2 border rounded-md shadow-sm bg-gray-50"
                     >
-                        <span className="text-sm font-semibold text-gray-600">수술 등록</span>
+                        <span className="text-sm font-semibold text-gray-600">{t("registerOp")}</span>
                         <PlusIcon className="w-5 h-5 text-gray-600" />
                     </Link>
                 </div>
