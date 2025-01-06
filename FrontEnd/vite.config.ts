@@ -67,17 +67,17 @@ export default defineConfig({
             },
         }),
     ],
-    // build: {
-    //     rollupOptions: {
-    //         output: {
-    //             manualChunks: (id) => {
-    //                 if (id.includes('node_modules')) {
-    //                     const moduleParts = id.split('node_modules/').pop()?.split('/');
-    //                     const moduleName = moduleParts ? moduleParts[0] : ''; // 안전하게 기본값 설정
-    //                     return `vendor-${moduleName}`;
-    //                 }
-    //             },
-    //         },
-    //     },
-    // },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: (id) => {
+                    if (id.includes('node_modules')) {
+                        const moduleParts = id.split('node_modules/').pop()?.split('/');
+                        const moduleName = moduleParts ? moduleParts[0] : '';
+                        return `vendor-${moduleName}`;
+                    }
+                },
+            },
+        },
+    },
 });
