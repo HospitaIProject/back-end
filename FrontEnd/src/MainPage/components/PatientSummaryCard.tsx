@@ -4,12 +4,12 @@ import { PatientWithOperationDtoType } from '../../models/PatientType';
 import { Link, useNavigate } from 'react-router-dom';
 import CheckListIcon from '../../icons/CheckListIcon';
 
-import { lazy, useState } from 'react';
+import { useState } from 'react';
 import useOperationDayFormat from '../../Hooks/useOperationDateFormatted';
 import CheckBoxIcon from '../../icons/CheckBoxIcon';
 import { useTranslation } from 'react-i18next';
-// import PatientDetailModal from './PatientDetailModal';
-const PatientDetailModal = lazy(() => import('./PatientDetailModal')); //동적 로딩
+import PatientDetailModal from './PatientDetailModal';
+// const PatientDetailModal = lazy(() => import('./PatientDetailModal')); //동적 로딩
 function addDaysToDate(operationDate: string, daysToAdd: number): string {
     // 서버에서 받은 날짜 문자열을 Date 객체로 파싱
     const date = new Date(operationDate);

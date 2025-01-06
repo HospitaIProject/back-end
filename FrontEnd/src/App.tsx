@@ -1,38 +1,37 @@
-import { lazy, Suspense } from 'react';
+// import { lazy, Suspense } from 'react';
 
 import Layout from './Layout/Layout';
 import HeaderLayout from './Layout/HeaderLayout';
 import RQProviders from './components/RQProvider';
 
-// import MainPage from './MainPage/MainPage';
-// import LoginPage from './LoginPage/LoginPage';
-// import NewOperationInfoFormPage from './PatientPage/NewOperationInfoFormPage/NewOperationInfoFormPage';
-// import ComplianceFormPage from './PatientPage/ComplianceFormPage/ComplianceFormPage';
-// import NewPatientFormPage from './PatientPage/NewPatientFormPage/NewPatientFormPage';
-// import OperationListPage from './PatientPage/OperationPage/OperationListPage';
-// import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
-// import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
-// import CheckListViewPage from './PatientPage/CheckListsPage/components/CheckListViewPage';
-// import DailyCompliancePage from './PatientPage/ComplianceFormPage/DailyCompliancePage';
-// import MainDateSelectionPage from './MainPage/MainDateSelectionPage';
-// import DefaultCheckListSettingPage from './DefaultCheckListSettingPage/DefaultCheckListSettingPage';
+import MainPage from './MainPage/MainPage';
+import LoginPage from './LoginPage/LoginPage';
+import NewOperationInfoFormPage from './PatientPage/NewOperationInfoFormPage/NewOperationInfoFormPage';
+import ComplianceFormPage from './PatientPage/ComplianceFormPage/ComplianceFormPage';
+import NewPatientFormPage from './PatientPage/NewPatientFormPage/NewPatientFormPage';
+import OperationListPage from './PatientPage/OperationPage/OperationListPage';
+import CheckListsPage from './PatientPage/CheckListsPage/CheckListsPage';
+import NewComplicationFormPage from './PatientPage/NewComplicationFormPage/NewComplicationFormPage';
+import CheckListViewPage from './PatientPage/CheckListsPage/components/CheckListViewPage';
+import DailyCompliancePage from './PatientPage/ComplianceFormPage/DailyCompliancePage';
+import MainDateSelectionPage from './MainPage/MainDateSelectionPage';
+import DefaultCheckListSettingPage from './DefaultCheckListSettingPage/DefaultCheckListSettingPage';
 
-const MainPage = lazy(() => import('./MainPage/MainPage'));
-const LoginPage = lazy(() => import('./LoginPage/LoginPage'));
-const NewOperationInfoFormPage = lazy(() => import('./PatientPage/NewOperationInfoFormPage/NewOperationInfoFormPage'));
-const ComplianceFormPage = lazy(() => import('./PatientPage/ComplianceFormPage/ComplianceFormPage'));
-const OperationListPage = lazy(() => import('./PatientPage/OperationPage/OperationListPage'));
-const CheckListsPage = lazy(() => import('./PatientPage/CheckListsPage/CheckListsPage'));
-const NewComplicationFormPage = lazy(() => import('./PatientPage/NewComplicationFormPage/NewComplicationFormPage'));
-const CheckListViewPage = lazy(() => import('./PatientPage/CheckListsPage/components/CheckListViewPage'));
-const DailyCompliancePage = lazy(() => import('./PatientPage/ComplianceFormPage/DailyCompliancePage'));
-const NewPatientFormPage = lazy(() => import('./PatientPage/NewPatientFormPage/NewPatientFormPage'));
-const MainDateSelectionPage = lazy(() => import('./MainPage/MainDateSelectionPage'));
-const DefaultCheckListSettingPage = lazy(() => import('./DefaultCheckListSettingPage/DefaultCheckListSettingPage'));
+// const MainPage = lazy(() => import('./MainPage/MainPage'));
+// const LoginPage = lazy(() => import('./LoginPage/LoginPage'));
+// const NewOperationInfoFormPage = lazy(() => import('./PatientPage/NewOperationInfoFormPage/NewOperationInfoFormPage'));
+// const ComplianceFormPage = lazy(() => import('./PatientPage/ComplianceFormPage/ComplianceFormPage'));
+// const OperationListPage = lazy(() => import('./PatientPage/OperationPage/OperationListPage'));
+// const CheckListsPage = lazy(() => import('./PatientPage/CheckListsPage/CheckListsPage'));
+// const NewComplicationFormPage = lazy(() => import('./PatientPage/NewComplicationFormPage/NewComplicationFormPage'));
+// const CheckListViewPage = lazy(() => import('./PatientPage/CheckListsPage/components/CheckListViewPage'));
+// const DailyCompliancePage = lazy(() => import('./PatientPage/ComplianceFormPage/DailyCompliancePage'));
+// const NewPatientFormPage = lazy(() => import('./PatientPage/NewPatientFormPage/NewPatientFormPage'));
+// const MainDateSelectionPage = lazy(() => import('./MainPage/MainDateSelectionPage'));
+// const DefaultCheckListSettingPage = lazy(() => import('./DefaultCheckListSettingPage/DefaultCheckListSettingPage'));
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ExcelListPage from './ExcelListPage/ExcelListPage';
-import Loading from './components/common/Loading';
 // import Loading from './components/common/Loading';
 
 const router = createBrowserRouter([
@@ -78,10 +77,10 @@ const router = createBrowserRouter([
 
 function App() {
     return (
-        <Suspense fallback={<Loading />}>
-            <RouterProvider router={router} />
-        </Suspense>
-        // <RouterProvider router={router} />
+        // <Suspense fallback={<Loading />}>
+        //     <RouterProvider router={router} />
+        // </Suspense>
+        <RouterProvider router={router} />
     );
 }
 
