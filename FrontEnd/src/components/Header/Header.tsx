@@ -8,9 +8,11 @@ import { useScrollHeaderControl } from '../../Hooks/useScrollHeaderControl';
 import HomeIcon from '../../icons/HomeIcon';
 import HeaderSettingButton from './HeaderSettingButton';
 import HeaderDateChangeButton from './HeaderDateChangeButton';
+import { useTranslation } from 'react-i18next';
 export type ItemName = 'patient' | 'services' | 'contact';
 
 export default function Header() {
+    const { t } = useTranslation();
     const [isPaddingFilter, setIsPaddingFilter] = useState<boolean>(false); // 토글 메뉴 상태
     const [absFilter, setAbsFilter] = useState<boolean>(false); // 토글 메뉴 상태
     const { isVisible } = useScrollHeaderControl({
@@ -64,31 +66,31 @@ export default function Header() {
 
     let label;
     if (pathname.startsWith('/patient/form/compliance/edit')) {
-        label = 'Daily 체크리스트 수정';
+        label = t("editDailyChecklist");
     } else if (pathname.startsWith('/patient/form/compliance/daily/edit')) {
-        label = 'Daily 체크리스트 수정';
+        label = t("editDailyChecklist");
     } else if (pathname.startsWith('/patient/form/compliance')) {
-        label = 'Daily 체크리스트';
+        label = t("dailyChecklist");
     } else if (pathname.startsWith('/patient/new/info/')) {
-        label = '환자 정보수정';
+        label = t("editPatientInfo");
     } else if (pathname.startsWith('/patient/new/info')) {
-        label = '환자 정보등록';
+        label = t("registerPatientInfo");
     } else if (pathname.startsWith('/patient/operation/list')) {
-        label = '환자 수술 이력';
+        label = t("patientSurgeryHistory");
     } else if (pathname.startsWith('/patient/new/operation/')) {
-        label = '환자 수술 정보수정';
+        label = t("editPatientSurgeryInfo");
     } else if (pathname.startsWith('/patient/new/operation')) {
-        label = '환자 수술 정보등록';
+        label = t("registerPatientSurgeryInfo");
     } else if (pathname.startsWith('/patient/new/complication')) {
-        label = '환자 합병증 등록';
+        label = t("registerPatientComplications");
     } else if (pathname.startsWith('/patient/checkLists/preview')) {
-        label = '체크리스트 항목';
+        label = t("checklistItem");
     } else if (pathname.startsWith('/patient/checkLists')) {
-        label = '체크리스트 목록';
+        label = t("checklistList");
     } else if (pathname.startsWith('/operation-checkList/default-setting')) {
-        label = '수술 별 체크리스트 기본설정';
+        label = t("defaultChecklistSettingsBySurgery");
     } else if (pathname.startsWith('/summary/excel')) {
-        label = '환자 데이터 액셀 파일 추출';
+        label = t("extractPatientDataToExcel");
     }
 
     if (pathname === '/' || pathname === '/patient') {
