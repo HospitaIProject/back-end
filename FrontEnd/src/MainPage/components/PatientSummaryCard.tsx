@@ -29,6 +29,7 @@ type Props = {
 };
 
 function PatientSummaryCard({ userData }: Props) {
+
     const { t } = useTranslation();
 
     const navigation = useNavigate();
@@ -133,17 +134,17 @@ function PatientSummaryCard({ userData }: Props) {
                         // onClick={() => setIsModalOpen(true)} 임시수정 테스트
                         className="text-sm font-semibold text-blue-600 underline underline-offset-4"
                     >
-                        상세정보
+                        {t("Details")}
                     </button>
                 </div>
                 <div className="flex w-full flex-row items-center justify-between">
                     <div className="flex flex-col gap-[2px]">
                         <span className="flex flex-wrap break-words text-sm text-gray-700">
-                            <span className="shrink-0">등록번호:&nbsp;</span>
+                            <span className="shrink-0">{t("patientNumber")}:&nbsp;</span>
                             <span className="text-gray-900">{userData.patientDTO.patientNumber}</span>
                         </span>
                         <span className="my-0 inline-block break-words text-sm text-gray-700">
-                            <span className="shrink-0">수술일:&nbsp;</span>
+                            <span className="shrink-0">{t("operationDate")}:&nbsp;</span>
                             <span className="text-gray-900">
                                 {formattedOperationDate ? formattedOperationDate : '내역없음'}
                             </span>
@@ -153,9 +154,9 @@ function PatientSummaryCard({ userData }: Props) {
                             </span> */}
                         </span>
                         <span className="inline-block break-words text-sm text-gray-600">
-                            <span className="shrink-0">수술명:&nbsp;</span>
+                            <span className="shrink-0">{t("operationName")}:&nbsp;</span>
                             <span className="text-gray-900">
-                                {userData.operationDateDTO.operationTypeNames || '없음'}
+                                {userData.operationDateDTO.operationTypeNames || t("opNonExist")}
                             </span>
                         </span>
                     </div>
@@ -171,10 +172,10 @@ function PatientSummaryCard({ userData }: Props) {
                                     <CheckListIcon className={`h-5 w-5 text-inherit`} />
                                     <span className="text-sm font-semibold">
                                         {userData.checkListCreatedToday === 'COMPLETED_TODAY'
-                                            ? '작성완료'
+                                            ? t("checkListButton.written")
                                             : userData.checkListCreatedToday === 'EXTRACTION_READY'
-                                              ? '추출가능'
-                                              : '작성'}
+                                              ? t("checkListButton.extractReady")
+                                              : t("checkListButton.write")}
                                     </span>
                                     <ArrowIcon
                                         className={`h-4 w-4 text-inherit ${userData.checkListCreatedToday !== 'NOT_YET_CREATED' ? 'hidden' : ''}`}
@@ -202,7 +203,7 @@ function PatientSummaryCard({ userData }: Props) {
                                 to={`/patient/operation/list?id=${userData.patientDTO.patientId}&name=${userData.patientDTO.name}`}
                                 className={`mx-1 flex flex-row items-center gap-2 rounded-lg border bg-gray-50 p-2 text-gray-400 shadow-sm`}
                             >
-                                <span className="text-sm">수술정보 등록이 필요합니다.</span>
+                                <span className="text-sm">{t("checkListButton.notRegistered")}</span>
                             </Link>
                         )}
 

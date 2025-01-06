@@ -6,12 +6,14 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useOperationMethodFormatted } from '../../../Hooks/useOperationMethodFormatted';
 import { useComplicationStatusMutation } from '../../_lib/complicationService';
 import DonutProgressbar from '../../../components/common/progress/DonutProgressbar';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
     operationData: OperationItemType;
 };
 
 function OperationSummaryCard({ operationData }: Props) {
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const patientName = searchParams.get('name');
@@ -80,24 +82,24 @@ function OperationSummaryCard({ operationData }: Props) {
                         }}
                         className="text-sm font-semibold text-blue-600 underline underline-offset-4"
                     >
-                        상세정보
+                        {t("details")}
                     </button>
                 </div>
                 <div className="flex w-full flex-row">
                     <div className="flex flex-col gap-1">
                         <span className="inline-block break-words text-sm text-gray-700">
-                            수술 시작 시간:&nbsp;
+                            {t("opStartTime")}:&nbsp;
                             <span className="font-medium text-gray-900">
                                 {operationStartTime ? operationStartTime : '없음'}
                             </span>
                         </span>
                         <span className="inline-block break-words text-sm text-gray-700">
-                            수술 종료 시간:&nbsp;
+                            {t("opEndTime")}:&nbsp;
                             <span className="font-medium text-gray-900">{operationEndTime}</span>
                         </span>
                         <span className="inline-block break-words text-sm text-gray-700">
-                            전체 수술 시간:&nbsp;
-                            <span className="font-medium text-gray-900">{totalOperationTime}분</span>
+                            {t("totalOpTime")}:&nbsp;
+                            <span className="font-medium text-gray-900">{totalOperationTime} {t("totalOpTimeUnit")}</span>
                         </span>
                     </div>
 
@@ -133,7 +135,7 @@ function OperationSummaryCard({ operationData }: Props) {
 
                 <div className="flex w-full flex-row items-center justify-between gap-2 text-gray-600">
                     <div className="flex flex-row items-center gap-2">
-                        <span className="text-md text-gray-600">합병증여부: </span>
+                        <span className="text-md text-gray-600">{t("complicationStatus")}: </span>
                         <button
                             className={`relative flex h-7 w-[50px] flex-row items-center justify-between rounded-full px-1 ${isComplicationStatus ? 'bg-blue-50' : 'bg-red-50'}`}
                             onClick={handleComplicationStatus}
@@ -166,7 +168,7 @@ function OperationSummaryCard({ operationData }: Props) {
                             to={`/patient/checkLists?id=${operationId}&name=${patientName}`}
                             className="rounded-md border p-2 text-sm font-medium hover:bg-blue-50"
                         >
-                            체크리스트
+                            {t("checkList")}
                         </Link>
                     </div>
                 </div>
