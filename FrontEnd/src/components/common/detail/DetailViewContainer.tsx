@@ -16,7 +16,7 @@ function DetailViewContainer({ children, deleteHandler, updateHandler, deleteBut
                 <div className="flex flex-row items-center gap-3">
                     {deleteButton && (
                         <button className="text-gray-400" onClick={deleteHandler}>
-                            <span></span>
+                            <span>삭제</span>
                         </button>
                     )}
                     <span className="text-gray-400">|</span>
