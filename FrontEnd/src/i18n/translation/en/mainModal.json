@@ -1,0 +1,18 @@
+{
+    "patientDetails": "Patient Details",
+    "delete": "Delete",
+    "edit": "Edit",
+    "patientName": "Patient Name",
+    "patientNumber": "Patient Number",
+    "sex": "Sex",
+    "age": "Age",
+    "height": "Height",
+    "weight": "Weight",
+    "location": "Location",
+    "diagnosis": "Diagnosis",
+    "hospitalizedDate": "Hospitalized Date",
+    "operationDate": "Op Date",
+    "dischargedDate": "Discharged Date",
+    "totalHospitalizedDate": "Total Hospitalized Date",
+    "totalHospitalizedDateUnit": "days"
+}

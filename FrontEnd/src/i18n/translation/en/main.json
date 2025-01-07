@@ -1,0 +1,15 @@
+{
+    "checkList": "Checklist",
+    "operationManage": "Manage Operation",
+    "Details": "Details",
+    "checkListButton": {
+        "extractReady": "Extract Ready",
+        "write": "Write",
+        "written": "Written",
+        "notRegistered": "Register Operation."
+    },
+    "patientNumber": "Patient Number",
+    "operationDate": "Op Date",
+    "operationName": "Op Info",
+    "opNonExist": "Not exist"
+}

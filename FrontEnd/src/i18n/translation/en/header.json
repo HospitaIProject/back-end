@@ -1,0 +1,14 @@
+{
+    "editDailyChecklist": "Edit Daily Checklist",
+    "dailyChecklist": "Daily Checklist",
+    "editPatientInfo": "Edit Patient Information",
+    "registerPatientInfo": "Register Patient Information",
+    "patientSurgeryHistory": "Patient Operation History",
+    "editPatientSurgeryInfo": "Edit Patient Operation Information",
+    "registerPatientSurgeryInfo": "Register Patient Operation Information",
+    "registerPatientComplications": "Register Patient Complications",
+    "checklistItem": "Checklist Item",
+    "checklistList": "Checklist List",
+    "defaultChecklistSettingsBySurgery": "Default Checklist Settings by Surgery",
+    "extractPatientDataToExcel": "Export Patient Data to Excel"
+}

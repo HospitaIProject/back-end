@@ -1,0 +1,14 @@
+{
+    "editDailyChecklist": "Daily 체크리스트 수정",
+    "dailyChecklist": "Daily 체크리스트",
+    "editPatientInfo": "환자 정보 수정",
+    "registerPatientInfo": "환자 정보 등록",
+    "patientSurgeryHistory": "환자 수술 이력",
+    "editPatientSurgeryInfo": "환자 수술 정보 수정",
+    "registerPatientSurgeryInfo": "환자 수술 정보 등록",
+    "registerPatientComplications": "환자 합병증 등록",
+    "checklistItem": "체크리스트 항목",
+    "checklistList": "체크리스트 목록",
+    "defaultChecklistSettingsBySurgery": "수술별 체크리스트 기본 설정",
+    "extractPatientDataToExcel": "환자 데이터 엑셀 파일 추출"
+}
