@@ -24,83 +24,89 @@ repositories {
 }
 
 dependencies {
+	// 다른 필요한 의존성들
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1'
-	implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
+	// 최신 Spring AOP 라이브러리로 교체 (Spring Boot 3.x 호환성 유지)
+	implementation 'org.springframework:spring-aop:6.0.13'
 
+	// Redis
 	// implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	// implementation 'com.fasterxml.jackson.core:jackson-databind'
 	// testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-	// actuator for health check
+	// Micrometer Elastic Registry
+	implementation 'io.micrometer:micrometer-registry-elastic:1.14.2'
+
+	// JSON 데이터 타입 변환
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1'
+
+	// Redis 클라이언트
+	implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
+
+	// Spring Actuator (헬스 체크)
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	//QueryDsl
+	// QueryDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
-	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
-	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
-	// Spring WebFlux 추가 (WebClient를 사용하기 위해 필요)
+	// Spring WebFlux (WebClient)
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-	// Apache POI
+	// Apache POI (Excel 관련 작업)
 	implementation 'org.apache.poi:poi-ooxml:5.2.3'
 
-	//mysql
+	// MySQL 데이터베이스 연결
 	implementation 'mysql:mysql-connector-java:8.0.28'
 
-	// swagger
+	// Swagger를 위한 SpringDoc
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
+	// 개발 도구 및 캐시
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
-	// Lombok
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	// JDBC와 JPA
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	// testing
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// Thymeleaf (템플릿 엔진)
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-	//security
+	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
-	//jwt
+	// JWT 라이브러리
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+	// Jakarta Servlet API 추가
+	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+	// Lombok (필요시 사용)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// 테스트
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-//task copyEnv(type: Copy) {
-//	def profile = System.getProperty('spring.profiles.active', 'local')
-//	println "Using profile: ${profile}"
-//
-//	from "${rootDir}/frontend/.env.${profile}"
-//	into "${rootDir}/frontend"
-//	rename { String fileName -> '.env' }
-//}
-//
-//processResources.dependsOn copyEnv
-
+// React 관련 작업
 task createStaticDir {
 	doLast {
 		def staticDir = file("${projectDir}/src/main/resources/static")
 		if (!staticDir.exists()) {
 			staticDir.mkdirs()
 			println "Static directory created: ${staticDir}"
-		} else {
-			println "Static directory already exists: ${staticDir}"
 		}
 	}
 }
@@ -118,14 +124,14 @@ task buildReact(type: Exec) {
 
 task copyReactBuild(type: Copy) {
 	from "${projectDir}/FrontEnd/dist"
-	into "${rootDir}/src/main/resources/static"
+	into "${projectDir}/src/main/resources/static"
 }
 
 cleanReactBuild.mustRunAfter createStaticDir
 copyReactBuild.dependsOn buildReact, createStaticDir
 copyReactBuild.mustRunAfter cleanReactBuild
 
-// :processResources 작업에 의존성을 명시적으로 추가
+// 정적 리소스 설정과 빌드 타스크 연결
 processResources.dependsOn copyReactBuild
 
 bootJar {
