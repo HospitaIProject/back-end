@@ -1,0 +1,13 @@
+{
+    "opHistory": "환자 수술 이력",
+    "registerOp": "수술 등록",
+    "patientName": "환자명",
+    "opStartTime": "수술 시작 시간",
+    "opEndTime": "수술 종료 시간",
+    "totalOpTime": "전체 수술 시간",
+    "totalOpTimeUnit": "분",
+    "complicationStatus": "합병증 여부",
+    "checkList": "체크리스트",
+    "details": "상세정보"
+
+}

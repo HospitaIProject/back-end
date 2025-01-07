@@ -1,0 +1,12 @@
+{
+    "opHistory": "Operation history",
+    "registerOp": "Register Op",
+    "patientName": "Patient Name",
+    "opStartTime": "Op start time",
+    "opEndTime": "Op end time",
+    "totalOpTime": "Total Op time",
+    "totalOpTimeUnit": "minutes",
+    "complicationStatus": "Complication status",
+    "checkList": "Checklist",
+    "details": "Details"
+}
