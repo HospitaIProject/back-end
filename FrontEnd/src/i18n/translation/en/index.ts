@@ -12,4 +12,4 @@ export default {
 // Compare this snippet from src/i18n/translation/ko/index.ts:
 // import main from './main.json';
 // import mainModal from './mainModal.json';
-// import operationPage from './operationPage.json';
+// import operationPage from './operationPage.json ';
