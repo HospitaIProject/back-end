@@ -1,8 +1,10 @@
 package com.team.hospital.config;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -16,25 +18,25 @@ public class LoggingAspect {
     /**
      * Pointcut for capturing all controller methods
      */
-    @Pointcut("within(@org.springframework.web.bind.annotation.RestController *)")
+    @Pointcut("within(@org.springframework.stereotype.Controller *) || within(@org.springframework.web.bind.annotation.RestController *)")
     public void restController() {
     }
 
-    /**
-     * Logs HTTP request details before controller methods execute
-     */
-    @Before("restController() && args(request,..)")
-    public void logBefore(HttpServletRequest request) {
-        logger.info("Incoming request: {} {} from {}", request.getMethod(), request.getRequestURI(), request.getRemoteAddr());
-    }
-
-    /**
-     * Logs HTTP response details after controller methods execute successfully
-     */
-    @AfterReturning(value = "restController()", returning = "response")
-    public void logAfterReturning(Object response) {
-        logger.info("Response: {}", response);
-    }
+//    /**
+//     * Logs HTTP request details before controller methods execute
+//     */
+//    @Before("restController() && args(request,..)")
+//    public void logBefore(HttpServletRequest request) {
+//        logger.info("Incoming request: {} {} from {}", request.getMethod(), request.getRequestURI(), request.getRemoteAddr());
+//    }
+//
+//    /**
+//     * Logs HTTP response details after controller methods execute successfully
+//     */
+//    @AfterReturning(value = "restController()", returning = "response")
+//    public void logAfterReturning(Object response) {
+//        logger.info("Response: {}", response);
+//    }
 
     /**
      * Logs exceptions thrown in controller methods

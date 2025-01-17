@@ -24,6 +24,14 @@ repositories {
 }
 
 dependencies {
+	// Micrometer Elastic Registry
+//	implementation 'io.micrometer:micrometer-registry-elastic:1.14.2'
+
+//	implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
+
+	// Spring Actuator (헬스 체크)
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 	// 다른 필요한 의존성들
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -35,17 +43,11 @@ dependencies {
 	// implementation 'com.fasterxml.jackson.core:jackson-databind'
 	// testImplementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-	// Micrometer Elastic Registry
-	implementation 'io.micrometer:micrometer-registry-elastic:1.14.2'
-
 	// JSON 데이터 타입 변환
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1'
 
 	// Redis 클라이언트
 	implementation 'io.lettuce:lettuce-core:6.5.1.RELEASE'
-
-	// Spring Actuator (헬스 체크)
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	// QueryDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
@@ -66,7 +68,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	// 개발 도구 및 캐시
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 
 	// JDBC와 JPA
