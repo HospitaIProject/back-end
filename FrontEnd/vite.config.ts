@@ -79,18 +79,18 @@ export default defineConfig({
                         return '@vendor-lodash';
                     }
 
-                    if (id.includes('axios')) {
-                        return '@vendor-axios';
-                    }
+                    // if (id.includes('axios')) {
+                    //     return '@vendor-axios';
+                    // }
                     if (id.includes('react-select')) {
                         return '@vendor-react-select';
                     }
                     if (id.includes('framer-motion')) {
                         return '@vendor-framer-motion-';
                     }
-                    if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
-                        return '@vendor-react';
-                    }
+                    // if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/')) {
+                    //     return '@vendor-react';
+                    // }
                 },
             },
         },
