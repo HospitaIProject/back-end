@@ -94,7 +94,7 @@ jobs:
             
             # Pull the latest Docker image
             echo "Pulling the latest Docker image for ${{ env.new_env }}..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:${{ env.new_env }}
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:local
 
             # Start the new environment container
             echo "Starting $new_env container..."
