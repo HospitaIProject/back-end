@@ -97,6 +97,6 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY }}:local
 
             # Start the new environment container
-            echo "Starting $new_env container..."
+            echo "Starting $new_env container.."
             docker compose down
             docker compose up -d
